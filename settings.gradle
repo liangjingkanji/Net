@@ -1,0 +1,2 @@
+include ':sample', ':net'
+rootProject.name='Net'
