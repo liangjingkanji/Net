@@ -18,7 +18,21 @@
 
 
 
-同时具备[Kalle](https://github.com/yanzhenjie/Kalle)的网络缓存/进度监听等特性
+同时完全不影响[Kalle](https://github.com/yanzhenjie/Kalle)的特性
+
+- 九种缓存模式, 缓存加密
+- 上传进度监听
+- 下载进度监听
+- 断点续传
+- 下载文件策略
+- 网络连接判断
+- 自定义数据转换器
+- 网络拦截器
+- 连接重试
+- 自定义请求体
+- 全局配置
+- Cookie
+- SSH证书
 
 
 
@@ -90,6 +104,23 @@ post<Model>(""){
 
 
 
+文件下载
+
+```kotlin
+download("/path", "下载目录"){
+
+  // 进度监听
+  onProgress { progress, byteCount, speed ->
+
+             }
+
+}.dialog(this){
+
+}
+```
+
+
+
 ## 生命周期
 
 将Fragment或者Activity作为参数传递即可在页面关闭时自动取消订阅, 避免操作已销毁视图.
@@ -136,9 +167,25 @@ fun <M> Observable<M>.dialog(
 
 对话框关闭会导致网络请求被取消订阅
 
+## 分页加载
+
+需要引入第三方库: [BRV](https://github.com/liangjingkanji/BRV)
+
+
+
+```kotlin
+post<Model>(""){
+  file("file", File("path"))
+}.page(page) {
+
+}
+```
+
+
+
 ## 缺省页
 
-需要引入第三方库: [StateLayout](https://github.com/liangjingkanji/StateLayout)
+需要引入第三方库: [StateLayout](https://github.com/liangjingkanji/StateLayout) (如果已经引入BRV可以不再引入)
 
 ```
 post<Model>(""){
@@ -161,17 +208,4 @@ post<Model>(""){
 
 会根据参数的不同而给不同的对象添加缺省页状态
 
-## 分页加载
-
-需要引入第三方库: [BRV](https://github.com/liangjingkanji/BRV)
-
-
-
-```kotlin
-post<Model>(""){
-  file("file", File("path"))
-}.page(page) {
-
-}
-```
-
+## 

@@ -108,15 +108,16 @@ inline fun <reified M> post(
  */
 fun download(
     path: String,
-    directory: String = NetConfig.App.externalCacheDir!!.absolutePath,
+    directory: String = NetConfig.app.externalCacheDir!!.absolutePath,
     isAbsolutePath: Boolean = false,
     block: (UrlDownload.Api.() -> Unit)? = null
 ): Observable<String> {
 
     return Observable.create<String> {
         try {
-            val download = Kalle.Download.get(if (isAbsolutePath) path else (NetConfig.host + path))
-                .directory(directory)
+            val realPath = if (isAbsolutePath) path else (NetConfig.host + path)
+
+            val download = Kalle.Download.get(realPath).directory(directory)
 
             val filePath = if (block == null) {
                 download.perform()

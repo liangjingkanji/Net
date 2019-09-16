@@ -67,7 +67,7 @@ abstract class NetObserver<M>() : DefaultObserver<M>(), LifecycleObserver {
                     message = "服务器未响应"
                 }
             }
-            Toast.makeText(NetConfig.App, message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(NetConfig.app, message, Toast.LENGTH_SHORT).show()
         }
     }
 }

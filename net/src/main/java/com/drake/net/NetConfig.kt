@@ -18,7 +18,7 @@ import com.yanzhenjie.kalle.KalleConfig
 object NetConfig {
 
     lateinit var host: String
-    lateinit var App: Application
+    lateinit var app: Application
     var listener: NetListener? = null
 
     fun set(block: KalleConfig.Builder.() -> Unit) {
@@ -30,7 +30,7 @@ object NetConfig {
 
 
 fun Application.setDefaultNetConfig(host: String, successCode: Int = 1) {
-    NetConfig.App = this
+    NetConfig.app = this
     NetConfig.host = host
 
     NetConfig.set {
