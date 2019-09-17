@@ -9,5 +9,12 @@ class App : Application() {
         super.onCreate()
 
         setDefaultNetConfig("http://192.168.1.1")
+
+
+/*        // 设置默认的对话框
+        DialogObserver.setDefaultDialog {
+            val progressDialog = ProgressDialog(it)
+            progressDialog
+        }*/
     }
 }

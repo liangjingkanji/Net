@@ -24,32 +24,50 @@ import io.reactivex.observers.DefaultObserver
  * 开始: 显示对话框
  * 错误: 提示错误信息, 关闭对话框
  * 完全: 关闭对话框
+ *
+ * @param activity 对话框跟随生命周期的FragmentActivity
+ * @param dialog 单例对话框
+ * @param cancelable 是否允许用户取消对话框
  */
 abstract class DialogObserver<M>(
     var activity: FragmentActivity,
-    var dialog: Dialog = ProgressDialog(activity),
+    var dialog: Dialog? = null,
     var cancelable: Boolean = true
 ) : DefaultObserver<M>(), LifecycleObserver {
+
+    companion object {
+
+        private var defaultDialog: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)? = null
+
+        fun setDefaultDialog(block: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)) {
+            defaultDialog = block
+        }
+    }
 
 
     override fun onStart() {
 
         activity.lifecycle.addObserver(this)
 
-
-        if (dialog is ProgressDialog) {
-            (dialog as ProgressDialog).setMessage("加载中")
+        dialog = when {
+            dialog != null -> dialog
+            defaultDialog != null -> defaultDialog?.invoke(this, activity)
+            else -> {
+                val progress = ProgressDialog(activity)
+                progress.setMessage("加载中")
+                progress
+            }
         }
 
-        dialog.setOnDismissListener { cancel() }
-        dialog.setCancelable(cancelable)
-        dialog.show()
+        dialog?.setOnDismissListener { cancel() }
+        dialog?.setCancelable(cancelable)
+        dialog?.show()
     }
 
     @OnLifecycleEvent(Event.ON_DESTROY)
     fun dismissDialog() {
-        if (dialog.isShowing) {
-            dialog.dismiss()
+        if (dialog != null && dialog!!.isShowing) {
+            dialog!!.dismiss()
         }
     }
 
