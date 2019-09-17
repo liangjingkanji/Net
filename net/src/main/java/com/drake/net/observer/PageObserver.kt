@@ -9,21 +9,15 @@ package com.drake.net.observer
 
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
-import com.drake.brv.BindingAdapter
 import com.drake.brv.PageRefreshLayout
 import io.reactivex.observers.DefaultObserver
 
 /**
  * 自动结束下拉刷新和上拉加载状态
  */
-abstract class PageObserver<M>(
-    val pageRefreshLayout: PageRefreshLayout,
-    val adapter: BindingAdapter? = null
-) :
-    DefaultObserver<M>() {
+abstract class PageObserver<M>(val pageRefreshLayout: PageRefreshLayout) : DefaultObserver<M>() {
 
     init {
-
         pageRefreshLayout.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View) {
 

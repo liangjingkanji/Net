@@ -8,12 +8,10 @@
 package com.drake.net.observer
 
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
-import com.drake.brv.BindingAdapter
 import com.drake.brv.PageRefreshLayout
 import com.drake.statelayout.StateLayout
 import io.reactivex.Observable
@@ -84,19 +82,7 @@ fun <M> Observable<M>.state(fragment: Fragment, block: StateObserver<M>.(M) -> U
  */
 fun <M> Observable<M>.dialog(
     activity: FragmentActivity,
-    cancelable: Boolean = true,
-    block: (DialogObserver<M>.(M) -> Unit)? = null
-) {
-    subscribe(object : DialogObserver<M>(activity, cancelable = cancelable) {
-        override fun onNext(t: M) {
-            block?.invoke(this, t)
-        }
-    })
-}
-
-fun <M> Observable<M>.dialog(
-    activity: FragmentActivity,
-    dialog: Dialog = ProgressDialog(activity),
+    dialog: Dialog? = null,
     cancelable: Boolean = true,
     block: (DialogObserver<M>.(M) -> Unit)? = null
 ) {
@@ -133,10 +119,9 @@ fun <M> Observable<M>.refresh(
  */
 fun <M> Observable<M>.page(
     pageRefreshLayout: PageRefreshLayout,
-    adapter: BindingAdapter? = null,
     block: PageObserver<M>.(M) -> Unit
 ) {
-    subscribe(object : PageObserver<M>(pageRefreshLayout, adapter) {
+    subscribe(object : PageObserver<M>(pageRefreshLayout) {
         override fun onNext(t: M) {
             block(t)
         }
