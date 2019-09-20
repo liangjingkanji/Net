@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle.Event
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.drake.net.NetConfig
 import io.reactivex.observers.DefaultObserver
 
 /**
@@ -78,7 +79,7 @@ abstract class DialogObserver<M>(
      */
     override fun onError(e: Throwable) {
         dismissDialog()
-        NetObserver.showErrorMsg(e)
+        NetConfig.onError.invoke(e)
     }
 
     override fun onComplete() {

@@ -8,19 +8,24 @@
 package com.drake.net.convert
 
 import com.drake.net.NetConfig
-import com.squareup.moshi.Moshi
+import com.drake.net.R
 import com.yanzhenjie.kalle.Response
 import com.yanzhenjie.kalle.simple.Converter
 import com.yanzhenjie.kalle.simple.SimpleResponse
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.IOException
 import java.lang.reflect.Type
 
 
+/**
+ * 默认的转换器要求数据结构为JSON对象
+ */
 @Suppress("UNCHECKED_CAST")
-class DefaultConverter(val successCode: Int = 1) :
-    Converter {
+abstract class DefaultConverter(
+    val successCode: String = "1",
+    val codeName: String = "code",
+    val msgName: String = "msg"
+) : Converter {
 
 
     @Throws(Exception::class)
@@ -33,41 +38,37 @@ class DefaultConverter(val successCode: Int = 1) :
         var succeedData: S? = null
         var failedData: F? = null
 
-        val json: String =
-            NetConfig.listener?.parse(response.body().string()) ?: response.body().string()
-
+        val body = response.body().string()
         var code = response.code()
 
         when {
             code in 200..299 -> {
                 try {
-                    val jsonObject = JSONObject(json)
-                    val responseCode = jsonObject.optInt("code")
+                    val jsonObject = JSONObject(body)
+                    val responseCode = jsonObject.optString(codeName)
 
                     if (responseCode == successCode) {
-                        run {
-                            if (succeed === String::class.java) {
-                                succeedData = json as S
-                            } else {
-                                try {
-                                    succeedData = MOSHI.adapter<S>(succeed).fromJson(json)
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                    failedData = "无法解析数据" as F
-                                }
+                        if (succeed === String::class.java) {
+                            succeedData = body as S
+                        } else {
+                            try {
+                                succeedData = convert(succeed, body)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                failedData = NetConfig.app.getString(R.string.parse_json_error) as F
                             }
                         }
                     } else {
-                        failedData = jsonObject.optString("errorMessage") as F
-                        code = responseCode
+                        failedData = jsonObject.optString(msgName) as F
+                        code = responseCode.toInt()
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    failedData = "无法解析错误信息" as F
+                    failedData = NetConfig.app.getString(R.string.parse_data_error) as F
                 }
             }
-            code in 400..499 -> failedData = "发生异常错误" as F
-            code >= 500 -> failedData = "服务器开小差啦" as F
+            code in 400..499 -> failedData = NetConfig.app.getString(R.string.request_error) as F
+            code >= 500 -> failedData = NetConfig.app.getString(R.string.server_error) as F
         }
 
         return SimpleResponse.newBuilder<S, F>().code(code)
@@ -78,8 +79,6 @@ class DefaultConverter(val successCode: Int = 1) :
             .build()
     }
 
-    companion object {
 
-        private val MOSHI = Moshi.Builder().build()
-    }
+    abstract fun <S> convert(succeed: Type, body: String): S
 }

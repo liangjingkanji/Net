@@ -10,6 +10,7 @@ package com.drake.net.observer
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
 import com.drake.brv.PageRefreshLayout
+import com.drake.net.NetConfig
 import io.reactivex.observers.DefaultObserver
 
 /**
@@ -24,7 +25,6 @@ abstract class RefreshObserver<M>(val pageRefreshLayout: PageRefreshLayout) :
             override fun onViewAttachedToWindow(v: View) {
 
             }
-
             override fun onViewDetachedFromWindow(v: View) {
                 cancel()
             }
@@ -39,7 +39,7 @@ abstract class RefreshObserver<M>(val pageRefreshLayout: PageRefreshLayout) :
      */
     override fun onError(e: Throwable) {
         pageRefreshLayout.finish(false)
-        NetObserver.showErrorMsg(e)
+        NetConfig.onError.invoke(e)
     }
 
 

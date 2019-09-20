@@ -7,7 +7,7 @@
 
 package com.drake.net
 
-import com.drake.net.exception.ResponseException
+import com.drake.net.error.ResponseException
 import com.yanzhenjie.kalle.Kalle
 import com.yanzhenjie.kalle.download.UrlDownload
 import com.yanzhenjie.kalle.simple.SimpleBodyRequest
@@ -19,10 +19,11 @@ import io.reactivex.schedulers.Schedulers
 
 /**
  * Get请求
- * @param path String 默认加上Host
+ * @param path String 网络路径, 非绝对路径会加上HOST为前缀
+ * @see NetConfig.host
  * @param isAbsolutePath Boolean Path是否是绝对路径
  * @param block SimpleUrlRequest.Api.() -> UnitUtils
- * @return Observable<M>
+ * @return Observable<M> 结果会在主线程
  */
 inline fun <reified M> get(
     path: String,
@@ -59,10 +60,11 @@ inline fun <reified M> get(
 
 /**
  * Post提交
- * @param path String 默认加上Host
+ * @param path String 网络路径, 非绝对路径会加上HOST为前缀
+ * @see NetConfig.host
  * @param isAbsolutePath Boolean 是否是绝对路径
  * @param block SimpleBodyRequest.Api.() -> UnitUtils
- * @return Observable<M>
+ * @return Observable<M> 结果会在主线程
  */
 inline fun <reified M> post(
     path: String,
@@ -101,10 +103,12 @@ inline fun <reified M> post(
 /**
  * 下载文件
  *
- * @param path String 自动加上Host
+ * @param path String 网络路径, 非绝对路径会加上HOST为前缀
+ * @see NetConfig.host
  * @param directory String 下载文件存放目录 {默认存在android/data/packageName/cache目录}
  * @param isAbsolutePath Boolean 下载链接是否是绝对路径
- * @return Observable<String>
+ * @param block 请求参数
+ * @return Observable<String> 结果会在主线程
  */
 fun download(
     path: String,
