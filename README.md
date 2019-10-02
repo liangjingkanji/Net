@@ -54,7 +54,7 @@ allprojects {
 module of build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.1.3'
+implementation 'com.github.liangjingkanji:Net:1.1.4'
 ```
 
 
