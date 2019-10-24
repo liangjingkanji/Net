@@ -80,5 +80,5 @@ abstract class DefaultConverter(
     }
 
 
-    abstract fun <S> convert(succeed: Type, body: String): S
+    abstract fun <S> convert(succeed: Type, body: String): S?
 }

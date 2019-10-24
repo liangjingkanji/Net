@@ -54,13 +54,120 @@ allprojects {
 module of build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.1.4'
+implementation 'com.github.liangjingkanji:Net:1.1.5'
 ```
 
 
+
+
+
+## 初始化
+
+```kotlin
+class App : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        initNet("主机名"){
+
+            // 替换默认的错误处理(可选)
+            onError {
+
+            }
+
+            // 转换器, 也可以自己实现Convert或者复写DefaultConverter
+            converter(object : DefaultConverter() {
+                override fun <S> convert(succeed: Type, body: String): S? {
+					// 解析Json, 我这里是用的Moshi, 你也可以使用Gson之类的解析框架
+                    return Moshi.Builder().build().adapter<S>(succeed).fromJson(body)
+                }
+            })
+        }
+    }
+}
+```
+
+
+
+### 错误信息
+
+第一种覆盖`onError`函数
+
+
+
+这里是默认的错误处理逻辑, 在初始化的时候也介绍过如何复写onError.
+
+这里使用的系统默认的Toast进行错误信息提示用户, 你可以复写然后实现自己的吐司提示.
+
+```kotlin
+    var onError: Throwable.() -> Unit = {
+
+        val message = when (this) {
+            is NetworkError -> app.getString(R.string.network_error)
+            is URLError -> app.getString(R.string.url_error)
+            is HostError -> app.getString(R.string.host_error)
+            is ConnectTimeoutError -> app.getString(R.string.connect_timeout_error)
+            is ConnectException -> app.getString(R.string.connect_exception)
+            is WriteException -> app.getString(R.string.write_exception)
+            is ReadTimeoutError -> app.getString(R.string.read_timeout_error)
+            is DownloadError -> app.getString(R.string.download_error)
+            is NoCacheError -> app.getString(R.string.no_cache_error)
+            is ParseError -> app.getString(R.string.parse_error)
+            is ReadException -> app.getString(R.string.read_exception)
+            is ResponseException -> msg
+            else -> {
+                printStackTrace()
+                app.getString(R.string.other_error)
+            }
+        }
+
+        Toast.makeText(app, message, Toast.LENGTH_SHORT).show()
+    }
+```
+
+
+
+第二种复写`strings.xml`文件中的属性
+
+
+
+复写同name的属性可以达到修改文本信息内容或者进行国际化
+
+```xml
+<resources>
+    <string name="app_name">Net</string>
+
+
+    <!--网络请求异常-->
+    <string name="network_error">当前网络不可用</string>
+    <string name="url_error">请求资源地址错误</string>
+    <string name="host_error">无法找到指定服务器主机</string>
+    <string name="connect_timeout_error">连接服务器超时，请重试</string>
+    <string name="connect_exception">请检查网络连接</string>
+    <string name="write_exception">发送数据错误</string>
+    <string name="read_timeout_error">读取服务器数据超时，请检查网络</string>
+    <string name="download_error">下载过程发生错误</string>
+    <string name="no_cache_error">读取缓存错误</string>
+    <string name="parse_error">解析数据时发生异常</string>
+    <string name="read_exception">读取数据错误</string>
+    <string name="other_error">服务器未响应</string>
+
+    <!--DefaultConverter-->
+    <string name="parse_data_error">解析数据错误</string>
+    <string name="parse_json_error">解析JSON错误</string>
+    <string name="request_error">请求参数错误</string>
+    <string name="server_error">服务响应错误</string>
+
+
+</resources>
+```
+
+
+
+
+
 ## 请求方式
-
-
 
 Post
 

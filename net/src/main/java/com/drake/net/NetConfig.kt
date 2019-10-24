@@ -20,7 +20,6 @@ object NetConfig {
     lateinit var host: String
     lateinit var app: Application
 
-
     var onError: Throwable.() -> Unit = {
 
         val message = when (this) {
@@ -44,18 +43,21 @@ object NetConfig {
 
         Toast.makeText(app, message, Toast.LENGTH_SHORT).show()
     }
-
-
-    fun setKalle(block: KalleConfig.Builder.() -> Unit) {
-        val builder = KalleConfig.newBuilder()
-        builder.block()
-        Kalle.setConfig(builder.build())
-    }
-
-    // 处理错误信息
-    fun onError(block: Throwable.() -> Unit) {
-        onError = block
-    }
-
-
 }
+
+
+fun Application.initNet(host: String, block: KalleConfig.Builder.() -> Unit = {}) {
+    NetConfig.host = host
+    NetConfig.app = this
+    val builder = KalleConfig.newBuilder()
+    builder.block()
+    Kalle.setConfig(builder.build())
+}
+
+
+// 处理错误信息
+@Suppress("unused")
+fun KalleConfig.Builder.onError(block: Throwable.() -> Unit) {
+    NetConfig.onError = block
+}
+
