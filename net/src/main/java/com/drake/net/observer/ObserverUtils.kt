@@ -97,13 +97,15 @@ fun <M> Observable<M>.dialog(
  * 自动结束下拉加载
  * @receiver Observable<M>
  * @param pageRefreshLayout SmartRefreshLayout
+ * @param loadMore 是否启用上拉加载
  * @param block (M) -> UnitUtils
  */
 fun <M> Observable<M>.refresh(
     pageRefreshLayout: PageRefreshLayout,
+    loadMore: Boolean = false,
     block: RefreshObserver<M>.(M) -> Unit
 ) {
-    subscribe(object : RefreshObserver<M>(pageRefreshLayout) {
+    subscribe(object : RefreshObserver<M>(pageRefreshLayout, loadMore) {
         override fun onNext(t: M) {
             block(t)
         }

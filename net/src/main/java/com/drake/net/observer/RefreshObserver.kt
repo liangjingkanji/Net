@@ -9,19 +9,22 @@ package com.drake.net.observer
 
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
-import com.drake.brv.PageRefreshLayout
 import com.drake.net.NetConfig
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import io.reactivex.observers.DefaultObserver
 
 /**
- * 自动结束下拉刷新和上拉加载状态
+ * 自动结束下拉刷新
  */
-abstract class RefreshObserver<M>(val pageRefreshLayout: PageRefreshLayout) :
+abstract class RefreshObserver<M>(
+    val refreshLayout: SmartRefreshLayout,
+    val loadMore: Boolean = false
+) :
     DefaultObserver<M>() {
 
 
     init {
-        pageRefreshLayout.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
+        refreshLayout.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View) {
 
             }
@@ -31,6 +34,9 @@ abstract class RefreshObserver<M>(val pageRefreshLayout: PageRefreshLayout) :
         })
     }
 
+    override fun onStart() {
+        refreshLayout.setEnableLoadMore(loadMore)
+    }
 
     /**
      * 关闭进度对话框并提醒错误信息
@@ -38,12 +44,12 @@ abstract class RefreshObserver<M>(val pageRefreshLayout: PageRefreshLayout) :
      * @param e 包括错误信息
      */
     override fun onError(e: Throwable) {
-        pageRefreshLayout.finish(false)
+        refreshLayout.finishRefresh(false)
         NetConfig.onError.invoke(e)
     }
 
 
     override fun onComplete() {
-        pageRefreshLayout.finish(true)
+        refreshLayout.finishRefresh(true)
     }
 }

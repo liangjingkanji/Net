@@ -13,4 +13,4 @@ package com.drake.net.error
  * @property code Int 网络请求错误码
  * @constructor
  */
-class ResponseException(val msg: String, val code: Int) : Throwable()
+class ResponseException(val msg: String, val code: Int) : Throwable("code: $code, msg: $msg")

@@ -14,13 +14,10 @@
     <string name="no_cache_error">读取缓存错误</string>
     <string name="parse_error">解析数据时发生异常</string>
     <string name="read_exception">读取数据错误</string>
-    <string name="other_error">服务器未响应</string>
-
-    <!--DefaultConverter-->
-    <string name="parse_data_error">解析数据错误</string>
     <string name="parse_json_error">解析JSON错误</string>
     <string name="request_error">请求参数错误</string>
     <string name="server_error">服务响应错误</string>
+    <string name="other_error">服务器未响应</string>
 
 
 </resources>

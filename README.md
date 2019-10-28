@@ -54,14 +54,14 @@ allprojects {
 module of build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.1.5'
+implementation 'com.github.liangjingkanji:Net:1.1.6'
 ```
 
 
 
 
 
-## 初始化
+## 初始化和配置
 
 ```kotlin
 class App : Application() {
@@ -70,11 +70,6 @@ class App : Application() {
         super.onCreate()
 
         initNet("主机名"){
-
-            // 替换默认的错误处理(可选)
-            onError {
-
-            }
 
             // 转换器, 也可以自己实现Convert或者复写DefaultConverter
             converter(object : DefaultConverter() {
@@ -88,8 +83,6 @@ class App : Application() {
 }
 ```
 
-
-
 ### 错误信息
 
 第一种覆盖`onError`函数
@@ -101,29 +94,32 @@ class App : Application() {
 这里使用的系统默认的Toast进行错误信息提示用户, 你可以复写然后实现自己的吐司提示.
 
 ```kotlin
-    var onError: Throwable.() -> Unit = {
+internal var onError: Throwable.() -> Unit = {
 
-        val message = when (this) {
-            is NetworkError -> app.getString(R.string.network_error)
-            is URLError -> app.getString(R.string.url_error)
-            is HostError -> app.getString(R.string.host_error)
-            is ConnectTimeoutError -> app.getString(R.string.connect_timeout_error)
-            is ConnectException -> app.getString(R.string.connect_exception)
-            is WriteException -> app.getString(R.string.write_exception)
-            is ReadTimeoutError -> app.getString(R.string.read_timeout_error)
-            is DownloadError -> app.getString(R.string.download_error)
-            is NoCacheError -> app.getString(R.string.no_cache_error)
-            is ParseError -> app.getString(R.string.parse_error)
-            is ReadException -> app.getString(R.string.read_exception)
-            is ResponseException -> msg
-            else -> {
-                printStackTrace()
-                app.getString(R.string.other_error)
-            }
-        }
-
-        Toast.makeText(app, message, Toast.LENGTH_SHORT).show()
+  val message = when (this) {
+    is NetworkError -> app.getString(R.string.network_error)
+    is URLError -> app.getString(R.string.url_error)
+    is HostError -> app.getString(R.string.host_error)
+    is ConnectTimeoutError -> app.getString(R.string.connect_timeout_error)
+    is ConnectException -> app.getString(R.string.connect_exception)
+    is WriteException -> app.getString(R.string.write_exception)
+    is ReadTimeoutError -> app.getString(R.string.read_timeout_error)
+    is DownloadError -> app.getString(R.string.download_error)
+    is NoCacheError -> app.getString(R.string.no_cache_error)
+    is ReadException -> app.getString(R.string.read_exception)
+    is ParseError -> app.getString(R.string.parse_error)
+    is ParseJsonException -> app.getString(R.string.parse_json_error)
+    is RequestParamsException -> app.getString(R.string.request_error)
+    is ServerResponseException -> app.getString(R.string.server_error)
+    is ResponseException -> msg
+    else -> {
+      printStackTrace()
+      app.getString(R.string.other_error)
     }
+  }
+
+  Toast.makeText(app, message, Toast.LENGTH_SHORT).show()
+}
 ```
 
 
@@ -138,7 +134,6 @@ class App : Application() {
 <resources>
     <string name="app_name">Net</string>
 
-
     <!--网络请求异常-->
     <string name="network_error">当前网络不可用</string>
     <string name="url_error">请求资源地址错误</string>
@@ -151,19 +146,46 @@ class App : Application() {
     <string name="no_cache_error">读取缓存错误</string>
     <string name="parse_error">解析数据时发生异常</string>
     <string name="read_exception">读取数据错误</string>
-    <string name="other_error">服务器未响应</string>
-
-    <!--DefaultConverter-->
-    <string name="parse_data_error">解析数据错误</string>
     <string name="parse_json_error">解析JSON错误</string>
     <string name="request_error">请求参数错误</string>
     <string name="server_error">服务响应错误</string>
-
+    <string name="other_error">服务器未响应</string>
 
 </resources>
 ```
 
 
+
+### 初始化配置
+
+在初始化的时候可以选择配置网络请求
+
+```kotlin
+initNet("http://192.168.2.1") {
+
+  // 默认错误处理
+  onError {
+
+  }
+
+  // PageObserver 默认错误处理
+  onPageError {
+
+  }
+
+  // 默认加载对话框
+  onDialog {
+
+    ProgressDialog(it)
+  }
+
+  converter(object : DefaultConverter() {
+    override fun <S> convert(succeed: Type, body: String): S? {
+      return Moshi.Builder().build().adapter<S>(succeed).fromJson(body)
+    }
+  })
+}
+```
 
 
 
@@ -290,6 +312,41 @@ post<Model>(""){
 
 
 
+某些情况存在一些页面仅仅需要下拉刷新, 不需要分页/缺省页/上拉加载, 例如用户中心的刷新. 这个时候我们应该使用`refresh`函数而不是`page`.
+
+```
+post<Model>(""){
+  file("file", File("path"))
+}.refresh(smartRefreshLayout) {
+
+}
+```
+
+refresh函数
+
+```kotlin
+/**
+ * 自动结束下拉加载
+ * @receiver Observable<M>
+ * @param pageRefreshLayout SmartRefreshLayout
+ * @param loadMore 是否启用上拉加载
+ * @param block (M) -> UnitUtils
+ */
+fun <M> Observable<M>.refresh(
+    pageRefreshLayout: PageRefreshLayout,
+    loadMore: Boolean = false,
+    block: RefreshObserver<M>.(M) -> Unit
+) {
+    subscribe(object : RefreshObserver<M>(pageRefreshLayout, loadMore) {
+        override fun onNext(t: M) {
+            block(t)
+        }
+    })
+}
+```
+
+
+
 ## 缺省页
 
 需要引入第三方库: [StateLayout](https://github.com/liangjingkanji/StateLayout) (如果已经引入BRV可以不再引入)
@@ -315,4 +372,25 @@ post<Model>(""){
 
 会根据参数的不同而给不同的对象添加缺省页状态
 
-## 
+##重写Observer
+
+无论是`page/refresh/net/dialog`这些函数本身都是快速创建Observer的扩展函数而已, 如果你需要拿到Observer的onError/onCompleted等回调请自己创建匿名类或者继承.
+
+
+
+例如查看page源码即可看到只是创建一个Observer订阅而已
+
+```kotlin
+fun <M> Observable<M>.page(
+    pageRefreshLayout: PageRefreshLayout,
+    block: PageObserver<M>.(M) -> Unit
+) {
+    subscribe(object : PageObserver<M>(pageRefreshLayout) {
+        override fun onNext(t: M) {
+            block(t)
+        }
+    })
+}
+```
+
+所有扩展订阅函数的都在`ObserverUtils`类中

@@ -5,10 +5,13 @@
  * Date：9/16/19 12:54 AM
  */
 
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.drake.net.convert
 
-import com.drake.net.NetConfig
-import com.drake.net.R
+import com.drake.net.error.ParseJsonException
+import com.drake.net.error.RequestParamsException
+import com.drake.net.error.ServerResponseException
 import com.yanzhenjie.kalle.Response
 import com.yanzhenjie.kalle.simple.Converter
 import com.yanzhenjie.kalle.simple.SimpleResponse
@@ -55,7 +58,7 @@ abstract class DefaultConverter(
                                 succeedData = convert(succeed, body)
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                failedData = NetConfig.app.getString(R.string.parse_json_error) as F
+                                throw ParseJsonException()
                             }
                         }
                     } else {
@@ -64,11 +67,11 @@ abstract class DefaultConverter(
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    failedData = NetConfig.app.getString(R.string.parse_data_error) as F
+                    throw ParseJsonException()
                 }
             }
-            code in 400..499 -> failedData = NetConfig.app.getString(R.string.request_error) as F
-            code >= 500 -> failedData = NetConfig.app.getString(R.string.server_error) as F
+            code in 400..499 -> throw RequestParamsException()
+            code >= 500 -> throw ServerResponseException()
         }
 
         return SimpleResponse.newBuilder<S, F>().code(code)

@@ -38,11 +38,8 @@ abstract class DialogObserver<M>(
 
     companion object {
 
-        private var defaultDialog: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)? = null
-
-        fun setDefaultDialog(block: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)) {
-            defaultDialog = block
-        }
+        internal var defaultDialog: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)? =
+            null
     }
 
 
