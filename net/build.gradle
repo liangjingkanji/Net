@@ -40,7 +40,7 @@ dependencies {
     api 'com.yanzhenjie:okalle:0.1.7'
 
     compileOnly 'androidx.appcompat:appcompat:1.1.0'
-    compileOnly 'com.github.liangjingkanji:BRV:1.0.8'
+    compileOnly 'com.github.liangjingkanji:BRV:1.0.9'
 
     compileOnly 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     compileOnly 'io.reactivex.rxjava2:rxandroid:2.1.1'
