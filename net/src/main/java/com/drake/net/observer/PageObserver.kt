@@ -13,10 +13,7 @@ import android.widget.Toast
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.NetConfig
 import com.drake.net.R
-import com.drake.net.error.ParseJsonException
-import com.drake.net.error.RequestParamsException
-import com.drake.net.error.ResponseException
-import com.drake.net.error.ServerResponseException
+import com.drake.net.error.*
 import com.yanzhenjie.kalle.exception.*
 import io.reactivex.observers.DefaultObserver
 
@@ -43,6 +40,7 @@ abstract class PageObserver<M>(val pageRefreshLayout: PageRefreshLayout) : Defau
                 is ReadException -> NetConfig.app.getString(R.string.read_exception)
                 is ParseError -> NetConfig.app.getString(R.string.parse_error)
                 is ParseJsonException -> NetConfig.app.getString(R.string.parse_json_error)
+                is JsonStructureException -> NetConfig.app.getString(R.string.json_structure_error)
                 is RequestParamsException -> NetConfig.app.getString(R.string.request_error)
                 is ServerResponseException -> NetConfig.app.getString(R.string.server_error)
                 is ResponseException -> msg
