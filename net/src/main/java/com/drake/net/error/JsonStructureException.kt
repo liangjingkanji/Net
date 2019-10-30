@@ -12,4 +12,5 @@ package com.drake.net.error
  * JSON结构不符
  * 一般情况下属于code和msg无法获取
  */
-class JsonStructureException : Throwable()
+class JsonStructureException(val msg: String) : Throwable() {
+}

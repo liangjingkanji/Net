@@ -8,4 +8,4 @@
 package com.drake.net.error
 
 
-class ParseJsonException : Throwable()
+class ParseJsonException(val msg: String) : Throwable()

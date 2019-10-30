@@ -9,6 +9,7 @@
 
 package com.drake.net.convert
 
+import com.drake.net.error.JsonStructureException
 import com.drake.net.error.ParseJsonException
 import com.drake.net.error.RequestParamsException
 import com.drake.net.error.ServerResponseException
@@ -58,7 +59,7 @@ abstract class DefaultConverter(
                                 succeedData = convert(succeed, body)
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                throw ParseJsonException()
+                                throw ParseJsonException(body)
                             }
                         }
                     } else {
@@ -67,7 +68,7 @@ abstract class DefaultConverter(
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    throw ParseJsonException()
+                    throw JsonStructureException(body)
                 }
             }
             code in 400..499 -> throw RequestParamsException()
