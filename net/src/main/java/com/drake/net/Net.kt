@@ -60,6 +60,41 @@ inline fun <reified M> get(
     }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
 }
 
+
+inline fun <reified M> syncGet(
+    path: String,
+    isAbsolutePath: Boolean = false,
+    noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
+): Observable<M> {
+
+    return Observable.create<M> {
+        try {
+            val get = Kalle.get(if (isAbsolutePath) path else (NetConfig.host + path))
+            val response = if (block == null) {
+                get.perform(M::class.java, String::class.java)
+            } else {
+                get.apply(block).perform<M, String>(M::class.java, String::class.java)
+            }
+
+            if (!it.isDisposed) {
+                if (response.isSucceed) {
+                    it.onNext(response.succeed())
+                    it.onComplete()
+                } else {
+                    it.onError(
+                        ResponseException(response.failed(), response.code())
+                    )
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            if (!it.isDisposed) {
+                it.onError(e)
+            }
+        }
+    }
+}
+
+
 /**
  * Post提交
  * @param path String 网络路径, 非绝对路径会加上HOST为前缀
@@ -99,6 +134,40 @@ inline fun <reified M> post(
             }
         }
     }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+}
+
+
+inline fun <reified M> syncPost(
+    path: String,
+    isAbsolutePath: Boolean = false,
+    noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
+): Observable<M> {
+
+    return Observable.create<M> {
+        try {
+            val post = Kalle.post(if (isAbsolutePath) path else (NetConfig.host + path))
+            val response = if (block == null) {
+                post.perform<M, String>(M::class.java, String::class.java)
+            } else {
+                post.apply(block).perform<M, String>(M::class.java, String::class.java)
+            }
+
+            if (!it.isDisposed) {
+                if (response.isSucceed) {
+                    it.onNext(response.succeed())
+                    it.onComplete()
+                } else {
+                    it.onError(
+                        ResponseException(response.failed(), response.code())
+                    )
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            if (!it.isDisposed) {
+                it.onError(e)
+            }
+        }
+    }
 }
 
 
