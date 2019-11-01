@@ -300,15 +300,34 @@ fun <M> Observable<M>.dialog(
 
 需要引入第三方库: [BRV](https://github.com/liangjingkanji/BRV)
 
-
-
 ```kotlin
-post<Model>(""){
-  file("file", File("path"))
-}.page(page) {
-
+pageRefreshLayout.onRefresh { 
+    post<Model>("/path"){
+        param("key", "value")
+        param("page", index) // 页面索引使用pageRefreshLayout的属性index
+    }.page(page) {
+        if (it.data.isEmpty()){
+            showEmpty()
+            return
+        }
+        addData(it.data){
+            index < it.data.totalPage // 判断是否存在下一页
+        }
+    } 
 }
 ```
+
+此时下拉和上拉都会调用该回调`onRefresh`中的接口请求. 
+
+如果下拉刷新和上拉加载的接口不一致可以再实现`onLoadMore`回调
+
+```kotlin
+pageRefreshLayout.onLoadMore {
+	// 上拉加载网络请求
+}
+```
+
+
 
 
 
@@ -316,11 +335,13 @@ post<Model>(""){
 
 ```
 post<Model>(""){
-  file("file", File("path"))
+  param("key", "value")
 }.refresh(smartRefreshLayout) {
 
 }
 ```
+
+
 
 refresh函数
 
@@ -372,7 +393,7 @@ post<Model>(""){
 
 会根据参数的不同而给不同的对象添加缺省页状态
 
-##重写Observer
+##重写 Observer
 
 无论是`page/refresh/net/dialog`这些函数本身都是快速创建Observer的扩展函数而已, 如果你需要拿到Observer的onError/onCompleted等回调请自己创建匿名类或者继承.
 
@@ -394,3 +415,58 @@ fun <M> Observable<M>.page(
 ```
 
 所有扩展订阅函数的都在`ObserverUtils`类中
+
+
+
+## 请求和响应规范
+
+很多时候存在请求和响应的后台接口规范不是常规统一的, 这个时候我们可以自己拦截处理数据. 
+
+主要是实现拦截器(`Interceptor`)和转换器(`Convert`)
+
+
+
+Interceptor 这个和Okhttp同样, 可以拦截和修改请求参数, 并且可以获得Response的实例.
+
+### Interceptor
+
+这里可以得到Request和Response, 进行数据添加修改以及重新拼装请求, 不熟悉的请搜索Okhttp Interceptor使用.
+
+### Convert
+
+Convert 主要进行数据转换, 这里一般解析JSON对象.
+
+
+
+这就是实现`DefaultConvert`自己解析Json对象. DefaultConverter是框架中定义的一个默认处理JSON示例, 一般情况使用它解析下JSON即可. 
+
+```kotlin
+initNet("http://localhost.com") {
+    converter(object : DefaultConverter() {
+        override fun <S> convert(succeed: Type, body: String): S? {
+            return Moshi.Builder().build().adapter<S>(succeed).fromJson(body)
+        }
+    })
+}
+```
+
+DefaultConvert构造函数拥有三个参数默认值
+
+```kotlin
+abstract class DefaultConverter(
+    val successCode: String = "0",
+    val codeName: String = "code",
+    val msgName: String = "msg"
+)
+```
+
+因为内部需要得到错误码`codeName`来判断请求是否真正成功以及错误消息`msgName`来在错误的时候进行打印吐司错误信息. 
+
+所以需要知道解析JSON时的Key来获取.
+
+
+
+如果涉及到响应的JSON数据需要解密或者错误码为某个数字时跳转登录界面可以直接重写`Convert`(建议复制参考DefaultConvert源码). 
+
+
+

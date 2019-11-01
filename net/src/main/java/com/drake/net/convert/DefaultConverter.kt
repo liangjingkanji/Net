@@ -26,7 +26,7 @@ import java.lang.reflect.Type
  */
 @Suppress("UNCHECKED_CAST")
 abstract class DefaultConverter(
-    val successCode: String = "1",
+    val successCode: String = "0",
     val codeName: String = "code",
     val msgName: String = "msg"
 ) : Converter {
