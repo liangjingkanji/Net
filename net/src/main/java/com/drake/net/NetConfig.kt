@@ -11,6 +11,9 @@ package com.drake.net
 
 import android.app.Application
 import android.app.Dialog
+import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.drake.brv.PageRefreshLayout
@@ -27,6 +30,7 @@ object NetConfig {
     lateinit var host: String
     lateinit var app: Application
 
+    internal var defaultToast: Toast? = null
     internal var onError: Throwable.() -> Unit = {
 
         val message = when (this) {
@@ -52,7 +56,26 @@ object NetConfig {
             }
         }
 
-        Toast.makeText(app, message, Toast.LENGTH_SHORT).show()
+        app.toast(message)
+    }
+}
+
+
+internal fun Context.toast(message: CharSequence, config: Toast.() -> Unit = {}) {
+    NetConfig.defaultToast?.cancel()
+
+    runMain {
+        NetConfig.defaultToast =
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).apply { config() }
+        NetConfig.defaultToast?.show()
+    }
+}
+
+private fun runMain(block: () -> Unit) {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+        block()
+    } else {
+        Handler(Looper.getMainLooper()).post { block() }
     }
 }
 

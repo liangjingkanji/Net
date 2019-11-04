@@ -9,11 +9,11 @@ package com.drake.net.observer
 
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
-import android.widget.Toast
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.NetConfig
 import com.drake.net.R
 import com.drake.net.error.*
+import com.drake.net.toast
 import com.yanzhenjie.kalle.exception.*
 import io.reactivex.observers.DefaultObserver
 
@@ -51,8 +51,9 @@ abstract class PageObserver<M>(val pageRefreshLayout: PageRefreshLayout) : Defau
             }
 
             when (this) {
-                is ParseError, is ParseJsonException, is ResponseException, is RequestParamsException, is ServerResponseException ->
-                    Toast.makeText(NetConfig.app, message, Toast.LENGTH_SHORT).show()
+                is ParseError, is ParseJsonException, is ResponseException, is RequestParamsException, is ServerResponseException -> NetConfig.app.toast(
+                    message
+                )
             }
 
         }

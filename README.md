@@ -38,7 +38,7 @@
 
 ## 安装
 
-project of build.gradle
+project 的 build.gradle
 
 ```groovy
 allprojects {
@@ -51,11 +51,13 @@ allprojects {
 
 
 
-module of build.gradle
+module 的 build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.1.7'
+implementation 'com.github.liangjingkanji:Net:1.1.9'
 ```
+
+
 
 
 
