@@ -10,4 +10,4 @@ package com.drake.net.error
 /**
  * 404
  */
-class RequestParamsException : Throwable()
+class RequestParamsException(code: Int) : Throwable(code.toString())

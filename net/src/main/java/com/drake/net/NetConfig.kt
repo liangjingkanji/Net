@@ -17,7 +17,9 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.drake.brv.PageRefreshLayout
-import com.drake.net.error.*
+import com.drake.net.error.RequestParamsException
+import com.drake.net.error.ResponseException
+import com.drake.net.error.ServerResponseException
 import com.drake.net.observer.DialogObserver
 import com.drake.net.observer.PageObserver
 import com.yanzhenjie.kalle.Kalle
@@ -33,6 +35,7 @@ object NetConfig {
     internal var defaultToast: Toast? = null
     internal var onError: Throwable.() -> Unit = {
 
+
         val message = when (this) {
             is NetworkError -> app.getString(R.string.network_error)
             is URLError -> app.getString(R.string.url_error)
@@ -45,15 +48,16 @@ object NetConfig {
             is NoCacheError -> app.getString(R.string.no_cache_error)
             is ReadException -> app.getString(R.string.read_exception)
             is ParseError -> app.getString(R.string.parse_error)
-            is ParseJsonException -> app.getString(R.string.parse_json_error)
-            is JsonStructureException -> app.getString(R.string.json_structure_error)
             is RequestParamsException -> app.getString(R.string.request_error)
             is ServerResponseException -> app.getString(R.string.server_error)
             is ResponseException -> msg
             else -> {
-                printStackTrace()
                 app.getString(R.string.other_error)
             }
+        }
+
+        if (BuildConfig.DEBUG) {
+            printStackTrace()
         }
 
         app.toast(message)

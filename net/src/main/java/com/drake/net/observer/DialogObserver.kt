@@ -76,7 +76,7 @@ abstract class DialogObserver<M>(
      */
     override fun onError(e: Throwable) {
         dismissDialog()
-        NetConfig.onError.invoke(e)
+        NetConfig.onError(e)
     }
 
     override fun onComplete() {

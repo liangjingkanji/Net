@@ -10,4 +10,4 @@ package com.drake.net.error
 /**
  * 500
  */
-class ServerResponseException : Throwable()
+class ServerResponseException(code: Int) : Throwable(code.toString())

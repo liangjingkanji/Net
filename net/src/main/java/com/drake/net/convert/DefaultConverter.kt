@@ -9,26 +9,27 @@
 
 package com.drake.net.convert
 
-import com.drake.net.error.JsonStructureException
-import com.drake.net.error.ParseJsonException
 import com.drake.net.error.RequestParamsException
 import com.drake.net.error.ServerResponseException
 import com.yanzhenjie.kalle.Response
 import com.yanzhenjie.kalle.simple.Converter
 import com.yanzhenjie.kalle.simple.SimpleResponse
-import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Type
 
 
 /**
- * 默认的转换器要求数据结构为JSON对象
+ * 默认的转换器实现, 如果不满足需求推荐参考后自定义实现
+ *
+ * @property success String 错误码表示请求成功的值
+ * @property code String 错误码的Key名称
+ * @property msg String 错误信息的Key名称
  */
 @Suppress("UNCHECKED_CAST")
 abstract class DefaultConverter(
-    val successCode: String = "0",
-    val codeName: String = "code",
-    val msgName: String = "msg"
+    val success: String = "0",
+    val code: String = "code",
+    val msg: String = "msg"
 ) : Converter {
 
 
@@ -47,32 +48,22 @@ abstract class DefaultConverter(
 
         when {
             code in 200..299 -> {
-                try {
-                    val jsonObject = JSONObject(body)
-                    val responseCode = jsonObject.optString(codeName)
+                val jsonObject = JSONObject(body)
+                val responseCode = jsonObject.getString(this.code)
 
-                    if (responseCode == successCode) {
-                        if (succeed === String::class.java) {
-                            succeedData = body as S
-                        } else {
-                            try {
-                                succeedData = convert(succeed, body)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                throw ParseJsonException(body)
-                            }
-                        }
+                if (responseCode == success) {
+                    succeedData = if (succeed === String::class.java) {
+                        body as S
                     } else {
-                        failedData = jsonObject.optString(msgName) as F
-                        code = responseCode.toInt()
+                        convert(succeed, body)
                     }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    throw JsonStructureException(body)
+                } else {
+                    failedData = jsonObject.getString(msg) as F
+                    code = responseCode.toInt()
                 }
             }
-            code in 400..499 -> throw RequestParamsException()
-            code >= 500 -> throw ServerResponseException()
+            code in 400..499 -> throw RequestParamsException(code)
+            code >= 500 -> throw ServerResponseException(code)
         }
 
         return SimpleResponse.newBuilder<S, F>().code(code)
@@ -84,5 +75,11 @@ abstract class DefaultConverter(
     }
 
 
+    /**
+     * 解析JSON数据
+     * @param succeed Type 请求函数传过来的字节码类型
+     * @param body String 一般为返回JSON
+     * @return S? 解析后的数据实体
+     */
     abstract fun <S> convert(succeed: Type, body: String): S?
 }

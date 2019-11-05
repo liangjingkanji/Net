@@ -30,7 +30,7 @@ abstract class NetObserver<M>() : DefaultObserver<M>(), LifecycleObserver {
      * @param e 包括错误信息
      */
     override fun onError(e: Throwable) {
-        NetConfig.onError.invoke(e)
+        NetConfig.onError(e)
     }
 
     override fun onComplete() {

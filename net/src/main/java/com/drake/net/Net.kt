@@ -57,7 +57,8 @@ inline fun <reified M> get(
                 it.onError(e)
             }
         }
-    }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+    }.onTerminateDetach().subscribeOn(Schedulers.computation())
+        .observeOn(AndroidSchedulers.mainThread())
 }
 
 
@@ -91,7 +92,7 @@ inline fun <reified M> syncGet(
                 it.onError(e)
             }
         }
-    }
+    }.onTerminateDetach()
 }
 
 
@@ -133,7 +134,8 @@ inline fun <reified M> post(
                 it.onError(e)
             }
         }
-    }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+    }.onTerminateDetach().subscribeOn(Schedulers.computation())
+        .observeOn(AndroidSchedulers.mainThread())
 }
 
 
@@ -167,7 +169,7 @@ inline fun <reified M> syncPost(
                 it.onError(e)
             }
         }
-    }
+    }.onTerminateDetach()
 }
 
 
@@ -209,7 +211,8 @@ fun download(
                 it.onError(e)
             }
         }
-    }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+    }.onTerminateDetach().subscribeOn(Schedulers.computation())
+        .observeOn(AndroidSchedulers.mainThread())
 }
 
 

@@ -18,36 +18,27 @@ import io.reactivex.observers.DefaultObserver
  */
 abstract class RefreshObserver<M>(
     val refreshLayout: SmartRefreshLayout,
-    val loadMore: Boolean = false
-) :
-    DefaultObserver<M>() {
+    val enableLoadMore: Boolean = false
+) : DefaultObserver<M>() {
 
 
     init {
+        refreshLayout.setEnableLoadMore(enableLoadMore)
         refreshLayout.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View) {
 
             }
+
             override fun onViewDetachedFromWindow(v: View) {
                 cancel()
             }
         })
     }
 
-    override fun onStart() {
-        refreshLayout.setEnableLoadMore(loadMore)
-    }
-
-    /**
-     * 关闭进度对话框并提醒错误信息
-     *
-     * @param e 包括错误信息
-     */
     override fun onError(e: Throwable) {
         refreshLayout.finishRefresh(false)
-        NetConfig.onError.invoke(e)
+        NetConfig.onError(e)
     }
-
 
     override fun onComplete() {
         refreshLayout.finishRefresh(true)
