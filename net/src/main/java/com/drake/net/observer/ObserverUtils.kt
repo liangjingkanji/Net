@@ -81,12 +81,26 @@ fun <M> Observable<M>.state(fragment: Fragment, block: StateObserver<M>.(M) -> U
  * @param block (M) -> Unit
  */
 fun <M> Observable<M>.dialog(
-    activity: FragmentActivity,
+    activity: FragmentActivity?,
     dialog: Dialog? = null,
     cancelable: Boolean = true,
     block: (DialogObserver<M>.(M) -> Unit)? = null
 ) {
     subscribe(object : DialogObserver<M>(activity, dialog, cancelable) {
+        override fun onNext(t: M) {
+            block?.invoke(this, t)
+        }
+    })
+}
+
+
+fun <M> Observable<M>.dialog(
+    fragment: Fragment,
+    dialog: Dialog? = null,
+    cancelable: Boolean = true,
+    block: (DialogObserver<M>.(M) -> Unit)? = null
+) {
+    subscribe(object : DialogObserver<M>(fragment, dialog, cancelable) {
         override fun onNext(t: M) {
             block?.invoke(this, t)
         }
