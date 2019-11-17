@@ -11,6 +11,7 @@ package com.drake.net.observer
 
 import android.app.Dialog
 import android.app.ProgressDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle.Event
 import androidx.lifecycle.LifecycleObserver
@@ -31,10 +32,16 @@ import io.reactivex.observers.DefaultObserver
  * @param cancelable 是否允许用户取消对话框
  */
 abstract class DialogObserver<M>(
-    var activity: FragmentActivity,
+    var activity: FragmentActivity?,
     var dialog: Dialog? = null,
     var cancelable: Boolean = true
 ) : DefaultObserver<M>(), LifecycleObserver {
+
+    constructor(
+        fragment: Fragment?,
+        dialog: Dialog? = null,
+        cancelable: Boolean = true
+    ) : this(fragment?.activity, dialog, cancelable)
 
     companion object {
 
@@ -44,12 +51,13 @@ abstract class DialogObserver<M>(
 
 
     override fun onStart() {
+        activity ?: return
 
-        activity.lifecycle.addObserver(this)
+        activity!!.lifecycle.addObserver(this)
 
         dialog = when {
             dialog != null -> dialog
-            defaultDialog != null -> defaultDialog?.invoke(this, activity)
+            defaultDialog != null -> defaultDialog?.invoke(this, activity!!)
             else -> {
                 val progress = ProgressDialog(activity)
                 progress.setMessage("加载中")
