@@ -21,10 +21,10 @@ import com.drake.net.error.RequestParamsException
 import com.drake.net.error.ResponseException
 import com.drake.net.error.ServerResponseException
 import com.drake.net.observer.DialogObserver
-import com.drake.net.observer.PageObserver
 import com.yanzhenjie.kalle.Kalle
 import com.yanzhenjie.kalle.KalleConfig
 import com.yanzhenjie.kalle.exception.*
+import java.util.concurrent.ExecutionException
 
 
 object NetConfig {
@@ -33,8 +33,9 @@ object NetConfig {
     lateinit var app: Application
 
     internal var defaultToast: Toast? = null
-    internal var onError: Throwable.() -> Unit = {
+    internal var defaultDialog: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)? = null
 
+    internal var onError: Throwable.() -> Unit = {
 
         val message = when (this) {
             is NetworkError -> app.getString(R.string.network_error)
@@ -50,17 +51,46 @@ object NetConfig {
             is ParseError -> app.getString(R.string.parse_error)
             is RequestParamsException -> app.getString(R.string.request_error)
             is ServerResponseException -> app.getString(R.string.server_error)
+            is ExecutionException -> app.getString(R.string.image_error)
+            is ResponseException -> msg
+            else -> {
+                app.getString(R.string.other_error)
+            }
+
+        }
+
+        printStackTrace()
+        app.toast(message)
+    }
+
+    internal var onPageError: Throwable.(pageRefreshLayout: PageRefreshLayout) -> Unit = {
+
+        val message = when (this) {
+            is NetworkError -> app.getString(R.string.network_error)
+            is URLError -> app.getString(R.string.url_error)
+            is HostError -> app.getString(R.string.host_error)
+            is ConnectTimeoutError -> app.getString(R.string.connect_timeout_error)
+            is ReadException -> app.getString(R.string.read_exception)
+            is WriteException -> app.getString(R.string.write_exception)
+            is ConnectException -> app.getString(R.string.connect_exception)
+            is ReadTimeoutError -> app.getString(R.string.read_timeout_error)
+            is DownloadError -> app.getString(R.string.download_error)
+            is NoCacheError -> app.getString(R.string.no_cache_error)
+            is ParseError -> app.getString(R.string.parse_error)
+            is RequestParamsException -> app.getString(R.string.request_error)
+            is ServerResponseException -> app.getString(R.string.server_error)
             is ResponseException -> msg
             else -> {
                 app.getString(R.string.other_error)
             }
         }
 
-        if (BuildConfig.DEBUG) {
-            printStackTrace()
+        printStackTrace()
+        when (this) {
+            is ParseError, is ResponseException -> {
+                app.toast(message)
+            }
         }
-
-        app.toast(message)
     }
 }
 
@@ -108,7 +138,7 @@ fun KalleConfig.Builder.onError(block: Throwable.() -> Unit) {
  * @param block [@kotlin.ExtensionFunctionType] Function2<Throwable, [@kotlin.ParameterName] PageRefreshLayout, Unit>
  */
 fun KalleConfig.Builder.onPageError(block: Throwable.(pageRefreshLayout: PageRefreshLayout) -> Unit) {
-    PageObserver.onPageError = block
+    NetConfig.onPageError = block
 }
 
 
@@ -118,6 +148,6 @@ fun KalleConfig.Builder.onPageError(block: Throwable.(pageRefreshLayout: PageRef
  * @param block [@kotlin.ExtensionFunctionType] Function2<DialogObserver<*>, [@kotlin.ParameterName] FragmentActivity, Dialog>
  */
 fun KalleConfig.Builder.onDialog(block: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)) {
-    DialogObserver.defaultDialog = block
+    NetConfig.defaultDialog = block
 }
 

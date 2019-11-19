@@ -2,10 +2,10 @@
  * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
  * Project：Net
  * Author：Drake
- * Date：9/16/19 12:54 AM
+ * Date：11/19/19 9:23 PM
  */
 
-package com.drake.net.observer
+package com.drake.net
 
 import android.app.Dialog
 import android.view.View
@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import com.drake.brv.PageRefreshLayout
+import com.drake.net.observer.*
 import com.drake.statelayout.StateLayout
 import io.reactivex.Observable
 

@@ -18,7 +18,7 @@ import io.reactivex.observers.DefaultObserver
 /**
  * 自动显示多状态布局
  */
-abstract class StateObserver<S> : DefaultObserver<S> {
+abstract class StateObserver<M> : DefaultObserver<M> {
 
     var stateLayout: StateLayout
 
@@ -54,6 +54,8 @@ abstract class StateObserver<S> : DefaultObserver<S> {
             }
         })
     }
+
+    abstract override fun onNext(it: M)
 
     override fun onError(e: Throwable) {
         stateLayout.showError()

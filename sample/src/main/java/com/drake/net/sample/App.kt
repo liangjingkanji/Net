@@ -22,8 +22,6 @@ class App : Application() {
             })
         }
 
-
-
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout -> ClassicsHeader(this) }
         SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout -> ClassicsFooter(this) }
     }

@@ -24,6 +24,8 @@ abstract class NetObserver<M>() : DefaultObserver<M>(), LifecycleObserver {
         lifecycleOwner?.lifecycle?.addObserver(this)
     }
 
+    abstract override fun onNext(it: M)
+
     /**
      * 关闭进度对话框并提醒错误信息
      *

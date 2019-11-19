@@ -9,6 +9,8 @@
 
 package com.drake.net
 
+import android.content.Context
+import com.bumptech.glide.Glide
 import com.drake.net.error.ResponseException
 import com.yanzhenjie.kalle.Kalle
 import com.yanzhenjie.kalle.download.UrlDownload
@@ -17,7 +19,9 @@ import com.yanzhenjie.kalle.simple.SimpleUrlRequest
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 
+// <editor-fold desc="异步请求">
 
 /**
  * Get请求
@@ -60,41 +64,6 @@ inline fun <reified M> get(
     }.onTerminateDetach().subscribeOn(Schedulers.computation())
         .observeOn(AndroidSchedulers.mainThread())
 }
-
-
-inline fun <reified M> syncGet(
-    path: String,
-    isAbsolutePath: Boolean = false,
-    noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
-): Observable<M> {
-
-    return Observable.create<M> {
-        try {
-            val get = Kalle.get(if (isAbsolutePath) path else (NetConfig.host + path))
-            val response = if (block == null) {
-                get.perform(M::class.java, String::class.java)
-            } else {
-                get.apply(block).perform<M, String>(M::class.java, String::class.java)
-            }
-
-            if (!it.isDisposed) {
-                if (response.isSucceed) {
-                    it.onNext(response.succeed())
-                    it.onComplete()
-                } else {
-                    it.onError(
-                        ResponseException(response.failed(), response.code())
-                    )
-                }
-            }
-        } catch (e: java.lang.Exception) {
-            if (!it.isDisposed) {
-                it.onError(e)
-            }
-        }
-    }.onTerminateDetach()
-}
-
 
 /**
  * Post提交
@@ -139,40 +108,6 @@ inline fun <reified M> post(
 }
 
 
-inline fun <reified M> syncPost(
-    path: String,
-    isAbsolutePath: Boolean = false,
-    noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
-): Observable<M> {
-
-    return Observable.create<M> {
-        try {
-            val post = Kalle.post(if (isAbsolutePath) path else (NetConfig.host + path))
-            val response = if (block == null) {
-                post.perform<M, String>(M::class.java, String::class.java)
-            } else {
-                post.apply(block).perform<M, String>(M::class.java, String::class.java)
-            }
-
-            if (!it.isDisposed) {
-                if (response.isSucceed) {
-                    it.onNext(response.succeed())
-                    it.onComplete()
-                } else {
-                    it.onError(
-                        ResponseException(response.failed(), response.code())
-                    )
-                }
-            }
-        } catch (e: java.lang.Exception) {
-            if (!it.isDisposed) {
-                it.onError(e)
-            }
-        }
-    }.onTerminateDetach()
-}
-
-
 /**
  * 下载文件
  *
@@ -214,5 +149,175 @@ fun download(
     }.onTerminateDetach().subscribeOn(Schedulers.computation())
         .observeOn(AndroidSchedulers.mainThread())
 }
+
+/**
+ * 下载图片, 图片宽高要求要么同时指定要么同时不指定
+ *
+ * @receiver Context
+ * @param url String
+ * @param with Int 图片宽度
+ * @param height Int 图片高度
+ * @return Observable<File>
+ */
+fun Context.downloadImg(url: String, with: Int = -1, height: Int = -1): Observable<File> {
+
+    return Observable.create<File> {
+
+        Glide.with(this).downloadOnly()
+
+        val download = Glide.with(this).download(url)
+
+        val futureTarget = if (with == -1 && height == -1) {
+            download.submit()
+        } else {
+            download.submit(with, height)
+        }
+
+        try {
+            val file = futureTarget.get()
+            if (!it.isDisposed) {
+                it.onNext(file)
+                it.onComplete()
+            }
+        } catch (e: Exception) {
+            if (!it.isDisposed) {
+                it.onError(e)
+            }
+        }
+
+    }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+}
+
+// </editor-fold>
+
+// <editor-fold desc="同步请求">
+
+inline fun <reified M> syncGet(
+    path: String,
+    isAbsolutePath: Boolean = false,
+    noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
+): Observable<M> {
+
+    return Observable.create<M> {
+        try {
+            val get = Kalle.get(if (isAbsolutePath) path else (NetConfig.host + path))
+            val response = if (block == null) {
+                get.perform(M::class.java, String::class.java)
+            } else {
+                get.apply(block).perform<M, String>(M::class.java, String::class.java)
+            }
+
+            if (!it.isDisposed) {
+                if (response.isSucceed) {
+                    it.onNext(response.succeed())
+                    it.onComplete()
+                } else {
+                    it.onError(
+                        ResponseException(response.failed(), response.code())
+                    )
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            if (!it.isDisposed) {
+                it.onError(e)
+            }
+        }
+    }.onTerminateDetach()
+}
+
+inline fun <reified M> syncPost(
+    path: String,
+    isAbsolutePath: Boolean = false,
+    noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
+): Observable<M> {
+
+    return Observable.create<M> {
+        try {
+            val post = Kalle.post(if (isAbsolutePath) path else (NetConfig.host + path))
+            val response = if (block == null) {
+                post.perform<M, String>(M::class.java, String::class.java)
+            } else {
+                post.apply(block).perform<M, String>(M::class.java, String::class.java)
+            }
+
+            if (!it.isDisposed) {
+                if (response.isSucceed) {
+                    it.onNext(response.succeed())
+                    it.onComplete()
+                } else {
+                    it.onError(
+                        ResponseException(response.failed(), response.code())
+                    )
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            if (!it.isDisposed) {
+                it.onError(e)
+            }
+        }
+    }.onTerminateDetach()
+}
+
+fun syncDownload(
+    path: String,
+    directory: String = NetConfig.app.externalCacheDir!!.absolutePath,
+    isAbsolutePath: Boolean = false,
+    block: (UrlDownload.Api.() -> Unit)? = null
+): Observable<String> {
+
+    return Observable.create<String> {
+        try {
+            val realPath = if (isAbsolutePath) path else (NetConfig.host + path)
+
+            val download = Kalle.Download.get(realPath).directory(directory)
+
+            val filePath = if (block == null) {
+                download.perform()
+            } else {
+                download.apply(block).perform()
+            }
+
+            if (!it.isDisposed) {
+                it.onNext(filePath)
+                it.onComplete()
+            }
+        } catch (e: Exception) {
+            if (!it.isDisposed) {
+                it.onError(e)
+            }
+        }
+    }.onTerminateDetach()
+}
+
+fun Context.syncDownloadImg(url: String, with: Int = 0, height: Int = 0): Observable<File> {
+
+    return Observable.create<File> {
+
+        Glide.with(this).downloadOnly()
+
+        val download = Glide.with(this).download(url)
+
+        val futureTarget = if (with == 0 && height == 0) {
+            download.submit()
+        } else {
+            download.submit(with, height)
+        }
+
+        try {
+            val file = futureTarget.get()
+            if (!it.isDisposed) {
+                it.onNext(file)
+                it.onComplete()
+            }
+        } catch (e: Exception) {
+            if (!it.isDisposed) {
+                it.onError(e)
+            }
+        }
+
+    }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+}
+
+// </editor-fold>
 
 

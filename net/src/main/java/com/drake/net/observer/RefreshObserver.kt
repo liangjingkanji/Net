@@ -17,14 +17,14 @@ import io.reactivex.observers.DefaultObserver
  * 自动结束下拉刷新
  */
 abstract class RefreshObserver<M>(
-    val refreshLayout: SmartRefreshLayout,
-    val enableLoadMore: Boolean = false
+    val refresh: SmartRefreshLayout,
+    val loadMore: Boolean = false
 ) : DefaultObserver<M>() {
 
 
     init {
-        refreshLayout.setEnableLoadMore(enableLoadMore)
-        refreshLayout.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
+        refresh.setEnableLoadMore(loadMore)
+        refresh.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View) {
 
             }
@@ -35,12 +35,14 @@ abstract class RefreshObserver<M>(
         })
     }
 
+    abstract override fun onNext(it: M)
+
     override fun onError(e: Throwable) {
-        refreshLayout.finishRefresh(false)
+        refresh.finishRefresh(false)
         NetConfig.onError(e)
     }
 
     override fun onComplete() {
-        refreshLayout.finishRefresh(true)
+        refresh.finishRefresh(true)
     }
 }

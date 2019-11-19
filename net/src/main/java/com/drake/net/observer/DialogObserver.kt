@@ -17,6 +17,7 @@ import androidx.lifecycle.Lifecycle.Event
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.drake.net.NetConfig
+import com.drake.net.NetConfig.defaultDialog
 import io.reactivex.observers.DefaultObserver
 
 /**
@@ -42,12 +43,6 @@ abstract class DialogObserver<M>(
         dialog: Dialog? = null,
         cancelable: Boolean = true
     ) : this(fragment?.activity, dialog, cancelable)
-
-    companion object {
-
-        internal var defaultDialog: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)? =
-            null
-    }
 
 
     override fun onStart() {
@@ -76,6 +71,8 @@ abstract class DialogObserver<M>(
             dialog!!.dismiss()
         }
     }
+
+    abstract override fun onNext(it: M)
 
     /**
      * 关闭进度对话框并提醒错误信息
