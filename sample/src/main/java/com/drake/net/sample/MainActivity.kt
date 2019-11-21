@@ -2,8 +2,8 @@ package com.drake.net.sample
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.drake.net.dialog
 import com.drake.net.downloadImg
+import com.drake.net.observer.dialog
 
 class MainActivity : AppCompatActivity() {
 

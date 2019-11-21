@@ -2,10 +2,10 @@
  * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
  * Project：Net
  * Author：Drake
- * Date：11/19/19 9:23 PM
+ * Date：11/20/19 10:37 PM
  */
 
-package com.drake.net
+package com.drake.net.observer
 
 import android.app.Dialog
 import android.view.View
@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import com.drake.brv.PageRefreshLayout
-import com.drake.net.observer.*
 import com.drake.statelayout.StateLayout
 import io.reactivex.Observable
 
@@ -26,12 +25,12 @@ import io.reactivex.Observable
  */
 fun <M> Observable<M>.net(
     lifecycleOwner: LifecycleOwner? = null,
-    block: (NetObserver<M>.(M) -> Unit)? = null
+    block: (NetObserver<M>.(M) -> Unit) = {}
 ) {
 
     subscribe(object : NetObserver<M>(lifecycleOwner) {
         override fun onNext(t: M) {
-            block?.invoke(this, t)
+            block(t)
         }
     })
 }
@@ -42,7 +41,7 @@ fun <M> Observable<M>.net(
  * @param stateLayout StateLayout
  * @param block (M) -> UnitUtils
  */
-fun <M> Observable<M>.state(stateLayout: StateLayout, block: StateObserver<M>.(M) -> Unit) {
+fun <M> Observable<M>.state(stateLayout: StateLayout, block: StateObserver<M>.(M) -> Unit = {}) {
     subscribe(object : StateObserver<M>(stateLayout) {
         override fun onNext(t: M) {
             block(t)
@@ -50,7 +49,7 @@ fun <M> Observable<M>.state(stateLayout: StateLayout, block: StateObserver<M>.(M
     })
 }
 
-fun <M> Observable<M>.state(view: View, block: StateObserver<M>.(M) -> Unit) {
+fun <M> Observable<M>.state(view: View, block: StateObserver<M>.(M) -> Unit = {}) {
     subscribe(object : StateObserver<M>(view) {
         override fun onNext(t: M) {
             block(t)
@@ -66,7 +65,7 @@ fun <M> Observable<M>.state(activity: FragmentActivity, block: StateObserver<M>.
     })
 }
 
-fun <M> Observable<M>.state(fragment: Fragment, block: StateObserver<M>.(M) -> Unit) {
+fun <M> Observable<M>.state(fragment: Fragment, block: StateObserver<M>.(M) -> Unit = {}) {
     subscribe(object : StateObserver<M>(fragment) {
         override fun onNext(t: M) {
             block(t)
@@ -85,11 +84,11 @@ fun <M> Observable<M>.dialog(
     activity: FragmentActivity?,
     dialog: Dialog? = null,
     cancelable: Boolean = true,
-    block: (DialogObserver<M>.(M) -> Unit)? = null
+    block: (DialogObserver<M>.(M) -> Unit) = {}
 ) {
     subscribe(object : DialogObserver<M>(activity, dialog, cancelable) {
         override fun onNext(t: M) {
-            block?.invoke(this, t)
+            block(t)
         }
     })
 }
@@ -99,11 +98,11 @@ fun <M> Observable<M>.dialog(
     fragment: Fragment,
     dialog: Dialog? = null,
     cancelable: Boolean = true,
-    block: (DialogObserver<M>.(M) -> Unit)? = null
+    block: (DialogObserver<M>.(M) -> Unit) = {}
 ) {
     subscribe(object : DialogObserver<M>(fragment, dialog, cancelable) {
         override fun onNext(t: M) {
-            block?.invoke(this, t)
+            block(t)
         }
     })
 }
@@ -118,7 +117,7 @@ fun <M> Observable<M>.dialog(
 fun <M> Observable<M>.refresh(
     pageRefreshLayout: PageRefreshLayout,
     loadMore: Boolean = false,
-    block: RefreshObserver<M>.(M) -> Unit
+    block: RefreshObserver<M>.(M) -> Unit = {}
 ) {
     subscribe(object : RefreshObserver<M>(pageRefreshLayout, loadMore) {
         override fun onNext(t: M) {
@@ -136,7 +135,7 @@ fun <M> Observable<M>.refresh(
  */
 fun <M> Observable<M>.page(
     pageRefreshLayout: PageRefreshLayout,
-    block: PageObserver<M>.(M) -> Unit
+    block: PageObserver<M>.(M) -> Unit = {}
 ) {
     subscribe(object : PageObserver<M>(pageRefreshLayout) {
         override fun onNext(t: M) {

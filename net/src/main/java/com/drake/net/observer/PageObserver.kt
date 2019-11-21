@@ -11,7 +11,7 @@ import android.view.View
 import android.view.View.OnAttachStateChangeListener
 import com.drake.brv.BindingAdapter
 import com.drake.brv.PageRefreshLayout
-import com.drake.net.NetConfig.onPageError
+import com.drake.net.NetConfig.onStateError
 import io.reactivex.observers.DefaultObserver
 
 /**
@@ -42,7 +42,7 @@ abstract class PageObserver<M>(val page: PageRefreshLayout) : DefaultObserver<M>
      */
     override fun onError(e: Throwable) {
         page.showError()
-        onPageError.invoke(e, page)
+        onStateError.invoke(e, page)
     }
 
     override fun onComplete() {
@@ -60,5 +60,13 @@ abstract class PageObserver<M>(val page: PageRefreshLayout) : DefaultObserver<M>
 
     fun showEmpty() {
         page.showEmpty()
+    }
+
+    fun showContent() {
+        page.showContent()
+    }
+
+    fun finish(success: Boolean = true) {
+        page.finish(success)
     }
 }

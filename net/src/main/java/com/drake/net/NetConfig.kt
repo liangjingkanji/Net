@@ -14,9 +14,9 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
-import com.drake.brv.PageRefreshLayout
 import com.drake.net.error.RequestParamsException
 import com.drake.net.error.ResponseException
 import com.drake.net.error.ServerResponseException
@@ -63,7 +63,7 @@ object NetConfig {
         app.toast(message)
     }
 
-    internal var onPageError: Throwable.(pageRefreshLayout: PageRefreshLayout) -> Unit = {
+    internal var onStateError: Throwable.(view: View) -> Unit = {
 
         val message = when (this) {
             is NetworkError -> app.getString(R.string.network_error)
@@ -79,6 +79,7 @@ object NetConfig {
             is ParseError -> app.getString(R.string.parse_error)
             is RequestParamsException -> app.getString(R.string.request_error)
             is ServerResponseException -> app.getString(R.string.server_error)
+            is ExecutionException -> app.getString(R.string.image_error)
             is ResponseException -> msg
             else -> {
                 app.getString(R.string.other_error)
@@ -137,8 +138,8 @@ fun KalleConfig.Builder.onError(block: Throwable.() -> Unit) {
  * @receiver KalleConfig.Builder
  * @param block [@kotlin.ExtensionFunctionType] Function2<Throwable, [@kotlin.ParameterName] PageRefreshLayout, Unit>
  */
-fun KalleConfig.Builder.onPageError(block: Throwable.(pageRefreshLayout: PageRefreshLayout) -> Unit) {
-    NetConfig.onPageError = block
+fun KalleConfig.Builder.onStateError(block: Throwable.(view: View) -> Unit) {
+    NetConfig.onStateError = block
 }
 
 

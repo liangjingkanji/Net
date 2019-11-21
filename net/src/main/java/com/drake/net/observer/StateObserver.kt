@@ -11,6 +11,7 @@ import android.app.Activity
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
 import androidx.fragment.app.Fragment
+import com.drake.net.NetConfig
 import com.drake.statelayout.StateLayout
 import com.drake.statelayout.state
 import io.reactivex.observers.DefaultObserver
@@ -59,6 +60,7 @@ abstract class StateObserver<M> : DefaultObserver<M> {
 
     override fun onError(e: Throwable) {
         stateLayout.showError()
+        NetConfig.onStateError(e, stateLayout)
     }
 
     override fun onComplete() {
