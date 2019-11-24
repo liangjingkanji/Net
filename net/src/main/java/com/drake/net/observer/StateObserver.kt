@@ -14,44 +14,41 @@ import androidx.fragment.app.Fragment
 import com.drake.net.NetConfig
 import com.drake.statelayout.StateLayout
 import com.drake.statelayout.state
-import io.reactivex.observers.DefaultObserver
+import io.reactivex.observers.DisposableObserver
 
 /**
  * 自动显示多状态布局
  */
-abstract class StateObserver<M> : DefaultObserver<M> {
+abstract class StateObserver<M> : DisposableObserver<M> {
 
-    var stateLayout: StateLayout
+    val state: StateLayout
+
+    private var error: (StateObserver<M>.(e: Throwable) -> Unit)? = null
 
     constructor(view: View) {
-        stateLayout = view.state()
+        state = view.state()
     }
 
     constructor(activity: Activity) {
-        stateLayout = activity.state()
+        state = activity.state()
     }
 
     constructor(fragment: Fragment) {
-        stateLayout = fragment.state()
+        state = fragment.state()
     }
 
     constructor(stateLayout: StateLayout) {
-        this.stateLayout = stateLayout
-    }
-
-    fun showEmpty() {
-        stateLayout.showEmpty()
-        cancel()
+        this.state = stateLayout
     }
 
     public override fun onStart() {
-        stateLayout.showLoading()
-        stateLayout.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
+        state.showLoading()
+        state.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View?) {
             }
 
             override fun onViewDetachedFromWindow(v: View) {
-                cancel()
+                dispose()
             }
         })
     }
@@ -59,11 +56,29 @@ abstract class StateObserver<M> : DefaultObserver<M> {
     abstract override fun onNext(it: M)
 
     override fun onError(e: Throwable) {
-        stateLayout.showError()
-        NetConfig.onStateError(e, stateLayout)
+        state.showError()
+        error?.invoke(this, e) ?: handleError(e)
+    }
+
+    fun handleError(e: Throwable) {
+        NetConfig.onStateError(e, state)
+    }
+
+    fun error(block: (StateObserver<M>.(e: Throwable) -> Unit)?): StateObserver<M> {
+        error = block
+        return this
     }
 
     override fun onComplete() {
-        stateLayout.showContent()
+        state.showContent()
+    }
+
+    /**
+     * 显示空缺省页
+     * 此操作会导致观察者取消订阅
+     */
+    fun showEmpty() {
+        state.showEmpty()
+        dispose()
     }
 }

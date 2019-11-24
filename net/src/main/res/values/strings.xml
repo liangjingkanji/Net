@@ -19,5 +19,7 @@
     <string name="image_error">图片下载错误</string>
     <string name="other_error">服务器未响应</string>
 
+    <!--对话框-->
+    <string name="dialog_msg">加载中</string>
 
 </resources>

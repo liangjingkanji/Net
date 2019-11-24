@@ -18,7 +18,8 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.drake.net.NetConfig
 import com.drake.net.NetConfig.defaultDialog
-import io.reactivex.observers.DefaultObserver
+import com.drake.net.R
+import io.reactivex.observers.DisposableObserver
 
 /**
  * 自动加载对话框网络请求
@@ -29,14 +30,16 @@ import io.reactivex.observers.DefaultObserver
  * 完全: 关闭对话框
  *
  * @param activity 对话框跟随生命周期的FragmentActivity
- * @param dialog 单例对话框
+ * @param dialog 不使用默认的加载对话框而指定对话框
  * @param cancelable 是否允许用户取消对话框
  */
 abstract class DialogObserver<M>(
-    var activity: FragmentActivity?,
+    val activity: FragmentActivity?,
     var dialog: Dialog? = null,
-    var cancelable: Boolean = true
-) : DefaultObserver<M>(), LifecycleObserver {
+    val cancelable: Boolean = true
+) : DisposableObserver<M>(), LifecycleObserver {
+
+    private var error: (DialogObserver<M>.(e: Throwable) -> Unit)? = null
 
     constructor(
         fragment: Fragment?,
@@ -47,32 +50,37 @@ abstract class DialogObserver<M>(
 
     override fun onStart() {
         activity ?: return
-
-        activity!!.lifecycle.addObserver(this)
+        activity.lifecycle.addObserver(this)
 
         dialog = when {
             dialog != null -> dialog
-            defaultDialog != null -> defaultDialog?.invoke(this, activity!!)
+            defaultDialog != null -> defaultDialog?.invoke(this, activity)
             else -> {
                 val progress = ProgressDialog(activity)
-                progress.setMessage("加载中")
+                progress.setMessage(activity.getString(R.string.dialog_msg))
                 progress
             }
         }
 
-        dialog?.setOnDismissListener { cancel() }
+        dialog?.setOnDismissListener { dispose() }
         dialog?.setCancelable(cancelable)
         dialog?.show()
     }
 
     @OnLifecycleEvent(Event.ON_DESTROY)
-    fun dismissDialog() {
+    fun dismiss() {
         if (dialog != null && dialog!!.isShowing) {
-            dialog!!.dismiss()
+            dialog?.dismiss()
         }
     }
 
     abstract override fun onNext(it: M)
+
+    fun error(block: (DialogObserver<M>.(e: Throwable) -> Unit)?): DialogObserver<M> {
+        error = block
+        return this
+    }
+
 
     /**
      * 关闭进度对话框并提醒错误信息
@@ -80,12 +88,16 @@ abstract class DialogObserver<M>(
      * @param e 包括错误信息
      */
     override fun onError(e: Throwable) {
-        dismissDialog()
+        dismiss()
+        error?.invoke(this, e) ?: handleError(e)
+    }
+
+    fun handleError(e: Throwable) {
         NetConfig.onError(e)
     }
 
     override fun onComplete() {
-        dismissDialog()
+        dismiss()
     }
 
 }

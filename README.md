@@ -54,7 +54,7 @@ allprojects {
 module 的 build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.2.4'
+implementation 'com.github.liangjingkanji:Net:1.2.5'
 ```
 
 
@@ -266,6 +266,10 @@ post<Model>(""){
 
 其他的对话框或者缺省页和下拉刷新等自动支持生命周期管理
 
+Net框架本身的生命周期管理是针对Fragment|Activity的页面销毁时才会自动取消订阅, 如果需要自定义页面生命周期推荐使用我的另外一个库: [AutoDispose](https://github.com/liangjingkanji/AutoDispose)
+
+返回值 Disposable 可以用于完全手动任何位置取消, 
+
 ## 对话框
 
 将会在网络请求开始时弹出对话框, 结束时关闭对话框.
@@ -395,7 +399,7 @@ post<Model>(""){
 
 会根据参数的不同而给不同的对象添加缺省页状态
 
-##重写 Observer
+##Observer
 
 无论是`page/refresh/net/dialog`这些函数本身都是快速创建Observer的扩展函数而已, 如果你需要拿到Observer的onError/onCompleted等回调请自己创建匿名类或者继承.
 
@@ -417,6 +421,22 @@ fun <M> Observable<M>.page(
 ```
 
 所有扩展订阅函数的都在`ObserverUtils`类中
+
+
+
+扩展函数都会返回对应的Observer对象可以进行手动取消订阅等操作
+
+```kotlin
+val netObserver = download(
+    "https://cdn.sspai.com/article/ebe361e4-c891-3afd-8680-e4bad609723e.jpg?imageMogr2/quality/95/thumbnail/!2880x620r/gravity/Center/crop/2880x620/interlace/1",
+    isAbsolutePath = true
+).net(this) {
+
+}.error {
+    // 自定义自己的错误处理
+    handleError(it) // 该函数每个Observer都存在, 属于默认的错误处理操作
+}
+```
 
 
 

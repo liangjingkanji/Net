@@ -11,7 +11,7 @@ import android.view.View
 import android.view.View.OnAttachStateChangeListener
 import com.drake.net.NetConfig
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import io.reactivex.observers.DefaultObserver
+import io.reactivex.observers.DisposableObserver
 
 /**
  * 自动结束下拉刷新
@@ -19,8 +19,9 @@ import io.reactivex.observers.DefaultObserver
 abstract class RefreshObserver<M>(
     val refresh: SmartRefreshLayout,
     val loadMore: Boolean = false
-) : DefaultObserver<M>() {
+) : DisposableObserver<M>() {
 
+    private var error: (RefreshObserver<M>.(e: Throwable) -> Unit)? = null
 
     init {
         refresh.setEnableLoadMore(loadMore)
@@ -30,7 +31,7 @@ abstract class RefreshObserver<M>(
             }
 
             override fun onViewDetachedFromWindow(v: View) {
-                cancel()
+                dispose()
             }
         })
     }
@@ -39,10 +40,19 @@ abstract class RefreshObserver<M>(
 
     override fun onError(e: Throwable) {
         refresh.finishRefresh(false)
+        error?.invoke(this, e) ?: handleError(e)
+    }
+
+    fun handleError(e: Throwable) {
         NetConfig.onError(e)
     }
 
     override fun onComplete() {
         refresh.finishRefresh(true)
+    }
+
+    fun error(block: (RefreshObserver<M>.(e: Throwable) -> Unit)?): RefreshObserver<M> {
+        error = block
+        return this
     }
 }

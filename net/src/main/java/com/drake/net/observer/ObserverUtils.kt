@@ -26,13 +26,14 @@ import io.reactivex.Observable
 fun <M> Observable<M>.net(
     lifecycleOwner: LifecycleOwner? = null,
     block: (NetObserver<M>.(M) -> Unit) = {}
-) {
-
-    subscribe(object : NetObserver<M>(lifecycleOwner) {
-        override fun onNext(t: M) {
-            block(t)
+): NetObserver<M> {
+    val observer = object : NetObserver<M>(lifecycleOwner) {
+        override fun onNext(it: M) {
+            block(it)
         }
-    })
+    }
+    subscribe(observer)
+    return observer
 }
 
 /**
@@ -41,34 +42,49 @@ fun <M> Observable<M>.net(
  * @param stateLayout StateLayout
  * @param block (M) -> UnitUtils
  */
-fun <M> Observable<M>.state(stateLayout: StateLayout, block: StateObserver<M>.(M) -> Unit = {}) {
-    subscribe(object : StateObserver<M>(stateLayout) {
-        override fun onNext(t: M) {
-            block(t)
+fun <M> Observable<M>.state(
+    stateLayout: StateLayout,
+    block: StateObserver<M>.(M) -> Unit = {}
+): StateObserver<M> {
+    val observer = object : StateObserver<M>(stateLayout) {
+        override fun onNext(it: M) {
+            block(it)
         }
-    })
+    }
+    subscribe(observer)
+    return observer
 }
 
-fun <M> Observable<M>.state(view: View, block: StateObserver<M>.(M) -> Unit = {}) {
-    subscribe(object : StateObserver<M>(view) {
-        override fun onNext(t: M) {
-            block(t)
+fun <M> Observable<M>.state(
+    view: View,
+    block: StateObserver<M>.(M) -> Unit = {}
+): StateObserver<M> {
+    val observer = object : StateObserver<M>(view) {
+        override fun onNext(it: M) {
+            block(it)
         }
-    })
+    }
+    subscribe(observer)
+    return observer
 }
 
-fun <M> Observable<M>.state(activity: FragmentActivity, block: StateObserver<M>.(M) -> Unit) {
-    subscribe(object : StateObserver<M>(activity) {
-        override fun onNext(t: M) {
-            block(t)
+fun <M> Observable<M>.state(
+    activity: FragmentActivity,
+    block: StateObserver<M>.(M) -> Unit
+): StateObserver<M> {
+    val observer = object : StateObserver<M>(activity) {
+        override fun onNext(it: M) {
+            block(it)
         }
-    })
+    }
+    subscribe(observer)
+    return observer
 }
 
 fun <M> Observable<M>.state(fragment: Fragment, block: StateObserver<M>.(M) -> Unit = {}) {
     subscribe(object : StateObserver<M>(fragment) {
-        override fun onNext(t: M) {
-            block(t)
+        override fun onNext(it: M) {
+            block(it)
         }
     })
 }
@@ -85,12 +101,14 @@ fun <M> Observable<M>.dialog(
     dialog: Dialog? = null,
     cancelable: Boolean = true,
     block: (DialogObserver<M>.(M) -> Unit) = {}
-) {
-    subscribe(object : DialogObserver<M>(activity, dialog, cancelable) {
-        override fun onNext(t: M) {
-            block(t)
+): DialogObserver<M> {
+    val observer = object : DialogObserver<M>(activity, dialog, cancelable) {
+        override fun onNext(it: M) {
+            block(it)
         }
-    })
+    }
+    subscribe(observer)
+    return observer
 }
 
 
@@ -99,31 +117,35 @@ fun <M> Observable<M>.dialog(
     dialog: Dialog? = null,
     cancelable: Boolean = true,
     block: (DialogObserver<M>.(M) -> Unit) = {}
-) {
-    subscribe(object : DialogObserver<M>(fragment, dialog, cancelable) {
-        override fun onNext(t: M) {
-            block(t)
+): DialogObserver<M> {
+    val observer = object : DialogObserver<M>(fragment, dialog, cancelable) {
+        override fun onNext(it: M) {
+            block(it)
         }
-    })
+    }
+    subscribe(observer)
+    return observer
 }
 
 /**
  * 自动结束下拉加载
  * @receiver Observable<M>
- * @param pageRefreshLayout SmartRefreshLayout
+ * @param refreshLayout SmartRefreshLayout
  * @param loadMore 是否启用上拉加载
  * @param block (M) -> UnitUtils
  */
 fun <M> Observable<M>.refresh(
-    pageRefreshLayout: PageRefreshLayout,
+    refreshLayout: PageRefreshLayout,
     loadMore: Boolean = false,
     block: RefreshObserver<M>.(M) -> Unit = {}
-) {
-    subscribe(object : RefreshObserver<M>(pageRefreshLayout, loadMore) {
-        override fun onNext(t: M) {
-            block(t)
+): RefreshObserver<M> {
+    val observer = object : RefreshObserver<M>(refreshLayout, loadMore) {
+        override fun onNext(it: M) {
+            block(it)
         }
-    })
+    }
+    subscribe(observer)
+    return observer
 }
 
 /**
@@ -136,10 +158,12 @@ fun <M> Observable<M>.refresh(
 fun <M> Observable<M>.page(
     pageRefreshLayout: PageRefreshLayout,
     block: PageObserver<M>.(M) -> Unit = {}
-) {
-    subscribe(object : PageObserver<M>(pageRefreshLayout) {
-        override fun onNext(t: M) {
-            block(t)
+): PageObserver<M> {
+    val observer = object : PageObserver<M>(pageRefreshLayout) {
+        override fun onNext(it: M) {
+            block(it)
         }
-    })
+    }
+    subscribe(observer)
+    return observer
 }

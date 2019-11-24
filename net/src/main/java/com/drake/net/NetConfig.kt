@@ -5,8 +5,6 @@
  * Date：9/16/19 12:54 AM
  */
 
-@file:Suppress("unused")
-
 package com.drake.net
 
 import android.app.Application
@@ -34,7 +32,6 @@ object NetConfig {
 
     internal var defaultToast: Toast? = null
     internal var defaultDialog: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)? = null
-
     internal var onError: Throwable.() -> Unit = {
 
         val message = when (this) {
@@ -96,6 +93,60 @@ object NetConfig {
 }
 
 
+/**
+ * 初始化框架
+ * @param host 请求url的主机名
+ * @param config 进行配置网络请求
+ *
+ * 如果想要自动解析数据模型请配置转换器, 可以继承或者参考默认转换器
+ * @see DefaultConverter
+ */
+fun Application.initNet(host: String, config: KalleConfig.Builder.() -> Unit = {}) {
+    NetConfig.host = host
+    NetConfig.app = this
+    val builder = KalleConfig.newBuilder()
+    builder.config()
+    Kalle.setConfig(builder.build())
+}
+
+
+/**
+ * 该函数指定某些Observer的onError中的默认错误信息处理
+ * @see NetObserver
+ * @see DialogObserver
+ *
+ * @see NetConfig.onError
+ */
+fun KalleConfig.Builder.onError(block: Throwable.() -> Unit) {
+    NetConfig.onError = block
+}
+
+/**
+ * 该函数指定某些Observer的onError中的默认错误信息处理
+ * @see PageObserver
+ * @see StateObserver
+ *
+ * 如果不设置默认只有 解析数据错误 | 后台自定义错误 会显示吐司
+ * @see NetConfig.onStateError
+ */
+fun KalleConfig.Builder.onStateError(block: Throwable.(view: View) -> Unit) {
+    NetConfig.onStateError = block
+}
+
+
+/**
+ * 设置使用DialogObserver默认弹出的加载对话框
+ * 默认使用系统自带的ProgressDialog
+ */
+fun KalleConfig.Builder.onDialog(block: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)) {
+    NetConfig.defaultDialog = block
+}
+
+/**
+ * 系统消息吐司
+ * 允许异步线程显示
+ * 不会覆盖显示
+ */
 internal fun Context.toast(message: CharSequence, config: Toast.() -> Unit = {}) {
     NetConfig.defaultToast?.cancel()
 
@@ -114,41 +165,4 @@ private fun runMain(block: () -> Unit) {
     }
 }
 
-
-fun Application.initNet(host: String, block: KalleConfig.Builder.() -> Unit = {}) {
-    NetConfig.host = host
-    NetConfig.app = this
-    val builder = KalleConfig.newBuilder()
-    builder.block()
-    Kalle.setConfig(builder.build())
-}
-
-
-/**
- * 处理错误信息
- * @receiver KalleConfig.Builder
- * @param block [@kotlin.ExtensionFunctionType] Function1<Throwable, Unit>
- */
-fun KalleConfig.Builder.onError(block: Throwable.() -> Unit) {
-    NetConfig.onError = block
-}
-
-/**
- * 处理PageObserver的错误信息
- * @receiver KalleConfig.Builder
- * @param block [@kotlin.ExtensionFunctionType] Function2<Throwable, [@kotlin.ParameterName] PageRefreshLayout, Unit>
- */
-fun KalleConfig.Builder.onStateError(block: Throwable.(view: View) -> Unit) {
-    NetConfig.onStateError = block
-}
-
-
-/**
- * 设置DialogObserver默认弹出的加载对话框
- * @receiver KalleConfig.Builder
- * @param block [@kotlin.ExtensionFunctionType] Function2<DialogObserver<*>, [@kotlin.ParameterName] FragmentActivity, Dialog>
- */
-fun KalleConfig.Builder.onDialog(block: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)) {
-    NetConfig.defaultDialog = block
-}
 

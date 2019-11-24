@@ -26,7 +26,7 @@ import java.lang.reflect.Type
  * @property msg String 错误信息的Key名称
  */
 @Suppress("UNCHECKED_CAST")
-abstract class DefaultConverter(
+abstract class JsonConverter(
     val success: String = "0",
     val code: String = "code",
     val msg: String = "msg"
@@ -45,6 +45,7 @@ abstract class DefaultConverter(
 
         val body = response.body().string()
         var code = response.code()
+
 
         when {
             code in 200..299 -> {
