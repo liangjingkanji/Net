@@ -15,6 +15,8 @@ import androidx.lifecycle.LifecycleOwner
 import com.drake.brv.PageRefreshLayout
 import com.drake.statelayout.StateLayout
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 
 /**
@@ -35,6 +37,8 @@ fun <M> Observable<M>.net(
     subscribe(observer)
     return observer
 }
+
+// <editor-fold desc="缺省页">
 
 /**
  * 自动处理多状态页面
@@ -82,12 +86,18 @@ fun <M> Observable<M>.state(
 }
 
 fun <M> Observable<M>.state(fragment: Fragment, block: StateObserver<M>.(M) -> Unit = {}) {
+
     subscribe(object : StateObserver<M>(fragment) {
         override fun onNext(it: M) {
             block(it)
         }
     })
 }
+
+// </editor-fold>
+
+
+// <editor-fold desc="加载框">
 
 /**
  * 请求网络自动开启和关闭对话框
@@ -126,6 +136,8 @@ fun <M> Observable<M>.dialog(
     subscribe(observer)
     return observer
 }
+
+// </editor-fold>
 
 /**
  * 自动结束下拉加载
@@ -167,3 +179,31 @@ fun <M> Observable<M>.page(
     subscribe(observer)
     return observer
 }
+
+// <editor-fold desc="线程">
+
+fun <M> Observable<M>.async(): Observable<M> {
+    return subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+}
+
+fun <M> Observable<M>.computation(): Observable<M> {
+    return subscribeOn(Schedulers.computation())
+}
+
+fun <M> Observable<M>.io(): Observable<M> {
+    return subscribeOn(Schedulers.io())
+}
+
+fun <M> Observable<M>.single(): Observable<M> {
+    return subscribeOn(Schedulers.single())
+}
+
+fun <M> Observable<M>.newThread(): Observable<M> {
+    return subscribeOn(Schedulers.newThread())
+}
+
+fun <M> Observable<M>.main(): Observable<M> {
+    return observeOn(AndroidSchedulers.mainThread())
+}
+
+// </editor-fold>

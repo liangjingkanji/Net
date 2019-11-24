@@ -41,8 +41,7 @@ abstract class StateObserver<M> : DisposableObserver<M> {
         this.state = stateLayout
     }
 
-    public override fun onStart() {
-        state.showLoading()
+    override fun onStart() {
         state.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View?) {
             }

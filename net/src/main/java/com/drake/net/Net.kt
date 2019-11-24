@@ -63,7 +63,7 @@ inline fun <reified M> get(
                 it.onError(e)
             }
         }
-    }.onTerminateDetach().subscribeOn(Schedulers.computation())
+    }.onTerminateDetach().subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }
 
@@ -107,7 +107,7 @@ inline fun <reified M> post(
                 it.onError(e)
             }
         }
-    }.onTerminateDetach().subscribeOn(Schedulers.computation())
+    }.onTerminateDetach().subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }
 
@@ -152,7 +152,7 @@ fun download(
                 it.onError(e)
             }
         }
-    }.onTerminateDetach().subscribeOn(Schedulers.computation())
+    }.onTerminateDetach().subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }
 
@@ -189,7 +189,7 @@ fun Context.downloadImg(url: String, with: Int = -1, height: Int = -1): Observab
             if (!it.isDisposed) it.onError(e)
         }
 
-    }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+    }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 }
 
 // </editor-fold>
@@ -320,7 +320,7 @@ fun Context.syncDownloadImg(url: String, with: Int = 0, height: Int = 0): Observ
             }
         }
 
-    }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+    }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 }
 
 // </editor-fold>
