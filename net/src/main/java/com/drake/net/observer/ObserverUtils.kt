@@ -15,8 +15,6 @@ import androidx.lifecycle.LifecycleOwner
 import com.drake.brv.PageRefreshLayout
 import com.drake.statelayout.StateLayout
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 
 /**
@@ -179,31 +177,3 @@ fun <M> Observable<M>.page(
     subscribe(observer)
     return observer
 }
-
-// <editor-fold desc="线程">
-
-fun <M> Observable<M>.async(): Observable<M> {
-    return subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
-}
-
-fun <M> Observable<M>.computation(): Observable<M> {
-    return subscribeOn(Schedulers.computation())
-}
-
-fun <M> Observable<M>.io(): Observable<M> {
-    return subscribeOn(Schedulers.io())
-}
-
-fun <M> Observable<M>.single(): Observable<M> {
-    return subscribeOn(Schedulers.single())
-}
-
-fun <M> Observable<M>.newThread(): Observable<M> {
-    return subscribeOn(Schedulers.newThread())
-}
-
-fun <M> Observable<M>.main(): Observable<M> {
-    return observeOn(AndroidSchedulers.mainThread())
-}
-
-// </editor-fold>
