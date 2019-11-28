@@ -40,7 +40,6 @@ dependencies {
 
     api 'com.yanzhenjie:okalle:0.1.7'
 
-    compileOnly 'androidx.appcompat:appcompat:1.1.0'
     compileOnly 'com.github.liangjingkanji:BRV:1.1.6'
     compileOnly 'com.github.bumptech.glide:glide:4.9.0'
 

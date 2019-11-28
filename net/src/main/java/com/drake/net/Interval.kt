@@ -2,9 +2,9 @@
  * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
  * Project：Net
  * Author：Drake
- * Date：11/26/19 11:11 PM
+ * Date：11/28/19 11:45 PM
  */
-package com.drake.net.sample
+package com.drake.net
 
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -49,7 +49,8 @@ class Interval(
 
     public override fun subscribeActual(observer: Observer<in Long?>) {
 
-        val agentObserver = IntervalRangeObserver(observer)
+        val agentObserver =
+            IntervalRangeObserver(observer)
 
         observerList.add(agentObserver)
         observer.onSubscribe(agentObserver)
