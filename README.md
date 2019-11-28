@@ -54,7 +54,7 @@ allprojects {
 module 的 build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.2.7'
+implementation 'com.github.liangjingkanji:Net:1.2.8'
 ```
 
 
@@ -492,3 +492,22 @@ abstract class DefaultConverter(
 
 
 
+## 轮循器
+
+本框架附带一个轮循器`Interval`
+
+- 支持多个观察者订阅同一个计时器
+- 开始(即subscribe订阅) | 暂停 | 继续 | 停止
+- 同时包含RxJava的操作符`interval|intervelRange`功能
+- 轮循器即Observable对象, 所以可以进行任意操作符转换. 例如轮循器控制网络请求
+
+
+
+函数
+
+```
+subscribe() // 即开启定时器, 订阅多个也会监听同一个计数器
+stop() // 结束
+pause() // 暂停
+resume() // 继续
+```

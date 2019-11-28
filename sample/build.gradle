@@ -23,6 +23,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -38,9 +39,9 @@ dependencies {
 
     implementation 'com.squareup.moshi:moshi-kotlin:1.8.0'
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.8.0'
-    implementation 'com.github.liangjingkanji:BRV:1.1.2'
-    implementation  'com.scwang.smart:refresh-header-classics:2.0.0-alpha-1'
-    implementation  'com.scwang.smart:refresh-footer-classics:2.0.0-alpha-1'
+    implementation 'com.github.liangjingkanji:BRV:1.1.4'
+    implementation 'com.scwang.smart:refresh-header-classics:2.0.0-alpha-1'
+    implementation 'com.scwang.smart:refresh-footer-classics:2.0.0-alpha-1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 

@@ -13,11 +13,8 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-// <editor-fold desc="线程">
+// <editor-fold desc="被观察者线程">
 
-fun <M> Observable<M>.async(): Observable<M> {
-    return subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-}
 
 fun <M> Observable<M>.computation(): Observable<M> {
     return subscribeOn(Schedulers.computation())
@@ -36,10 +33,37 @@ fun <M> Observable<M>.newThread(): Observable<M> {
 }
 
 fun <M> Observable<M>.main(): Observable<M> {
+    return subscribeOn(AndroidSchedulers.mainThread())
+}
+
+
+// </editor-fold>
+
+
+// <editor-fold desc="观察者线程">
+
+fun <M> Observable<M>.observeMain(): Observable<M> {
     return observeOn(AndroidSchedulers.mainThread())
 }
 
+fun <M> Observable<M>.observeSingle(): Observable<M> {
+    return observeOn(Schedulers.single())
+}
+
+fun <M> Observable<M>.observeIO(): Observable<M> {
+    return observeOn(Schedulers.io())
+}
+
+fun <M> Observable<M>.observeThread(): Observable<M> {
+    return observeOn(Schedulers.newThread())
+}
+
+fun <M> Observable<M>.observeComputation(): Observable<M> {
+    return observeOn(Schedulers.computation())
+}
+
 // </editor-fold>
+
 
 fun runMain(block: () -> Unit) {
     if (Looper.myLooper() == Looper.getMainLooper()) {
@@ -47,4 +71,13 @@ fun runMain(block: () -> Unit) {
     } else {
         Handler(Looper.getMainLooper()).post { block() }
     }
+}
+
+
+fun <M> Observable<M>.async(): Observable<M> {
+    return subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+}
+
+fun <M> from(block: () -> M): Observable<M> {
+    return Observable.fromCallable(block)
 }
