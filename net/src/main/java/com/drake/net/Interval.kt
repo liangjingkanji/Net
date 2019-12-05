@@ -18,10 +18,11 @@ import java.util.concurrent.atomic.AtomicReference
 
 
 /**
- * 轮循器
+ * 非常强大的轮循器
  *
  * 多个观察者可观察同一个计时器
- * 开始 | 暂停 | 继续 | 结束
+ *
+ * 支持 开始 | 暂停 | 继续 | 结束 | 重置 | 中途修改计数器
  */
 class Interval(
     var end: Long, // -1 表示永远不结束, 可以修改
@@ -45,37 +46,37 @@ class Interval(
     private var observerList = ArrayList<IntervalRangeObserver>()
     private var pause = false
     private var stop = false
+    private lateinit var dispose: Disposable
+    private val iterator = {
 
+        if (!pause) {
+            synchronized(this) {
+                count += 1
+            }
+            for (i in 0 until observerList.size) {
+                observerList[i].run(count, end, stop)
+            }
+        }
+    }
 
     public override fun subscribeActual(observer: Observer<in Long?>) {
 
-        val agentObserver =
-            IntervalRangeObserver(observer)
-
+        val agentObserver = IntervalRangeObserver(observer)
         observerList.add(agentObserver)
+
         observer.onSubscribe(agentObserver)
 
-        if (observerList.size == 1) {
-            val sch = scheduler
-            val iterator = {
+        if (!this::dispose.isInitialized) init()
+        agentObserver.setResource(dispose)
+    }
 
-                if (!pause) {
-                    synchronized(this) {
-                        count += 1
-                    }
-                    for (i in 0 until observerList.size) {
-                        observerList[i].run(count, end, stop)
-                    }
-                }
-            }
-            if (sch is TrampolineScheduler) {
-                val worker = sch.createWorker()
-                agentObserver.setResource(worker)
-                worker.schedulePeriodically(iterator, initialDelay, period, unit)
-            } else {
-                val d = sch.schedulePeriodicallyDirect(iterator, initialDelay, period, unit)
-                agentObserver.setResource(d)
-            }
+    private fun init() {
+        dispose = if (scheduler is TrampolineScheduler) {
+            val worker = scheduler.createWorker()
+            worker.schedulePeriodically(iterator, initialDelay, period, unit)
+            worker
+        } else {
+            scheduler.schedulePeriodicallyDirect(iterator, initialDelay, period, unit)
         }
     }
 
@@ -97,9 +98,12 @@ class Interval(
 
     /**
      * 重置轮循器
+     * count = start , 计时器重置
      */
     fun reset() {
         count = start
+        dispose.dispose()
+        init()
     }
 
     /**
@@ -110,7 +114,7 @@ class Interval(
     }
 
     /**
-     * 继续轮循器
+     * 如果轮循器被暂停的情况下继续轮循器
      */
     fun resume() {
         pause = false

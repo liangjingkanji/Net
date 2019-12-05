@@ -4,6 +4,10 @@
 
 
 
+Android 创新式的网络请求库, 完美扩展RxJava|列表|缺省页
+
+
+
 主要新增特性
 
 - Kotlin DSL
@@ -54,16 +58,96 @@ allprojects {
 module 的 build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.3.0'
+implementation 'com.github.liangjingkanji:Net:1.3.1'
 ```
 
 
 
 
 
+## 请求方式
+
+### Post
+
+```kotlin
+post<Model>(""){
+  param("key", "value")
+}.net { 
+
+}
+```
+
+`Model` 即JSONBean或者说POJO 数据模型, 会将服务器返回的JSON解析成该数据模型在`net`回调中可以使用`it`调用
 
 
-## 初始化和配置
+
+### Get
+
+```
+get<Model>(""){
+  param("key", "value")
+}.net { 
+
+}
+```
+
+`Model` 泛型如果换成String, 将会在成功回调中得到字符串对象.
+
+
+
+### 文件上传
+
+```kotlin
+post<Model>(""){
+  file("file", File("path"))
+}.net {
+
+}
+```
+
+这是支持Kalle任何参数添加方式
+
+
+
+### 文件下载
+
+```kotlin
+download("/path", "下载目录"){
+
+  // 进度监听
+  onProgress { progress, byteCount, speed ->
+
+             }
+
+}.dialog(this){
+
+}
+```
+
+
+
+### 下载图片
+
+下载图片要求首先导入Glide依赖库, 下载图片和下载文件不同在于可以手动指定图片宽高
+
+```kotlin
+Context.downloadImg(url: String, with: Int = -1, height: Int = -1)
+```
+
+
+
+示例
+
+```kotlin
+val netObserver = downloadImg(
+  "https://cdn.sspai.com/article/ebe361e4-c891-3afd-8680-e4bad609723e.jpg?imageMogr2/quality/95/thumbnail/!2880x620r/gravity/Center/crop/2880x620/interlace/1".
+  200,200
+).net(this) {
+  it // File对象
+}
+```
+
+## 初始化
 
 ```kotlin
 class App : Application() {
@@ -73,7 +157,7 @@ class App : Application() {
 
         initNet("主机名"){
 
-            // 转换器, 也可以自己实现Convert或者复写DefaultConverter
+            // 转换器, 也可以自己实现Convert或者复写DefaultConverter.
             converter(object : DefaultConverter() {
                 override fun <S> convert(succeed: Type, body: String): S? {
 					// 解析Json, 我这里是用的Moshi, 你也可以使用Gson之类的解析框架
@@ -191,66 +275,7 @@ initNet("http://192.168.2.1") {
 
 
 
-## 请求方式
-
-Post
-
-```kotlin
-post<Model>(""){
-  param("key", "value")
-}.net { 
-
-}
-```
-
-`Model` 即JSONBean或者说POJO 数据模型, 会将服务器返回的JSON解析成该数据模型在`net`回调中可以使用`it`调用
-
-
-
-Get
-
-```
-get<Model>(""){
-  param("key", "value")
-}.net { 
-
-}
-```
-
-`Model` 泛型如果换成String, 将会在成功回调中得到字符串对象.
-
-
-
-文件上传
-
-```kotlin
-post<Model>(""){
-  file("file", File("path"))
-}.net {
-
-}
-```
-
-这是支持Kalle任何参数添加方式
-
-
-
-文件下载
-
-```kotlin
-download("/path", "下载目录"){
-
-  // 进度监听
-  onProgress { progress, byteCount, speed ->
-
-             }
-
-}.dialog(this){
-
-}
-```
-
-
+## 
 
 ## 生命周期
 
@@ -266,9 +291,19 @@ post<Model>(""){
 
 其他的对话框或者缺省页和下拉刷新等自动支持生命周期管理
 
-Net框架本身的生命周期管理是针对Fragment|Activity的页面销毁时才会自动取消订阅, 如果需要自定义页面生命周期推荐使用我的另外一个库: [AutoDispose](https://github.com/liangjingkanji/AutoDispose)
 
-返回值 Disposable 可以用于完全手动任何位置取消, 
+
+如果是`net`跟随生命周期
+
+```
+post<Model>(""){
+  param("key", "value")
+}.net(activity, Lifecycle.Event.ON_DESTROY) { 
+
+}
+```
+
+返回值 Disposable 可以用于完全手动任何位置取消
 
 ## 对话框
 
@@ -440,6 +475,8 @@ val netObserver = download(
 
 
 
+本网络请求的所有的Observer都不仅仅是网络请求可以用, 可以配合任何其他的被观察者使用, 主要解决视图更新以及生命周期问题
+
 ## 请求和响应规范
 
 很多时候存在请求和响应的后台接口规范不是常规统一的, 这个时候我们可以自己拦截处理数据. 
@@ -494,7 +531,7 @@ abstract class DefaultConverter(
 
 ## 轮循器
 
-本框架附带一个轮循器`Interval`
+本框架附带一个超级强大的轮循器`Interval`, 基本上包含轮循器所需要到所有功能
 
 - 支持多个观察者订阅同一个计时器
 - 开始(即subscribe订阅) | 暂停 | 继续 | 停止
@@ -510,4 +547,34 @@ subscribe() // 即开启定时器, 订阅多个也会监听同一个计数器
 stop() // 结束
 pause() // 暂停
 resume() // 继续
+reset // 重置轮循器(包含计数器count和计时period)
 ```
+
+
+
+## 快速创建被观察者
+
+```
+from { }.auto(this).subscribe { 
+	
+}
+```
+
+这里提到`from`可以快速创建一个被观察者. 函数参数返回值即发送的事件
+
+`auto`函数可以跟随生命周期自动取消订阅
+
+
+
+快速切换线程
+
+```kotlin
+from { 
+  // 这里属于IO线程 
+  8
+}.io().observeMain.auto(this).subscribe { 
+  // 这里属于主线程
+  // 这里会受到 事件 8
+}
+```
+
