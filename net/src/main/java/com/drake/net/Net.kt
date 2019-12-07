@@ -53,9 +53,7 @@ inline fun <reified M> get(
                     it.onNext(response.succeed())
                     it.onComplete()
                 } else {
-                    it.onError(
-                        ResponseException(response.failed(), response.code())
-                    )
+                    it.onError(ResponseException(response.failed(), response.code()))
                 }
             }
         } catch (e: java.lang.Exception) {
@@ -97,9 +95,7 @@ inline fun <reified M> post(
                     it.onNext(response.succeed())
                     it.onComplete()
                 } else {
-                    it.onError(
-                        ResponseException(response.failed(), response.code())
-                    )
+                    it.onError(ResponseException(response.failed(), response.code()))
                 }
             }
         } catch (e: java.lang.Exception) {
@@ -249,9 +245,7 @@ inline fun <reified M> syncPost(
                     it.onNext(response.succeed())
                     it.onComplete()
                 } else {
-                    it.onError(
-                        ResponseException(response.failed(), response.code())
-                    )
+                    it.onError(ResponseException(response.failed(), response.code()))
                 }
             }
         } catch (e: java.lang.Exception) {

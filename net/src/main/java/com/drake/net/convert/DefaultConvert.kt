@@ -19,14 +19,14 @@ import java.lang.reflect.Type
 
 
 /**
- * 默认的转换器实现, 如果不满足需求推荐参考后自定义实现
+ * 默认的转换器实现, 如果不满足需求建议将该文件复制到项目中修改
  *
  * @property success String 错误码表示请求成功的值
  * @property code String 错误码的Key名称
  * @property msg String 错误信息的Key名称
  */
 @Suppress("UNCHECKED_CAST")
-abstract class JsonConverter(
+abstract class DefaultConvert(
     val success: String = "0",
     val code: String = "code",
     val msg: String = "msg"
@@ -53,11 +53,8 @@ abstract class JsonConverter(
                 val responseCode = jsonObject.getString(this.code)
 
                 if (responseCode == success) {
-                    succeedData = if (succeed === String::class.java) {
-                        body as S
-                    } else {
-                        convert(succeed, body)
-                    }
+                    succeedData = if (succeed === String::class.java) body as S
+                    else convert(succeed, body)
                 } else {
                     failedData = jsonObject.getString(msg) as F
                     code = responseCode.toInt()

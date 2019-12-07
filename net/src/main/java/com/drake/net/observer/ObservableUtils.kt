@@ -12,10 +12,12 @@ import android.os.Looper
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import com.drake.net.observable.FromObservable
+import com.drake.net.observable.ShootObservable
 import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.reactivestreams.Subscriber
 
 // <editor-fold desc="被观察者线程">
 
@@ -94,11 +96,11 @@ fun <M> Observable<M>.async(): Observable<M> {
  * @param M 返回值定义被观察者发射事件类型
  */
 fun <M> from(block: () -> M): Observable<M> {
-    return Observable.fromCallable(block)
+    return FromObservable(block)
 }
 
-fun <M> publish(block: (emitter: Subscriber<in M>) -> Unit): Observable<M> {
-    return Observable.fromPublisher(block)
+fun <M> shoot(block: (ObservableEmitter<in M>) -> Unit): Observable<M> {
+    return ShootObservable(block)
 }
 
 // </editor-fold>

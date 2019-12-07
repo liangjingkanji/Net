@@ -58,7 +58,7 @@ allprojects {
 module 的 build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.3.1'
+implementation 'com.github.liangjingkanji:Net:1.3.2'
 ```
 
 
@@ -448,7 +448,7 @@ fun <M> Observable<M>.page(
     block: PageObserver<M>.(M) -> Unit
 ) {
     subscribe(object : PageObserver<M>(pageRefreshLayout) {
-        override fun onNext(t: M) {
+        override fun tryNext(t: M) {
             block(t)
         }
     })
@@ -457,7 +457,9 @@ fun <M> Observable<M>.page(
 
 所有扩展订阅函数的都在`ObserverUtils`类中
 
+`try`系列函数都会捕捉异常
 
+`on`系列函数都是原始的Observer函数
 
 扩展函数都会返回对应的Observer对象可以进行手动取消订阅等操作
 
@@ -554,8 +556,21 @@ reset // 重置轮循器(包含计数器count和计时period)
 
 ## 快速创建被观察者
 
+使用本框架定义的创建被观察者函数可以避免异步阻塞时发射事件导致的空指针
+
+
+
 ```
-from { }.auto(this).subscribe { 
+from { 
+
+// 返回值为事件
+}.auto(this).subscribe { 
+	
+}
+
+shoot<Int> { 
+	it.onNext(2)
+}.auto(this).subscribe { 
 	
 }
 ```

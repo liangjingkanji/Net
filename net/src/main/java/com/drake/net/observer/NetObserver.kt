@@ -7,17 +7,17 @@
 
 package com.drake.net.observer
 
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.drake.net.NetConfig
-import io.reactivex.observers.DisposableObserver
 
 
 /**
  * 自动显示错误信息
  */
-abstract class NetObserver<M>() : DisposableObserver<M>(), LifecycleObserver {
-
-    private var error: (NetObserver<M>.(e: Throwable) -> Unit)? = null
+abstract class NetObserver<M>() : TryObserver<NetObserver<M>, M>(), LifecycleObserver {
 
     /**
      * 跟随生命周期
@@ -29,39 +29,12 @@ abstract class NetObserver<M>() : DisposableObserver<M>(), LifecycleObserver {
     ) : this() {
         lifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                if (event == lifecycle) {
-                    cancel()
-                }
+                if (event == lifecycle) dispose()
             }
         })
     }
 
-    abstract override fun onNext(it: M)
-
-    /**
-     * 关闭进度对话框并提醒错误信息
-     *
-     * @param e 包括错误信息
-     */
-    override fun onError(e: Throwable) {
-        error?.invoke(this, e) ?: handleError(e)
-    }
-
-    fun handleError(e: Throwable) {
+    override fun handleError(e: Throwable) {
         NetConfig.onError(e)
     }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private fun cancel() {
-        dispose()
-    }
-
-    override fun onComplete() {
-    }
-
-    fun error(block: (NetObserver<M>.(e: Throwable) -> Unit)?): NetObserver<M> {
-        error = block
-        return this
-    }
-
 }

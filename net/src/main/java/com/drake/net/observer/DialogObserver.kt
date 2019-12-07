@@ -19,7 +19,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.drake.net.NetConfig
 import com.drake.net.NetConfig.defaultDialog
 import com.drake.net.R
-import io.reactivex.observers.DisposableObserver
+import io.reactivex.disposables.Disposable
 
 /**
  * 自动加载对话框网络请求
@@ -37,7 +37,7 @@ abstract class DialogObserver<M>(
     val activity: FragmentActivity?,
     var dialog: Dialog? = null,
     val cancelable: Boolean = true
-) : DisposableObserver<M>(), LifecycleObserver {
+) : TryObserver<DialogObserver<M>, M>(), LifecycleObserver {
 
     private var error: (DialogObserver<M>.(e: Throwable) -> Unit)? = null
 
@@ -48,7 +48,7 @@ abstract class DialogObserver<M>(
     ) : this(fragment?.activity, dialog, cancelable)
 
 
-    override fun onStart() {
+    override fun trySubscribe(d: Disposable) {
         activity ?: return
         activity.lifecycle.addObserver(this)
 
@@ -57,7 +57,7 @@ abstract class DialogObserver<M>(
             defaultDialog != null -> defaultDialog?.invoke(this, activity)
             else -> {
                 val progress = ProgressDialog(activity)
-                progress.setMessage(activity.getString(R.string.dialog_msg))
+                progress.setMessage(activity.getString(R.string.net_dialog_msg))
                 progress
             }
         }
@@ -74,29 +74,22 @@ abstract class DialogObserver<M>(
         }
     }
 
-    abstract override fun onNext(it: M)
-
-    fun error(block: (DialogObserver<M>.(e: Throwable) -> Unit)?): DialogObserver<M> {
-        error = block
-        return this
-    }
-
 
     /**
      * 关闭进度对话框并提醒错误信息
      *
      * @param e 包括错误信息
      */
-    override fun onError(e: Throwable) {
+    override fun tryError(e: Throwable) {
+        super.tryError(e)
         dismiss()
-        error?.invoke(this, e) ?: handleError(e)
     }
 
-    fun handleError(e: Throwable) {
+    override fun handleError(e: Throwable) {
         NetConfig.onError(e)
     }
 
-    override fun onComplete() {
+    override fun tryComplete() {
         dismiss()
     }
 

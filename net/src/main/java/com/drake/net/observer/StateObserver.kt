@@ -14,12 +14,12 @@ import androidx.fragment.app.Fragment
 import com.drake.net.NetConfig
 import com.drake.statelayout.StateLayout
 import com.drake.statelayout.state
-import io.reactivex.observers.DisposableObserver
+import io.reactivex.disposables.Disposable
 
 /**
  * 自动显示多状态布局
  */
-abstract class StateObserver<M> : DisposableObserver<M> {
+abstract class StateObserver<M> : TryObserver<StateObserver<M>, M> {
 
     val state: StateLayout
 
@@ -41,7 +41,7 @@ abstract class StateObserver<M> : DisposableObserver<M> {
         this.state = stateLayout
     }
 
-    override fun onStart() {
+    override fun trySubscribe(d: Disposable) {
         state.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View?) {
             }
@@ -52,23 +52,19 @@ abstract class StateObserver<M> : DisposableObserver<M> {
         })
     }
 
-    abstract override fun onNext(it: M)
 
-    override fun onError(e: Throwable) {
+    override fun tryError(e: Throwable) {
+        super.tryError(e)
         state.showError()
         error?.invoke(this, e) ?: handleError(e)
     }
 
-    fun handleError(e: Throwable) {
+    override fun handleError(e: Throwable) {
         NetConfig.onStateError(e, state)
     }
 
-    fun error(block: (StateObserver<M>.(e: Throwable) -> Unit)?): StateObserver<M> {
-        error = block
-        return this
-    }
 
-    override fun onComplete() {
+    override fun tryComplete() {
         state.showContent()
     }
 

@@ -13,20 +13,18 @@ import com.drake.brv.BindingAdapter
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.NetConfig.onStateError
 import com.scwang.smart.refresh.layout.constant.RefreshState
-import io.reactivex.observers.DisposableObserver
 
 /**
  * 自动结束下拉刷新和上拉加载状态
  * 自动展示缺省页
  * 自动分页加载
  */
-abstract class PageObserver<M>(val page: PageRefreshLayout) : DisposableObserver<M>() {
+@Suppress("unused", "MemberVisibilityCanBePrivate")
+abstract class PageObserver<M>(val page: PageRefreshLayout) :
+    TryObserver<PageObserver<M>, M>() {
 
 
-    val index
-        get() = page.index
-
-    private var error: (PageObserver<M>.(e: Throwable) -> Unit)? = null
+    val index get() = page.index
 
     init {
         page.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
@@ -40,25 +38,18 @@ abstract class PageObserver<M>(val page: PageRefreshLayout) : DisposableObserver
         })
     }
 
-    abstract override fun onNext(it: M)
-
     /**
      * 关闭进度对话框并提醒错误信息
      */
-    override fun onError(e: Throwable) {
+    override fun tryError(e: Throwable) {
+        super.tryError(e)
         if (page.state == RefreshState.Refreshing) {
             page.showError()
         } else page.finish(false)
-        error?.invoke(this, e) ?: handleError(e)
     }
 
-    fun handleError(e: Throwable) {
+    override fun handleError(e: Throwable) {
         onStateError.invoke(e, page)
-    }
-
-    fun error(block: (PageObserver<M>.(e: Throwable) -> Unit)?): PageObserver<M> {
-        error = block
-        return this
     }
 
     /**
@@ -80,7 +71,7 @@ abstract class PageObserver<M>(val page: PageRefreshLayout) : DisposableObserver
         dispose()
     }
 
-    override fun onComplete() {
+    override fun tryComplete() {
         if (page.stateEnabled) page.showContent() else page.finish()
     }
 
