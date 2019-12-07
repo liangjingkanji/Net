@@ -48,7 +48,7 @@ abstract class DialogObserver<M>(
     ) : this(fragment?.activity, dialog, cancelable)
 
 
-    override fun trySubscribe(d: Disposable) {
+    override fun onStart(d: Disposable) {
         activity ?: return
         activity.lifecycle.addObserver(this)
 
@@ -80,8 +80,8 @@ abstract class DialogObserver<M>(
      *
      * @param e 包括错误信息
      */
-    override fun tryError(e: Throwable) {
-        super.tryError(e)
+    override fun onFailed(e: Throwable) {
+        super.onFailed(e)
         dismiss()
     }
 
@@ -89,7 +89,7 @@ abstract class DialogObserver<M>(
         NetConfig.onError(e)
     }
 
-    override fun tryComplete() {
+    override fun onFinish() {
         dismiss()
     }
 

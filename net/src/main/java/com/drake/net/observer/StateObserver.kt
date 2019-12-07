@@ -41,7 +41,7 @@ abstract class StateObserver<M> : TryObserver<StateObserver<M>, M> {
         this.state = stateLayout
     }
 
-    override fun trySubscribe(d: Disposable) {
+    override fun onStart(d: Disposable) {
         state.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View?) {
             }
@@ -53,8 +53,8 @@ abstract class StateObserver<M> : TryObserver<StateObserver<M>, M> {
     }
 
 
-    override fun tryError(e: Throwable) {
-        super.tryError(e)
+    override fun onFailed(e: Throwable) {
+        super.onFailed(e)
         state.showError()
         error?.invoke(this, e) ?: handleError(e)
     }
@@ -64,7 +64,7 @@ abstract class StateObserver<M> : TryObserver<StateObserver<M>, M> {
     }
 
 
-    override fun tryComplete() {
+    override fun onFinish() {
         state.showContent()
     }
 

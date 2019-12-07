@@ -37,6 +37,7 @@ public final class ShootObservable<T> extends Observable<T> {
         try {
             source.subscribe(parent);
         } catch (Throwable ex) {
+            ex.printStackTrace();
             Exceptions.throwIfFatal(ex);
         }
     }
@@ -66,9 +67,7 @@ public final class ShootObservable<T> extends Observable<T> {
 
         @Override
         public void onError(Throwable t) {
-            if (!tryOnError(t)) {
-                RxJavaPlugins.onError(t);
-            }
+            tryOnError(t);
         }
 
         @Override

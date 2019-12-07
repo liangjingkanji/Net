@@ -58,7 +58,7 @@ allprojects {
 module 的 build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.3.2'
+implementation 'com.github.liangjingkanji:Net:1.3.3'
 ```
 
 
@@ -448,7 +448,7 @@ fun <M> Observable<M>.page(
     block: PageObserver<M>.(M) -> Unit
 ) {
     subscribe(object : PageObserver<M>(pageRefreshLayout) {
-        override fun tryNext(t: M) {
+        override fun onSucceed(t: M) {
             block(t)
         }
     })
@@ -457,9 +457,7 @@ fun <M> Observable<M>.page(
 
 所有扩展订阅函数的都在`ObserverUtils`类中
 
-`try`系列函数都会捕捉异常
 
-`on`系列函数都是原始的Observer函数
 
 扩展函数都会返回对应的Observer对象可以进行手动取消订阅等操作
 

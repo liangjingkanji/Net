@@ -34,8 +34,8 @@ abstract class RefreshObserver<M>(
         })
     }
 
-    override fun tryError(e: Throwable) {
-        super.tryError(e)
+    override fun onFailed(e: Throwable) {
+        super.onFailed(e)
         refresh.finishRefresh(false)
     }
 
@@ -43,7 +43,7 @@ abstract class RefreshObserver<M>(
         NetConfig.onError(e)
     }
 
-    override fun tryComplete() {
+    override fun onFinish() {
         refresh.finishRefresh(true)
     }
 }

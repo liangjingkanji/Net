@@ -28,7 +28,7 @@ fun <M> Observable<M>.net(
     block: (NetObserver<M>.(M) -> Unit) = {}
 ): NetObserver<M> {
     val observer = object : NetObserver<M>(lifecycleOwner) {
-        override fun tryNext(it: M) {
+        override fun onSucceed(it: M) {
             block(it)
         }
     }
@@ -49,7 +49,7 @@ fun <M> Observable<M>.state(
     block: StateObserver<M>.(M) -> Unit = {}
 ): StateObserver<M> {
     val observer = object : StateObserver<M>(stateLayout) {
-        override fun tryNext(it: M) {
+        override fun onSucceed(it: M) {
             block(it)
         }
     }
@@ -62,7 +62,7 @@ fun <M> Observable<M>.state(
     block: StateObserver<M>.(M) -> Unit = {}
 ): StateObserver<M> {
     val observer = object : StateObserver<M>(view) {
-        override fun tryNext(it: M) {
+        override fun onSucceed(it: M) {
             block(it)
         }
     }
@@ -75,7 +75,7 @@ fun <M> Observable<M>.state(
     block: StateObserver<M>.(M) -> Unit
 ): StateObserver<M> {
     val observer = object : StateObserver<M>(activity) {
-        override fun tryNext(it: M) {
+        override fun onSucceed(it: M) {
             block(it)
         }
     }
@@ -86,7 +86,7 @@ fun <M> Observable<M>.state(
 fun <M> Observable<M>.state(fragment: Fragment, block: StateObserver<M>.(M) -> Unit = {}) {
 
     subscribe(object : StateObserver<M>(fragment) {
-        override fun tryNext(it: M) {
+        override fun onSucceed(it: M) {
             block(it)
         }
     })
@@ -111,7 +111,7 @@ fun <M> Observable<M>.dialog(
     block: (DialogObserver<M>.(M) -> Unit) = {}
 ): DialogObserver<M> {
     val observer = object : DialogObserver<M>(activity, dialog, cancelable) {
-        override fun tryNext(it: M) {
+        override fun onSucceed(it: M) {
             block(it)
         }
     }
@@ -127,7 +127,7 @@ fun <M> Observable<M>.dialog(
     block: (DialogObserver<M>.(M) -> Unit) = {}
 ): DialogObserver<M> {
     val observer = object : DialogObserver<M>(fragment, dialog, cancelable) {
-        override fun tryNext(it: M) {
+        override fun onSucceed(it: M) {
             block(it)
         }
     }
@@ -150,7 +150,7 @@ fun <M> Observable<M>.refresh(
     block: RefreshObserver<M>.(M) -> Unit = {}
 ): RefreshObserver<M> {
     val observer = object : RefreshObserver<M>(refreshLayout, loadMore) {
-        override fun tryNext(it: M) {
+        override fun onSucceed(it: M) {
             block(it)
         }
     }
@@ -173,7 +173,7 @@ fun <M> Observable<M>.page(
     block: PageObserver<M>.(M) -> Unit = {}
 ): PageObserver<M> {
     val observer = object : PageObserver<M>(pageRefreshLayout) {
-        override fun tryNext(it: M) {
+        override fun onSucceed(it: M) {
             block(it)
         }
     }

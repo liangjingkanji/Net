@@ -41,8 +41,8 @@ abstract class PageObserver<M>(val page: PageRefreshLayout) :
     /**
      * 关闭进度对话框并提醒错误信息
      */
-    override fun tryError(e: Throwable) {
-        super.tryError(e)
+    override fun onFailed(e: Throwable) {
+        super.onFailed(e)
         if (page.state == RefreshState.Refreshing) {
             page.showError()
         } else page.finish(false)
@@ -71,7 +71,7 @@ abstract class PageObserver<M>(val page: PageRefreshLayout) :
         dispose()
     }
 
-    override fun tryComplete() {
+    override fun onFinish() {
         if (page.stateEnabled) page.showContent() else page.finish()
     }
 

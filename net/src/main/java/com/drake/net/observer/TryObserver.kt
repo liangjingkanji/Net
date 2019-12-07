@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicReference
  * 捕捉所有异常
  */
 
+@Suppress("UNCHECKED_CAST")
 abstract class TryObserver<T : Observer<M>, M> : AtomicReference<Disposable>(), Observer<M>,
     Disposable {
 
@@ -28,32 +29,27 @@ abstract class TryObserver<T : Observer<M>, M> : AtomicReference<Disposable>(), 
      */
     fun error(block: (T.(e: Throwable) -> Unit)?): T {
         error = block
-        @Suppress("UNCHECKED_CAST")
         return this as T
     }
 
     // <editor-fold desc="异常捕捉">
 
+    protected open fun onStart(d: Disposable) {}
 
-    protected open fun trySubscribe(d: Disposable) {}
+    protected open fun onFailed(e: Throwable) = error?.invoke(this as T, e) ?: handleError(e)
 
-    @Suppress("UNCHECKED_CAST")
-    protected open fun tryError(e: Throwable) {
-        error?.invoke(this as T, e) ?: handleError(e)
-    }
+    protected abstract fun onSucceed(it: M)
 
-    protected abstract fun tryNext(it: M)
-
-    protected open fun tryComplete() {}
-
-    abstract fun handleError(e: Throwable)
+    protected open fun onFinish() {}
 
     // </editor-fold>
 
-    override fun onSubscribe(d: Disposable) {
+    open fun handleError(e: Throwable) {}
+
+    final override fun onSubscribe(d: Disposable) {
         if (DisposableHelper.setOnce(this, d)) {
             try {
-                trySubscribe(d)
+                onStart(d)
             } catch (ex: Throwable) {
                 Exceptions.throwIfFatal(ex)
                 d.dispose()
@@ -62,10 +58,10 @@ abstract class TryObserver<T : Observer<M>, M> : AtomicReference<Disposable>(), 
         }
     }
 
-    override fun onNext(t: M) {
+    final override fun onNext(t: M) {
         if (!isDisposed) {
             try {
-                tryNext(t)
+                onSucceed(t)
             } catch (e: Throwable) {
                 Exceptions.throwIfFatal(e)
                 get().dispose()
@@ -75,11 +71,11 @@ abstract class TryObserver<T : Observer<M>, M> : AtomicReference<Disposable>(), 
     }
 
 
-    override fun onError(t: Throwable) {
+    final override fun onError(t: Throwable) {
         if (!isDisposed) {
             lazySet(DisposableHelper.DISPOSED)
             try {
-                tryError(t)
+                onFailed(t)
             } catch (e: Throwable) {
                 e.printStackTrace()
                 Exceptions.throwIfFatal(e)
@@ -87,11 +83,11 @@ abstract class TryObserver<T : Observer<M>, M> : AtomicReference<Disposable>(), 
         }
     }
 
-    override fun onComplete() {
+    final override fun onComplete() {
         if (!isDisposed) {
             lazySet(DisposableHelper.DISPOSED)
             try {
-                tryComplete()
+                onFinish()
             } catch (e: Throwable) {
                 e.printStackTrace()
                 Exceptions.throwIfFatal(e)

@@ -35,6 +35,7 @@ public final class FromObservable<T> extends Observable<T> implements Callable<T
         try {
             value = ObjectHelper.requireNonNull(callable.call(), "Callable returned null");
         } catch (Throwable e) {
+            e.printStackTrace();
             Exceptions.throwIfFatal(e);
             return;
         }
