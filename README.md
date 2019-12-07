@@ -58,7 +58,7 @@ allprojects {
 module 的 build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.3.3'
+implementation 'com.github.liangjingkanji:Net:1.3.4'
 ```
 
 
@@ -548,6 +548,39 @@ stop() // 结束
 pause() // 暂停
 resume() // 继续
 reset // 重置轮循器(包含计数器count和计时period)
+```
+
+
+
+### 事件间隔
+
+修复官方timInterval初始事件依然存在时间间隔问题
+
+```
+Observabl.interval
+```
+
+示例: 返回两次退出应用
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+    val exit = PublishSubject.create<Boolean>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        exit.interval(TimeUnit.MILLISECONDS).observeMain().subscribe {
+            if (it.time() >= 2 || it.time() == -1L) Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show() 
+            else super.onBackPressed()
+        }
+    }
+
+    override fun onBackPressed() {
+        exit.onNext(true)
+    }
+}
 ```
 
 

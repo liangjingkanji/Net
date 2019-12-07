@@ -10,8 +10,6 @@ package com.drake.net
 import android.app.Application
 import android.app.Dialog
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
@@ -19,6 +17,7 @@ import com.drake.net.error.RequestParamsException
 import com.drake.net.error.ResponseException
 import com.drake.net.error.ServerResponseException
 import com.drake.net.observer.DialogObserver
+import com.drake.net.observer.runMain
 import com.yanzhenjie.kalle.Kalle
 import com.yanzhenjie.kalle.KalleConfig
 import com.yanzhenjie.kalle.exception.*
@@ -31,7 +30,7 @@ object NetConfig {
     lateinit var app: Application
 
     internal var defaultToast: Toast? = null
-    internal var defaultDialog: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)? = null
+    internal var defaultDialog: (DialogObserver<*>.(FragmentActivity) -> Dialog)? = null
     internal var onError: Throwable.() -> Unit = {
 
         val message = when (this) {
@@ -76,13 +75,14 @@ object NetConfig {
             is RequestParamsException -> app.getString(R.string.net_request_error)
             is ServerResponseException -> app.getString(R.string.net_server_error)
             is ExecutionException -> app.getString(R.string.net_image_error)
+            is NullPointerException -> app.getString(R.string.net_null_error)
             is ResponseException -> msg
             else -> app.getString(R.string.net_other_error)
         }
 
         printStackTrace()
         when (this) {
-            is ParseError, is ResponseException -> app.toast(message)
+            is ParseError, is ResponseException, is NullPointerException -> app.toast(message)
         }
     }
 }
@@ -149,14 +149,6 @@ internal fun Context.toast(message: CharSequence, config: Toast.() -> Unit = {})
         NetConfig.defaultToast =
             Toast.makeText(this, message, Toast.LENGTH_SHORT).apply { config() }
         NetConfig.defaultToast?.show()
-    }
-}
-
-private fun runMain(block: () -> Unit) {
-    if (Looper.myLooper() == Looper.getMainLooper()) {
-        block()
-    } else {
-        Handler(Looper.getMainLooper()).post { block() }
     }
 }
 
