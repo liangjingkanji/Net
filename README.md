@@ -560,25 +560,33 @@ reset // 重置轮循器(包含计数器count和计时period)
 Observabl.interval
 ```
 
-示例: 返回两次退出应用
+
+
+常见示例: 返回两次退出应用
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
 
-    val exit = PublishSubject.create<Boolean>()
+     // 1.5秒内两次返回退出应用
+    private val exitOb by lazy {
+        val temp = PublishSubject.create<Boolean>()
+        temp.interval(TimeUnit.SECONDS)
+                .observeMain()
+                .auto(this)
+                .subscribe {
+                    val time = it.time()
+                    if (time <= 1.5 && time != -1L) super.onBackPressed() else toast("再按一次退出")
+                }
+        temp
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        exit.interval(TimeUnit.MILLISECONDS).observeMain().subscribe {
-            if (it.time() >= 2 || it.time() == -1L) Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show() 
-            else super.onBackPressed()
-        }
     }
 
     override fun onBackPressed() {
-        exit.onNext(true)
+        exitOb.onNext(true)
     }
 }
 ```
