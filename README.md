@@ -58,7 +58,7 @@ allprojects {
 module 的 build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.3.4'
+implementation 'com.github.liangjingkanji:Net:1.3.5'
 ```
 
 
@@ -295,7 +295,7 @@ post<Model>(""){
 
 如果是`net`跟随生命周期
 
-```
+```kotlin
 post<Model>(""){
   param("key", "value")
 }.net(activity, Lifecycle.Event.ON_DESTROY) { 
@@ -534,7 +534,7 @@ abstract class DefaultConverter(
 本框架附带一个超级强大的轮循器`Interval`, 基本上包含轮循器所需要到所有功能
 
 - 支持多个观察者订阅同一个计时器
-- 开始(即subscribe订阅) | 暂停 | 继续 | 停止
+- 开始 | 暂停 | 继续 | 停止
 - 同时包含RxJava的操作符`interval|intervelRange`功能
 - 轮循器即Observable对象, 所以可以进行任意操作符转换. 例如轮循器控制网络请求
 
@@ -554,10 +554,10 @@ reset // 重置轮循器(包含计数器count和计时period)
 
 ### 事件间隔
 
-修复官方timInterval初始事件依然存在时间间隔问题
+可以在观察者中接收到相邻两次事件之间的事件间隔, 第一次事件的间隔(`time()`)是: -1
 
 ```
-Observabl.interval
+Observabl().interval()
 ```
 
 
@@ -599,17 +599,18 @@ class MainActivity : AppCompatActivity() {
 
 
 
-```
+```kotlin
 from { 
 
 // 返回值为事件
-}.auto(this).subscribe { 
+  8
+}.subscribe { 
 	
 }
 
 shoot<Int> { 
 	it.onNext(2)
-}.auto(this).subscribe { 
+}.subscribe { 
 	
 }
 ```
@@ -626,7 +627,7 @@ shoot<Int> {
 from { 
   // 这里属于IO线程 
   8
-}.io().observeMain.auto(this).subscribe { 
+}.io().observeMain.subscribe { 
   // 这里属于主线程
   // 这里会受到 事件 8
 }

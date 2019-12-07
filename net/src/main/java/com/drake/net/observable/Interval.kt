@@ -46,7 +46,7 @@ class Interval(
     private var observerList = ArrayList<IntervalRangeObserver>()
     private var pause = false
     private var stop = false
-    private lateinit var dispose: Disposable
+    private var dispose: Disposable? = null
     private val iterator = {
 
         if (!pause) {
@@ -61,17 +61,18 @@ class Interval(
 
     public override fun subscribeActual(observer: Observer<in Long?>) {
 
-        val agentObserver =
-            IntervalRangeObserver(observer)
+        val agentObserver = IntervalRangeObserver(observer)
         observerList.add(agentObserver)
 
         observer.onSubscribe(agentObserver)
 
-        if (!this::dispose.isInitialized) init()
+        if (dispose == null) init()
         agentObserver.setResource(dispose)
     }
 
     private fun init() {
+        if (observerList.isEmpty()) return
+
         dispose = if (scheduler is TrampolineScheduler) {
             val worker = scheduler.createWorker()
             worker.schedulePeriodically(iterator, initialDelay, period, unit)
@@ -103,7 +104,7 @@ class Interval(
      */
     fun reset() {
         count = start
-        dispose.dispose()
+        dispose?.dispose()
         init()
     }
 
@@ -123,7 +124,7 @@ class Interval(
 
     // </editor-fold>
 
-    class IntervalRangeObserver(
+    private class IntervalRangeObserver(
         private val downstream: Observer<in Long?>
     ) : AtomicReference<Disposable?>(), Disposable {
 
