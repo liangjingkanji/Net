@@ -56,8 +56,12 @@ abstract class PageObserver<M>(val page: PageRefreshLayout) :
      * 自动判断是添加数据还是覆盖数据, 以及数据为空或者NULL时[showEmpty]
      * @param hasMore 如果不穿数据, 默认已加载完全部(建议此时可以关闭[PageRefreshLayout]的加载更多功能)
      */
-    fun addData(data: List<Any>, hasMore: BindingAdapter.() -> Boolean = { false }) {
-        page.addData(data, hasMore)
+    fun addData(
+        data: List<Any>,
+        bindingAdapter: BindingAdapter? = null,
+        hasMore: BindingAdapter.() -> Boolean = { false }
+    ) {
+        page.addData(data, bindingAdapter, hasMore)
         dispose()
     }
 
