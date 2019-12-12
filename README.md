@@ -58,7 +58,7 @@ allprojects {
 module 的 build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.3.5'
+implementation 'com.github.liangjingkanji:Net:1.3.6'
 ```
 
 
