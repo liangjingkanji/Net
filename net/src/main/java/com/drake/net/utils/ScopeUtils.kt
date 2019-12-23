@@ -132,9 +132,11 @@ fun SmartRefreshLayout.scopeRefresh(
  *
  * 布局被销毁或者界面关闭作用域被取消
  */
-fun PageRefreshLayout.scope(block: suspend CoroutineScope.() -> Unit): AndroidScope {
-    val scope = StateCoroutineScope(this)
-    scope.launch(block = block)
+fun PageRefreshLayout.scope(block: suspend CoroutineScope.(PageCoroutineScope) -> Unit): AndroidScope {
+    val scope = PageCoroutineScope(this)
+    scope.launch {
+        block(scope)
+    }
     return scope
 }
 

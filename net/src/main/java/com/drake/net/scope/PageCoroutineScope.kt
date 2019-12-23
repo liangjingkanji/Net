@@ -12,16 +12,16 @@ import com.drake.brv.BindingAdapter
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.NetConfig
 import com.scwang.smart.refresh.layout.constant.RefreshState
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 
 @Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING")
 class PageCoroutineScope(
-    val page: PageRefreshLayout,
-    val block: suspend CoroutineScope.(PageCoroutineScope) -> Unit
+    val page: PageRefreshLayout
 ) : AndroidScope() {
 
     val index get() = page.index
+
+    private var manual = false
 
     init {
         page.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
@@ -44,7 +44,7 @@ class PageCoroutineScope(
 
     override fun finally(e: Throwable?) {
         super.finally(e)
-        if (e == null) {
+        if (e == null && !manual) {
             if (page.stateEnabled) page.showContent() else page.finish()
         }
     }
@@ -63,6 +63,7 @@ class PageCoroutineScope(
         hasMore: BindingAdapter.() -> Boolean = { false }
     ) {
         page.addData(data, bindingAdapter, hasMore)
+        manual = true
     }
 
     /**
