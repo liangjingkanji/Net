@@ -2,24 +2,20 @@
  * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
  * Project：Net
  * Author：Drake
- * Date：9/16/19 12:54 AM
+ * Date：12/20/19 9:20 PM
  */
 
-@file:Suppress("DEPRECATION")
-
-package com.drake.net.observer
+package com.drake.net.scope
 
 import android.app.Dialog
 import android.app.ProgressDialog
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle.Event
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.drake.net.NetConfig
 import com.drake.net.NetConfig.defaultDialog
 import com.drake.net.R
-import io.reactivex.disposables.Disposable
 
 /**
  * 自动加载对话框网络请求
@@ -33,23 +29,14 @@ import io.reactivex.disposables.Disposable
  * @param dialog 不使用默认的加载对话框而指定对话框
  * @param cancelable 是否允许用户取消对话框
  */
-abstract class DialogObserver<M>(
-    val activity: FragmentActivity?,
+@Suppress("DEPRECATION")
+class DialogCoroutineScope(
+    val activity: FragmentActivity,
     var dialog: Dialog? = null,
-    val cancelable: Boolean = true
-) : TryObserver<DialogObserver<M>, M>(), LifecycleObserver {
+    cancelable: Boolean = true
+) : AndroidScope(), LifecycleObserver {
 
-    private var error: (DialogObserver<M>.(e: Throwable) -> Unit)? = null
-
-    constructor(
-        fragment: Fragment?,
-        dialog: Dialog? = null,
-        cancelable: Boolean = true
-    ) : this(fragment?.activity, dialog, cancelable)
-
-
-    override fun onStart(d: Disposable) {
-        activity ?: return
+    init {
         activity.lifecycle.addObserver(this)
 
         dialog = when {
@@ -62,35 +49,25 @@ abstract class DialogObserver<M>(
             }
         }
 
-        dialog?.setOnDismissListener { dispose() }
+        dialog?.setOnDismissListener { }
         dialog?.setCancelable(cancelable)
         dialog?.show()
-    }
-
-    @OnLifecycleEvent(Event.ON_DESTROY)
-    fun dismiss() {
-        if (dialog != null && dialog!!.isShowing) {
-            dialog?.dismiss()
-        }
-    }
-
-
-    /**
-     * 关闭进度对话框并提醒错误信息
-     *
-     * @param e 包括错误信息
-     */
-    override fun onFailed(e: Throwable) {
-        super.onFailed(e)
-        dismiss()
     }
 
     override fun handleError(e: Throwable) {
         NetConfig.onError(e)
     }
 
-    override fun onFinish() {
+    override fun finally(e: Throwable?) {
+        super.finally(e)
         dismiss()
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun dismiss() {
+        if (dialog != null && dialog!!.isShowing) {
+            dialog?.dismiss()
+        }
     }
 
 }

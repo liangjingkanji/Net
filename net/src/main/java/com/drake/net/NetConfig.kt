@@ -9,15 +9,14 @@ package com.drake.net
 
 import android.app.Application
 import android.app.Dialog
-import android.content.Context
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.drake.net.error.RequestParamsException
 import com.drake.net.error.ResponseException
 import com.drake.net.error.ServerResponseException
-import com.drake.net.observer.DialogObserver
-import com.drake.net.observer.runMain
+import com.drake.net.scope.DialogCoroutineScope
+import com.drake.tooltip.toast
 import com.yanzhenjie.kalle.Kalle
 import com.yanzhenjie.kalle.KalleConfig
 import com.yanzhenjie.kalle.exception.*
@@ -30,7 +29,7 @@ object NetConfig {
     lateinit var app: Application
 
     internal var defaultToast: Toast? = null
-    internal var defaultDialog: (DialogObserver<*>.(FragmentActivity) -> Dialog)? = null
+    internal var defaultDialog: (DialogCoroutineScope.(FragmentActivity) -> Dialog)? = null
     internal var onError: Throwable.() -> Unit = {
 
         val message = when (this) {
@@ -133,23 +132,7 @@ fun KalleConfig.Builder.onStateError(block: Throwable.(view: View) -> Unit) {
  * 设置使用DialogObserver默认弹出的加载对话框
  * 默认使用系统自带的ProgressDialog
  */
-fun KalleConfig.Builder.onDialog(block: (DialogObserver<*>.(context: FragmentActivity) -> Dialog)) {
+fun KalleConfig.Builder.onDialog(block: (DialogCoroutineScope.(context: FragmentActivity) -> Dialog)) {
     NetConfig.defaultDialog = block
 }
-
-/**
- * 系统消息吐司
- * 允许异步线程显示
- * 不会覆盖显示
- */
-internal fun Context.toast(message: CharSequence, config: Toast.() -> Unit = {}) {
-    NetConfig.defaultToast?.cancel()
-
-    runMain {
-        NetConfig.defaultToast =
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).apply { config() }
-        NetConfig.defaultToast?.show()
-    }
-}
-
 

@@ -2,59 +2,60 @@
  * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
  * Project：Net
  * Author：Drake
- * Date：9/16/19 12:54 AM
+ * Date：12/20/19 2:19 PM
  */
 
-package com.drake.net.observer
+package com.drake.net.scope
 
 import android.view.View
-import android.view.View.OnAttachStateChangeListener
 import com.drake.brv.BindingAdapter
 import com.drake.brv.PageRefreshLayout
-import com.drake.net.NetConfig.onStateError
+import com.drake.net.NetConfig
 import com.scwang.smart.refresh.layout.constant.RefreshState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 
-/**
- * 自动结束下拉刷新和上拉加载状态
- * 自动展示缺省页
- * 自动分页加载
- */
-@Suppress("unused", "MemberVisibilityCanBePrivate")
-abstract class PageObserver<M>(val page: PageRefreshLayout) :
-    TryObserver<PageObserver<M>, M>() {
-
+@Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING")
+class PageCoroutineScope(
+    val page: PageRefreshLayout,
+    val block: suspend CoroutineScope.(PageCoroutineScope) -> Unit
+) : AndroidScope() {
 
     val index get() = page.index
 
     init {
-        page.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
+        page.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View) {
 
             }
 
             override fun onViewDetachedFromWindow(v: View) {
-                dispose()
+                cancel()
             }
         })
     }
 
-    /**
-     * 关闭进度对话框并提醒错误信息
-     */
-    override fun onFailed(e: Throwable) {
-        super.onFailed(e)
+    override fun catch(e: Throwable) {
+        super.catch(e)
         if (page.state == RefreshState.Refreshing) {
             page.showError()
         } else page.finish(false)
     }
 
+    override fun finally(e: Throwable?) {
+        super.finally(e)
+        if (e == null) {
+            if (page.stateEnabled) page.showContent() else page.finish()
+        }
+    }
+
     override fun handleError(e: Throwable) {
-        onStateError.invoke(e, page)
+        NetConfig.onStateError.invoke(e, page)
     }
 
     /**
      * 自动判断是添加数据还是覆盖数据, 以及数据为空或者NULL时[showEmpty]
-     * @param hasMore 如果不穿数据, 默认已加载完全部(建议此时可以关闭[PageRefreshLayout]的加载更多功能)
+     * @param hasMore 如果不传数据, 默认已加载完全部(建议此时可以关闭[PageRefreshLayout]的加载更多功能)
      */
     fun addData(
         data: List<Any>,
@@ -62,9 +63,7 @@ abstract class PageObserver<M>(val page: PageRefreshLayout) :
         hasMore: BindingAdapter.() -> Boolean = { false }
     ) {
         page.addData(data, bindingAdapter, hasMore)
-        dispose()
     }
-
 
     /**
      * 显示空缺省页
@@ -72,11 +71,7 @@ abstract class PageObserver<M>(val page: PageRefreshLayout) :
      */
     fun showEmpty() {
         page.showEmpty()
-        dispose()
-    }
-
-    override fun onFinish() {
-        if (page.stateEnabled) page.showContent() else page.finish()
+        cancel()
     }
 
     /**
@@ -85,7 +80,7 @@ abstract class PageObserver<M>(val page: PageRefreshLayout) :
      */
     fun showContent() {
         page.showContent()
-        dispose()
+        cancel()
     }
 
     /**
@@ -95,6 +90,7 @@ abstract class PageObserver<M>(val page: PageRefreshLayout) :
      */
     fun finish(success: Boolean = true) {
         page.finish(success)
-        dispose()
+        cancel()
     }
+
 }

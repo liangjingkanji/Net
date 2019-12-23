@@ -1,30 +1,42 @@
 # Net
 
-针对[Kalle](https://github.com/yanzhenjie/Kalle)网络请求框架进行扩展
+异步任务库, Android 创新式的网络请求库(针对[Kalle](https://github.com/yanzhenjie/Kalle)网络请求框架进行扩展), 支持协程高并发网络请求
 
 
 
-Android 创新式的网络请求库, 完美扩展RxJava|列表|缺省页
+本项目为Android项目中的所有的异步任务和网络请求而生
+
+
+
+1.0+ 版本为RxKotlin实现
+2.0+ 版本开始引入Kotlin协程特性, 开发者无需掌握协程也可以使用, 两个版本存在Api冲突需要手动迁移
 
 
 
 主要新增特性
 
-- Kotlin DSL
-- RxJava
+- 协程
+- 并发网络请求
+- 串行网络请求
+- 切换线程
+- DSL编程
 - 自动错误信息吐司
+- 自动异常捕获
+- 自动日志打印异常
 - 自动JSON解析
 - 自动处理下拉刷新和上拉加载
 - 自动处理分页加载
 - 自动缺省页
-- 自动生命周期
+- 自动处理生命周期
 - 自动处理加载对话框
+- 协程作用域支持错误和结束回调
 
 
 
 同时完全不影响[Kalle](https://github.com/yanzhenjie/Kalle)的特性
 
-- 九种缓存模式, 缓存加密
+- 九种缓存模式
+- 缓存加密
 - 上传进度监听
 - 下载进度监听
 - 断点续传
@@ -32,7 +44,7 @@ Android 创新式的网络请求库, 完美扩展RxJava|列表|缺省页
 - 网络连接判断
 - 自定义数据转换器
 - 网络拦截器
-- 连接重试
+- 重定向
 - 自定义请求体
 - 全局配置
 - Cookie
@@ -58,7 +70,14 @@ allprojects {
 module 的 build.gradle
 
 ```groovy
-implementation 'com.github.liangjingkanji:Net:1.3.7'
+// 协程库
+implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
+implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
+
+// 支持自动下拉刷新和缺省页的, 可选
+implementation 'com.github.liangjingkanji:BRV:1.1.7'
+
+implementation 'com.github.liangjingkanji:Net:2.0.0'
 ```
 
 
@@ -67,13 +86,21 @@ implementation 'com.github.liangjingkanji:Net:1.3.7'
 
 ## 请求方式
 
+请求方式支持同步和异步, 异步只允许在作用域内执行. 详情请看`Net.kt`文件
+
+![image-20191223150901891](https://tva1.sinaimg.cn/large/006tNbRwgy1ga6o9s47lsj30dg0ca0tz.jpg)
+
 ### Post
 
 ```kotlin
-post<Model>(""){
-  param("key", "value")
-}.net { 
+scopeLife {
 
+  val data = post<String>(
+    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
+    absolutePath = true
+  )
+
+  textView.text = data.await()
 }
 ```
 
@@ -83,11 +110,15 @@ post<Model>(""){
 
 ### Get
 
-```
-get<Model>(""){
-  param("key", "value")
-}.net { 
+```kotlin
+scopeLife {
 
+  val data = get<String>(
+    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
+    absolutePath = true
+  )
+
+  textView.text = data.await()
 }
 ```
 
@@ -98,10 +129,16 @@ get<Model>(""){
 ### 文件上传
 
 ```kotlin
-post<Model>(""){
-  file("file", File("path"))
-}.net {
+scopeLife {
 
+  val data = post<String>(
+    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
+    absolutePath = true
+  ){
+    file("file", File())
+  }
+
+  textView.text = data.await()
 }
 ```
 
@@ -112,15 +149,15 @@ post<Model>(""){
 ### 文件下载
 
 ```kotlin
-download("/path", "下载目录"){
+scopeLife {
+  download("/path", "下载目录"){
 
-  // 进度监听
-  onProgress { progress, byteCount, speed ->
+    // 进度监听
+    onProgress { progress, byteCount, speed ->
 
-             }
+               }
 
-}.dialog(this){
-
+  }
 }
 ```
 
@@ -139,13 +176,19 @@ Context.downloadImg(url: String, with: Int = -1, height: Int = -1)
 示例
 
 ```kotlin
-val netObserver = downloadImg(
-  "https://cdn.sspai.com/article/ebe361e4-c891-3afd-8680-e4bad609723e.jpg?imageMogr2/quality/95/thumbnail/!2880x620r/gravity/Center/crop/2880x620/interlace/1".
-  200,200
-).net(this) {
-  it // File对象
+scopeLife {
+
+  val data = downImage(
+    "https://cdn.sspai.com/article/ebe361e4-c891-3afd-8680-e4bad609723e.jpg?imageMogr2/quality/95/thumbnail/!2880x620r/gravity/Center/crop/2880x620/interlace/1".
+    200,200
+  )
+
 }
 ```
+
+
+
+
 
 ## 初始化
 
@@ -273,92 +316,161 @@ initNet("http://192.168.2.1") {
 }
 ```
 
-
-
 ## 
 
-## 生命周期
+## 作用域
 
-将Fragment或者Activity作为参数传递即可在页面关闭时自动取消订阅, 避免操作已销毁视图.
+上面的网络请求方式全部使用的`scopeLife`, 该作用域属于跟随生命周期自动销毁作用域
 
-```kotlin
-post<Model>(""){
-  param("key", "value")
-}.net(activity) { 
 
-}
+
+所有作用域都会自动打印异常信息到LogCat, 作用域都是异步执行在主线程
+
+
+
+### 异步作用域
+
+该作用域的生命周期跟随整个应用, 不会自动取消, 需要你自己手动取消`cancel()`
+
 ```
-
-其他的对话框或者缺省页和下拉刷新等自动支持生命周期管理
-
-
-
-如果是`net`跟随生命周期
-
-```kotlin
-post<Model>(""){
-  param("key", "value")
-}.net(activity, Lifecycle.Event.ON_DESTROY) { 
-
-}
-```
-
-返回值 Disposable 可以用于完全手动任何位置取消
-
-## 对话框
-
-将会在网络请求开始时弹出对话框, 结束时关闭对话框.
-
-```kotlin
-post<Model>(""){
-  file("file", File("path"))
-}.dialog(this) {
-
+scope {
+	
 }
 ```
 
 
 
-自定义对话框
+### 生命周期作用域
 
-```kotlin
-fun <M> Observable<M>.dialog(
-    activity: FragmentActivity,
-    dialog: Dialog = ProgressDialog(activity),
-    cancelable: Boolean = true,
-    block: (DialogObserver<M>.(M) -> Unit)? = null
-)
+该作用域默认在销毁`OnDestroy`时被销毁, 内部所有网络请求都会取消
+
+```
+scopeLife {
+	
+}
 ```
 
-- `cancelable` 决定对话框是否可以点击用户关闭
-- `dialog` 传入自定义对话框
+函数
+
+```kotlin
+fun LifecycleOwner.scopeLife(
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY, // 自定义销毁作用域的生命周期
+    block: suspend CoroutineScope.() -> Unit
+): AndroidScope
+```
 
 
 
-对话框关闭会导致网络请求被取消订阅
+以上两种作用域不会自动吐司网络请求的异常信息
 
-## 分页加载
+### 网络请求作用域
+
+和异步作用域的区别就是会自动吐司网络请求的异常信息
+
+```
+scopeNet {
+
+}
+```
+
+
+
+跟随生命周期的网络请求
+
+```
+scopeNetLife {
+	
+}
+```
+
+
+
+### 自动加载对话框
+
+```
+scopeDialog {
+
+}
+```
+
+该作用域会在开始执行时显示对话框, 在作用域内全部任务执行完毕后取消对话框(异常或正常结束都会取消).
+
+并且该对话框支持自定义全局或者通过函数参数传入单例对话框(仅该作用域对象使用的加载框)
+
+
+
+> 自定义全局对话框
+
+全局对话框设置通过NetConfig.onDialog设置
+
+```kotlin
+initNet("http://localhost.com") {
+  onDialog {
+    ProgressDialog(it).apply { setMessage("正在加载中") } // 返回一个Dialog
+  }
+}
+```
+
+
+
+### 自动缺省页
+
+
+
+```
+scopeState {
+
+}
+```
+
+
+
+缺省页支持局部(使用控件对象)和全局页面(Activity或者Fragment对象)开启作用域
+
+Fragment|Activity|View都支持直接通过`scopeState`函数开启作用域
+
+StateLayout使用`scope`函数开启作用域
+
+
+
+关于支持接收者类型有如下: 
+
+- stateLayout
+- activity
+- fragment
+- view
+
+### 自动下拉刷新|上拉加载|分页|缺省页
 
 需要引入第三方库: [BRV](https://github.com/liangjingkanji/BRV)
 
 ```kotlin
 pageRefreshLayout.onRefresh { 
-    post<Model>("/path"){
-        param("key", "value")
-        param("page", index) // 页面索引使用pageRefreshLayout的属性index
-    }.page(page) {
-        if (it.data.isEmpty()){
-            showEmpty()
-            return
-        }
-        addData(it.data){
-            index < it.data.totalPage // 判断是否存在下一页
-        }
-    } 
-}
+
+  pageRefreshLayout.scope {
+
+    val result = post<Model>("/path"){
+      param("key", "value")
+      param("page", index) // 页面索引使用pageRefreshLayout的属性index
+    }
+
+    val data = result.await().data
+
+    if (data.isEmpty()){
+      it.showEmpty()
+      return
+    }
+    
+    it.addData(data){
+      index < data.totalPage // 判断是否存在下一页
+    }
+  }
+}.showLoading
 ```
 
 此时下拉和上拉都会调用该回调`onRefresh`中的接口请求. 
+
+
 
 如果下拉刷新和上拉加载的接口不一致可以再实现`onLoadMore`回调
 
@@ -370,112 +482,19 @@ pageRefreshLayout.onLoadMore {
 
 
 
+showLoading属于现实缺省页中的加载页, 你也可以使用`autoRefresh()`显示下拉刷新的动画而不是缺省页
 
 
-某些情况存在一些页面仅仅需要下拉刷新, 不需要分页/缺省页/上拉加载, 例如用户中心的刷新. 这个时候我们应该使用`refresh`函数而不是`page`.
+
+如果仅仅是自动完成下拉加载. 例如一般用户中心页面只需要自动处理下拉刷新的状态
 
 ```
-post<Model>(""){
-  param("key", "value")
-}.refresh(smartRefreshLayout) {
+pageRefreshLayout.scopeRefresh{
 
 }
 ```
 
 
-
-refresh函数
-
-```kotlin
-/**
- * 自动结束下拉加载
- * @receiver Observable<M>
- * @param pageRefreshLayout SmartRefreshLayout
- * @param loadMore 是否启用上拉加载
- * @param block (M) -> UnitUtils
- */
-fun <M> Observable<M>.refresh(
-    pageRefreshLayout: PageRefreshLayout,
-    loadMore: Boolean = false,
-    block: RefreshObserver<M>.(M) -> Unit
-) {
-    subscribe(object : RefreshObserver<M>(pageRefreshLayout, loadMore) {
-        override fun onNext(t: M) {
-            block(t)
-        }
-    })
-}
-```
-
-
-
-## 缺省页
-
-需要引入第三方库: [StateLayout](https://github.com/liangjingkanji/StateLayout) (如果已经引入BRV可以不再引入)
-
-```
-post<Model>(""){
-  param("key", "value")
-}.state(stateLayout) { 
-
-}
-```
-
-
-
-关于`state`函数支持参数类型有如下: 
-
-- stateLayout
-- activity
-- fragment
-- view
-
-
-
-会根据参数的不同而给不同的对象添加缺省页状态
-
-##Observer
-
-无论是`page/refresh/net/dialog`这些函数本身都是快速创建Observer的扩展函数而已, 如果你需要拿到Observer的onError/onCompleted等回调请自己创建匿名类或者继承.
-
-
-
-例如查看page源码即可看到只是创建一个Observer订阅而已
-
-```kotlin
-fun <M> Observable<M>.page(
-    pageRefreshLayout: PageRefreshLayout,
-    block: PageObserver<M>.(M) -> Unit
-) {
-    subscribe(object : PageObserver<M>(pageRefreshLayout) {
-        override fun onSucceed(t: M) {
-            block(t)
-        }
-    })
-}
-```
-
-所有扩展订阅函数的都在`ObserverUtils`类中
-
-
-
-扩展函数都会返回对应的Observer对象可以进行手动取消订阅等操作
-
-```kotlin
-val netObserver = download(
-    "https://cdn.sspai.com/article/ebe361e4-c891-3afd-8680-e4bad609723e.jpg?imageMogr2/quality/95/thumbnail/!2880x620r/gravity/Center/crop/2880x620/interlace/1",
-    isAbsolutePath = true
-).net(this) {
-
-}.error {
-    // 自定义自己的错误处理
-    handleError(it) // 该函数每个Observer都存在, 属于默认的错误处理操作
-}
-```
-
-
-
-本网络请求的所有的Observer都不仅仅是网络请求可以用, 可以配合任何其他的被观察者使用, 主要解决视图更新以及生命周期问题
 
 ## 请求和响应规范
 
@@ -540,6 +559,18 @@ abstract class DefaultConverter(
 
 
 
+示例
+
+```kotlin
+Interval(1, TimeUnit.SECONDS).subscribe { 
+	
+}.finish { 
+	
+}.start()
+```
+
+
+
 函数
 
 ```
@@ -547,89 +578,8 @@ subscribe() // 即开启定时器, 订阅多个也会监听同一个计数器
 stop() // 结束
 pause() // 暂停
 resume() // 继续
-reset // 重置轮循器(包含计数器count和计时period)
+reset // 重置轮循器 (包含计数器count和计时period) 不会停止轮循器
+switch //  切换轮循器开关
+
+state // 轮循器的状态
 ```
-
-
-
-### 事件间隔
-
-可以在观察者中接收到相邻两次事件之间的事件间隔, 第一次事件的间隔(`time()`)是: -1
-
-```
-Observabl().interval()
-```
-
-
-
-常见示例: 返回两次退出应用
-
-```kotlin
-class MainActivity : AppCompatActivity() {
-
-     // 1.5秒内两次返回退出应用
-    private val exitOb by lazy {
-        val temp = PublishSubject.create<Boolean>()
-        temp.interval(TimeUnit.SECONDS)
-                .observeMain()
-                .auto(this)
-                .subscribe {
-                    val time = it.time()
-                    if (time <= 1.5 && time != -1L) super.onBackPressed() else toast("再按一次退出")
-                }
-        temp
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
-
-    override fun onBackPressed() {
-        exitOb.onNext(true)
-    }
-}
-```
-
-
-
-## 快速创建被观察者
-
-使用本框架定义的创建被观察者函数可以避免异步阻塞时发射事件导致的空指针
-
-
-
-```kotlin
-from { 
-
-// 返回值为事件
-  8
-}.subscribe { 
-	
-}
-
-shoot<Int> { 
-	it.onNext(2)
-}.subscribe { 
-	
-}
-```
-
-这里提到`from`可以快速创建一个被观察者. 函数参数返回值即发送的事件
-
-`auto`函数可以跟随生命周期自动取消订阅
-
-
-
-快速切换线程
-
-```kotlin
-from { 
-  // 这里属于IO线程 
-  8
-}.io().observeMain.subscribe { 
-  // 这里属于主线程
-  // 这里会受到 事件 8
-}
-```
-
