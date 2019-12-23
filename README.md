@@ -496,6 +496,28 @@ pageRefreshLayout.scopeRefresh{
 
 
 
+### 错误处理
+
+所有作用域都支持`catch|finally`函数回调
+
+```kotlin
+scopeDialog {
+
+  val data = get<String>(
+    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
+    absolutePath = true
+  )
+
+  textView.text = data.await()
+}.catch { 
+	// 只有发生异常才会执行, it为异常对象
+}.finally { 
+ // 无论是否正常结束还是异常都会执行,  it为异常对象, 如果非异常结束为NULL
+}
+```
+
+
+
 ## 请求和响应规范
 
 很多时候存在请求和响应的后台接口规范不是常规统一的, 这个时候我们可以自己拦截处理数据. 
