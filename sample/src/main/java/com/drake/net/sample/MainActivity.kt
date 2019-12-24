@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.drake.net.get
 import com.drake.net.utils.scopeDialog
+import com.yanzhenjie.kalle.simple.cache.CacheMode
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -14,18 +15,20 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+
+
+
         scopeDialog {
 
             val data = get<String>(
                 "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
                 absolutePath = true
             ) {
-                cacheKey("wu")
+                cacheMode(CacheMode.HTTP_YES_THEN_WRITE_CACHE)
             }
 
             textView.text = data.await()
         }
-
     }
 
 }

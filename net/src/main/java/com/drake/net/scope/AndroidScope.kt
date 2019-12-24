@@ -21,9 +21,6 @@ import kotlin.coroutines.EmptyCoroutineContext
  */
 open class AndroidScope() : CoroutineScope {
 
-    /**
-     * 使用该构造函数创建对象可以跟随[LifecycleOwner]的生命周期自动取消作用域
-     */
     constructor(
         lifecycleOwner: LifecycleOwner,
         lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
@@ -46,9 +43,6 @@ open class AndroidScope() : CoroutineScope {
     final override val coroutineContext: CoroutineContext =
         Dispatchers.Main.immediate + exceptionHandler + Job()
 
-    /**
-     * 开启一个作用域
-     */
     fun launch(
         block: suspend CoroutineScope.() -> Unit
     ): AndroidScope {

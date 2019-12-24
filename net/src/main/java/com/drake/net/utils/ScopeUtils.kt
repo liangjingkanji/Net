@@ -160,16 +160,11 @@ fun scope(block: suspend CoroutineScope.() -> Unit): AndroidScope {
     return AndroidScope().launch(block = block)
 }
 
-/**
- * 跟随当前页面[LifecycleOwner]生命周期的异步作用域
- *
- * @param lifeEvent 自定义取消作用域的生命周期
- */
 fun LifecycleOwner.scopeLife(
     lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
     block: suspend CoroutineScope.() -> Unit
 ): AndroidScope {
-    return AndroidScope(this).launch(block = block)
+    return AndroidScope(this, lifeEvent).launch(block = block)
 }
 
 /**
@@ -182,18 +177,13 @@ fun scopeNet(block: suspend CoroutineScope.() -> Unit): AndroidScope {
     return NetCoroutineScope().launch(block = block)
 }
 
-/**
- * 网络请求的异步作用域
- * 自动显示错误信息吐司
- *
- */
+
 fun LifecycleOwner.scopeNetLife(
     lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
     block: suspend CoroutineScope.() -> Unit
 ): AndroidScope {
     return NetCoroutineScope(this, lifeEvent).launch(block = block)
 }
-
 
 
 

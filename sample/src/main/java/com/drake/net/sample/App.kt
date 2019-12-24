@@ -3,6 +3,8 @@ package com.drake.net.sample
 import android.app.Application
 import com.drake.net.initNet
 import com.drake.statelayout.StateConfig
+import com.yanzhenjie.kalle.simple.SimpleUrlRequest
+import com.yanzhenjie.kalle.simple.cache.DiskCacheStore
 
 class App : Application() {
 
@@ -17,13 +19,31 @@ class App : Application() {
         }
 
         initNet("http://localhost.com") {
-            /*converter(object : JsonConverter() {
-                override fun <S> convert(succeed: Type, body: String): S? {
-                    return Moshi.Builder().build().adapter<S>(succeed).fromJson(body)
-                }
-            })*/
-        }
 
+            /*            converter(object : DefaultConvert() {
+                            override fun <S> convert(succeed: Type, body: String): S? {
+                                return Moshi.Builder().build().adapter<S>(succeed).fromJson(body)
+                            }
+
+                        })*/
+
+            addInterceptor {
+
+
+                val request = it.request()
+
+                if (request is SimpleUrlRequest) {
+                }
+
+                it.proceed(request)
+            }
+
+            val cacheStore = DiskCacheStore.newBuilder(cacheDir.absolutePath)
+                .password("cache")
+                .build()
+
+            cacheStore(cacheStore)
+        }
 
     }
 }

@@ -33,7 +33,7 @@ import com.drake.net.R
 class DialogCoroutineScope(
     val activity: FragmentActivity,
     var dialog: Dialog? = null,
-    cancelable: Boolean = true
+    val cancelable: Boolean = true
 ) : AndroidScope(), LifecycleObserver {
 
     init {
