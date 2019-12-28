@@ -16,6 +16,7 @@ import com.yanzhenjie.kalle.Kalle
 import com.yanzhenjie.kalle.download.UrlDownload
 import com.yanzhenjie.kalle.simple.SimpleBodyRequest
 import com.yanzhenjie.kalle.simple.SimpleUrlRequest
+import com.yanzhenjie.kalle.simple.cache.CacheMode
 import kotlinx.coroutines.*
 import java.io.File
 
@@ -33,17 +34,21 @@ import java.io.File
 
 inline fun <reified M> CoroutineScope.get(
     path: String,
-    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
     absolutePath: Boolean = false,
+    tag: Any? = null,
     noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
 ): Deferred<M> = async(Dispatchers.IO) {
 
-    val get = Kalle.get(if (absolutePath) path else (NetConfig.host + path)).tag(tag)
+    val request = Kalle.get(if (absolutePath) path else (NetConfig.host + path))
+        .tag(tag)
+        .cacheKey(path)
+        .cacheMode(cache)
 
     val response = if (block == null) {
-        get.perform(M::class.java, String::class.java)
+        request.perform(M::class.java, String::class.java)
     } else {
-        get.apply(block).perform<M, String>(M::class.java, String::class.java)
+        request.apply(block).perform<M, String>(M::class.java, String::class.java)
     }
 
     if (isActive) {
@@ -60,16 +65,22 @@ inline fun <reified M> CoroutineScope.get(
 
 inline fun <reified M> CoroutineScope.post(
     path: String,
-    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
     absolutePath: Boolean = false,
+    tag: Any? = null,
     noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
 ): Deferred<M> = async(Dispatchers.IO) {
 
-    val post = Kalle.post(if (absolutePath) path else (NetConfig.host + path)).tag(tag)
+    val request =
+        Kalle.post(if (absolutePath) path else (NetConfig.host + path))
+            .tag(tag)
+            .cacheKey(path)
+            .cacheMode(cache)
+
     val response = if (block == null) {
-        post.perform<M, String>(M::class.java, String::class.java)
+        request.perform<M, String>(M::class.java, String::class.java)
     } else {
-        post.apply(block).perform<M, String>(M::class.java, String::class.java)
+        request.apply(block).perform<M, String>(M::class.java, String::class.java)
     }
 
     if (isActive) {
@@ -87,8 +98,7 @@ inline fun <reified M> CoroutineScope.post(
 /**
  * 下载文件
  *
- * @param path String 网络路径, 非绝对路径会加上HOST为前缀
- * @see NetConfig.host
+ * @param path String 网络路径, 非绝对路径会加上HOST[NetConfig.host]为前缀
  * @param directory String 下载文件存放目录 {默认存在android/data/packageName/cache目录}
  * @param tag 可以传递对象给Request请求
  * @param absolutePath Boolean 下载链接是否是绝对路径
@@ -98,8 +108,8 @@ inline fun <reified M> CoroutineScope.post(
 fun CoroutineScope.download(
     path: String,
     directory: String = NetConfig.app.externalCacheDir!!.absolutePath,
-    tag: Any? = null,
     absolutePath: Boolean = false,
+    tag: Any? = null,
     block: (UrlDownload.Api.() -> Unit)? = null
 ): Deferred<String> = async(Dispatchers.IO) {
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -153,16 +163,19 @@ fun CoroutineScope.downImage(
 
 inline fun <reified M> syncGet(
     path: String,
-    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
     absolutePath: Boolean = false,
+    tag: Any? = null,
     noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
 ): M {
 
-    val get = Kalle.get(if (absolutePath) path else (NetConfig.host + path)).tag(tag)
+    val request =
+        Kalle.get(if (absolutePath) path else (NetConfig.host + path)).tag(tag).cacheKey(path)
+            .cacheMode(cache)
     val response = if (block == null) {
-        get.perform(M::class.java, String::class.java)
+        request.perform(M::class.java, String::class.java)
     } else {
-        get.apply(block).perform<M, String>(M::class.java, String::class.java)
+        request.apply(block).perform<M, String>(M::class.java, String::class.java)
     }
 
     return if (response.isSucceed) {
@@ -174,16 +187,19 @@ inline fun <reified M> syncGet(
 
 inline fun <reified M> syncPost(
     path: String,
-    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
     absolutePath: Boolean = false,
+    tag: Any? = null,
     noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
 ): M {
 
-    val post = Kalle.post(if (absolutePath) path else (NetConfig.host + path)).tag(tag)
+    val request =
+        Kalle.post(if (absolutePath) path else (NetConfig.host + path)).tag(tag).cacheKey(path)
+            .cacheMode(cache)
     val response = if (block == null) {
-        post.perform<M, String>(M::class.java, String::class.java)
+        request.perform<M, String>(M::class.java, String::class.java)
     } else {
-        post.apply(block).perform<M, String>(M::class.java, String::class.java)
+        request.apply(block).perform<M, String>(M::class.java, String::class.java)
     }
 
     return if (response.isSucceed) {
@@ -196,8 +212,8 @@ inline fun <reified M> syncPost(
 fun syncDownload(
     path: String,
     directory: String = NetConfig.app.externalCacheDir!!.absolutePath,
-    tag: Any? = null,
     absolutePath: Boolean = false,
+    tag: Any? = null,
     block: (UrlDownload.Api.() -> Unit)? = null
 ): String {
 

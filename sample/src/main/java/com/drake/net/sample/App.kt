@@ -1,10 +1,12 @@
 package com.drake.net.sample
 
 import android.app.Application
+import com.drake.net.cacheEnabled
 import com.drake.net.initNet
 import com.drake.statelayout.StateConfig
-import com.yanzhenjie.kalle.simple.SimpleUrlRequest
-import com.yanzhenjie.kalle.simple.cache.DiskCacheStore
+import com.scwang.smart.refresh.footer.ClassicsFooter
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
 class App : Application() {
 
@@ -27,22 +29,18 @@ class App : Application() {
 
                         })*/
 
-            addInterceptor {
+            cacheEnabled()
+        }
 
-
-                val request = it.request()
-
-                if (request is SimpleUrlRequest) {
-                }
-
-                it.proceed(request)
-            }
-
-            val cacheStore = DiskCacheStore.newBuilder(cacheDir.absolutePath)
-                .password("cache")
-                .build()
-
-            cacheStore(cacheStore)
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
+            ClassicsHeader(
+                context
+            )
+        }
+        SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
+            ClassicsFooter(
+                context
+            )
         }
 
     }

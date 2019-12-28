@@ -34,11 +34,13 @@ class DialogCoroutineScope(
     val activity: FragmentActivity,
     var dialog: Dialog? = null,
     val cancelable: Boolean = true
-) : AndroidScope(), LifecycleObserver {
+) : NetCoroutineScope(), LifecycleObserver {
 
     init {
         activity.lifecycle.addObserver(this)
+    }
 
+    override fun start() {
         dialog = when {
             dialog != null -> dialog
             defaultDialog != null -> defaultDialog?.invoke(this, activity)
@@ -48,10 +50,15 @@ class DialogCoroutineScope(
                 progress
             }
         }
-
         dialog?.setOnDismissListener { }
         dialog?.setCancelable(cancelable)
         dialog?.show()
+    }
+
+    override fun readCache(succeed: Boolean) {
+        if (succeed) {
+            dismiss()
+        }
     }
 
     override fun handleError(e: Throwable) {

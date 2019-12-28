@@ -9,7 +9,7 @@
 
 
 1.0+ 版本为RxKotlin实现
-2.0+ 版本开始引入Kotlin协程特性, 开发者无需掌握协程也可以使用, 两个版本存在Api冲突需要手动迁移
+2.0+ 版本开始引入Kotlin协程特性, 开发者无需掌握协程也可以使用, 两个版本存在Api变动需要手动迁移
 
 
 
@@ -20,6 +20,7 @@
 - 串行网络请求
 - 切换线程
 - DSL编程
+- 方便的缓存处理
 - 自动错误信息吐司
 - 自动异常捕获
 - 自动日志打印异常
@@ -36,6 +37,7 @@
 同时完全不影响[Kalle](https://github.com/yanzhenjie/Kalle)的特性
 
 - 九种缓存模式
+- 数据库缓存
 - 缓存加密
 - 上传进度监听
 - 下载进度监听
@@ -77,7 +79,7 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 // 支持自动下拉刷新和缺省页的, 可选
 implementation 'com.github.liangjingkanji:BRV:1.1.7'
 
-implementation 'com.github.liangjingkanji:Net:2.0.2'
+implementation 'com.github.liangjingkanji:Net:2.0.3'
 ```
 
 
@@ -89,6 +91,12 @@ implementation 'com.github.liangjingkanji:Net:2.0.2'
 请求方式支持同步和异步, 异步只允许在作用域内执行. 详情请看`Net.kt`文件
 
 ![image-20191223150901891](https://tva1.sinaimg.cn/large/006tNbRwgy1ga6o9s47lsj30dg0ca0tz.jpg)
+
+
+
+请求方式全部属于协程中的`async`异步函数, 运行在IO线程中. 函数返回`Deferred<T>`对象, 该对象通过`await()`函数获取结果. 
+
+执行await时会阻塞代码执行注意, 所以建议await在作用域最后一起执行, 保证请求全部发送出去然后统一获取结果.
 
 ### Post
 
@@ -136,7 +144,7 @@ scopeLife {
     absolutePath = true
   ){
     file("file", File())
-  }
+  }.await()
 
   textView.text = data.await()
 }
@@ -157,7 +165,7 @@ scopeLife {
 
                }
 
-  }
+  }.await()
 }
 ```
 
@@ -181,14 +189,10 @@ scopeLife {
   val data = downImage(
     "https://cdn.sspai.com/article/ebe361e4-c891-3afd-8680-e4bad609723e.jpg?imageMogr2/quality/95/thumbnail/!2880x620r/gravity/Center/crop/2880x620/interlace/1".
     200,200
-  )
+  ).await()
 
 }
 ```
-
-
-
-
 
 ## 初始化
 
@@ -440,7 +444,9 @@ StateLayout使用`scope`函数开启作用域
 - fragment
 - view
 
-### 自动下拉刷新|上拉加载|分页|缺省页
+### 自动下拉刷新
+
+兼具功能 下拉刷新|上拉加载|分页|缺省页
 
 需要引入第三方库: [BRV](https://github.com/liangjingkanji/BRV)
 
@@ -495,6 +501,8 @@ pageRefreshLayout.scopeRefresh{
 ```
 
 
+
+Tip: PageRefreshLayout只要加载成功后即使后续请求失败也不会显示错误缺省页
 
 ### 错误处理
 
@@ -570,6 +578,72 @@ abstract class DefaultConverter(
 
 
 
+## 缓存和网络请求
+
+很多App要求秒启动展示首页数据, 然后断网以后也可以展示缓存数据, 这种需求需要做到刷新UI数据两遍, 本框架同样方便实现
+
+
+
+首先在初始化的时候启用缓存功能
+
+```kotlin
+initNet("http://localhost.com") {
+	cacheEnabled()
+}
+```
+
+
+
+可配置参数
+
+```kotlin
+fun KalleConfig.Builder.openCache(
+    path: String = NetConfig.app.cacheDir.absolutePath, // 缓存保存位置, 默认应用缓存目录
+    password: String = "cache" // 缓存密码, 默认cache
+) 
+```
+
+
+
+发起缓存请求
+
+```kotlin
+scopeNetLife {
+
+  Log.d("日志", "网络请求")
+
+  val data = get<String>(
+    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
+    CacheMode.NETWORK_YES_THEN_WRITE_CACHE,
+    true
+  )
+
+  textView.text = data.await()
+
+}.cache {
+
+  Log.d("日志", "读取缓存")
+
+  val data = get<String>(
+    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
+    CacheMode.READ_CACHE,
+    true
+  )
+
+  textView.text = data.await()
+}
+```
+
+上面示例代码这种属于: 先加载缓存(没有缓存不会报异常), 后网络请求(缓存和网络请求都失败报异常信息), 网络请求成功缓存到本地并刷新界面UI.
+
+
+
+注意事项
+
+1. CacheMode: 属于Kalle的缓存模式, 共有九种缓存模式适用于不同的业务场景: [文档](https://yanzhenjie.com/Kalle/cache/)
+2. cache: 该作用域内部允许抛出任何异常都不算错误, 这里的`cache`会比`scopeNetLife`先执行.
+3. 当缓存读取成功视为作用域执行成功, 默认情况即使后续的网络请求失败也不会提示错误信息(cache函数参数指定true则提示)
+
 ## 轮循器
 
 本框架附带一个超级强大的轮循器`Interval`, 基本上包含轮循器所需要到所有功能
@@ -597,11 +671,12 @@ Interval(1, TimeUnit.SECONDS).subscribe {
 
 ```
 subscribe() // 即开启定时器, 订阅多个也会监听同一个计数器
+start() // 开始
 stop() // 结束
 pause() // 暂停
 resume() // 继续
 reset // 重置轮循器 (包含计数器count和计时period) 不会停止轮循器
 switch //  切换轮循器开关
 
-state // 轮循器的状态
+state // 得到当前轮循器的状态
 ```

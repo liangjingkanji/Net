@@ -10,7 +10,6 @@ package com.drake.net
 import android.app.Application
 import android.app.Dialog
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.drake.net.error.RequestParamsException
 import com.drake.net.error.ResponseException
@@ -20,6 +19,7 @@ import com.drake.tooltip.toast
 import com.yanzhenjie.kalle.Kalle
 import com.yanzhenjie.kalle.KalleConfig
 import com.yanzhenjie.kalle.exception.*
+import com.yanzhenjie.kalle.simple.cache.DiskCacheStore
 import java.util.concurrent.ExecutionException
 
 
@@ -28,7 +28,6 @@ object NetConfig {
     lateinit var host: String
     lateinit var app: Application
 
-    internal var defaultToast: Toast? = null
     internal var defaultDialog: (DialogCoroutineScope.(FragmentActivity) -> Dialog)? = null
     internal var onError: Throwable.() -> Unit = {
 
@@ -93,7 +92,8 @@ object NetConfig {
  * @param config 进行配置网络请求
  *
  * 如果想要自动解析数据模型请配置转换器, 可以继承或者参考默认转换器
- * @see DefaultConverter
+ *
+ * @see com.drake.net.convert.DefaultConvert
  */
 fun Application.initNet(host: String, config: KalleConfig.Builder.() -> Unit = {}) {
     NetConfig.host = host
@@ -106,8 +106,6 @@ fun Application.initNet(host: String, config: KalleConfig.Builder.() -> Unit = {
 
 /**
  * 该函数指定某些Observer的onError中的默认错误信息处理
- * @see NetObserver
- * @see DialogObserver
  *
  * @see NetConfig.onError
  */
@@ -117,8 +115,6 @@ fun KalleConfig.Builder.onError(block: Throwable.() -> Unit) {
 
 /**
  * 该函数指定某些Observer的onError中的默认错误信息处理
- * @see PageObserver
- * @see StateObserver
  *
  * 如果不设置默认只有 解析数据错误 | 后台自定义错误 会显示吐司
  * @see NetConfig.onStateError
@@ -134,5 +130,16 @@ fun KalleConfig.Builder.onStateError(block: Throwable.(view: View) -> Unit) {
  */
 fun KalleConfig.Builder.onDialog(block: (DialogCoroutineScope.(context: FragmentActivity) -> Dialog)) {
     NetConfig.defaultDialog = block
+}
+
+fun KalleConfig.Builder.cacheEnabled(
+    path: String = NetConfig.app.cacheDir.absolutePath,
+    password: String = "cache"
+) {
+    val cacheStore = DiskCacheStore.newBuilder(path)
+        .password(password)
+        .build()
+
+    cacheStore(cacheStore)
 }
 

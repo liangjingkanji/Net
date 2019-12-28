@@ -9,8 +9,8 @@ package com.drake.net.scope
 
 import android.view.View
 import com.drake.net.NetConfig
+import com.drake.net.R
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import kotlinx.coroutines.cancel
 
 /**
  * 自动结束下拉刷新 协程作用域
@@ -18,7 +18,7 @@ import kotlinx.coroutines.cancel
 class RefreshCoroutineScope(
     val refresh: SmartRefreshLayout,
     loadMore: Boolean = false
-) : AndroidScope() {
+) : NetCoroutineScope() {
 
     init {
         refresh.setEnableLoadMore(loadMore)
@@ -33,6 +33,16 @@ class RefreshCoroutineScope(
         })
     }
 
+    override fun start() {
+        readCache = refresh.getTag(R.id.cache_succeed) as? Boolean ?: true
+    }
+
+    override fun readCache(succeed: Boolean) {
+        refresh.finishRefresh()
+        refresh.setTag(R.id.cache_succeed, false)
+        autoOff()
+    }
+
     override fun catch(e: Throwable) {
         super.catch(e)
         refresh.finishRefresh(false)
@@ -40,7 +50,7 @@ class RefreshCoroutineScope(
 
     override fun finally(e: Throwable?) {
         super.finally(e)
-        if (e == null) {
+        if (e == null && auto) {
             refresh.finishRefresh(true)
         }
     }

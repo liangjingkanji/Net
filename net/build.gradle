@@ -40,7 +40,7 @@ dependencies {
 
     api 'com.yanzhenjie:okalle:0.1.7'
 
-    compileOnly 'com.github.liangjingkanji:BRV:1.1.7'
+    compileOnly 'com.github.liangjingkanji:BRV:1.2.0'
     compileOnly 'com.github.bumptech.glide:glide:4.9.0'
 
     implementation 'com.github.liangjingkanji:Tooltip:1.0.3'

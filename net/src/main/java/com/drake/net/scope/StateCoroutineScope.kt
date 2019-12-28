@@ -11,14 +11,14 @@ import android.app.Activity
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.NetConfig
+import com.drake.net.R
 import com.drake.statelayout.StateLayout
 import com.drake.statelayout.state
-import kotlinx.coroutines.cancel
 
 /**
- * 缺省页协程作用域
+ * 缺省页作用域
  */
-class StateCoroutineScope(val state: StateLayout) : AndroidScope() {
+class StateCoroutineScope(val state: StateLayout) : NetCoroutineScope() {
 
 
     constructor(view: View) : this(view.state())
@@ -36,29 +36,48 @@ class StateCoroutineScope(val state: StateLayout) : AndroidScope() {
                 cancel()
             }
         })
+    }
 
+    override fun start() {
+        (state.getTag(R.id.cache_succeed) as? Boolean)?.let {
+            readCache = false
+            cacheSucceed = it
+        }
+    }
 
+    override fun readCache(succeed: Boolean) {
+        if (succeed) {
+            state.showContent()
+        }
+        state.setTag(R.id.cache_succeed, succeed)
     }
 
     override fun catch(e: Throwable) {
         super.catch(e)
-        state.showError()
-        NetConfig.onStateError(e, state)
+        if (!cacheSucceed) {
+            state.showError()
+        }
+    }
+
+    override fun handleError(e: Throwable) {
+        if (cacheSucceed) {
+            super.handleError(e)
+        } else {
+            NetConfig.onStateError(e, state)
+        }
     }
 
     override fun finally(e: Throwable?) {
-        if (e == null) {
+        super.finally(e)
+        if (e == null && auto) {
             state.showContent()
         }
-        super.finally(e)
     }
 
-    /**
-     * 显示空缺省页
-     */
+
     fun showEmpty() {
         state.showEmpty()
-        cancel()
+        autoOff()
     }
 
 }
