@@ -11,6 +11,7 @@ import android.view.View
 import com.drake.net.NetConfig
 import com.drake.net.R
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import kotlinx.coroutines.cancel
 
 /**
  * 自动结束下拉刷新 协程作用域

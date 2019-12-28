@@ -12,8 +12,10 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.drake.net.NetConfig
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
+import kotlin.coroutines.EmptyCoroutineContext
 
 
 /**
@@ -48,7 +50,7 @@ open class NetCoroutineScope() : AndroidScope() {
     override fun launch(
         block: suspend CoroutineScope.() -> Unit
     ): NetCoroutineScope {
-        scope.launch {
+        launch(EmptyCoroutineContext) {
             start()
             if (onCache != null && readCache) {
                 supervisorScope {

@@ -11,12 +11,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * 异步协程作用域
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING")
-open class AndroidScope() {
+open class AndroidScope() : CoroutineScope {
+
 
     constructor(
         lifecycleOwner: LifecycleOwner,
@@ -39,15 +42,15 @@ open class AndroidScope() {
         catch(throwable)
     }
 
-    protected val scope
-        get() = CoroutineScope(Dispatchers.Main + exceptionHandler + SupervisorJob())
+    override val coroutineContext: CoroutineContext =
+        Dispatchers.Main + exceptionHandler + SupervisorJob()
 
 
     open fun launch(
         block: suspend CoroutineScope.() -> Unit
     ): AndroidScope {
         start()
-        scope.launch(block = block).invokeOnCompletion { finally(it) }
+        launch(EmptyCoroutineContext, block = block).invokeOnCompletion { finally(it) }
         return this
     }
 
@@ -85,14 +88,6 @@ open class AndroidScope() {
      */
     open fun handleError(e: Throwable) {
         e.printStackTrace()
-    }
-
-    fun cancel(cause: CancellationException? = null) {
-        scope.cancel(cause)
-    }
-
-    fun cancel(message: String, cause: Throwable? = null) {
-        scope.cancel(message, cause)
     }
 
     fun autoOff() {

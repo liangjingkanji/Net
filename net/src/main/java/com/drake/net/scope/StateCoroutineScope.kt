@@ -14,6 +14,7 @@ import com.drake.net.NetConfig
 import com.drake.net.R
 import com.drake.statelayout.StateLayout
 import com.drake.statelayout.state
+import kotlinx.coroutines.cancel
 
 /**
  * 缺省页作用域
