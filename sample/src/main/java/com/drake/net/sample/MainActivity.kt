@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("日志", "(MainActivity.kt:50)    网络")
 
                 val data = get<String>(
-                    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
+                    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md/",
                     CacheMode.NETWORK_YES_THEN_WRITE_CACHE,
                     true
                 )

@@ -1,6 +1,7 @@
 package com.drake.net.sample
 
 import android.app.Application
+import android.util.Log
 import com.drake.net.cacheEnabled
 import com.drake.net.initNet
 import com.drake.statelayout.StateConfig
@@ -30,6 +31,13 @@ class App : Application() {
                         })*/
 
             cacheEnabled()
+
+            addInterceptor { chain ->
+
+                val request = chain.request()
+                Log.d("日志", "(App.kt:37)    url = ${request.url()}")
+                chain.proceed(request)
+            }
         }
 
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->

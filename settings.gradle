@@ -1,2 +1,2 @@
-include ':sample', ':net'
+include ':sample', ':net', ':kalle'
 rootProject.name='Net'

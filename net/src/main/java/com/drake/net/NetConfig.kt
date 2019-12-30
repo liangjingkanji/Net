@@ -18,7 +18,6 @@ import com.drake.net.scope.DialogCoroutineScope
 import com.drake.tooltip.toast
 import com.yanzhenjie.kalle.Kalle
 import com.yanzhenjie.kalle.KalleConfig
-import com.yanzhenjie.kalle.OkHttpConnectFactory
 import com.yanzhenjie.kalle.exception.*
 import com.yanzhenjie.kalle.simple.cache.DiskCacheStore
 import java.util.concurrent.ExecutionException
