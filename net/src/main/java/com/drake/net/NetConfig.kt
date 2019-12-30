@@ -18,6 +18,7 @@ import com.drake.net.scope.DialogCoroutineScope
 import com.drake.tooltip.toast
 import com.yanzhenjie.kalle.Kalle
 import com.yanzhenjie.kalle.KalleConfig
+import com.yanzhenjie.kalle.connect.BroadcastNetwork
 import com.yanzhenjie.kalle.exception.*
 import com.yanzhenjie.kalle.simple.cache.DiskCacheStore
 import java.util.concurrent.ExecutionException
@@ -49,7 +50,6 @@ object NetConfig {
             is NullPointerException -> app.getString(R.string.net_null_error)
             is ResponseException -> msg
             else -> app.getString(R.string.net_other_error)
-
         }
 
         printStackTrace()
@@ -99,8 +99,11 @@ fun Application.initNet(host: String, config: KalleConfig.Builder.() -> Unit = {
     NetConfig.host = host
     NetConfig.app = this
     val builder = KalleConfig.newBuilder()
-    builder.connectFactory(OkHttpConnectFactory.newBuilder().build())
-    builder.config()
+    builder.apply {
+        connectFactory(OkHttpConnectFactory.newBuilder().build())
+        network(BroadcastNetwork(this@initNet))
+        config()
+    }
     Kalle.setConfig(builder.build())
 }
 
