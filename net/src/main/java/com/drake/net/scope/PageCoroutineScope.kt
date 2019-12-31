@@ -21,10 +21,6 @@ class PageCoroutineScope(
 
     val index get() = page.index
 
-    private var load
-        get() = page.getTag(R.id.load) as? Boolean ?: false
-        set(value) = page.setTag(R.id.load, value)
-
     init {
         page.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View) {
@@ -54,7 +50,7 @@ class PageCoroutineScope(
     override fun catch(e: Throwable) {
         super.catch(e)
 
-        if (cacheSucceed || load) {
+        if (cacheSucceed) {
             finish(false)
         } else {
             page.showError()
@@ -65,12 +61,11 @@ class PageCoroutineScope(
         super.finally(e)
         if (e == null && auto) {
             page.showContent()
-            load = true
         }
     }
 
     override fun handleError(e: Throwable) {
-        if (cacheSucceed || load) {
+        if (cacheSucceed) {
             NetConfig.onError(e)
         } else {
             NetConfig.onStateError(e, page)
@@ -106,7 +101,6 @@ class PageCoroutineScope(
      */
     fun showContent() {
         page.showContent()
-        load = true
         autoOff()
     }
 
