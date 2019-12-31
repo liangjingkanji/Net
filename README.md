@@ -31,6 +31,7 @@
 - 自动处理生命周期
 - 自动处理加载对话框
 - 协程作用域支持错误和结束回调
+- 支持先强制读取缓存后网络请求二次刷新
 
 
 
@@ -76,7 +77,7 @@ module 的 build.gradle
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 
-// 支持自动下拉刷新和缺省页的, 可选
+// 支持自动下拉刷新和缺省页的, 可选, 刷新头和上拉加载参考SmartRefreshLayout
 implementation 'com.github.liangjingkanji:BRV:1.2.1'
 
 implementation 'com.github.liangjingkanji:Net:2.0.8'
