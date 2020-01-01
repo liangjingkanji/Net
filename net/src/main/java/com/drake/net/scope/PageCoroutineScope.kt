@@ -78,7 +78,7 @@ class PageCoroutineScope(
      * @param hasMore 如果不传数据, 默认已加载完全部 (建议此时可以关闭[PageRefreshLayout]的加载更多功能)
      */
     fun addData(
-        data: List<Any>,
+        data: List<Any?>?,
         bindingAdapter: BindingAdapter? = null,
         hasMore: BindingAdapter.() -> Boolean = { false }
     ) {
