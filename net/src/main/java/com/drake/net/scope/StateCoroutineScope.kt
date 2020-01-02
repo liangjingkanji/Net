@@ -56,7 +56,7 @@ class StateCoroutineScope(val state: StateLayout) : NetCoroutineScope() {
     override fun catch(e: Throwable) {
         super.catch(e)
         if (!cacheSucceed) {
-            state.showError()
+            state.showError(e)
         }
     }
 
@@ -76,8 +76,8 @@ class StateCoroutineScope(val state: StateLayout) : NetCoroutineScope() {
     }
 
 
-    fun showEmpty() {
-        state.showEmpty()
+    fun showEmpty(tag: Any? = null) {
+        state.showEmpty(tag)
         autoOff()
     }
 

@@ -53,7 +53,7 @@ class PageCoroutineScope(
         if (cacheSucceed) {
             finish(false)
         } else {
-            page.showError()
+            page.showError(e)
         }
     }
 
@@ -89,8 +89,8 @@ class PageCoroutineScope(
     /**
      * 显示空缺省页
      */
-    fun showEmpty() {
-        page.showEmpty()
+    fun showEmpty(tag: Any? = null) {
+        page.showEmpty(tag)
         autoOff()
     }
 
