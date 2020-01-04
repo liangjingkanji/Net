@@ -34,9 +34,9 @@ import java.io.File
 
 inline fun <reified M> CoroutineScope.get(
     path: String,
+    tag: Any? = null,
     cache: CacheMode = CacheMode.HTTP,
     absolutePath: Boolean = false,
-    tag: Any? = null,
     noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
 ): Deferred<M> = async(Dispatchers.IO) {
 
@@ -65,9 +65,9 @@ inline fun <reified M> CoroutineScope.get(
 
 inline fun <reified M> CoroutineScope.post(
     path: String,
+    tag: Any? = null,
     cache: CacheMode = CacheMode.HTTP,
     absolutePath: Boolean = false,
-    tag: Any? = null,
     noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
 ): Deferred<M> = async(Dispatchers.IO) {
 
@@ -108,8 +108,8 @@ inline fun <reified M> CoroutineScope.post(
 fun CoroutineScope.download(
     path: String,
     directory: String = NetConfig.app.externalCacheDir!!.absolutePath,
-    absolutePath: Boolean = false,
     tag: Any? = null,
+    absolutePath: Boolean = false,
     block: (UrlDownload.Api.() -> Unit)? = null
 ): Deferred<String> = async(Dispatchers.IO) {
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -163,9 +163,9 @@ fun CoroutineScope.downImage(
 
 inline fun <reified M> syncGet(
     path: String,
+    tag: Any? = null,
     cache: CacheMode = CacheMode.HTTP,
     absolutePath: Boolean = false,
-    tag: Any? = null,
     noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
 ): M {
 
@@ -187,9 +187,9 @@ inline fun <reified M> syncGet(
 
 inline fun <reified M> syncPost(
     path: String,
+    tag: Any? = null,
     cache: CacheMode = CacheMode.HTTP,
     absolutePath: Boolean = false,
-    tag: Any? = null,
     noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
 ): M {
 
@@ -212,8 +212,8 @@ inline fun <reified M> syncPost(
 fun syncDownload(
     path: String,
     directory: String = NetConfig.app.externalCacheDir!!.absolutePath,
-    absolutePath: Boolean = false,
     tag: Any? = null,
+    absolutePath: Boolean = false,
     block: (UrlDownload.Api.() -> Unit)? = null
 ): String {
 

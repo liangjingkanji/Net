@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
 
                 val data = get<String>(
                     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-                    CacheMode.NETWORK_YES_THEN_WRITE_CACHE,
-                    true
+                    cache = CacheMode.NETWORK_YES_THEN_WRITE_CACHE,
+                    absolutePath = true
                 )
 
                 textView.text = data.await()
@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
 
                 val data = get<String>(
                     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-                    CacheMode.READ_CACHE,
-                    true
+                    cache = CacheMode.READ_CACHE,
+                    absolutePath = true
                 )
 
                 textView.text = data.await()

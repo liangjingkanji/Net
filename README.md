@@ -80,7 +80,7 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 // 支持自动下拉刷新和缺省页的, 可选, 刷新头和上拉加载参考SmartRefreshLayout
 implementation 'com.github.liangjingkanji:BRV:1.2.1'
 
-implementation 'com.github.liangjingkanji:Net:2.0.10'
+implementation 'com.github.liangjingkanji:Net:2.0.11'
 ```
 
 
@@ -615,8 +615,8 @@ scopeNetLife {
 
   val data = get<String>(
     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-    CacheMode.NETWORK_YES_THEN_WRITE_CACHE,
-    true
+    cache = CacheMode.NETWORK_YES_THEN_WRITE_CACHE,
+    absolutePath = true
   )
 
   textView.text = data.await()
@@ -627,8 +627,8 @@ scopeNetLife {
 
   val data = get<String>(
     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-    CacheMode.READ_CACHE,
-    true
+    cache = CacheMode.READ_CACHE,
+    absolutePath = true
   )
 
   textView.text = data.await()
