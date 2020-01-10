@@ -11,6 +11,7 @@ import android.app.Application
 import android.app.Dialog
 import android.view.View
 import androidx.fragment.app.FragmentActivity
+import com.drake.net.connect.OkHttpConnectFactory
 import com.drake.net.error.RequestParamsException
 import com.drake.net.error.ResponseException
 import com.drake.net.error.ServerResponseException

@@ -10,4 +10,8 @@ package com.drake.net.error
 /**
  * 500
  */
-class ServerResponseException(code: Int) : Throwable(code.toString())
+class ServerResponseException(
+    val code: Int,
+    val msg: String = "",
+    val tag: Any? = null
+) : Throwable("$code: $msg")

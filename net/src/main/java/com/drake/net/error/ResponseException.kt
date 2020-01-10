@@ -13,5 +13,8 @@ package com.drake.net.error
  * @param code 网络请求错误码
  * @param tag 应对错误码判断为错时但是后端又返回了需要使用的数据(建议后端修改). 一般在Convert中设置数据
  */
-class ResponseException(val msg: String, val code: Int, val tag: Any? = null) :
-    Throwable("code: $code, msg: $msg")
+class ResponseException(
+    val code: Int,
+    val msg: String = "",
+    val tag: Any? = null
+) : Throwable("$code: $msg")

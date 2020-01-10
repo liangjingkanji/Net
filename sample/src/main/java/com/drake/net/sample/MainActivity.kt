@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         }.autoRefresh()
-
     }
 }
 

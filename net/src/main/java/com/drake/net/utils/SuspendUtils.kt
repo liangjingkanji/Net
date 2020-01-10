@@ -7,6 +7,8 @@
 
 package com.drake.net.utils
 
+import android.os.Handler
+import android.os.Looper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.supervisorScope
@@ -42,5 +44,16 @@ suspend fun tryScope(
         } catch (e: Exception) {
             error(e)
         }
+    }
+}
+
+/**
+ * 在主线程运行
+ */
+fun runMain(block: () -> Unit) {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+        block()
+    } else {
+        Handler(Looper.getMainLooper()).post { block() }
     }
 }

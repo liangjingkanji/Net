@@ -55,7 +55,7 @@ inline fun <reified M> CoroutineScope.get(
         if (response.isSucceed) {
             response.succeed()
         } else {
-            throw ResponseException(response.failed(), response.code())
+            throw ResponseException(response.code(), response.failed())
         }
     } else {
         throw CancellationException()
@@ -87,7 +87,7 @@ inline fun <reified M> CoroutineScope.post(
         if (response.isSucceed) {
             response.succeed()
         } else {
-            throw ResponseException(response.failed(), response.code())
+            throw ResponseException(response.code(), response.failed())
         }
     } else {
         throw CancellationException()
@@ -181,7 +181,7 @@ inline fun <reified M> syncGet(
     return if (response.isSucceed) {
         response.succeed()
     } else {
-        throw ResponseException(response.failed(), response.code())
+        throw ResponseException(response.code(), response.failed())
     }
 }
 
@@ -205,7 +205,7 @@ inline fun <reified M> syncPost(
     return if (response.isSucceed) {
         response.succeed()
     } else {
-        throw ResponseException(response.failed(), response.code())
+        throw ResponseException(response.code(), response.failed())
     }
 }
 

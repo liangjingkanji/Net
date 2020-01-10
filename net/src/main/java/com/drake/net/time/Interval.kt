@@ -2,17 +2,18 @@
  * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
  * Project：Net
  * Author：Drake
- * Date：12/22/19 3:59 PM
+ * Date：1/10/20 11:25 PM
  */
 
 @file:UseExperimental(ObsoleteCoroutinesApi::class)
 
-package com.drake.net.utils
+package com.drake.net.time
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.drake.net.scope.AndroidScope
+import com.drake.net.utils.scope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -59,7 +60,7 @@ class Interval(
 
     private val receiveList: MutableList<(Long) -> Unit> = mutableListOf()
     private val finishList: MutableList<(Long) -> Unit> = mutableListOf()
-    private var _state = TickerState.STATE_IDLE
+    private var _state = IntervalState.STATE_IDLE
     private var countTime = 0L
     private var delay = 0L
     private var scope: AndroidScope? = null
@@ -94,10 +95,10 @@ class Interval(
      * 开始
      */
     fun start() {
-        if (_state == TickerState.STATE_ACTIVE || _state == TickerState.STATE_PAUSE) {
+        if (_state == IntervalState.STATE_ACTIVE || _state == IntervalState.STATE_PAUSE) {
             return
         }
-        _state = TickerState.STATE_ACTIVE
+        _state = IntervalState.STATE_ACTIVE
         launch()
     }
 
@@ -106,8 +107,8 @@ class Interval(
      * 停止
      */
     fun stop() {
-        if (_state == TickerState.STATE_IDLE) return
-        _state = TickerState.STATE_IDLE
+        if (_state == IntervalState.STATE_IDLE) return
+        _state = IntervalState.STATE_IDLE
         scope?.cancel()
         finishList.forEach {
             it.invoke(count)
@@ -120,8 +121,8 @@ class Interval(
      */
     fun switch() {
         when (state) {
-            TickerState.STATE_ACTIVE -> stop()
-            TickerState.STATE_IDLE -> start()
+            IntervalState.STATE_ACTIVE -> stop()
+            IntervalState.STATE_IDLE -> start()
             else -> return
         }
     }
@@ -130,8 +131,8 @@ class Interval(
      * 继续
      */
     fun resume() {
-        if (_state != TickerState.STATE_PAUSE) return
-        _state = TickerState.STATE_ACTIVE
+        if (_state != IntervalState.STATE_PAUSE) return
+        _state = IntervalState.STATE_ACTIVE
         launch(delay)
     }
 
@@ -139,8 +140,8 @@ class Interval(
      * 暂停
      */
     fun pause() {
-        if (_state != TickerState.STATE_ACTIVE) return
-        _state = TickerState.STATE_PAUSE
+        if (_state != IntervalState.STATE_ACTIVE) return
+        _state = IntervalState.STATE_PAUSE
         delay = System.currentTimeMillis() - countTime
         scope?.cancel()
     }
@@ -149,11 +150,11 @@ class Interval(
      * 重置
      */
     fun reset() {
-        if (_state == TickerState.STATE_IDLE) return
+        if (_state == IntervalState.STATE_IDLE) return
         count = start
         scope?.cancel()
         delay = unit.toMillis(initialDelay)
-        if (_state == TickerState.STATE_ACTIVE) launch()
+        if (_state == IntervalState.STATE_ACTIVE) launch()
     }
 
     /**
@@ -197,11 +198,5 @@ class Interval(
             }
         }
     }
-
-    /**
-     * 计时器的状态
-     */
-    enum class TickerState {
-        STATE_ACTIVE, STATE_IDLE, STATE_PAUSE
-    }
 }
+

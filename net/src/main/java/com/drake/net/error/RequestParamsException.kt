@@ -10,4 +10,8 @@ package com.drake.net.error
 /**
  * 404
  */
-class RequestParamsException(code: Int) : Throwable(code.toString())
+class RequestParamsException(
+    val code: Int,
+    val msg: String = "",
+    val tag: Any? = null
+) : Throwable("$code: $msg")
