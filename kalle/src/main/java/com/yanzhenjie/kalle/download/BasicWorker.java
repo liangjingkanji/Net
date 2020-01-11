@@ -90,7 +90,7 @@ public abstract class BasicWorker<T extends Download> implements Callable<String
             }
 
             if (!mPolicy.allowDownload(code, comeHeaders)) {
-                throw new DownloadError(code, comeHeaders, "The download policy prohibits the program from continuing to download.");
+                throw new DownloadError(code, comeHeaders, "The download policy prohibits the program from continuing to download: " + mDownload.request().location());
             }
 
             File file = new File(mDirectory, mFileName);

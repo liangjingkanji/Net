@@ -37,6 +37,18 @@ public abstract class Request {
     private final int mReadTimeout;
     private final Object mTag;
 
+    private String location;
+
+    public void location(String location) {
+        this.location = location;
+    }
+
+    public String location() {
+        if (location != null) {
+            return location;
+        } else return url().toString();
+    }
+
     protected <T extends Api<T>> Request(Api<T> api) {
         this.mMethod = api.mMethod;
         this.mHeaders = api.mHeaders;

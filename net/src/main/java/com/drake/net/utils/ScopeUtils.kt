@@ -17,6 +17,9 @@ import com.drake.net.scope.*
 import com.drake.statelayout.StateLayout
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 
 /**
  * 作用域内部全在主线程
@@ -135,6 +138,18 @@ fun LifecycleOwner.scopeNetLife(
     block: suspend CoroutineScope.() -> Unit
 ): NetCoroutineScope {
     return NetCoroutineScope(this, lifeEvent).launch(block = block)
+}
+
+
+@UseExperimental(InternalCoroutinesApi::class)
+inline fun <T> Flow<T>.scope(
+    owner: LifecycleOwner? = null,
+    event: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+    crossinline action: suspend (value: T) -> Unit
+): CoroutineScope = AndroidScope(owner, event).launch {
+    this@scope.collect(object : FlowCollector<T> {
+        override suspend fun emit(value: T) = action(value)
+    })
 }
 
 

@@ -16,6 +16,7 @@
 package com.yanzhenjie.kalle.simple;
 
 import com.yanzhenjie.kalle.Headers;
+import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.Url;
 import com.yanzhenjie.kalle.simple.cache.CacheMode;
 
@@ -47,4 +48,6 @@ public interface SimpleRequest {
      * Get converter.
      */
     Converter converter();
+
+    Request request();
 }

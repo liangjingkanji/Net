@@ -28,6 +28,7 @@ public final class Response implements Closeable {
     private final int mCode;
     private final Headers mHeaders;
     private final ResponseBody mBody;
+
     private Response(Builder builder) {
         this.mCode = builder.mCode;
         this.mHeaders = builder.mHeaders;
@@ -37,6 +38,7 @@ public final class Response implements Closeable {
     public static Builder newBuilder() {
         return new Builder();
     }
+
 
     /**
      * Get the mCode of response.

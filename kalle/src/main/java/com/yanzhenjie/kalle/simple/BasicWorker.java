@@ -133,7 +133,7 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
                 if (cache != null) {
                     return buildResponse(cache.getCode(), cache.getHeaders(), cache.getBody());
                 }
-                throw new NoCacheError("No cache found.");
+                throw new NoCacheError("No cache found: " + mRequest.request().location());
             }
             case READ_CACHE_NO_THEN_NETWORK:
             case READ_CACHE_NO_THEN_HTTP: {
@@ -286,11 +286,11 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
 
     private SimpleResponse<Succeed, Failed> buildSimpleResponse(Response response, boolean cache) throws IOException {
         try {
-            return mConverter.convert(mSucceed, mFailed, response, cache);
+            return mConverter.convert(mSucceed, mFailed, mRequest.request(), response, cache);
         } catch (IOException e) {
             throw e;
         } catch (Exception e) {
-            throw new ParseError("An exception occurred while parsing the data.", e);
+            throw new ParseError("An exception occurred while parsing the data: " + mRequest.request().location(), e);
         }
     }
 }

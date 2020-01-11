@@ -15,6 +15,7 @@
  */
 package com.yanzhenjie.kalle.simple;
 
+import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.Response;
 
 import java.lang.reflect.Type;
@@ -29,7 +30,7 @@ public interface Converter {
      */
     Converter DEFAULT = new Converter() {
         @Override
-        public <S, F> SimpleResponse<S, F> convert(Type succeed, Type failed, Response response, boolean fromCache) throws Exception {
+        public <S, F> SimpleResponse<S, F> convert(Type succeed, Type failed, Request request, Response response, boolean fromCache) throws Exception {
             S succeedData = null;
 
             if (succeed == String.class) succeedData = (S) response.body().string();
@@ -55,5 +56,5 @@ public interface Converter {
      * @return {@link SimpleResponse}
      * @throws Exception to prevent accidents.
      */
-    <S, F> SimpleResponse<S, F> convert(Type succeed, Type failed, Response response, boolean fromCache) throws Exception;
+    <S, F> SimpleResponse<S, F> convert(Type succeed, Type failed, Request request, Response response, boolean fromCache) throws Exception;
 }

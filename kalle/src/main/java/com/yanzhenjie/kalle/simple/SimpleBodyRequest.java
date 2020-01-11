@@ -19,6 +19,7 @@ import android.text.TextUtils;
 
 import com.yanzhenjie.kalle.BodyRequest;
 import com.yanzhenjie.kalle.Canceller;
+import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.RequestMethod;
 import com.yanzhenjie.kalle.Url;
 import com.yanzhenjie.kalle.simple.cache.CacheMode;
@@ -42,6 +43,11 @@ public class SimpleBodyRequest extends BodyRequest implements SimpleRequest {
         this.mCacheKey = TextUtils.isEmpty(api.mCacheKey) ? url().toString() : api.mCacheKey;
 
         this.mConverter = api.mConverter;
+    }
+
+    @Override
+    public Request request() {
+        return this;
     }
 
     public static SimpleBodyRequest.Api newApi(Url url, RequestMethod method) {

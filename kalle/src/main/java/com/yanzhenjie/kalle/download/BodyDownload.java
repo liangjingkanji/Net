@@ -17,6 +17,7 @@ package com.yanzhenjie.kalle.download;
 
 import com.yanzhenjie.kalle.BodyRequest;
 import com.yanzhenjie.kalle.Canceller;
+import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.RequestMethod;
 import com.yanzhenjie.kalle.Url;
 
@@ -39,6 +40,11 @@ public class BodyDownload extends BodyRequest implements Download {
 
     public static BodyDownload.Api newApi(Url url, RequestMethod method) {
         return new BodyDownload.Api(url, method);
+    }
+
+    @Override
+    public Request request() {
+        return this;
     }
 
     @Override

@@ -16,12 +16,15 @@
 package com.yanzhenjie.kalle.download;
 
 import com.yanzhenjie.kalle.Headers;
+import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.Url;
 
 /**
  * Created by Zhenjie Yan on 2018/3/18.
  */
 public interface Download {
+
+    Request request();
 
     /**
      * Get the file download address.

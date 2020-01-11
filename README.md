@@ -6,10 +6,12 @@
 
 本项目为Android项目中的所有的异步任务和网络请求而生
 
+The project is supported by [JetBrains](https://www.jetbrains.com/), Best IDE to developer <img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaskr305czj30u00wjtcz.jpg" alt="jetbrains" style="zoom:8%;" />
+
 
 
 1.0+ 版本为RxKotlin实现
-2.0+ 版本开始引入Kotlin协程特性, 开发者无需掌握协程也可以使用, 两个版本存在Api变动需要手动迁移
+2.0+ 版本开始引入Kotlin协程特性, 开发者无需掌握协程也可以使用, 两个版本存在Api变动需要手动迁移 
 
 
 
@@ -217,6 +219,41 @@ class App : Application() {
 }
 ```
 
+
+
+### 初始化配置
+
+在初始化的时候可以选择配置网络请求
+
+```kotlin
+initNet("http://192.168.2.1") {
+
+  // 默认错误处理
+  onError {
+
+  }
+
+  // PageObserver 默认错误处理
+  onPageError {
+
+  }
+
+  // 默认加载对话框
+  onDialog {
+
+    ProgressDialog(it)
+  }
+
+  converter(object : DefaultConverter() {
+    override fun <S> convert(succeed: Type, body: String): S? {
+      return Moshi.Builder().build().adapter<S>(succeed).fromJson(body)
+    }
+  })
+}
+```
+
+
+
 ### 错误信息
 
 第一种覆盖`onError`函数
@@ -290,38 +327,9 @@ internal var onError: Throwable.() -> Unit = {
 
 
 
-### 初始化配置
+### 异常日志
 
-在初始化的时候可以选择配置网络请求
-
-```kotlin
-initNet("http://192.168.2.1") {
-
-  // 默认错误处理
-  onError {
-
-  }
-
-  // PageObserver 默认错误处理
-  onPageError {
-
-  }
-
-  // 默认加载对话框
-  onDialog {
-
-    ProgressDialog(it)
-  }
-
-  converter(object : DefaultConverter() {
-    override fun <S> convert(succeed: Type, body: String): S? {
-      return Moshi.Builder().build().adapter<S>(succeed).fromJson(body)
-    }
-  })
-}
-```
-
-## 
+网络请求的每个异常都会被自动打印到LogCat, 并且附带位置信息: location, 默认为url. 可以在拦截器中通过Request.location()设置
 
 ## 作用域
 

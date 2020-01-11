@@ -18,6 +18,7 @@ package com.yanzhenjie.kalle.simple;
 import android.text.TextUtils;
 
 import com.yanzhenjie.kalle.Canceller;
+import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.RequestMethod;
 import com.yanzhenjie.kalle.Url;
 import com.yanzhenjie.kalle.UrlRequest;
@@ -46,6 +47,11 @@ public class SimpleUrlRequest extends UrlRequest implements SimpleRequest {
 
     public static SimpleUrlRequest.Api newApi(Url url, RequestMethod method) {
         return new SimpleUrlRequest.Api(url, method);
+    }
+
+    @Override
+    public Request request() {
+        return this;
     }
 
     @Override

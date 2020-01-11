@@ -16,6 +16,7 @@
 package com.yanzhenjie.kalle.download;
 
 import com.yanzhenjie.kalle.Canceller;
+import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.RequestMethod;
 import com.yanzhenjie.kalle.Url;
 import com.yanzhenjie.kalle.UrlRequest;
@@ -39,6 +40,11 @@ public class UrlDownload extends UrlRequest implements Download {
 
     public static UrlDownload.Api newApi(Url url, RequestMethod method) {
         return new UrlDownload.Api(url, method);
+    }
+
+    @Override
+    public Request request() {
+        return this;
     }
 
     @Override

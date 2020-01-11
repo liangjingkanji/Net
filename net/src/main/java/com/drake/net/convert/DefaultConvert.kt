@@ -11,6 +11,7 @@ package com.drake.net.convert
 
 import com.drake.net.error.RequestParamsException
 import com.drake.net.error.ServerResponseException
+import com.yanzhenjie.kalle.Request
 import com.yanzhenjie.kalle.Response
 import com.yanzhenjie.kalle.simple.Converter
 import com.yanzhenjie.kalle.simple.SimpleResponse
@@ -37,6 +38,7 @@ abstract class DefaultConvert(
     override fun <S, F> convert(
         succeed: Type,
         failed: Type,
+        request: Request,
         response: Response,
         fromCache: Boolean
     ): SimpleResponse<S, F> {
@@ -45,7 +47,6 @@ abstract class DefaultConvert(
 
         val body = response.body().string()
         var code = response.code()
-
 
         when {
             code in 200..299 -> {
