@@ -44,6 +44,7 @@ class StateCoroutineScope(val state: StateLayout) : NetCoroutineScope() {
             readCache = false
             cacheSucceed = it
         }
+        state.trigger()
     }
 
     override fun readCache(succeed: Boolean) {
@@ -70,15 +71,10 @@ class StateCoroutineScope(val state: StateLayout) : NetCoroutineScope() {
 
     override fun finally(e: Throwable?) {
         super.finally(e)
-        if (e == null && auto) {
+        if (e == null) {
             state.showContent()
+            state.trigger()
         }
-    }
-
-
-    fun showEmpty(tag: Any? = null) {
-        state.showEmpty(tag)
-        autoOff()
     }
 
 }

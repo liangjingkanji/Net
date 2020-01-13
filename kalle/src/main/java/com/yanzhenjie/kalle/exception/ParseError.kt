@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.kalle.exception;
+package com.yanzhenjie.kalle.exception
+
+import com.yanzhenjie.kalle.Request
 
 /**
- * Created by Zhenjie Yan on 2018/2/24.
+ * Created by Zhenjie Yan on 2018/2/27.
  */
-public class ReadTimeoutError extends ReadException {
-    public ReadTimeoutError(String message) {
-        super(message);
-    }
-
-    public ReadTimeoutError(String message, Throwable cause) {
-        super(message, cause);
-    }
-}
+class ParseError(
+    request: Request,
+    message: String? = null,
+    cause: Throwable? = null
+) : ReadException(request, message, cause)

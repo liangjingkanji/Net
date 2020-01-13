@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.kalle.exception;
+package com.yanzhenjie.kalle.exception
+
+import com.yanzhenjie.kalle.Request
 
 /**
- * Created by Zhenjie Yan on 2018/2/22.
+ * Created by Zhenjie Yan on 2018/2/24.
  */
-public class ConnectTimeoutError extends ConnectException {
-    public ConnectTimeoutError(String message) {
-        super(message);
-    }
-
-    public ConnectTimeoutError(String message, Throwable cause) {
-        super(message, cause);
-    }
-}
+class WriteException constructor(
+    request: Request,
+    message: String? = null,
+    cause: Throwable? = null
+) : NetException(request, message, cause)

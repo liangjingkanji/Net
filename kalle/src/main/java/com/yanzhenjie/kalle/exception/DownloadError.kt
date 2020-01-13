@@ -13,35 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.kalle.exception;
+package com.yanzhenjie.kalle.exception
 
-import com.yanzhenjie.kalle.Headers;
+import com.yanzhenjie.kalle.Headers
+import com.yanzhenjie.kalle.Request
 
 /**
  * Created by Zhenjie Yan on 2018/3/18.
  */
-public class DownloadError extends ReadException {
-
-    private int mCode;
-    private Headers mHeaders;
-
-    public DownloadError(int code, Headers headers, String message) {
-        super(message);
-        this.mCode = code;
-        this.mHeaders = headers;
-    }
-
-    public DownloadError(int code, Headers headers, Throwable cause) {
-        super(cause);
-        this.mCode = code;
-        this.mHeaders = headers;
-    }
-
-    public int getCode() {
-        return mCode;
-    }
-
-    public Headers getHeaders() {
-        return mHeaders;
-    }
-}
+class DownloadError(
+    code: Int,
+    headers: Headers,
+    request: Request,
+    message: String? = null
+) : ReadException(request, message)

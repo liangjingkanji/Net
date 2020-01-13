@@ -7,11 +7,13 @@
 
 package com.drake.net.error
 
+import com.yanzhenjie.kalle.Request
+import com.yanzhenjie.kalle.exception.NetException
+
 /**
  * 404
  */
 class RequestParamsException(
     val code: Int,
-    val msg: String = "",
-    val tag: Any? = null
-) : Throwable("$code: $msg")
+    request: Request
+) : NetException(request, code.toString())

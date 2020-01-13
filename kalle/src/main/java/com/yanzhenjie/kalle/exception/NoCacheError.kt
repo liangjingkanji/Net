@@ -13,24 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.kalle.exception;
+package com.yanzhenjie.kalle.exception
 
-import java.io.IOException;
+import com.yanzhenjie.kalle.Request
 
 /**
- * Created by Zhenjie Yan on 2018/2/13.
+ * Created by Zhenjie Yan on 2018/2/26.
  */
-public class ReadException extends IOException {
-
-    public ReadException(String message) {
-        super(message);
-    }
-
-    public ReadException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public ReadException(Throwable cause) {
-        super(cause);
-    }
-}
+class NoCacheError(
+    request: Request,
+    message: String? = null
+) : ReadException(request, message)

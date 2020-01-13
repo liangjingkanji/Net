@@ -8,7 +8,6 @@
 package com.drake.net.scope
 
 import android.view.View
-import com.drake.brv.BindingAdapter
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.NetConfig
 import com.drake.net.R
@@ -38,6 +37,7 @@ class PageCoroutineScope(
             readCache = false
             cacheSucceed = it
         }
+        page.trigger()
     }
 
     override fun readCache(succeed: Boolean) {
@@ -51,7 +51,7 @@ class PageCoroutineScope(
         super.catch(e)
 
         if (cacheSucceed) {
-            finish(false)
+            page.finish(false)
         } else {
             page.showError(e)
         }
@@ -59,8 +59,9 @@ class PageCoroutineScope(
 
     override fun finally(e: Throwable?) {
         super.finally(e)
-        if (e == null && auto) {
+        if (e == null) {
             page.showContent()
+            page.trigger()
         }
     }
 
@@ -70,50 +71,6 @@ class PageCoroutineScope(
         } else {
             NetConfig.onStateError(e, page)
         }
-    }
-
-    /**
-     * 自动判断是添加数据还是覆盖数据, 以及数据为空或者NULL时[showEmpty]
-     *
-     * @param hasMore 如果不传数据, 默认已加载完全部 (建议此时可以关闭[PageRefreshLayout]的加载更多功能)
-     */
-    fun addData(
-        data: List<Any?>?,
-        bindingAdapter: BindingAdapter? = null,
-        hasMore: BindingAdapter.() -> Boolean = { false }
-    ) {
-        page.addData(data, bindingAdapter, hasMore)
-        autoOff()
-    }
-
-    /**
-     * 显示空缺省页
-     */
-    fun showEmpty(tag: Any? = null) {
-        page.showEmpty(tag)
-        autoOff()
-    }
-
-    /**
-     * 显示内容缺省页
-     *
-     * 一般情况会自动执行不需要手动调用
-     */
-    fun showContent() {
-        page.showContent()
-        autoOff()
-    }
-
-    /**
-     * 结束刷新或者加载
-     *
-     * 一般情况会自动执行不需要手动调用
-     *
-     * @param success 是否成功
-     */
-    fun finish(success: Boolean = true) {
-        page.finish(success)
-        autoOff()
     }
 
 }

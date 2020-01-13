@@ -46,19 +46,15 @@ inline fun <reified M> CoroutineScope.get(
         .cacheMode(cache)
 
     val response = if (block == null) {
-        request.perform(M::class.java, String::class.java)
+        request.perform(M::class.java, ResponseException::class.java)
     } else {
-        request.apply(block).perform<M, String>(M::class.java, String::class.java)
+        request.apply(block).perform<M, String>(M::class.java, ResponseException::class.java)
     }
 
-    if (isActive) {
-        if (response.isSucceed) {
-            response.succeed()
-        } else {
-            throw ResponseException(response.code(), response.failed())
-        }
+    if (response.isSucceed) {
+        response.succeed()
     } else {
-        throw CancellationException()
+        throw response.failed() as ResponseException
     }
 }
 
@@ -78,19 +74,15 @@ inline fun <reified M> CoroutineScope.post(
             .cacheMode(cache)
 
     val response = if (block == null) {
-        request.perform<M, String>(M::class.java, String::class.java)
+        request.perform<M, String>(M::class.java, ResponseException::class.java)
     } else {
-        request.apply(block).perform<M, String>(M::class.java, String::class.java)
+        request.apply(block).perform<M, String>(M::class.java, ResponseException::class.java)
     }
 
-    if (isActive) {
-        if (response.isSucceed) {
-            response.succeed()
-        } else {
-            throw ResponseException(response.code(), response.failed())
-        }
+    if (response.isSucceed) {
+        response.succeed()
     } else {
-        throw CancellationException()
+        throw response.failed() as ResponseException
     }
 }
 
@@ -173,15 +165,15 @@ inline fun <reified M> syncGet(
         Kalle.get(if (absolutePath) path else (NetConfig.host + path)).tag(tag).cacheKey(path)
             .cacheMode(cache)
     val response = if (block == null) {
-        request.perform(M::class.java, String::class.java)
+        request.perform(M::class.java, ResponseException::class.java)
     } else {
-        request.apply(block).perform<M, String>(M::class.java, String::class.java)
+        request.apply(block).perform<M, String>(M::class.java, ResponseException::class.java)
     }
 
     return if (response.isSucceed) {
         response.succeed()
     } else {
-        throw ResponseException(response.code(), response.failed())
+        throw response.failed() as ResponseException
     }
 }
 
@@ -197,15 +189,15 @@ inline fun <reified M> syncPost(
         Kalle.post(if (absolutePath) path else (NetConfig.host + path)).tag(tag).cacheKey(path)
             .cacheMode(cache)
     val response = if (block == null) {
-        request.perform<M, String>(M::class.java, String::class.java)
+        request.perform<M, String>(M::class.java, ResponseException::class.java)
     } else {
-        request.apply(block).perform<M, String>(M::class.java, String::class.java)
+        request.apply(block).perform<M, String>(M::class.java, ResponseException::class.java)
     }
 
     return if (response.isSucceed) {
         response.succeed()
     } else {
-        throw ResponseException(response.code(), response.failed())
+        throw response.failed() as ResponseException
     }
 }
 

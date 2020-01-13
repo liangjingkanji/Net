@@ -10,6 +10,7 @@
 package com.drake.net.convert
 
 import com.drake.net.error.RequestParamsException
+import com.drake.net.error.ResponseException
 import com.drake.net.error.ServerResponseException
 import com.yanzhenjie.kalle.Request
 import com.yanzhenjie.kalle.Response
@@ -57,12 +58,12 @@ abstract class DefaultConvert(
                     succeedData = if (succeed === String::class.java) body as S
                     else convert(succeed, body)
                 } else {
-                    failedData = jsonObject.getString(msg) as F
+                    failedData = ResponseException(code, jsonObject.getString(msg), request) as F
                     code = responseCode.toInt()
                 }
             }
-            code in 400..499 -> throw RequestParamsException(code)
-            code >= 500 -> throw ServerResponseException(code)
+            code in 400..499 -> throw RequestParamsException(code, request)
+            code >= 500 -> throw ServerResponseException(code, request)
         }
 
         return SimpleResponse.newBuilder<S, F>().code(code)

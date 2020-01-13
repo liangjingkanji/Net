@@ -36,7 +36,6 @@ open class AndroidScope(
 
     protected var catch: (AndroidScope.(Throwable) -> Unit)? = null
     protected var finally: (AndroidScope.(Throwable?) -> Unit)? = null
-    protected var auto = true
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         catch(throwable)
@@ -88,10 +87,6 @@ open class AndroidScope(
      */
     open fun handleError(e: Throwable) {
         e.printStackTrace()
-    }
-
-    fun autoOff() {
-        auto = false
     }
 
 }

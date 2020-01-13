@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.kalle.exception;
+package com.yanzhenjie.kalle.exception
+
+import com.yanzhenjie.kalle.Request
 
 /**
- * Created by Zhenjie Yan on 2018/2/27.
+ * Created by Zhenjie Yan on 2018/2/13.
  */
-public class ParseError extends ReadException {
-    public ParseError(String message) {
-        super(message);
-    }
-
-    public ParseError(String message, Throwable cause) {
-        super(message, cause);
-    }
-}
+open class ConnectException(
+    request: Request,
+    message: String? = null,
+    cause: Throwable? = null
+) : NetException(request, message, cause)

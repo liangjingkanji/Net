@@ -34,6 +34,7 @@ The project is supported by [JetBrains](https://www.jetbrains.com/), Best IDE to
 - 自动处理加载对话框
 - 协程作用域支持错误和结束回调
 - 支持先强制读取缓存后网络请求二次刷新
+- 附带超强轮循器
 
 
 

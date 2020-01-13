@@ -40,14 +40,14 @@ fun FragmentActivity.scopeDialog(
     dialog: Dialog? = null,
     cancelable: Boolean = true, block: suspend CoroutineScope.() -> Unit
 ): NetCoroutineScope {
-    return DialogCoroutineScope(this, dialog, cancelable).launch(block = block)
+    return DialogCoroutineScope(this, dialog, cancelable).launch(block)
 }
 
 fun Fragment.scopeDialog(
     dialog: Dialog? = null,
     cancelable: Boolean = true, block: suspend CoroutineScope.() -> Unit
 ): NetCoroutineScope {
-    return DialogCoroutineScope(activity!!, dialog, cancelable).launch(block = block)
+    return DialogCoroutineScope(activity!!, dialog, cancelable).launch(block)
 }
 
 // </editor-fold>
@@ -64,9 +64,9 @@ fun Fragment.scopeDialog(
  *
  * 布局被销毁或者界面关闭作用域被取消
  */
-fun StateLayout.scope(block: suspend CoroutineScope.(StateCoroutineScope) -> Unit): NetCoroutineScope {
+fun StateLayout.scope(block: suspend CoroutineScope.() -> Unit): NetCoroutineScope {
     val scope = StateCoroutineScope(this)
-    scope.launch { block(scope) }
+    scope.launch(block)
     return scope
 }
 
@@ -100,9 +100,9 @@ fun SmartRefreshLayout.scopeRefresh(
  *
  * 布局被销毁或者界面关闭作用域被取消
  */
-fun PageRefreshLayout.scope(block: suspend CoroutineScope.(PageCoroutineScope) -> Unit): PageCoroutineScope {
+fun PageRefreshLayout.scope(block: suspend CoroutineScope.() -> Unit): PageCoroutineScope {
     val scope = PageCoroutineScope(this)
-    scope.launch { block(scope) }
+    scope.launch(block)
     return scope
 }
 
@@ -112,14 +112,14 @@ fun PageRefreshLayout.scope(block: suspend CoroutineScope.(PageCoroutineScope) -
  * 该作用域生命周期跟随整个应用, 注意内存泄漏
  */
 fun scope(block: suspend CoroutineScope.() -> Unit): AndroidScope {
-    return AndroidScope().launch(block = block)
+    return AndroidScope().launch(block)
 }
 
 fun LifecycleOwner.scopeLife(
     lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
     block: suspend CoroutineScope.() -> Unit
 ): AndroidScope {
-    return AndroidScope(this, lifeEvent).launch(block = block)
+    return AndroidScope(this, lifeEvent).launch(block)
 }
 
 /**
@@ -129,7 +129,7 @@ fun LifecycleOwner.scopeLife(
  * 该作用域生命周期跟随整个应用, 注意内存泄漏
  */
 fun scopeNet(block: suspend CoroutineScope.() -> Unit): NetCoroutineScope {
-    return NetCoroutineScope().launch(block = block)
+    return NetCoroutineScope().launch(block)
 }
 
 
@@ -137,7 +137,7 @@ fun LifecycleOwner.scopeNetLife(
     lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
     block: suspend CoroutineScope.() -> Unit
 ): NetCoroutineScope {
-    return NetCoroutineScope(this, lifeEvent).launch(block = block)
+    return NetCoroutineScope(this, lifeEvent).launch(block)
 }
 
 

@@ -13,24 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.kalle.exception;
+package com.yanzhenjie.kalle.exception
 
-import java.io.IOException;
+import com.yanzhenjie.kalle.Request
 
 /**
- * Created by Zhenjie Yan on 2018/2/13.
+ * Created by Zhenjie Yan on 2018/2/22.
  */
-public class ConnectException extends IOException {
-
-    public ConnectException(String message) {
-        super(message);
-    }
-
-    public ConnectException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public ConnectException(Throwable cause) {
-        super(cause);
-    }
-}
+class NetworkError(
+    request: Request,
+    message: String? = null
+) : ConnectException(request, message)

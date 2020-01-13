@@ -13,23 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.kalle.exception;
+package com.yanzhenjie.kalle.exception
 
-import java.io.IOException;
+import com.yanzhenjie.kalle.Request
 
 /**
  * Created by Zhenjie Yan on 2018/2/24.
  */
-public class WriteException extends IOException {
-    public WriteException(String message) {
-        super(message);
-    }
-
-    public WriteException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public WriteException(Throwable cause) {
-        super(cause);
-    }
-}
+class ReadTimeoutError(
+    request: Request,
+    message: String? = null,
+    cause: Throwable? = null
+) : ReadException(request, message, cause)

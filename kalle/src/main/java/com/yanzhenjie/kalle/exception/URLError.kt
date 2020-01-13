@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.kalle.exception;
+package com.yanzhenjie.kalle.exception
+
+import com.yanzhenjie.kalle.Request
 
 /**
  * Created by Zhenjie Yan on 2018/2/22.
  */
-public class NetworkError extends ConnectException {
-    public NetworkError(String message) {
-        super(message);
-    }
-
-    public NetworkError(String message, Throwable cause) {
-        super(message, cause);
-    }
-}
+class URLError(
+    request: Request,
+    message: String? = null,
+    cause: Throwable? = null
+) : ConnectException(request, message, cause)

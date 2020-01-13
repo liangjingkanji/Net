@@ -7,6 +7,9 @@
 
 package com.drake.net.error
 
+import com.yanzhenjie.kalle.Request
+import com.yanzhenjie.kalle.exception.NetException
+
 /**
  *  对应网络请求后台定义的错误信息
  * @param msg 网络请求错误信息
@@ -15,6 +18,6 @@ package com.drake.net.error
  */
 class ResponseException(
     val code: Int,
-    val msg: String = "",
-    val tag: Any? = null
-) : Throwable("$code: $msg")
+    val msg: String,
+    request: Request
+) : NetException(request, "$code $msg")

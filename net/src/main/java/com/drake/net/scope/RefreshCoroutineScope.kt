@@ -41,7 +41,6 @@ class RefreshCoroutineScope(
     override fun readCache(succeed: Boolean) {
         refresh.finishRefresh()
         refresh.setTag(R.id.cache_succeed, false)
-        autoOff()
     }
 
     override fun catch(e: Throwable) {
@@ -51,7 +50,7 @@ class RefreshCoroutineScope(
 
     override fun finally(e: Throwable?) {
         super.finally(e)
-        if (e == null && auto) {
+        if (e == null) {
             refresh.finishRefresh(true)
         }
     }

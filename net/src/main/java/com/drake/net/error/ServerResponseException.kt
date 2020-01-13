@@ -7,11 +7,13 @@
 
 package com.drake.net.error
 
+import com.yanzhenjie.kalle.Request
+import com.yanzhenjie.kalle.exception.NetException
+
 /**
  * 500
  */
 class ServerResponseException(
     val code: Int,
-    val msg: String = "",
-    val tag: Any? = null
-) : Throwable("$code: $msg")
+    request: Request
+) : NetException(request, code.toString())

@@ -93,6 +93,7 @@ open class NetCoroutineScope() : AndroidScope() {
      */
     fun cache(
         error: Boolean = false,
+        animate: Boolean = true,
         onCache: suspend CoroutineScope.() -> Unit
     ): AndroidScope {
         this.error = error

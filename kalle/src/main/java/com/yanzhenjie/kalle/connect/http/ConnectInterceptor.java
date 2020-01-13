@@ -112,7 +112,7 @@ class ConnectInterceptor implements Interceptor {
      */
     private Connection connect(Request request) throws ConnectException {
         if (!mNetwork.isAvailable())
-            throw new NetworkError(String.format("Network Unavailable: %1$s.", request.location()));
+            throw new NetworkError(request, "Network Unavailable: ");
 
         try {
             Headers headers = request.headers();
@@ -123,15 +123,15 @@ class ConnectInterceptor implements Interceptor {
             headers.set(KEY_HOST, uri.getHost());
             return mFactory.connect(request);
         } catch (URISyntaxException e) {
-            throw new URLError(String.format("The url syntax error: %1$s.", request.location()), e);
+            throw new URLError(request, "The url syntax error: ", e);
         } catch (MalformedURLException e) {
-            throw new URLError(String.format("The url is malformed: %1$s.", request.location()), e);
+            throw new URLError(request, "The url is malformed: ", e);
         } catch (UnknownHostException e) {
-            throw new HostError(String.format("Hostname can not be resolved: %1$s.", request.location()), e);
+            throw new HostError(request, "Hostname can not be resolved: ", e);
         } catch (SocketTimeoutException e) {
-            throw new ConnectTimeoutError(String.format("Connect time out: %1$s.", request.location()), e);
+            throw new ConnectTimeoutError(request, "Connect time out: ", e);
         } catch (Exception e) {
-            throw new ConnectException(String.format("An unknown exception: %1$s.", request.location()), e);
+            throw new ConnectException(request, "An unknown exception: ", e);
         }
     }
 
@@ -141,7 +141,7 @@ class ConnectInterceptor implements Interceptor {
             request.body().writeTo(IOUtils.toBufferedOutputStream(stream));
             IOUtils.closeQuietly(stream);
         } catch (Exception e) {
-            throw new WriteException(request.location(), e);
+            throw new WriteException(request, null, e);
         }
     }
 
@@ -158,9 +158,9 @@ class ConnectInterceptor implements Interceptor {
             ResponseBody body = new StreamBody(contentType, mConnection.getInputStream());
             return Response.newBuilder().code(code).headers(headers).body(body).build();
         } catch (SocketTimeoutException e) {
-            throw new ReadTimeoutError(String.format("Read data time out: %1$s.", request.location()), e);
+            throw new ReadTimeoutError(request, "Read data time out: ", e);
         } catch (Exception e) {
-            throw new ReadException(request.location(), e);
+            throw new ReadException(request, null, e);
         }
     }
 

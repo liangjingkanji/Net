@@ -60,14 +60,14 @@ class Interval(
 
     private val receiveList: MutableList<(Long) -> Unit> = mutableListOf()
     private val finishList: MutableList<(Long) -> Unit> = mutableListOf()
-    private var _state = IntervalState.STATE_IDLE
     private var countTime = 0L
     private var delay = 0L
     private var scope: AndroidScope? = null
     private lateinit var ticker: ReceiveChannel<Unit>
 
     var count = start
-    val state get() = _state
+    var state = IntervalState.STATE_IDLE
+        private set
 
     // <editor-fold desc="回调">
 
@@ -95,10 +95,10 @@ class Interval(
      * 开始
      */
     fun start() {
-        if (_state == IntervalState.STATE_ACTIVE || _state == IntervalState.STATE_PAUSE) {
+        if (state == IntervalState.STATE_ACTIVE || state == IntervalState.STATE_PAUSE) {
             return
         }
-        _state = IntervalState.STATE_ACTIVE
+        state = IntervalState.STATE_ACTIVE
         launch()
     }
 
@@ -107,8 +107,8 @@ class Interval(
      * 停止
      */
     fun stop() {
-        if (_state == IntervalState.STATE_IDLE) return
-        _state = IntervalState.STATE_IDLE
+        if (state == IntervalState.STATE_IDLE) return
+        state = IntervalState.STATE_IDLE
         scope?.cancel()
         finishList.forEach {
             it.invoke(count)
@@ -131,8 +131,8 @@ class Interval(
      * 继续
      */
     fun resume() {
-        if (_state != IntervalState.STATE_PAUSE) return
-        _state = IntervalState.STATE_ACTIVE
+        if (state != IntervalState.STATE_PAUSE) return
+        state = IntervalState.STATE_ACTIVE
         launch(delay)
     }
 
@@ -140,8 +140,8 @@ class Interval(
      * 暂停
      */
     fun pause() {
-        if (_state != IntervalState.STATE_ACTIVE) return
-        _state = IntervalState.STATE_PAUSE
+        if (state != IntervalState.STATE_ACTIVE) return
+        state = IntervalState.STATE_PAUSE
         delay = System.currentTimeMillis() - countTime
         scope?.cancel()
     }
@@ -150,11 +150,11 @@ class Interval(
      * 重置
      */
     fun reset() {
-        if (_state == IntervalState.STATE_IDLE) return
+        if (state == IntervalState.STATE_IDLE) return
         count = start
         scope?.cancel()
         delay = unit.toMillis(initialDelay)
-        if (_state == IntervalState.STATE_ACTIVE) launch()
+        if (state == IntervalState.STATE_ACTIVE) launch()
     }
 
     /**
