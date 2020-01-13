@@ -59,29 +59,13 @@ object NetConfig {
 
     internal var onStateError: Throwable.(view: View) -> Unit = {
 
-        val message = when (this) {
-            is NetworkError -> app.getString(R.string.net_network_error)
-            is URLError -> app.getString(R.string.net_url_error)
-            is HostError -> app.getString(R.string.net_host_error)
-            is ConnectTimeoutError -> app.getString(R.string.net_connect_timeout_error)
-            is ReadException -> app.getString(R.string.net_read_exception)
-            is WriteException -> app.getString(R.string.net_write_exception)
-            is ConnectException -> app.getString(R.string.net_connect_exception)
-            is ReadTimeoutError -> app.getString(R.string.net_read_timeout_error)
-            is DownloadError -> app.getString(R.string.net_download_error)
-            is NoCacheError -> app.getString(R.string.net_no_cache_error)
-            is ParseError -> app.getString(R.string.net_parse_error)
-            is RequestParamsException -> app.getString(R.string.net_request_error)
-            is ServerResponseException -> app.getString(R.string.net_server_error)
-            is ExecutionException -> app.getString(R.string.net_image_error)
-            is NullPointerException -> app.getString(R.string.net_null_error)
-            is ResponseException -> msg
-            else -> app.getString(R.string.net_other_error)
-        }
-
-        printStackTrace()
         when (this) {
-            is ParseError, is ResponseException, is NullPointerException -> app.toast(message)
+            is ParseError, is RequestParamsException, is ResponseException, is NullPointerException -> onError(
+                this
+            )
+            else -> {
+                printStackTrace()
+            }
         }
     }
 }
