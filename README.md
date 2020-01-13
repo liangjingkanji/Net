@@ -296,6 +296,11 @@ internal var onError: Throwable.() -> Unit = {
 
 
 
+1. 所有网络异常都可以通过字段`request`获取请求对象, 包含请求信息.
+2. 本框架中自动打印的吐司内部是使用的[Tooltip](https://github.com/liangjingkanji/Tooltip)框架, 最好的吐司工具. 保证异步吐司和不会覆盖和长时间显示
+
+
+
 第二种复写`strings.xml`文件中的属性
 
 
@@ -381,9 +386,11 @@ fun LifecycleOwner.scopeLife(
 
 和异步作用域的区别就是会自动吐司网络请求的异常信息
 
-```
+```kotlin
 scopeNet {
-
+  post<Model>("/path"){
+    param("key", "value")
+  }
 }
 ```
 
@@ -391,9 +398,11 @@ scopeNet {
 
 跟随生命周期的网络请求
 
-```
+```kotlin
 scopeNetLife {
-	
+  post<Model>("/path"){
+    param("key", "value")
+  }
 }
 ```
 
@@ -431,10 +440,23 @@ initNet("http://localhost.com") {
 
 
 
-```
-scopeState {
+```kotlin
+state.onRefresh {
+  scope {
+    // 异步作用域
 
-}
+    val data = post<Model>("/path"){
+      param("key", "value")
+    }.await()
+
+    if(data == null){
+      showEmpty()
+    }else {
+      textView.text = data
+    }
+    
+  }
+}.showLoading()
 ```
 
 
@@ -473,11 +495,11 @@ pageRefreshLayout.onRefresh {
     val data = result.await().data
 
     if (data.isEmpty()){
-      it.showEmpty()
+      showEmpty()
       return
     }
     
-    it.addData(data){
+    addData(data){
       index < data.totalPage // 判断是否存在下一页
     }
   }

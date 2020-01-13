@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
                 textView.text = data.await()
             }
 
-        }.showLoading()
+        }.autoRefresh()
     }
 }
 

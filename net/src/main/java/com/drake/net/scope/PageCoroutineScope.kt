@@ -37,11 +37,12 @@ class PageCoroutineScope(
             readCache = false
             cacheSucceed = it
         }
+
         page.trigger()
     }
 
     override fun readCache(succeed: Boolean) {
-        if (succeed) {
+        if (succeed && !animate) {
             page.showContent()
         }
         page.setTag(R.id.cache_succeed, succeed)
