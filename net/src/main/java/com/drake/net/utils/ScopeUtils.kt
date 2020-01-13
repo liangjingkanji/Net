@@ -15,7 +15,6 @@ import androidx.lifecycle.LifecycleOwner
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.scope.*
 import com.drake.statelayout.StateLayout
-import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -66,23 +65,6 @@ fun Fragment.scopeDialog(
  */
 fun StateLayout.scope(block: suspend CoroutineScope.() -> Unit): NetCoroutineScope {
     val scope = StateCoroutineScope(this)
-    scope.launch(block)
-    return scope
-}
-
-
-/**
- * SmartRefreshLayout的异步作用域
- *
- * 自动结束下拉刷新
- *
- * 布局被销毁或者界面关闭作用域被取消
- */
-fun SmartRefreshLayout.scopeRefresh(
-    loadMore: Boolean = false,
-    block: suspend CoroutineScope.() -> Unit
-): NetCoroutineScope {
-    val scope = RefreshCoroutineScope(this, loadMore)
     scope.launch(block)
     return scope
 }

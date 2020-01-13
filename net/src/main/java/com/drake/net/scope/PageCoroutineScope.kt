@@ -10,7 +10,7 @@ package com.drake.net.scope
 import android.view.View
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.NetConfig
-import com.drake.net.R
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.cancel
 
 @Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING")
@@ -33,11 +33,7 @@ class PageCoroutineScope(
     }
 
     override fun start() {
-        (page.getTag(R.id.cache_succeed) as? Boolean)?.let {
-            readCache = false
-            cacheSucceed = it
-        }
-
+        isReadCache = !page.loaded
         page.trigger()
     }
 
@@ -45,29 +41,24 @@ class PageCoroutineScope(
         if (succeed && !animate) {
             page.showContent()
         }
-        page.setTag(R.id.cache_succeed, succeed)
+        page.loaded = succeed
     }
 
     override fun catch(e: Throwable) {
         super.catch(e)
-
-        if (cacheSucceed) {
-            page.finish(false)
-        } else {
-            page.showError(e)
-        }
+        page.showError(e)
     }
 
     override fun finally(e: Throwable?) {
         super.finally(e)
-        if (e == null) {
+        if (e == null || e is CancellationException) {
             page.showContent()
-            page.trigger()
         }
+        page.trigger()
     }
 
     override fun handleError(e: Throwable) {
-        if (cacheSucceed) {
+        if (page.loaded || !page.stateEnabled) {
             NetConfig.onError(e)
         } else {
             NetConfig.onStateError(e, page)

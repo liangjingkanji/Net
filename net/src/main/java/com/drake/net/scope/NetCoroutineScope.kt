@@ -24,14 +24,14 @@ import kotlin.coroutines.EmptyCoroutineContext
 @Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING")
 open class NetCoroutineScope() : AndroidScope() {
 
-    protected var readCache = true
+    protected var isReadCache = true
     protected var onCache: (suspend CoroutineScope.() -> Unit)? = null
 
-    protected var cacheSucceed = false
+    protected var readCacheSucceed = false
         get() = if (onCache != null) field else false
 
     protected var error = true
-        get() = if (cacheSucceed) field else true
+        get() = if (readCacheSucceed) field else true
 
     var animate: Boolean = false
 
@@ -53,18 +53,17 @@ open class NetCoroutineScope() : AndroidScope() {
     ): NetCoroutineScope {
         launch(EmptyCoroutineContext) {
             start()
-            if (onCache != null && readCache) {
+            if (onCache != null && isReadCache) {
                 supervisorScope {
-                    cacheSucceed = try {
+                    readCacheSucceed = try {
                         onCache?.invoke(this)
                         true
                     } catch (e: Exception) {
                         false
                     }
-                    readCache(cacheSucceed)
+                    readCache(readCacheSucceed)
                 }
             }
-
             block()
         }.invokeOnCompletion {
             finally(it)
@@ -73,9 +72,11 @@ open class NetCoroutineScope() : AndroidScope() {
         return this
     }
 
-    protected open fun readCache(succeed: Boolean) {
+    /**
+     * 读取缓存回调
+     */
+    protected open fun readCache(succeed: Boolean) {}
 
-    }
 
     override fun handleError(e: Throwable) {
         NetConfig.onError(e)
