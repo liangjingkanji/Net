@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.drake.net.get
 import com.drake.net.utils.scope
-import com.yanzhenjie.kalle.simple.cache.CacheMode
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -15,13 +14,13 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+
         content.onRefresh {
 
             scope {
 
                 val data = get<String>(
                     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-                    cache = CacheMode.NETWORK_YES_THEN_WRITE_CACHE,
                     absolutePath = true
                 )
 
@@ -29,6 +28,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         }.autoRefresh()
+
     }
 }
 
