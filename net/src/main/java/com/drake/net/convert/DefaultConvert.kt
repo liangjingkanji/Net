@@ -74,6 +74,9 @@ abstract class DefaultConvert(
             .build()
     }
 
+    fun encrypt(body: String) {
+
+    }
 
     /**
      * 解析JSON数据

@@ -105,13 +105,8 @@ implementation 'com.github.liangjingkanji:Net:2.1.0'
 ### Post
 
 ```kotlin
-scopeLife {
-
-  val data = post<String>(
-    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-    absolutePath = true
-  )
-
+scopeNetLife {
+  val data = post<String>("https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md")
   textView.text = data.await()
 }
 ```
@@ -123,7 +118,7 @@ scopeLife {
 ### Get
 
 ```kotlin
-scopeLife {
+scopeNetLife {
 
   val data = get<String>(
     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
@@ -141,7 +136,7 @@ scopeLife {
 ### 文件上传
 
 ```kotlin
-scopeLife {
+scopeNetLife {
 
   val data = post<String>(
     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
@@ -161,7 +156,7 @@ scopeLife {
 ### 文件下载
 
 ```kotlin
-scopeLife {
+scopeNetLife {
   download("/path", "下载目录"){
 
     // 进度监听
@@ -188,7 +183,7 @@ Context.downloadImg(url: String, with: Int = -1, height: Int = -1)
 示例
 
 ```kotlin
-scopeLife {
+scopeNetLife {
 
   val data = downImage(
     "https://cdn.sspai.com/article/ebe361e4-c891-3afd-8680-e4bad609723e.jpg?imageMogr2/quality/95/thumbnail/!2880x620r/gravity/Center/crop/2880x620/interlace/1".
@@ -610,7 +605,7 @@ abstract class DefaultConverter(
 
 
 
-## 缓存和网络请求
+## 预缓存和网络请求
 
 很多App要求秒启动展示首页数据, 然后断网以后也可以展示缓存数据, 这种需求需要做到刷新UI数据两遍, 本框架同样方便实现
 
@@ -629,7 +624,7 @@ initNet("http://localhost.com") {
 可配置参数
 
 ```kotlin
-fun KalleConfig.Builder.openCache(
+fun KalleConfig.Builder.cacheEnabled(
     path: String = NetConfig.app.cacheDir.absolutePath, // 缓存保存位置, 默认应用缓存目录
     password: String = "cache" // 缓存密码, 默认cache
 ) 
@@ -676,6 +671,18 @@ scopeNetLife {
 2. cache: 该作用域内部允许抛出任何异常都不算错误, 这里的`cache`会比`scopeNetLife`先执行.
 3. 当缓存读取成功视为作用域执行成功, 默认情况即使后续的网络请求失败也不会提示错误信息(cache函数参数指定true则提示)
 
+
+
+```kotlin
+fun cache(
+  error: Boolean = false, // 缓存读取成功但网络请求失败是否吐司错误信息
+  animate: Boolean = false, // 缓存读取成功是否立即停止加载动画, 只有PageRefreshLayout有效
+  onCache: suspend CoroutineScope.() -> Unit
+): AndroidScope 
+```
+
+
+
 ## 轮循器
 
 本框架附带一个超级强大的轮循器`Interval`, 基本上包含轮循器所需要到所有功能
@@ -702,7 +709,7 @@ Interval(1, TimeUnit.SECONDS).subscribe {
 函数
 
 ```
-subscribe() // 即开启定时器, 订阅多个也会监听同一个计数器
+subscribe() // 订阅定时器, 订阅多个也会监听同一个计数器
 start() // 开始
 stop() // 结束
 pause() // 暂停

@@ -60,12 +60,13 @@ object NetConfig {
     internal var onStateError: Throwable.(view: View) -> Unit = {
 
         when (this) {
-            is ParseError, is RequestParamsException, is ResponseException, is NullPointerException -> onError(
+            is ParseError,
+            is RequestParamsException,
+            is ResponseException,
+            is NullPointerException -> onError(
                 this
             )
-            else -> {
-                printStackTrace()
-            }
+            else -> printStackTrace()
         }
     }
 }

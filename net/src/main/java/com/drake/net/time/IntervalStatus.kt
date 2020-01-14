@@ -10,6 +10,6 @@ package com.drake.net.time
 /**
  * 计时器的状态
  */
-enum class IntervalState {
+enum class IntervalStatus {
     STATE_ACTIVE, STATE_IDLE, STATE_PAUSE
 }

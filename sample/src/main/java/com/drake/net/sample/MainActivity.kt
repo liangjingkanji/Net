@@ -18,12 +18,8 @@ class MainActivity : AppCompatActivity() {
         content.onRefresh {
 
             scope {
-
-                val data = get<String>(
-                    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-                    absolutePath = true
-                )
-
+                val data =
+                    get<String>("https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md")
                 textView.text = data.await()
             }
 
