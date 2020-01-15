@@ -73,7 +73,7 @@ abstract class DefaultConvert(
     /**
      * 解析数据用于获取基本接口信息
      */
-    fun String.parseBody(): String {
+    open fun String.parseBody(): String {
         return this
     }
 

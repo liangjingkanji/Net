@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 
 abstract class TAG {
 
-    private var list: MutableList<TAG>? = null
+    protected var list: MutableList<TAG>? = null
 
     operator fun get(key: KClass<out TAG>): TAG? {
 

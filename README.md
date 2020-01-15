@@ -83,7 +83,7 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 // 支持自动下拉刷新和缺省页的, 可选, 刷新头和上拉加载参考SmartRefreshLayout
 implementation 'com.github.liangjingkanji:BRV:1.2.1'
 
-implementation 'com.github.liangjingkanji:Net:2.1.1'
+implementation 'com.github.liangjingkanji:Net:2.1.2'
 ```
 
 
@@ -589,15 +589,36 @@ DefaultConvert构造函数拥有三个参数默认值
 
 ```kotlin
 abstract class DefaultConverter(
-    val successCode: String = "0",
-    val codeName: String = "code",
-    val msgName: String = "msg"
+    val success: String = "0",
+    val code: String = "code",
+    val msg: String = "msg"
 )
 ```
 
-因为内部需要得到错误码`codeName`来判断请求是否真正成功以及错误消息`msgName`来在错误的时候进行打印吐司错误信息. 
+因为内部需要得到错误码`code`来判断请求是否真正成功以及错误消息`msg`来在错误的时候进行打印吐司错误信息. 
 
 所以需要知道解析JSON时的Key来获取.
+
+
+
+一般情况下重写两个函数即可
+
+```kotlin
+/**
+     * 解析数据用于获取基本接口信息
+     */
+open fun String.parseBody(): String {
+  return this
+}
+
+/**
+     * 解析JSON数据
+     *
+     * @param succeed Type 请求函数传过来的字节码类型
+     * @return S? 解析后的数据实体
+     */
+abstract fun <S> String.parseJson(succeed: Type): S?
+```
 
 
 
