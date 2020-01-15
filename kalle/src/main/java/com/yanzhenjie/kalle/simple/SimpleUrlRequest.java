@@ -95,7 +95,7 @@ public class SimpleUrlRequest extends UrlRequest implements SimpleRequest {
             return this;
         }
 
-        public <S, F> SimpleResponse<S, F> perform(Type succeed, Type failed) throws Exception {
+        public <S, F> Result<S, F> perform(Type succeed, Type failed) throws Exception {
             return RequestManager.getInstance().perform(new SimpleUrlRequest(this), succeed, failed);
         }
 

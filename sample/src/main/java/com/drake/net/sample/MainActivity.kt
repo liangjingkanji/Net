@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
 
             scope {
                 val data =
-                    get<String>("https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md")
+                    get<String>("https://github.com/liangjingkanji")
+
                 textView.text = data.await()
             }
 

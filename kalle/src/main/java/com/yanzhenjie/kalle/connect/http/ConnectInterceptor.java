@@ -31,6 +31,7 @@ import com.yanzhenjie.kalle.cookie.CookieManager;
 import com.yanzhenjie.kalle.exception.ConnectException;
 import com.yanzhenjie.kalle.exception.ConnectTimeoutError;
 import com.yanzhenjie.kalle.exception.HostError;
+import com.yanzhenjie.kalle.exception.NetException;
 import com.yanzhenjie.kalle.exception.NetworkError;
 import com.yanzhenjie.kalle.exception.ReadException;
 import com.yanzhenjie.kalle.exception.ReadTimeoutError;
@@ -110,7 +111,7 @@ class ConnectInterceptor implements Interceptor {
      * @return connection between client and server.
      * @throws ConnectException anomalies that occurred during the connection.
      */
-    private Connection connect(Request request) throws ConnectException {
+    private Connection connect(Request request) throws NetException {
         if (!mNetwork.isAvailable())
             throw new NetworkError(request, "Network Unavailable: ");
 
@@ -145,7 +146,7 @@ class ConnectInterceptor implements Interceptor {
         }
     }
 
-    private Response readResponse(Request request) throws ReadException {
+    private Response readResponse(Request request) throws NetException {
         try {
             int code = mConnection.getCode();
             Headers headers = parseResponseHeaders(mConnection.getHeaders());

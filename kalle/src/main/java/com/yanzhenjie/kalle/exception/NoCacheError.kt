@@ -23,4 +23,4 @@ import com.yanzhenjie.kalle.Request
 class NoCacheError(
     request: Request,
     message: String? = null
-) : ReadException(request, message)
+) : NetException(request, message)

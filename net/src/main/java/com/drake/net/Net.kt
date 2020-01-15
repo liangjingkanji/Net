@@ -52,9 +52,9 @@ inline fun <reified M> CoroutineScope.get(
     }
 
     if (response.isSucceed) {
-        response.succeed()
+        response.success!!
     } else {
-        throw response.failed() as ResponseException
+        throw response.failure as ResponseException
     }
 }
 
@@ -80,9 +80,9 @@ inline fun <reified M> CoroutineScope.post(
     }
 
     if (response.isSucceed) {
-        response.succeed()
+        response.success!!
     } else {
-        throw response.failed() as ResponseException
+        throw response.failure as ResponseException
     }
 }
 
@@ -171,9 +171,9 @@ inline fun <reified M> syncGet(
     }
 
     return if (response.isSucceed) {
-        response.succeed()
+        response.success!!
     } else {
-        throw response.failed() as ResponseException
+        throw response.failure as ResponseException
     }
 }
 
@@ -195,9 +195,9 @@ inline fun <reified M> syncPost(
     }
 
     return if (response.isSucceed) {
-        response.succeed()
+        response.success!!
     } else {
-        throw response.failed() as ResponseException
+        throw response.failure as ResponseException
     }
 }
 

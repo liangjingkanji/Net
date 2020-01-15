@@ -78,7 +78,7 @@ public class RequestManager {
      * @param <F>     target object parameter.
      * @return the response to this request.
      */
-    public <S, F> SimpleResponse<S, F> perform(SimpleUrlRequest request, Type succeed, Type failed) throws Exception {
+    public <S, F> Result<S, F> perform(SimpleUrlRequest request, Type succeed, Type failed) throws Exception {
         return new UrlWorker<S, F>(request, succeed, failed).call();
     }
 
@@ -114,7 +114,7 @@ public class RequestManager {
      * @param <F>     target object parameter.
      * @return the response to this request.
      */
-    public <S, F> SimpleResponse<S, F> perform(SimpleBodyRequest request, Type succeed, Type failed) throws Exception {
+    public <S, F> Result<S, F> perform(SimpleBodyRequest request, Type succeed, Type failed) throws Exception {
         return new BodyWorker<S, F>(request, succeed, failed).call();
     }
 
@@ -159,7 +159,7 @@ public class RequestManager {
         }
 
         @Override
-        public void onResponse(final SimpleResponse<S, F> response) {
+        public void onResponse(final Result<S, F> response) {
             if (mCallback == null) return;
             mExecutor.execute(new Runnable() {
                 @Override

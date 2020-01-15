@@ -24,4 +24,4 @@ class URLError(
     request: Request,
     message: String? = null,
     cause: Throwable? = null
-) : ConnectException(request, message, cause)
+) : NetException(request, message, cause)

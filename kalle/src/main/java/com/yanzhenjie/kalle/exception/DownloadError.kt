@@ -26,4 +26,4 @@ class DownloadError(
     headers: Headers,
     request: Request,
     message: String? = null
-) : ReadException(request, message)
+) : NetException(request, message)

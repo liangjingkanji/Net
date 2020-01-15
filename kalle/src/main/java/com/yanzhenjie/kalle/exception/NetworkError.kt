@@ -23,4 +23,4 @@ import com.yanzhenjie.kalle.Request
 class NetworkError(
     request: Request,
     message: String? = null
-) : ConnectException(request, message)
+) : NetException(request, message)

@@ -50,7 +50,7 @@ public abstract class Callback<Succeed, Failed> {
     /**
      * Result dimensions: The request has responded.
      */
-    public abstract void onResponse(SimpleResponse<Succeed, Failed> response);
+    public abstract void onResponse(Result<Succeed, Failed> response);
 
     /**
      * Result dimensions: An abnormality has occurred.

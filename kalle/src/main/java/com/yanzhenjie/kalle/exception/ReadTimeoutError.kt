@@ -24,4 +24,4 @@ class ReadTimeoutError(
     request: Request,
     message: String? = null,
     cause: Throwable? = null
-) : ReadException(request, message, cause)
+) : NetException(request, message, cause)

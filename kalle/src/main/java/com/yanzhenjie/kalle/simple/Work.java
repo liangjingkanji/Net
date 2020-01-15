@@ -24,7 +24,7 @@ import java.util.concurrent.FutureTask;
 /**
  * Created by Zhenjie Yan on 2018/2/13.
  */
-final class Work<T extends SimpleRequest, S, F> extends FutureTask<SimpleResponse<S, F>> implements Canceller {
+final class Work<T extends SimpleRequest, S, F> extends FutureTask<Result<S, F>> implements Canceller {
 
     private final Callback<S, F> mCallback;
     private BasicWorker<T, S, F> mWorker;

@@ -18,6 +18,7 @@ package com.yanzhenjie.kalle.simple;
 import com.yanzhenjie.kalle.Headers;
 import com.yanzhenjie.kalle.Kalle;
 import com.yanzhenjie.kalle.Response;
+import com.yanzhenjie.kalle.exception.NetException;
 import com.yanzhenjie.kalle.exception.NoCacheError;
 import com.yanzhenjie.kalle.exception.ParseError;
 import com.yanzhenjie.kalle.simple.cache.Cache;
@@ -36,7 +37,7 @@ import static com.yanzhenjie.kalle.Headers.KEY_IF_NONE_MATCH;
  * Created by Zhenjie Yan on 2018/2/18.
  */
 abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
-        implements Callable<SimpleResponse<Succeed, Failed>> {
+        implements Callable<Result<Succeed, Failed>> {
 
     private static final long MAX_EXPIRES = System.currentTimeMillis() + 100L * 365L * 24L * 60L * 60L * 1000L;
 
@@ -55,7 +56,7 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
     }
 
     @Override
-    public final SimpleResponse<Succeed, Failed> call() throws Exception {
+    public final Result<Succeed, Failed> call() throws Exception {
         Response response = tryReadCacheBefore();
         if (response != null) return buildSimpleResponse(response, true);
 
@@ -284,10 +285,19 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
                 .build();
     }
 
-    private SimpleResponse<Succeed, Failed> buildSimpleResponse(Response response, boolean cache) throws IOException {
+    private Result<Succeed, Failed> buildSimpleResponse(Response response, boolean cache) throws IOException {
         try {
-            return mConverter.convert(mSucceed, mFailed, mRequest.request(), response, cache);
-        } catch (IOException e) {
+
+            Result<Succeed, Failed> result = new Result<>(response.code(), response.headers(), cache, null, null);
+
+            mConverter.convert(mSucceed, mFailed, mRequest.request(), response, result);
+
+            if (result.getSuccess() == null && result.getFailure() == null) {
+                throw new ParseError(mRequest.request(), mConverter.getClass().getName() + " does not process result: ", null);
+            }
+
+            return result;
+        } catch (NetException e) {
             throw e;
         } catch (Exception e) {
             throw new ParseError(mRequest.request(), "An exception occurred while parsing the data: ", e);

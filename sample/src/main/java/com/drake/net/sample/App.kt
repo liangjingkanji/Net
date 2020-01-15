@@ -20,27 +20,16 @@ class App : Application() {
             errorLayout = R.layout.layout_error
         }
 
-        initNet("http://localhost.com") {
-
-            /*            converter(object : DefaultConvert() {
-                            override fun <S> convert(succeed: Type, body: String): S? {
-                                return Moshi.Builder().build().adapter<S>(succeed).fromJson(body)
-                            }
-
-                        })*/
-
+        initNet("") {
+            converter(JsonConvert())
             cacheEnabled()
         }
 
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
-            ClassicsHeader(
-                context
-            )
+            ClassicsHeader(context)
         }
         SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
-            ClassicsFooter(
-                context
-            )
+            ClassicsFooter(context)
         }
 
     }

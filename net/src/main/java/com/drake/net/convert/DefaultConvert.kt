@@ -15,7 +15,7 @@ import com.drake.net.error.ServerResponseException
 import com.yanzhenjie.kalle.Request
 import com.yanzhenjie.kalle.Response
 import com.yanzhenjie.kalle.simple.Converter
-import com.yanzhenjie.kalle.simple.SimpleResponse
+import com.yanzhenjie.kalle.simple.Result
 import org.json.JSONObject
 import java.lang.reflect.Type
 
@@ -41,48 +41,48 @@ abstract class DefaultConvert(
         failed: Type,
         request: Request,
         response: Response,
-        fromCache: Boolean
-    ): SimpleResponse<S, F> {
-        var succeedData: S? = null
-        var failedData: F? = null
-
+        result: Result<S, F>
+    ) {
         val body = response.body().string()
-        var code = response.code()
+        val code = response.code()
 
         when {
             code in 200..299 -> {
-                val jsonObject = JSONObject(body)
+
+                if (succeed === String::class.java) {
+                    result.success = body as S
+                    return
+                }
+
+                val jsonObject = JSONObject(body.parseBody())
                 val responseCode = jsonObject.getString(this.code)
 
                 if (responseCode == success) {
-                    succeedData = if (succeed === String::class.java) body as S
-                    else convert(succeed, body)
+                    result.success = body.parseJson(succeed)
                 } else {
-                    failedData = ResponseException(code, jsonObject.getString(msg), request) as F
-                    code = responseCode.toInt()
+                    result.failure =
+                        ResponseException(code, jsonObject.getString(msg), request) as F
                 }
+
             }
             code in 400..499 -> throw RequestParamsException(code, request)
             code >= 500 -> throw ServerResponseException(code, request)
         }
-
-        return SimpleResponse.newBuilder<S, F>().code(code)
-            .headers(response.headers())
-            .fromCache(fromCache)
-            .succeed(succeedData)
-            .failed(failedData)
-            .build()
     }
 
-    fun encrypt(body: String) {
-
+    /**
+     * 解析数据用于获取基本接口信息
+     */
+    fun String.parseBody(): String {
+        return this
     }
 
     /**
      * 解析JSON数据
+     *
      * @param succeed Type 请求函数传过来的字节码类型
-     * @param body String 一般为返回JSON
      * @return S? 解析后的数据实体
      */
-    abstract fun <S> convert(succeed: Type, body: String): S?
+    abstract fun <S> String.parseJson(succeed: Type): S?
+
 }
