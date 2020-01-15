@@ -11,9 +11,9 @@ import com.drake.net.convert.DefaultConvert
 import com.squareup.moshi.Moshi
 import java.lang.reflect.Type
 
-class JsonConvert : DefaultConvert(code = "errno", msg = "errstr") {
+class JsonConvert : DefaultConvert(code = "errno", message = "errstr") {
 
-    override fun <S> String.parseJson(succeed: Type): S? {
+    override fun <S> String.parseBody(succeed: Type): S? {
         return Moshi.Builder().build().adapter<S>(succeed).fromJson(this)
     }
 }

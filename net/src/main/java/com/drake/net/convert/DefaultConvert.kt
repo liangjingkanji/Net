@@ -23,25 +23,23 @@ import java.lang.reflect.Type
 /**
  * 默认的转换器实现, 如果不满足需求建议将该文件复制到项目中修改
  *
- * @property success String 错误码表示请求成功的值
- * @property code String 错误码的Key名称
- * @property msg String 错误信息的Key名称
+ * @param success  后端定义为成功状态的错误码值
+ * @param code  错误码在Json中的字段名
+ * @param message  错误信息在Json中的字段名
  */
 @Suppress("UNCHECKED_CAST")
 abstract class DefaultConvert(
-    val success: String = "0",
-    val code: String = "code",
-    val msg: String = "msg"
+        val success: String = "0",
+        val code: String = "code",
+        val message: String = "message"
 ) : Converter {
 
-
-    @Throws(Exception::class)
     override fun <S, F> convert(
-        succeed: Type,
-        failed: Type,
-        request: Request,
-        response: Response,
-        result: Result<S, F>
+            succeed: Type,
+            failed: Type,
+            request: Request,
+            response: Response,
+            result: Result<S, F>
     ) {
         val body = response.body().string()
         val code = response.code()
@@ -49,40 +47,19 @@ abstract class DefaultConvert(
         when {
             code in 200..299 -> {
 
-                if (succeed === String::class.java) {
-                    result.success = body as S
-                    return
-                }
+                val jsonObject = JSONObject(body)
 
-                val jsonObject = JSONObject(body.parseBody())
-                val responseCode = jsonObject.getString(this.code)
-
-                if (responseCode == success) {
-                    result.success = body.parseJson(succeed)
+                if (jsonObject.getString(this.code) == success) {
+                    result.success = if (succeed === String::class.java) body as S else body.parseBody(succeed)
                 } else {
-                    result.failure =
-                        ResponseException(code, jsonObject.getString(msg), request) as F
+                    result.failure = ResponseException(code, jsonObject.getString(message), request) as F
                 }
-
             }
             code in 400..499 -> throw RequestParamsException(code, request)
             code >= 500 -> throw ServerResponseException(code, request)
         }
     }
 
-    /**
-     * 解析数据用于获取基本接口信息
-     */
-    open fun String.parseBody(): String {
-        return this
-    }
-
-    /**
-     * 解析JSON数据
-     *
-     * @param succeed Type 请求函数传过来的字节码类型
-     * @return S? 解析后的数据实体
-     */
-    abstract fun <S> String.parseJson(succeed: Type): S?
+    abstract fun <S> String.parseBody(succeed: Type): S?
 
 }
