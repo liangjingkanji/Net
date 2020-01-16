@@ -21,7 +21,7 @@ class App : Application() {
         }
 
         initNet("") {
-            converter(JsonConvert())
+            //            converter(JsonConvert())
             cacheEnabled()
         }
 

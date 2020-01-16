@@ -27,11 +27,11 @@ open class NetCoroutineScope() : AndroidScope() {
     protected var isReadCache = true
     protected var onCache: (suspend CoroutineScope.() -> Unit)? = null
 
-    protected var readCacheSucceed = false
+    protected var isCacheSucceed = false
         get() = if (onCache != null) field else false
 
     protected var error = true
-        get() = if (readCacheSucceed) field else true
+        get() = if (isCacheSucceed) field else true
 
     var animate: Boolean = false
 
@@ -55,13 +55,13 @@ open class NetCoroutineScope() : AndroidScope() {
             start()
             if (onCache != null && isReadCache) {
                 supervisorScope {
-                    readCacheSucceed = try {
+                    isCacheSucceed = try {
                         onCache?.invoke(this)
                         true
                     } catch (e: Exception) {
                         false
                     }
-                    readCache(readCacheSucceed)
+                    readCache(isCacheSucceed)
                 }
             }
             block()

@@ -42,7 +42,7 @@ class StateCoroutineScope(val state: StateLayout) : NetCoroutineScope() {
 
     override fun catch(e: Throwable) {
         super.catch(e)
-        state.showError(e)
+        if (!isCacheSucceed) state.showError(e)
     }
 
     override fun handleError(e: Throwable) {
