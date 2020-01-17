@@ -22,6 +22,6 @@ import com.yanzhenjie.kalle.Request
  */
 class ParseError(
     request: Request,
-    message: String? = null,
+    message: String = "",
     cause: Throwable? = null
 ) : NetException(request, message, cause)

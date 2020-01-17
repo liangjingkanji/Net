@@ -13,6 +13,6 @@ import java.io.IOException
 
 open class NetException(
     val request: Request,
-    message: String? = null,
+    message: String = "",
     cause: Throwable? = null
-) : IOException(message + request.location(), cause)
+) : IOException("$message [${request.location()}]", cause)

@@ -25,5 +25,5 @@ class DownloadError(
     code: Int,
     headers: Headers,
     request: Request,
-    message: String? = null
+    message: String = ""
 ) : NetException(request, message)

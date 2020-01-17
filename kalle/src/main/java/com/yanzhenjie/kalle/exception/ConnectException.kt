@@ -22,6 +22,6 @@ import com.yanzhenjie.kalle.Request
  */
 open class ConnectException(
     request: Request,
-    message: String? = null,
+    message: String = "",
     cause: Throwable? = null
 ) : NetException(request, message, cause)

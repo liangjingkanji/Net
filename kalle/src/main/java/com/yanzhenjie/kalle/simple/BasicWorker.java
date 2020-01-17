@@ -134,7 +134,7 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
                 if (cache != null) {
                     return buildResponse(cache.getCode(), cache.getHeaders(), cache.getBody());
                 }
-                throw new NoCacheError(mRequest.request(), "No cache found: ");
+                throw new NoCacheError(mRequest.request(), "No cache found");
             }
             case READ_CACHE_NO_THEN_NETWORK:
             case READ_CACHE_NO_THEN_HTTP: {
@@ -293,14 +293,14 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
             mConverter.convert(mSucceed, mFailed, mRequest.request(), response, result);
 
             if (result.getSuccess() == null && result.getFailure() == null) {
-                throw new ParseError(mRequest.request(), mConverter.getClass().getName() + " does not process result: ", null);
+                throw new ParseError(mRequest.request(), mConverter.getClass().getName() + " does not process result", null);
             }
 
             return result;
         } catch (NetException e) {
             throw e;
         } catch (Exception e) {
-            throw new ParseError(mRequest.request(), "An exception occurred while parsing the data: ", e);
+            throw new ParseError(mRequest.request(), "An exception occurred while parsing the data", e);
         }
     }
 }

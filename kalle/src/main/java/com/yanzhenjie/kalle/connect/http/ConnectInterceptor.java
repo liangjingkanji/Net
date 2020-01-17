@@ -113,7 +113,7 @@ class ConnectInterceptor implements Interceptor {
      */
     private Connection connect(Request request) throws NetException {
         if (!mNetwork.isAvailable())
-            throw new NetworkError(request, "Network Unavailable: ");
+            throw new NetworkError(request, "Network Unavailable");
 
         try {
             Headers headers = request.headers();
@@ -124,15 +124,15 @@ class ConnectInterceptor implements Interceptor {
             headers.set(KEY_HOST, uri.getHost());
             return mFactory.connect(request);
         } catch (URISyntaxException e) {
-            throw new URLError(request, "The url syntax error: ", e);
+            throw new URLError(request, "The url syntax error", e);
         } catch (MalformedURLException e) {
-            throw new URLError(request, "The url is malformed: ", e);
+            throw new URLError(request, "The url is malformed", e);
         } catch (UnknownHostException e) {
-            throw new HostError(request, "Hostname can not be resolved: ", e);
+            throw new HostError(request, "Hostname can not be resolved", e);
         } catch (SocketTimeoutException e) {
-            throw new ConnectTimeoutError(request, "Connect time out: ", e);
+            throw new ConnectTimeoutError(request, "Connect time out", e);
         } catch (Exception e) {
-            throw new ConnectException(request, "An unknown exception: ", e);
+            throw new ConnectException(request, "An unknown exception", e);
         }
     }
 
@@ -142,7 +142,7 @@ class ConnectInterceptor implements Interceptor {
             request.body().writeTo(IOUtils.toBufferedOutputStream(stream));
             IOUtils.closeQuietly(stream);
         } catch (Exception e) {
-            throw new WriteException(request, null, e);
+            throw new WriteException(request, e);
         }
     }
 
@@ -159,9 +159,9 @@ class ConnectInterceptor implements Interceptor {
             ResponseBody body = new StreamBody(contentType, mConnection.getInputStream());
             return Response.newBuilder().code(code).headers(headers).body(body).build();
         } catch (SocketTimeoutException e) {
-            throw new ReadTimeoutError(request, "Read data time out: ", e);
+            throw new ReadTimeoutError(request, "Read data time out", e);
         } catch (Exception e) {
-            throw new ReadException(request, null, e);
+            throw new ReadException(request, e);
         }
     }
 

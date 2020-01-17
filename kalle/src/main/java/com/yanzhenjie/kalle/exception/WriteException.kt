@@ -22,6 +22,5 @@ import com.yanzhenjie.kalle.Request
  */
 class WriteException constructor(
     request: Request,
-    message: String? = null,
     cause: Throwable? = null
-) : NetException(request, message, cause)
+) : NetException(request, cause = cause)

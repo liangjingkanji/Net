@@ -22,6 +22,5 @@ import com.yanzhenjie.kalle.Request
  */
 open class ReadException(
     request: Request,
-    message: String? = null,
     cause: Throwable? = null
-) : NetException(request, message, cause)
+) : NetException(request, cause = cause)
