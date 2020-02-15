@@ -11,7 +11,6 @@ import android.os.Handler
 import android.os.Looper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
 
 
@@ -30,22 +29,6 @@ suspend fun <T> withUnconfined(block: suspend CoroutineScope.() -> T) =
     withContext(Dispatchers.Unconfined, block)
 
 // </editor-fold>
-
-/**
- * 允许抛出任何异常的作用域, 不会导致父协程取消和崩溃
- */
-suspend fun tryScope(
-    error: suspend CoroutineScope.(Throwable) -> Unit = { it.printStackTrace() },
-    block: suspend CoroutineScope.() -> Unit
-) {
-    return supervisorScope {
-        try {
-            block()
-        } catch (e: Exception) {
-            error(e)
-        }
-    }
-}
 
 /**
  * 在主线程运行
