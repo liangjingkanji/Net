@@ -18,6 +18,8 @@ package com.yanzhenjie.kalle;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static android.util.Log.d;
+
 /**
  * Created by Zhenjie Yan on 2018/2/27.
  */
@@ -57,7 +59,9 @@ public class CancelerManager {
         for (Map.Entry<Request, Canceller> entry : mCancelMap.entrySet()) {
             Request request = entry.getKey();
             Object oldTag = request.tag();
+            d("日志", "(CancelerManager.java:62)    ");
             if ((tag == oldTag) || (tag != null && tag.equals(oldTag))) {
+                d("日志", "(CancelerManager.java:61)    ");
                 entry.getValue().cancel();
             }
         }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
+  ~ Project：Net
+  ~ Author：Drake
+  ~ Date：4/16/20 4:53 PM
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/request_method"
+        android:icon="@drawable/ic_request_method"
+        android:title="请求方式" />
+    <item
+        android:id="@+id/async_task"
+        android:icon="@drawable/ic_async_task"
+        android:title="异步任务" />
+    <item
+        android:id="@+id/config_dialog"
+        android:icon="@drawable/ic_config_dialog"
+        android:title="自动加载框" />
+    <item
+        android:id="@+id/coroutine_scope"
+        android:icon="@drawable/ic_scope"
+        android:title="协程作用域" />
+    <item
+        android:id="@+id/custom_convert"
+        android:icon="@drawable/ic_convert"
+        android:title="自定义转换器" />
+    <item
+        android:id="@+id/error_handler"
+        android:icon="@drawable/ic_error_handler"
+        android:title="错误处理" />
+    <item
+        android:id="@+id/exception_trace"
+        android:icon="@drawable/ic_exception_trace"
+        android:title="异常追踪" />
+    <item
+        android:id="@+id/interceptor"
+        android:icon="@drawable/ic_interceptor"
+        android:title="拦截器" />
+    <item
+        android:id="@+id/parallel_network"
+        android:icon="@drawable/ic_parallel_network"
+        android:title="并发网络" />
+    <item
+        android:id="@+id/push_refresh"
+        android:icon="@drawable/ic_push_refresh"
+        android:title="自动下拉刷新" />
+    <item
+        android:id="@+id/pull_refresh"
+        android:icon="@drawable/ic_pull_refresh"
+        android:title="自动分页加载" />
+
+    <item
+        android:id="@+id/read_cache"
+        android:icon="@drawable/ic_read_cache"
+        android:title="预读缓存" />
+    <item
+        android:id="@+id/state_layout"
+        android:icon="@drawable/ic_state_layout"
+        android:title="自动缺省页" />
+    <item
+        android:id="@+id/switch_dispatcher"
+        android:icon="@drawable/ic_switch_dispatcher"
+        android:title="切换调度器" />
+    <item
+        android:id="@+id/download_file"
+        android:icon="@drawable/ic_download_file"
+        android:title="下载文件" />
+    <item
+        android:id="@+id/upload_file"
+        android:icon="@drawable/ic_upload_file"
+        android:title="上传文件" />
+
+    <item
+        android:id="@+id/download_img"
+        android:icon="@drawable/ic_download_img"
+        android:title="下载图片" />
+
+    <item
+        android:id="@+id/super_interval"
+        android:icon="@drawable/ic_interval"
+        android:title="超级轮循器" />
+</menu>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
+  ~ Project：Net
+  ~ Author：Drake
+  ~ Date：4/17/20 7:13 AM
+  -->
+
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

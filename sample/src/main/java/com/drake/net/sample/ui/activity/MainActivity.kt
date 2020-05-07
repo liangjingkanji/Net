@@ -2,38 +2,46 @@
  * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
  * Project：Net
  * Author：Drake
- * Date：1/18/20 4:41 PM
+ * Date：4/16/20 3:42 PM
  */
 
 package com.drake.net.sample.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.drake.net.get
+import androidx.core.view.GravityCompat
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.drake.net.sample.R
-import com.drake.net.utils.scope
+import com.drake.statusbar.immersiveDark
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
+        immersiveDark(toolbar)
 
-        content.onRefresh {
+        fragment_nav.findNavController().addOnDestinationChangedListener { _, destination, _ ->
+            toolbar.title = destination.label // 更新标题
+            toolbar.menu.clear() // 清除菜单
+        }
 
-            scope {
-                val data = get<String>("https://github.com/liangjingkanji")
-                textView.text = data.await()
-            }
+        toolbar.setNavigationOnClickListener { drawer.openDrawer(GravityCompat.START) }
+        nav.setupWithNavController(fragment_nav.findNavController())
+    }
 
-        }.showLoading()
+    override fun onSupportNavigateUp(): Boolean {
+        return false
+    }
 
+    override fun onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawers()
+        } else super.onBackPressed()
     }
 }
-
 
 
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
+  ~ Project：Net
+  ~ Author：Drake
+  ~ Date：4/17/20 7:22 AM
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/start"
+        android:title="开始" />
+    <item
+        android:id="@+id/pause"
+        android:title="暂停" />
+    <item
+        android:id="@+id/resume"
+        android:title="继续" />
+    <item
+        android:id="@+id/reset"
+        android:title="重置" />
+
+    <item
+        android:id="@+id/switch_interval"
+        android:title="结束" />
+    <item
+        android:id="@+id/stop"
+        android:title="结束" />
+</menu>

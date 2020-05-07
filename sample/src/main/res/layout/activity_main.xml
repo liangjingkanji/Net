@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.drake.brv.PageRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:navigationIcon="@drawable/ic_menu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="首页" />
+            android:layout_height="wrap_content" />
 
+        <fragment
+            android:id="@+id/fragment_nav"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="false"
+            app:navGraph="@navigation/nav_main" />
 
-    </ScrollView>
+    </LinearLayout>
 
-</com.drake.brv.PageRefreshLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/layout_drawer_nav_header"
+        app:menu="@menu/menu_main" />
+
+</androidx.drawerlayout.widget.DrawerLayout>
 

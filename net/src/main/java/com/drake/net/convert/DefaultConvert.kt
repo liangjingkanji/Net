@@ -29,9 +29,9 @@ import java.lang.reflect.Type
  */
 @Suppress("UNCHECKED_CAST")
 abstract class DefaultConvert(
-        val success: String = "0",
-        val code: String = "code",
-        val message: String = "message"
+    val success: String = "0",
+    val code: String = "code",
+    val message: String = "msg"
 ) : Converter {
 
     override fun <S, F> convert(

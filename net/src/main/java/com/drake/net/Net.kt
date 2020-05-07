@@ -5,7 +5,7 @@
  * Date：9/16/19 12:54 AM
  */
 
-@file:Suppress("unused")
+@file:Suppress("unused", "FunctionName")
 
 package com.drake.net
 
@@ -13,6 +13,8 @@ import android.content.Context
 import com.bumptech.glide.Glide
 import com.drake.net.error.ResponseException
 import com.yanzhenjie.kalle.Kalle
+import com.yanzhenjie.kalle.RequestMethod
+import com.yanzhenjie.kalle.Url
 import com.yanzhenjie.kalle.download.UrlDownload
 import com.yanzhenjie.kalle.simple.SimpleBodyRequest
 import com.yanzhenjie.kalle.simple.SimpleUrlRequest
@@ -32,81 +34,112 @@ import java.io.File
  * @return Observable<M> 结果会在主线程
  */
 
-inline fun <reified M> CoroutineScope.get(
+inline fun <reified M> CoroutineScope.Get(
     path: String,
     tag: Any? = null,
     cache: CacheMode = CacheMode.HTTP,
     absolutePath: Boolean = false,
     noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
 ): Deferred<M> = async(Dispatchers.IO) {
-
-    val request = Kalle.get(if (absolutePath) path else (NetConfig.host + path))
-        .tag(tag)
-        .cacheKey(path)
-        .cacheMode(cache)
-
-    val response = if (block == null) {
-        request.perform(M::class.java, ResponseException::class.java)
-    } else {
-        request.apply(block).perform<M, String>(M::class.java, ResponseException::class.java)
-    }
-
-    if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure as ResponseException
-    }
+    _submitUrl<M>(RequestMethod.GET, path, tag, cache, absolutePath, block)
 }
 
 
-inline fun <reified M> CoroutineScope.post(
+inline fun <reified M> CoroutineScope.Post(
     path: String,
     tag: Any? = null,
     cache: CacheMode = CacheMode.HTTP,
     absolutePath: Boolean = false,
     noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
 ): Deferred<M> = async(Dispatchers.IO) {
+    _submitBody<M>(RequestMethod.POST, path, tag, cache, absolutePath, block)
+}
 
-    val request =
-        Kalle.post(if (absolutePath) path else (NetConfig.host + path))
-            .tag(tag)
-            .cacheKey(path)
-            .cacheMode(cache)
+inline fun <reified M> CoroutineScope.Head(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
+): Deferred<M> = async(Dispatchers.IO) {
+    _submitUrl<M>(RequestMethod.HEAD, path, tag, cache, absolutePath, block)
+}
 
-    val response = if (block == null) {
-        request.perform<M, String>(M::class.java, ResponseException::class.java)
-    } else {
-        request.apply(block).perform<M, String>(M::class.java, ResponseException::class.java)
-    }
+inline fun <reified M> CoroutineScope.Options(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
+): Deferred<M> = async(Dispatchers.IO) {
+    _submitUrl<M>(RequestMethod.OPTIONS, path, tag, cache, absolutePath, block)
+}
 
-    if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure as ResponseException
-    }
+
+inline fun <reified M> CoroutineScope.Trace(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
+): Deferred<M> = async(Dispatchers.IO) {
+    _submitUrl<M>(RequestMethod.TRACE, path, tag, cache, absolutePath, block)
+}
+
+inline fun <reified M> CoroutineScope.Delete(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
+): Deferred<M> = async(Dispatchers.IO) {
+    _submitBody<M>(RequestMethod.DELETE, path, tag, cache, absolutePath, block)
+}
+
+inline fun <reified M> CoroutineScope.Put(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
+): Deferred<M> = async(Dispatchers.IO) {
+    _submitBody<M>(RequestMethod.PUT, path, tag, cache, absolutePath, block)
+}
+
+inline fun <reified M> CoroutineScope.Patch(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
+): Deferred<M> = async(Dispatchers.IO) {
+    _submitBody<M>(RequestMethod.PATCH, path, tag, cache, absolutePath, block)
 }
 
 
 /**
  * 下载文件
  *
- * @param path String 网络路径, 非绝对路径会加上HOST[NetConfig.host]为前缀
- * @param directory String 下载文件存放目录 {默认存在android/data/packageName/cache目录}
+ * @param path  网络路径, 非绝对路径会加上HOST[NetConfig.host]为前缀
+ * @param method 请求方式, 默认GET
+ * @param dir  下载文件存放目录 {默认存在android/data/packageName/cache目录}
  * @param tag 可以传递对象给Request请求
- * @param absolutePath Boolean 下载链接是否是绝对路径
+ * @param absolutePath  下载链接是否是绝对路径
  * @param block 请求参数
- * @return Observable<String> 结果会在主线程
  */
-fun CoroutineScope.download(
+fun CoroutineScope.Download(
     path: String,
-    directory: String = NetConfig.app.externalCacheDir!!.absolutePath,
+    method: RequestMethod = RequestMethod.GET,
+    dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
     tag: Any? = null,
     absolutePath: Boolean = false,
     block: (UrlDownload.Api.() -> Unit)? = null
 ): Deferred<String> = async(Dispatchers.IO) {
+
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
-    val download = Kalle.Download.get(realPath).directory(directory).tag(tag)
+    val download =
+        UrlDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
 
     if (isActive) {
         if (block == null) {
@@ -119,7 +152,6 @@ fun CoroutineScope.download(
     }
 }
 
-
 /**
  * 下载图片, 图片宽高要求要么同时指定要么同时不指定
  *
@@ -129,16 +161,13 @@ fun CoroutineScope.download(
  * @param height Int 图片高度
  * @return Observable<File>
  */
-fun CoroutineScope.downImage(
-    context: Context,
+fun CoroutineScope.DownloadImg(
     url: String,
     with: Int = -1,
     height: Int = -1
 ): Deferred<File> = async(Dispatchers.IO) {
 
-    Glide.with(context).downloadOnly()
-
-    val download = Glide.with(context).download(url)
+    val download = Glide.with(NetConfig.app).download(url)
 
     val futureTarget = if (with == -1 && height == -1) {
         download.submit()
@@ -147,6 +176,65 @@ fun CoroutineScope.downImage(
     }
 
     futureTarget.get()
+}
+
+
+inline fun <reified M> _submitBody(
+    method: RequestMethod,
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
+): M {
+
+    val realPath = if (absolutePath) path else (NetConfig.host + path)
+
+    val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), method)
+        .tag(tag)
+        .cacheKey(path)
+        .cacheMode(cache)
+
+    val response = if (block == null) {
+        request.perform(M::class.java, ResponseException::class.java)
+    } else {
+        request.apply(block).perform<M, String>(M::class.java, ResponseException::class.java)
+    }
+
+    return if (response.isSucceed) {
+        response.success!!
+    } else {
+        throw response.failure as ResponseException
+    }
+}
+
+inline fun <reified M> _submitUrl(
+    method: RequestMethod,
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
+): M {
+
+    val realPath = if (absolutePath) path else (NetConfig.host + path)
+
+    val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), method)
+        .tag(tag)
+        .cacheKey(path)
+        .cacheMode(cache)
+
+    val response = if (block == null) {
+        request.perform(M::class.java, ResponseException::class.java)
+    } else {
+        request.apply(block).perform<M, String>(M::class.java, ResponseException::class.java)
+    }
+
+    return if (response.isSucceed) {
+        response.success!!
+    } else {
+        throw response.failure as ResponseException
+    }
 }
 
 // </editor-fold>
@@ -160,21 +248,7 @@ inline fun <reified M> syncGet(
     absolutePath: Boolean = false,
     noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
 ): M {
-
-    val request =
-        Kalle.get(if (absolutePath) path else (NetConfig.host + path)).tag(tag).cacheKey(path)
-            .cacheMode(cache)
-    val response = if (block == null) {
-        request.perform(M::class.java, ResponseException::class.java)
-    } else {
-        request.apply(block).perform<M, String>(M::class.java, ResponseException::class.java)
-    }
-
-    return if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure as ResponseException
-    }
+    return _submitUrl<M>(RequestMethod.GET, path, tag, cache, absolutePath, block)
 }
 
 inline fun <reified M> syncPost(
@@ -184,21 +258,67 @@ inline fun <reified M> syncPost(
     absolutePath: Boolean = false,
     noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
 ): M {
+    return _submitBody<M>(RequestMethod.POST, path, tag, cache, absolutePath, block)
+}
 
-    val request =
-        Kalle.post(if (absolutePath) path else (NetConfig.host + path)).tag(tag).cacheKey(path)
-            .cacheMode(cache)
-    val response = if (block == null) {
-        request.perform<M, String>(M::class.java, ResponseException::class.java)
-    } else {
-        request.apply(block).perform<M, String>(M::class.java, ResponseException::class.java)
-    }
+inline fun <reified M> syncHead(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
+): M {
+    return _submitUrl<M>(RequestMethod.HEAD, path, tag, cache, absolutePath, block)
+}
 
-    return if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure as ResponseException
-    }
+inline fun <reified M> syncOptions(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
+): M {
+    return _submitUrl<M>(RequestMethod.OPTIONS, path, tag, cache, absolutePath, block)
+}
+
+inline fun <reified M> syncTrace(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleUrlRequest.Api.() -> Unit)? = null
+): M {
+    return _submitUrl<M>(RequestMethod.TRACE, path, tag, cache, absolutePath, block)
+}
+
+inline fun <reified M> syncDelete(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
+): M {
+    return _submitBody<M>(RequestMethod.DELETE, path, tag, cache, absolutePath, block)
+}
+
+inline fun <reified M> syncPut(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
+): M {
+    return _submitBody<M>(RequestMethod.PUT, path, tag, cache, absolutePath, block)
+}
+
+inline fun <reified M> syncPatch(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    noinline block: (SimpleBodyRequest.Api.() -> Unit)? = null
+): M {
+    return _submitBody<M>(RequestMethod.PATCH, path, tag, cache, absolutePath, block)
 }
 
 fun syncDownload(
@@ -220,7 +340,7 @@ fun syncDownload(
     }
 }
 
-fun Context.syncDownImage(url: String, with: Int = 0, height: Int = 0): File {
+fun Context.syncDownloadImg(url: String, with: Int = 0, height: Int = 0): File {
 
     Glide.with(this).downloadOnly()
 

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
+  ~ Project：Net
+  ~ Author：Drake
+  ~ Date：4/16/20 9:13 PM
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/request_method">
+
+    <fragment
+        android:id="@+id/async_task"
+        android:name="com.drake.net.sample.ui.fragment.AsyncTaskFragment"
+        android:label="异步任务"
+        tools:layout="@layout/fragment_async_task" />
+
+    <fragment
+        android:id="@+id/config_dialog"
+        android:name="com.drake.net.sample.ui.fragment.ConfigDialogFragment"
+        android:label="自动加载框"
+        tools:layout="@layout/fragment_config_dialog" />
+    <fragment
+        android:id="@+id/coroutine_scope"
+        android:name="com.drake.net.sample.ui.fragment.CoroutineScopeFragment"
+        android:label="协程作用域"
+        tools:layout="@layout/fragment_coroutine_scope" />
+    <fragment
+        android:id="@+id/custom_convert"
+        android:name="com.drake.net.sample.ui.fragment.CustomConvertFragment"
+        android:label="自定义转换器"
+        tools:layout="@layout/fragment_custom_convert" />
+    <fragment
+        android:id="@+id/error_handler"
+        android:name="com.drake.net.sample.ui.fragment.ErrorHandlerFragment"
+        android:label="错误处理"
+        tools:layout="@layout/fragment_error_handler" />
+    <fragment
+        android:id="@+id/exception_trace"
+        android:name="com.drake.net.sample.ui.fragment.ExceptionTraceFragment"
+        android:label="异常追踪"
+        tools:layout="@layout/fragment_exception_trace" />
+    <fragment
+        android:id="@+id/interceptor"
+        android:name="com.drake.net.sample.ui.fragment.InterceptorFragment"
+        android:label="拦截器"
+        tools:layout="@layout/fragment_interceptor" />
+    <fragment
+        android:id="@+id/pull_refresh"
+        android:name="com.drake.net.sample.ui.fragment.PullRefreshFragment"
+        android:label="自动分页加载"
+        tools:layout="@layout/fragment_pull_refresh" />
+    <fragment
+        android:id="@+id/parallel_network"
+        android:name="com.drake.net.sample.ui.fragment.ParallelNetworkFragment"
+        android:label="并发网络任务"
+        tools:layout="@layout/fragment_parallel_network" />
+    <fragment
+        android:id="@+id/push_refresh"
+        android:name="com.drake.net.sample.ui.fragment.PushRefreshFragment"
+        android:label="自动下拉刷新"
+        tools:layout="@layout/fragment_push_refresh" />
+    <fragment
+        android:id="@+id/read_cache"
+        android:name="com.drake.net.sample.ui.fragment.ReadCacheFragment"
+        android:label="预读缓存"
+        tools:layout="@layout/fragment_read_cache" />
+    <fragment
+        android:id="@+id/request_method"
+        android:name="com.drake.net.sample.ui.fragment.RequestMethodFragment"
+        android:label="请求方式"
+        tools:layout="@layout/fragment_request_method" />
+    <fragment
+        android:id="@+id/state_layout"
+        android:name="com.drake.net.sample.ui.fragment.StateLayoutFragment"
+        android:label="自动缺省页"
+        tools:layout="@layout/fragment_state_layout" />
+    <fragment
+        android:id="@+id/super_interval"
+        android:name="com.drake.net.sample.ui.fragment.SuperIntervalFragment"
+        android:label="超级轮循器"
+        tools:layout="@layout/fragment_super_interval" />
+    <fragment
+        android:id="@+id/switch_dispatcher"
+        android:name="com.drake.net.sample.ui.fragment.SwitchDispatcherFragment"
+        android:label="切换调度器"
+        tools:layout="@layout/fragment_switch_dispatcher" />
+    <fragment
+        android:id="@+id/download_file"
+        android:name="com.drake.net.sample.ui.fragment.DownloadFileFragment"
+        android:label="下载文件"
+        tools:layout="@layout/fragment_download_file" />
+    <fragment
+        android:id="@+id/download_img"
+        android:name="com.drake.net.sample.ui.fragment.DownloadImageFragment"
+        android:label="下载图片"
+        tools:layout="@layout/fragment_download_image" />
+    <fragment
+        android:id="@+id/upload_file"
+        android:name="com.drake.net.sample.ui.fragment.UploadFileFragment"
+        android:label="上传文件"
+        tools:layout="@layout/fragment_upload_file" />
+
+</navigation>
