@@ -9,7 +9,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    app:startDestination="@id/request_method">
+    app:startDestination="@id/download_file">
 
     <fragment
         android:id="@+id/async_task"

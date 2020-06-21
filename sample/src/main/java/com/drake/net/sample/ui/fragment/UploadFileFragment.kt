@@ -12,7 +12,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.drake.net.Post
 import com.drake.net.sample.R
+import com.drake.net.utils.scopeNetLife
+import com.yanzhenjie.kalle.FormBody
+import kotlinx.android.synthetic.main.fragment_upload_file.*
 
 
 class UploadFileFragment : Fragment() {
@@ -28,24 +32,26 @@ class UploadFileFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        /*   scopeNetLife {
-               val fileDir = requireContext().cacheDir.path
+        scopeNetLife {
+            val fileDir = requireContext().cacheDir.path
 
-               Post<String>("download/img", fileDir) {
 
-                   // 下载进度回调 (普通接口或者上传进度也可以监听)
-                   onProgress { progress, byteCount, speed ->
+            Post<String>("download/img", fileDir) {
 
-                       seek.progress = progress // 进度条
-                       // 格式化显示单位
-                       val downloadSize = Formatter.formatFileSize(requireContext(), byteCount)
-                       val downloadSpeed = Formatter.formatFileSize(requireContext(), speed)
+                val form = FormBody.newBuilder().build().onProgress { origin, progress ->
+                    seek.progress = progress // 进度条
+                    // 格式化显示单位
+                    val downloadSize =
+                        android.text.format.Formatter.formatFileSize(requireContext(), 23)
+                    val downloadSpeed =
+                        android.text.format.Formatter.formatFileSize(requireContext(), 23)
 
-                       // 显示下载信息
-                       tv_progress.text = "上传进度: $progress% 已下载: $downloadSize 下载速度: $downloadSpeed"
-                   }
-               }.await()
-           }*/
+                    // 显示下载信息
+                    tv_progress.text = "上传进度: $progress% 已下载: $downloadSize 下载速度: $downloadSpeed"
+                }
+
+            }.await()
+        }
 
     }
 
