@@ -16,7 +16,6 @@ import com.drake.net.Get
 import com.drake.net.sample.R
 import com.drake.net.utils.scope
 import kotlinx.android.synthetic.main.fragment_state_layout.*
-import kotlinx.coroutines.delay
 
 
 class StateLayoutFragment : Fragment() {
@@ -34,11 +33,7 @@ class StateLayoutFragment : Fragment() {
 
         state.onRefresh {
             scope {
-                delay(1000)
-
-                tv_fragment.text = Get<String>("method") {
-                    param("userId", "drake")
-                }.await()
+                tv_fragment.text = Get<String>("api").await()
             }
         }.showLoading()
     }

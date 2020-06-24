@@ -26,7 +26,8 @@ object Canceler {
      * @param uid   target request.
      * @param canceller canceller.
      */
-    fun addCancel(uid: Any, canceller: Canceller) {
+    fun addCancel(uid: Any?, canceller: Canceller) {
+        uid ?: return
         map[uid] = canceller
     }
 
@@ -45,6 +46,7 @@ object Canceler {
      *
      */
     fun cancel(uid: Any?) {
+        uid ?: return
         val iterator = map.iterator()
         while (iterator.hasNext()) {
             val next = iterator.next()
