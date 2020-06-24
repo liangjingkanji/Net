@@ -80,10 +80,10 @@ module 的 build.gradle
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 
-// 支持自动下拉刷新和缺省页的, 可选, 刷新头和上拉加载参考SmartRefreshLayout
-implementation 'com.github.liangjingkanji:BRV:1.2.1'
+// 支持自动下拉刷新和缺省页的, 可选, 刷新头和上拉加载参考SmartRefreshLayout (可选)
+implementation 'com.github.liangjingkanji:BRV:1.3.3'
 
-implementation 'com.github.liangjingkanji:Net:2.1.6'
+implementation 'com.github.liangjingkanji:Net:2.2.0'
 ```
 
 

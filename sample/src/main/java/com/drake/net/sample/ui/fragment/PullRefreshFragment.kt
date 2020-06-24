@@ -12,7 +12,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.drake.brv.utils.linear
+import com.drake.brv.utils.setup
+import com.drake.net.Get
 import com.drake.net.sample.R
+import com.drake.net.sample.mod.ListModel
+import com.drake.net.utils.scope
+import kotlinx.android.synthetic.main.fragment_pull_refresh.*
 
 
 class PullRefreshFragment : Fragment() {
@@ -28,7 +34,20 @@ class PullRefreshFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        rv_pull.linear().setup {
+            addType<ListModel.Data>(R.layout.item_list)
+        }
 
+        page.onRefresh {
+            scope {
+                val data = Get<ListModel>("list") {
+                    param("page", index)
+                }.await().data
+                addData(data.list) {
+                    index < data.totalPage
+                }
+            }
+        }.autoRefresh()
     }
 
 }

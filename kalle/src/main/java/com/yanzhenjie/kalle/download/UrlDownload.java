@@ -30,6 +30,7 @@ public class UrlDownload extends UrlRequest implements Download {
     private final String mFileName;
     private final ProgressBar mProgressBar;
     private final Policy mPolicy;
+
     private UrlDownload(Api api) {
         super(api);
         this.mDirectory = api.mDirectory;
@@ -100,7 +101,7 @@ public class UrlDownload extends UrlRequest implements Download {
         }
 
         public String perform() throws Exception {
-            return new UrlWorker(new UrlDownload(this)).call();
+            return DownloadManager.getInstance().perform(new UrlDownload(this));
         }
 
         public Canceller perform(Callback callback) {

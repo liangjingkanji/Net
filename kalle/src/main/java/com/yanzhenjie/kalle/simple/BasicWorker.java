@@ -15,6 +15,7 @@
  */
 package com.yanzhenjie.kalle.simple;
 
+import com.yanzhenjie.kalle.Canceller;
 import com.yanzhenjie.kalle.Headers;
 import com.yanzhenjie.kalle.Kalle;
 import com.yanzhenjie.kalle.Response;
@@ -37,7 +38,7 @@ import static com.yanzhenjie.kalle.Headers.KEY_IF_NONE_MATCH;
  * Created by Zhenjie Yan on 2018/2/18.
  */
 abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
-        implements Callable<Result<Succeed, Failed>> {
+        implements Callable<Result<Succeed, Failed>>, Canceller {
 
     private static final long MAX_EXPIRES = System.currentTimeMillis() + 100L * 365L * 24L * 60L * 60L * 1000L;
 

@@ -5,17 +5,16 @@
   ~ Date：4/16/20 4:58 PM
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.drake.brv.PageRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.PullRefreshFragment">
 
-    <TextView
-        android:id="@+id/tv_fragment"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_pull"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="AutoPagingFragment" />
+        android:layout_height="match_parent" />
 
-</FrameLayout>
+</com.drake.brv.PageRefreshLayout>

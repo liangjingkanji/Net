@@ -15,7 +15,7 @@
  */
 package com.yanzhenjie.kalle.download;
 
-import com.yanzhenjie.kalle.CancelerManager;
+import com.yanzhenjie.kalle.Canceler;
 import com.yanzhenjie.kalle.Canceller;
 import com.yanzhenjie.kalle.Kalle;
 
@@ -28,10 +28,9 @@ public class DownloadManager {
 
     private static DownloadManager sInstance;
     private final Executor mExecutor;
-    private final CancelerManager mCancelManager;
+
     private DownloadManager() {
         this.mExecutor = Kalle.getConfig().getWorkExecutor();
-        this.mCancelManager = new CancelerManager();
     }
 
     public static DownloadManager getInstance() {
@@ -57,10 +56,10 @@ public class DownloadManager {
             @Override
             public void onEnd() {
                 super.onEnd();
-                mCancelManager.removeCancel(download);
+                Canceler.INSTANCE.removeCancel(download.uid());
             }
         });
-        mCancelManager.addCancel(download, work);
+        Canceler.INSTANCE.addCancel(download.uid(), work);
         mExecutor.execute(work);
         return work;
     }
@@ -72,7 +71,9 @@ public class DownloadManager {
      * @return download the completed file path.
      */
     public String perform(UrlDownload download) throws Exception {
-        return new UrlWorker(download).call();
+        UrlWorker worker = new UrlWorker(download);
+        Canceler.INSTANCE.addCancel(download.uid(), worker);
+        return worker.call();
     }
 
     /**
@@ -87,10 +88,10 @@ public class DownloadManager {
             @Override
             public void onEnd() {
                 super.onEnd();
-                mCancelManager.removeCancel(download);
+                Canceler.INSTANCE.removeCancel(download.uid());
             }
         });
-        mCancelManager.addCancel(download, work);
+        Canceler.INSTANCE.addCancel(download.uid(), work);
         mExecutor.execute(work);
         return work;
     }
@@ -102,16 +103,9 @@ public class DownloadManager {
      * @return download the completed file path.
      */
     public String perform(BodyDownload download) throws Exception {
-        return new BodyWorker(download).call();
-    }
-
-    /**
-     * Cancel multiple requests based on tag.
-     *
-     * @param tag Specified tag.
-     */
-    public void cancel(Object tag) {
-        mCancelManager.cancel(tag);
+        BodyWorker worker = new BodyWorker(download);
+        Canceler.INSTANCE.addCancel(download.uid(), worker);
+        return worker.call();
     }
 
     private static class AsyncCallback implements Callback {

@@ -100,7 +100,7 @@ public class BodyDownload extends BodyRequest implements Download {
         }
 
         public String perform() throws Exception {
-            return new BodyWorker(new BodyDownload(this)).call();
+            return DownloadManager.getInstance().perform(new BodyDownload(this));
         }
 
         public Canceller perform(Callback callback) {

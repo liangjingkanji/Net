@@ -43,4 +43,9 @@ public class BodyWorker extends BasicWorker<BodyDownload> {
             mCall.asyncCancel();
         }
     }
+
+    @Override
+    public boolean isCancelled() {
+        return mCall.isCanceled();
+    }
 }

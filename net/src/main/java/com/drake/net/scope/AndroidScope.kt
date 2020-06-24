@@ -36,18 +36,19 @@ open class AndroidScope(
 
     protected var catch: (AndroidScope.(Throwable) -> Unit)? = null
     protected var finally: (AndroidScope.(Throwable?) -> Unit)? = null
-
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         catch(throwable)
     }
 
+    val uid = exceptionHandler
+
     override val coroutineContext: CoroutineContext =
-        Dispatchers.Main + exceptionHandler + SupervisorJob()
+            Dispatchers.Main + exceptionHandler + SupervisorJob()
 
 
     open fun launch(
-        block: suspend CoroutineScope.() -> Unit
-    ): AndroidScope {
+            block: suspend CoroutineScope.() -> Unit
+                   ): AndroidScope {
         start()
         launch(EmptyCoroutineContext, block = block).invokeOnCompletion { finally(it) }
         return this
@@ -88,6 +89,15 @@ open class AndroidScope(
     open fun handleError(e: Throwable) {
         e.printStackTrace()
     }
+
+    open fun cancel(cause: CancellationException? = null) {
+        val job = coroutineContext[Job]
+                  ?: error("Scope cannot be cancelled because it does not have a job: $this")
+        job.cancel(cause)
+    }
+
+    open fun cancel(message: String, cause: Throwable? = null) =
+            cancel(CancellationException(message, cause))
 
 }
 

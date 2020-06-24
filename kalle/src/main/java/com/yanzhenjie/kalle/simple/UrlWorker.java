@@ -44,4 +44,9 @@ final class UrlWorker<S, F> extends BasicWorker<SimpleUrlRequest, S, F> {
             mCall.asyncCancel();
         }
     }
+
+    @Override
+    public boolean isCancelled() {
+        return mCall.isCanceled();
+    }
 }

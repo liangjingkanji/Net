@@ -35,19 +35,13 @@ import kotlinx.coroutines.flow.FlowCollector
  *
  * 对话框被取消或者界面关闭作用域被取消
  */
-fun FragmentActivity.scopeDialog(
-    dialog: Dialog? = null,
-    cancelable: Boolean = true, block: suspend CoroutineScope.() -> Unit
-): NetCoroutineScope {
-    return DialogCoroutineScope(this, dialog, cancelable).launch(block)
-}
+fun FragmentActivity.scopeDialog(dialog: Dialog? = null,
+                                 cancelable: Boolean = true,
+                                 block: suspend CoroutineScope.() -> Unit) = DialogCoroutineScope(this, dialog, cancelable).launch(block)
 
-fun Fragment.scopeDialog(
-    dialog: Dialog? = null,
-    cancelable: Boolean = true, block: suspend CoroutineScope.() -> Unit
-): NetCoroutineScope {
-    return DialogCoroutineScope(activity!!, dialog, cancelable).launch(block)
-}
+fun Fragment.scopeDialog(dialog: Dialog? = null,
+                         cancelable: Boolean = true,
+                         block: suspend CoroutineScope.() -> Unit) = DialogCoroutineScope(requireActivity(), dialog, cancelable).launch(block)
 
 // </editor-fold>
 
@@ -97,12 +91,11 @@ fun scope(block: suspend CoroutineScope.() -> Unit): AndroidScope {
     return AndroidScope().launch(block)
 }
 
-fun LifecycleOwner.scopeLife(
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    block: suspend CoroutineScope.() -> Unit
-): AndroidScope {
-    return AndroidScope(this, lifeEvent).launch(block)
-}
+fun LifecycleOwner.scopeLife(lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+                             block: suspend CoroutineScope.() -> Unit) = AndroidScope(this, lifeEvent).launch(block)
+
+fun Fragment.scopeLife(lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
+                       block: suspend CoroutineScope.() -> Unit) = AndroidScope(this, lifeEvent).launch(block)
 
 /**
  * 网络请求的异步作用域
@@ -110,31 +103,27 @@ fun LifecycleOwner.scopeLife(
  *
  * 该作用域生命周期跟随整个应用, 注意内存泄漏
  */
-fun scopeNet(block: suspend CoroutineScope.() -> Unit): NetCoroutineScope {
-    return NetCoroutineScope().launch(block)
-}
+fun scopeNet(block: suspend CoroutineScope.() -> Unit) = NetCoroutineScope().launch(block)
 
 
-fun LifecycleOwner.scopeNetLife(
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    block: suspend CoroutineScope.() -> Unit
-): NetCoroutineScope {
-    return NetCoroutineScope(this, lifeEvent).launch(block)
-}
+fun LifecycleOwner.scopeNetLife(lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+                                block: suspend CoroutineScope.() -> Unit) = NetCoroutineScope(this, lifeEvent).launch(block)
+
+/**
+ * Fragment应当在[Lifecycle.Event.ON_STOP]时就取消作用域, 避免[Fragment.onDestroyView]导致引用空视图
+ */
+fun Fragment.scopeNetLife(lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
+                          block: suspend CoroutineScope.() -> Unit) = NetCoroutineScope(this, lifeEvent).launch(block)
 
 
 @UseExperimental(InternalCoroutinesApi::class)
-inline fun <T> Flow<T>.scope(
-    owner: LifecycleOwner? = null,
-    event: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    crossinline action: suspend (value: T) -> Unit
-): CoroutineScope = AndroidScope(owner, event).launch {
+inline fun <T> Flow<T>.scope(owner: LifecycleOwner? = null,
+                             event: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+                             crossinline action: suspend (value: T) -> Unit): CoroutineScope = AndroidScope(owner, event).launch {
     this@scope.collect(object : FlowCollector<T> {
         override suspend fun emit(value: T) = action(value)
     })
 }
-
-
 
 
 

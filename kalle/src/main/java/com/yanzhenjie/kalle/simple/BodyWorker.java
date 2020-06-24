@@ -44,4 +44,9 @@ final class BodyWorker<S, F> extends BasicWorker<SimpleBodyRequest, S, F> {
             mCall.asyncCancel();
         }
     }
+
+    @Override
+    public boolean isCancelled() {
+        return mCall.isCanceled();
+    }
 }

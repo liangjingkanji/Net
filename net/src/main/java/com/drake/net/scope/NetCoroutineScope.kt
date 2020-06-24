@@ -11,8 +11,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.drake.net.NetConfig
+import com.yanzhenjie.kalle.Canceler
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlin.coroutines.EmptyCoroutineContext
@@ -41,9 +42,7 @@ open class NetCoroutineScope() : AndroidScope() {
     ) : this() {
         lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                if (lifeEvent == event) {
-                    cancel()
-                }
+                if (lifeEvent == event) cancel()
             }
         })
     }
@@ -68,7 +67,6 @@ open class NetCoroutineScope() : AndroidScope() {
         }.invokeOnCompletion {
             finally(it)
         }
-
         return this
     }
 
@@ -86,7 +84,6 @@ open class NetCoroutineScope() : AndroidScope() {
         catch?.invoke(this, e) ?: if (error) handleError(e)
     }
 
-
     /**
      * 该函数一般用于缓存读取
      * 只在第一次启动作用域时回调
@@ -98,14 +95,18 @@ open class NetCoroutineScope() : AndroidScope() {
      * @param onCache 该作用域内的所有异常都算缓存读取失败, 不会吐司和打印任何错误
      */
     fun cache(
-        error: Boolean = false,
-        animate: Boolean = false,
-        onCache: suspend CoroutineScope.() -> Unit
-    ): AndroidScope {
+            error: Boolean = false,
+            animate: Boolean = false,
+            onCache: suspend CoroutineScope.() -> Unit
+             ): AndroidScope {
         this.animate = animate
         this.error = error
         this.onCache = onCache
         return this
     }
 
+    override fun cancel(cause: CancellationException?) {
+        Canceler.cancel(uid)
+        super.cancel(cause)
+    }
 }

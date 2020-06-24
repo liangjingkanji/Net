@@ -21,8 +21,6 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-import static android.util.Log.d;
-
 /**
  * Created by Zhenjie Yan on 2018/2/13.
  */
@@ -71,7 +69,6 @@ final class Work<T extends SimpleRequest, S, F> extends FutureTask<Result<S, F>>
     @Override
     public void cancel() {
         cancel(true);
-        d("日志", "(Work.java:72)    取消");
         mWorker.cancel();
     }
 }

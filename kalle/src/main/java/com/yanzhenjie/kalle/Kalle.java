@@ -18,9 +18,7 @@ package com.yanzhenjie.kalle;
 import android.util.Log;
 
 import com.yanzhenjie.kalle.download.BodyDownload;
-import com.yanzhenjie.kalle.download.DownloadManager;
 import com.yanzhenjie.kalle.download.UrlDownload;
-import com.yanzhenjie.kalle.simple.RequestManager;
 import com.yanzhenjie.kalle.simple.SimpleBodyRequest;
 import com.yanzhenjie.kalle.simple.SimpleUrlRequest;
 
@@ -116,10 +114,6 @@ public final class Kalle {
         return SimpleBodyRequest.newApi(url, RequestMethod.DELETE);
     }
 
-    public static void cancel(Object tag) {
-        RequestManager.getInstance().cancel(tag);
-    }
-
     public static class Download {
 
         public static UrlDownload.Api get(String url) {
@@ -184,10 +178,6 @@ public final class Kalle {
 
         public static BodyDownload.Api delete(Url url) {
             return BodyDownload.newApi(url, RequestMethod.DELETE);
-        }
-
-        public static void cancel(Object tag) {
-            DownloadManager.getInstance().cancel(tag);
         }
     }
 }

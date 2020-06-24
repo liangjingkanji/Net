@@ -15,7 +15,7 @@
  */
 package com.yanzhenjie.kalle.simple;
 
-import com.yanzhenjie.kalle.CancelerManager;
+import com.yanzhenjie.kalle.Canceler;
 import com.yanzhenjie.kalle.Canceller;
 import com.yanzhenjie.kalle.Kalle;
 
@@ -29,10 +29,9 @@ public class RequestManager {
 
     private static RequestManager sInstance;
     private final Executor mExecutor;
-    private final CancelerManager mCancelManager;
+
     private RequestManager() {
         this.mExecutor = Kalle.getConfig().getWorkExecutor();
-        this.mCancelManager = new CancelerManager();
     }
 
     public static RequestManager getInstance() {
@@ -60,10 +59,10 @@ public class RequestManager {
             @Override
             public void onEnd() {
                 super.onEnd();
-                mCancelManager.removeCancel(request);
+                Canceler.INSTANCE.removeCancel(request.uid());
             }
         });
-        mCancelManager.addCancel(request, work);
+        Canceler.INSTANCE.addCancel(request.uid(), work);
         mExecutor.execute(work);
         return work;
     }
@@ -79,7 +78,9 @@ public class RequestManager {
      * @return the response to this request.
      */
     public <S, F> Result<S, F> perform(SimpleUrlRequest request, Type succeed, Type failed) throws Exception {
-        return new UrlWorker<S, F>(request, succeed, failed).call();
+        UrlWorker<S, F> worker = new UrlWorker<>(request, succeed, failed);
+        Canceler.INSTANCE.addCancel(request.uid(), worker);
+        return worker.call();
     }
 
     /**
@@ -96,10 +97,10 @@ public class RequestManager {
             @Override
             public void onEnd() {
                 super.onEnd();
-                mCancelManager.removeCancel(request);
+                Canceler.INSTANCE.removeCancel(request.uid());
             }
         });
-        mCancelManager.addCancel(request, work);
+        Canceler.INSTANCE.addCancel(request.uid(), work);
         mExecutor.execute(work);
         return work;
     }
@@ -115,16 +116,9 @@ public class RequestManager {
      * @return the response to this request.
      */
     public <S, F> Result<S, F> perform(SimpleBodyRequest request, Type succeed, Type failed) throws Exception {
-        return new BodyWorker<S, F>(request, succeed, failed).call();
-    }
-
-    /**
-     * Cancel multiple requests based on tag.
-     *
-     * @param tag specified tag.
-     */
-    public void cancel(Object tag) {
-        mCancelManager.cancel(tag);
+        BodyWorker<S, F> worker = new BodyWorker<>(request, succeed, failed);
+        Canceler.INSTANCE.addCancel(request.uid(), worker);
+        return worker.call();
     }
 
     private static class AsyncCallback<S, F> extends Callback<S, F> {

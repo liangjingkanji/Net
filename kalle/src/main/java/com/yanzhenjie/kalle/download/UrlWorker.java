@@ -43,4 +43,9 @@ public class UrlWorker extends BasicWorker<UrlDownload> {
             mCall.asyncCancel();
         }
     }
+
+    @Override
+    public boolean isCancelled() {
+        return mCall.isCanceled();
+    }
 }

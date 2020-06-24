@@ -17,6 +17,7 @@ package com.yanzhenjie.kalle.download;
 
 import android.text.TextUtils;
 
+import com.yanzhenjie.kalle.Canceller;
 import com.yanzhenjie.kalle.Headers;
 import com.yanzhenjie.kalle.Kalle;
 import com.yanzhenjie.kalle.Response;
@@ -37,7 +38,7 @@ import static com.yanzhenjie.kalle.Headers.KEY_RANGE;
 /**
  * Created by Zhenjie Yan on 2018/3/18.
  */
-public abstract class BasicWorker<T extends Download> implements Callable<String> {
+public abstract class BasicWorker<T extends Download> implements Callable<String>, Canceller {
 
     private final T mDownload;
 
@@ -129,7 +130,7 @@ public abstract class BasicWorker<T extends Download> implements Callable<String
 
             InputStream stream = response.body().stream();
 
-            while (((len = stream.read(buffer)) != -1)) {
+            while ((len = stream.read(buffer)) != -1) {
                 randomFile.write(buffer, 0, len);
 
                 oldCount += len;

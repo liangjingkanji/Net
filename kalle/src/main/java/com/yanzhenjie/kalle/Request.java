@@ -36,6 +36,7 @@ public abstract class Request {
     private final int mConnectTimeout;
     private final int mReadTimeout;
     private final Object mTag;
+    private final Object uid;
 
     private String location;
 
@@ -59,6 +60,7 @@ public abstract class Request {
         this.mConnectTimeout = api.mConnectTimeout;
         this.mReadTimeout = api.mReadTimeout;
         this.mTag = api.mTag;
+        this.uid = api.uid;
     }
 
     /**
@@ -132,6 +134,10 @@ public abstract class Request {
         return mTag;
     }
 
+    public Object uid() {
+        return uid;
+    }
+
     public static abstract class Api<T extends Api<T>> {
 
         private final RequestMethod mMethod;
@@ -142,6 +148,7 @@ public abstract class Request {
         private int mConnectTimeout = Kalle.getConfig().getConnectTimeout();
         private int mReadTimeout = Kalle.getConfig().getReadTimeout();
         private Object mTag;
+        private Object uid;
 
         protected Api(RequestMethod method) {
             this.mMethod = method;
@@ -325,6 +332,14 @@ public abstract class Request {
          */
         public T tag(Object tag) {
             this.mTag = tag;
+            return (T) this;
+        }
+
+        /**
+         * 唯一标记
+         */
+        public T uid(Object uid) {
+            this.uid = uid;
             return (T) this;
         }
     }
