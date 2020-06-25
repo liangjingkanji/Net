@@ -1,12 +1,12 @@
 # Net
 
-异步任务库, Android 创新式的网络请求库(针对[Kalle](https://github.com/yanzhenjie/Kalle)网络请求框架进行扩展), 支持协程高并发网络请求
+Android上 最强网络任务库, 创新式的网络请求库(针对[Kalle](https://github.com/yanzhenjie/Kalle)网络请求框架进行扩展), 支持协程高并发网络请求
 
 
 
-本项目为Android项目中的所有的异步任务和网络请求而生
+本项目为Android项目中的所有的异步任务和网络请求而生, Demo示例代码不过百行, 欢迎阅读
 
-The project is supported by [JetBrains](https://www.jetbrains.com/), Best IDE to developer <img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaskr305czj30u00wjtcz.jpg" alt="jetbrains" style="zoom:8%;" />
+The project is supported by [JetBrains](https://www.jetbrains.com/), Best IDE to developer <img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaskr305czj30u00wjtcz.jpg" alt="jetbrains" style="zoom:5%;" />
 
 
 
@@ -81,9 +81,9 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 
 // 支持自动下拉刷新和缺省页的, 可选, 刷新头和上拉加载参考SmartRefreshLayout (可选)
-implementation 'com.github.liangjingkanji:BRV:1.3.3'
+implementation 'com.github.liangjingkanji:BRV:1.3.4'
 
-implementation 'com.github.liangjingkanji:Net:2.2.1'
+implementation 'com.github.liangjingkanji:Net:2.2.2'
 ```
 
 
@@ -94,7 +94,7 @@ implementation 'com.github.liangjingkanji:Net:2.2.1'
 
 请求方式支持同步和异步, 异步只允许在作用域内执行. 详情请看`Net.kt`文件
 
-![image-20191223150901891](https://tva1.sinaimg.cn/large/006tNbRwgy1ga6o9s47lsj30dg0ca0tz.jpg)
+![image-20200626032128956](https://i.imgur.com/gjWnbLx.png)
 
 
 
@@ -106,7 +106,7 @@ implementation 'com.github.liangjingkanji:Net:2.2.1'
 
 ```kotlin
 scopeNetLife {
-  val data = post<String>("https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md")
+  val data = Post<String>("https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md")
   textView.text = data.await()
 }
 ```
@@ -120,7 +120,7 @@ scopeNetLife {
 ```kotlin
 scopeNetLife {
 
-  val data = get<String>(
+  val data = Get<String>(
     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
     absolutePath = true
   )
@@ -138,7 +138,7 @@ scopeNetLife {
 ```kotlin
 scopeNetLife {
 
-  val data = post<String>(
+  val data = Post<String>(
     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
     absolutePath = true
   ){
@@ -157,7 +157,7 @@ scopeNetLife {
 
 ```kotlin
 scopeNetLife {
-  download("/path", "下载目录"){
+  Download("/path", "下载目录"){
 
     // 进度监听
     onProgress { progress, byteCount, speed ->
@@ -175,7 +175,7 @@ scopeNetLife {
 下载图片要求首先导入Glide依赖库, 下载图片和下载文件不同在于可以手动指定图片宽高
 
 ```kotlin
-Context.downloadImg(url: String, with: Int = -1, height: Int = -1)
+Context.DownloadImage(url: String, with: Int = -1, height: Int = -1)
 ```
 
 
@@ -185,7 +185,7 @@ Context.downloadImg(url: String, with: Int = -1, height: Int = -1)
 ```kotlin
 scopeNetLife {
 
-  val data = downImage(
+  val data = DownloadImage(
     "https://cdn.sspai.com/article/ebe361e4-c891-3afd-8680-e4bad609723e.jpg?imageMogr2/quality/95/thumbnail/!2880x620r/gravity/Center/crop/2880x620/interlace/1".
     200,200
   ).await()
@@ -482,7 +482,7 @@ pageRefreshLayout.onRefresh {
 
   pageRefreshLayout.scope {
 
-    val result = post<Model>("/path"){
+    val result = Post<Model>("/path"){
       param("key", "value")
       param("page", index) // 页面索引使用pageRefreshLayout的属性index
     }
@@ -538,7 +538,7 @@ Tip: PageRefreshLayout只要加载成功后即使后续请求失败也不会显�
 ```kotlin
 scopeDialog {
 
-  val data = get<String>(
+  val data = Get<String>(
     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
     absolutePath = true
   )
@@ -660,7 +660,7 @@ scopeNetLife {
 
   Log.d("日志", "网络请求")
 
-  val data = get<String>(
+  val data = Get<String>(
     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
     cache = CacheMode.NETWORK_YES_THEN_WRITE_CACHE,
     absolutePath = true
@@ -672,7 +672,7 @@ scopeNetLife {
 
   Log.d("日志", "读取缓存")
 
-  val data = get<String>(
+  val data = Get<String>(
     "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
     cache = CacheMode.READ_CACHE,
     absolutePath = true
@@ -739,4 +739,5 @@ reset // 重置轮循器 (包含计数器count和计时period) 不会停止轮�
 switch //  切换轮循器开关
 
 state // 得到当前轮循器的状态
+life() // 绑定生命周期, 自动取消轮循器
 ```

@@ -50,7 +50,7 @@ class DialogCoroutineScope(
                 progress
             }
         }
-        dialog?.setOnDismissListener { }
+        dialog?.setOnDismissListener { cancel() }
         dialog?.setCancelable(cancelable)
         dialog?.show()
     }

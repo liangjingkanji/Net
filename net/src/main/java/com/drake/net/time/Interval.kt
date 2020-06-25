@@ -15,7 +15,6 @@ import androidx.lifecycle.LifecycleOwner
 import com.drake.net.scope.AndroidScope
 import com.drake.net.utils.scope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.TickerMode
 import kotlinx.coroutines.channels.ticker
@@ -42,21 +41,17 @@ import java.util.concurrent.TimeUnit
  * @param period 事件间隔
  * @param unit 事件单位
  * @param initialDelay 第一次事件的间隔时间
- * @param start 开始值
+ * @param start 开始值, 当[start]]比[end]值大, 且end不等于-1时, 即为倒计时
  */
-class Interval(
-    var end: Long, // -1 表示永远不结束, 可以修改
-    private val period: Long,
-    private val unit: TimeUnit,
-    private val initialDelay: Long = period,
-    private val start: Long = 0
-) : Serializable {
+class Interval(var end: Long, /* -1 表示永远不结束, 可以修改*/
+               private val period: Long,
+               private val unit: TimeUnit,
+               private val start: Long = 0,
+               private val initialDelay: Long = period) : Serializable {
 
-    constructor(
-        period: Long,
-        unit: TimeUnit,
-        initialDelay: Long = period
-    ) : this(-1, period, unit, initialDelay, 0)
+    constructor(period: Long,
+                unit: TimeUnit,
+                initialDelay: Long = period) : this(-1, period, unit, 0, initialDelay)
 
     private val receiveList: MutableList<(Long) -> Unit> = mutableListOf()
     private val finishList: MutableList<(Long) -> Unit> = mutableListOf()
@@ -157,14 +152,15 @@ class Interval(
         if (state == IntervalStatus.STATE_ACTIVE) launch()
     }
 
+    // </editor-fold>
+
+    //<editor-fold desc="生命周期">
     /**
-     * 生命周期
+     * 绑定生命周期, 在指定生命周期发生时取消轮循器
      * @param lifecycleOwner 默认在销毁时取消轮循器
      */
-    fun life(
-        lifecycleOwner: LifecycleOwner,
-        lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
-    ): Interval {
+    fun life(lifecycleOwner: LifecycleOwner,
+             lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP): Interval {
         lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 if (lifeEvent == event) scope?.cancel()
@@ -172,8 +168,7 @@ class Interval(
         })
         return this
     }
-
-    // </editor-fold>
+    //</editor-fold>
 
     private fun launch(delay: Long = unit.toMillis(initialDelay)) {
         scope = scope {
@@ -182,7 +177,8 @@ class Interval(
 
             for (unit in ticker) {
 
-                count++
+                if (end != -1L && start > end) count-- else count++
+
                 countTime = System.currentTimeMillis()
 
                 receiveList.forEach {

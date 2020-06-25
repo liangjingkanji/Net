@@ -65,6 +65,7 @@ dependencies {
     implementation 'com.github.liangjingkanji:StatusBar:1.0.3' // 透明状态栏
     implementation "com.github.liangjingkanji:LogCat:1.0" // 日志输出工具
     implementation 'com.github.liangjingkanji:debugkit:1.2.9'
+    implementation 'com.github.liangjingkanji:Tooltip:1.0.4'
 
     // ------------------------------Google数据库-------------------------------------
     implementation "androidx.room:room-runtime:$room_version"
