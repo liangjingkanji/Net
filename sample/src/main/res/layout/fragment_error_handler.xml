@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="ErrorHandlerFragment" />
+        android:textStyle="bold"
+        android:text="LogCat查看请求返回的错误信息" />
 
 </FrameLayout>

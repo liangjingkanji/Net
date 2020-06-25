@@ -25,9 +25,9 @@ import kotlinx.coroutines.delay
 class CoroutineScopeFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+                             ): View? {
         return inflater.inflate(R.layout.fragment_coroutine_scope, container, false)
     }
 

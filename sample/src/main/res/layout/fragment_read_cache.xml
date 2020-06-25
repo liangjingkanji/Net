@@ -14,8 +14,10 @@
     <TextView
         android:id="@+id/tv_fragment"
         android:layout_width="match_parent"
+        android:padding="16dp"
         android:layout_height="match_parent"
+        android:textStyle="bold"
         android:gravity="center"
-        android:text="PreReadCacheFragment" />
+        android:text="仅请求成功一次后才会存在缓存" />
 
 </FrameLayout>

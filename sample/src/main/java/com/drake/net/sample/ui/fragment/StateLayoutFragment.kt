@@ -20,10 +20,9 @@ import kotlinx.android.synthetic.main.fragment_state_layout.*
 
 class StateLayoutFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.fragment_state_layout, container, false)
     }

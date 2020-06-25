@@ -32,7 +32,7 @@ class DownloadFileFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         scopeNetLife {
-            Download("download", dir = requireContext().filesDir.path) {
+            Download("download", requireContext().filesDir.path) {
                 // 下载进度回调
                 onProgress { progress, byteCount, speed ->
                     // 进度条

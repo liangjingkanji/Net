@@ -35,7 +35,7 @@ class PullRefreshFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         rv_pull.linear().setup {
-            addType<ListModel.Data>(R.layout.item_list)
+            addType<String>(R.layout.item_list)
         }
 
         page.onRefresh {
@@ -44,7 +44,7 @@ class PullRefreshFragment : Fragment() {
                     param("page", index)
                 }.await().data
                 addData(data.list) {
-                    index < data.totalPage
+                    index < data.total
                 }
             }
         }.autoRefresh()

@@ -12,7 +12,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.drake.net.Get
 import com.drake.net.sample.R
+import com.drake.net.utils.scopeNetLife
+import kotlinx.android.synthetic.main.fragment_exception_trace.*
 
 
 class InterceptorFragment : Fragment() {
@@ -28,7 +31,11 @@ class InterceptorFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
+        scopeNetLife {
+            tv_fragment.text = Get<String>("api") {
+                // 拦截器只支持全局, 无法单例
+            }.await()
+        }
     }
 
 }

@@ -12,11 +12,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.drake.net.Get
+import com.drake.net.Post
 import com.drake.net.sample.R
 import com.drake.net.utils.scopeDialog
 import kotlinx.android.synthetic.main.fragment_config_dialog.*
-import kotlinx.coroutines.delay
 
 
 class ConfigDialogFragment : Fragment() {
@@ -33,8 +32,10 @@ class ConfigDialogFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         scopeDialog {
-            delay(1000)
-            tv_fragment.text = Get<String>("dialog").await()
+            tv_fragment.text = Post<String>("dialog") {
+                param("u_name", "drake")
+                param("pwd", "123456")
+            }.await()
         }
     }
 }

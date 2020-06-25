@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="IntercepterFragment" />
+        android:textStyle="bold"
+        android:text="拦截器仅支持全局" />
 
 </FrameLayout>

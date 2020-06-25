@@ -17,14 +17,15 @@ import com.drake.net.sample.R
 import com.drake.net.sample.callback.GsonConvert
 import com.drake.net.sample.mod.Model
 import com.drake.net.utils.scopeNetLife
+import kotlinx.android.synthetic.main.fragment_custom_convert.*
 
 
 class CustomConvertFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+                             ): View? {
 
         return inflater.inflate(R.layout.fragment_custom_convert, container, false)
     }
@@ -34,9 +35,9 @@ class CustomConvertFragment : Fragment() {
 
 
         scopeNetLife {
-            val model = Get<Model>("") {
+            tv_fragment.text = Get<Model>("api") {
                 converter(GsonConvert()) // 单例转换器, 此时会忽略全局转换器
-            }.await()
+            }.await().data.request_method
         }
 
     }

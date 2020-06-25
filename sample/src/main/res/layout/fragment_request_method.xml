@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:textStyle="bold"
         android:text="点击右上角菜单开始请求" />
 
 </FrameLayout>

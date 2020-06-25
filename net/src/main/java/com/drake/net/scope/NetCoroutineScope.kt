@@ -37,9 +37,9 @@ open class NetCoroutineScope() : AndroidScope() {
     var animate: Boolean = false
 
     constructor(
-        lifecycleOwner: LifecycleOwner,
-        lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
-    ) : this() {
+            lifecycleOwner: LifecycleOwner,
+            lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
+               ) : this() {
         lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 if (lifeEvent == event) cancel()
@@ -48,8 +48,8 @@ open class NetCoroutineScope() : AndroidScope() {
     }
 
     override fun launch(
-        block: suspend CoroutineScope.() -> Unit
-    ): NetCoroutineScope {
+            block: suspend CoroutineScope.() -> Unit
+                       ): NetCoroutineScope {
         launch(EmptyCoroutineContext) {
             start()
             if (onCache != null && isReadCache) {
@@ -94,11 +94,9 @@ open class NetCoroutineScope() : AndroidScope() {
      * @param animate 是否在缓存成功后依然显示加载动画
      * @param onCache 该作用域内的所有异常都算缓存读取失败, 不会吐司和打印任何错误
      */
-    fun cache(
-            error: Boolean = false,
-            animate: Boolean = false,
-            onCache: suspend CoroutineScope.() -> Unit
-             ): AndroidScope {
+    fun cache(error: Boolean = false,
+              animate: Boolean = false,
+              onCache: suspend CoroutineScope.() -> Unit): AndroidScope {
         this.animate = animate
         this.error = error
         this.onCache = onCache

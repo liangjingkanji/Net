@@ -13,9 +13,9 @@ import android.content.Context
 import com.bumptech.glide.Glide
 import com.drake.net.error.ResponseException
 import com.yanzhenjie.kalle.Canceler
-import com.yanzhenjie.kalle.Kalle
 import com.yanzhenjie.kalle.RequestMethod
 import com.yanzhenjie.kalle.Url
+import com.yanzhenjie.kalle.download.BodyDownload
 import com.yanzhenjie.kalle.download.UrlDownload
 import com.yanzhenjie.kalle.simple.SimpleBodyRequest
 import com.yanzhenjie.kalle.simple.SimpleUrlRequest
@@ -58,8 +58,7 @@ inline fun <reified M> CoroutineScope.Get(
             .cacheMode(cache)
 
     val response = try {
-        request.apply(block)
-                .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
+        request.apply(block).perform<M, ResponseException>(M::class.java, ResponseException::class.java)
     } catch (e: SocketException) {
         throw CancellationException()
     }
@@ -292,9 +291,8 @@ inline fun <reified M> CoroutineScope.Patch(
             if (response.isSucceed) response.success!! else throw response.failure!!
         }
 
-
 /**
- * 下载文件
+ * 用于提交URL体下载文件(默认GET请求)
  *
  * @param path  网络路径, 非绝对路径会加上HOST[NetConfig.host]为前缀
  * @param method 请求方式, 默认GET
@@ -305,13 +303,17 @@ inline fun <reified M> CoroutineScope.Patch(
  */
 fun CoroutineScope.Download(
         path: String,
-        method: RequestMethod = RequestMethod.GET,
         dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
         tag: Any? = null,
         absolutePath: Boolean = false,
+        method: RequestMethod = RequestMethod.GET,
         block: UrlDownload.Api.() -> Unit = {}): Deferred<String> = async(Dispatchers.IO) {
 
     if (!isActive) throw CancellationException()
+
+    if (method == RequestMethod.POST || method == RequestMethod.DELETE || method == RequestMethod.PUT || method == RequestMethod.PATCH) {
+        throw UnsupportedOperationException("You should use [DownloadBody] function")
+    }
 
     val uid = coroutineContext[CoroutineExceptionHandler]
     coroutineContext[Job]?.invokeOnCompletion {
@@ -330,6 +332,39 @@ fun CoroutineScope.Download(
 }
 
 /**
+ * 用于提交请求体下载文件(默认POST请求)
+ */
+fun CoroutineScope.DownloadBody(
+        path: String,
+        dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
+        tag: Any? = null,
+        absolutePath: Boolean = false,
+        method: RequestMethod = RequestMethod.POST,
+        block: BodyDownload.Api.() -> Unit = {}): Deferred<String> = async(Dispatchers.IO) {
+
+    if (!isActive) throw CancellationException()
+
+    if (method == RequestMethod.GET || method == RequestMethod.HEAD || method == RequestMethod.OPTIONS || method == RequestMethod.TRACE) {
+        throw UnsupportedOperationException("You should use [Download] function")
+    }
+
+    val uid = coroutineContext[CoroutineExceptionHandler]
+    coroutineContext[Job]?.invokeOnCompletion {
+        if (it != null && it !is CancellationException) Canceler.cancel(uid) else Canceler.removeCancel(uid)
+    }
+
+    val realPath = if (absolutePath) path else (NetConfig.host + path)
+
+    val download = BodyDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag).uid(uid)
+
+    try {
+        download.apply(block).perform()
+    } catch (e: SocketException) {
+        throw CancellationException()
+    }
+}
+
+/**
  * 下载图片, 图片宽高要求要么同时指定要么同时不指定
  * 要求依赖 Glide
  *
@@ -339,7 +374,7 @@ fun CoroutineScope.Download(
  * @param height Int 图片高度
  * @return Observable<File>
  */
-fun CoroutineScope.DownloadImg(url: String, with: Int = -1, height: Int = -1): Deferred<File> =
+fun CoroutineScope.DownloadImage(url: String, with: Int = -1, height: Int = -1): Deferred<File> =
         async(Dispatchers.IO) {
 
             val download = Glide.with(NetConfig.app).download(url)
@@ -551,33 +586,45 @@ inline fun <reified M> syncPatch(
 
 fun syncDownload(
         path: String,
-        directory: String = NetConfig.app.externalCacheDir!!.absolutePath,
+        dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
         tag: Any? = null,
         absolutePath: Boolean = false,
+        method: RequestMethod = RequestMethod.GET,
         block: UrlDownload.Api.() -> Unit = {}): String {
-
+    if (method == RequestMethod.POST || method == RequestMethod.DELETE || method == RequestMethod.PUT || method == RequestMethod.PATCH) {
+        throw UnsupportedOperationException("You should use [syncDownloadBody] function")
+    }
     val realPath = if (absolutePath) path else (NetConfig.host + path)
-
-    val download = Kalle.Download.get(realPath).directory(directory).tag(tag)
-
+    val download = UrlDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
     return download.apply(block).perform()
 }
 
-fun Context.syncDownloadImg(url: String, with: Int = 0, height: Int = 0): File {
+fun syncDownloadBody(
+        path: String,
+        dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
+        tag: Any? = null,
+        absolutePath: Boolean = false,
+        method: RequestMethod = RequestMethod.GET,
+        block: BodyDownload.Api.() -> Unit = {}): String {
+    if (method == RequestMethod.GET || method == RequestMethod.HEAD || method == RequestMethod.OPTIONS || method == RequestMethod.TRACE) {
+        throw UnsupportedOperationException("You should use [syncDownload] function")
+    }
+    val realPath = if (absolutePath) path else (NetConfig.host + path)
+    val download = BodyDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
+    return download.apply(block).perform()
+}
+
+fun Context.syncDownloadImage(url: String, with: Int = 0, height: Int = 0): File {
 
     Glide.with(this).downloadOnly()
-
     val download = Glide.with(this).download(url)
-
     val futureTarget = if (with == 0 && height == 0) {
         download.submit()
     } else {
         download.submit(with, height)
     }
-
     return futureTarget.get()
 }
-
 // </editor-fold>
 
 

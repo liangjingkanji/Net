@@ -11,7 +11,7 @@ import com.drake.net.convert.DefaultConvert
 import com.google.gson.GsonBuilder
 import java.lang.reflect.Type
 
-class GsonConvert : DefaultConvert(code = "code", message = "msg") {
+class GsonConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
 
     override fun <S> String.parseBody(succeed: Type): S? {
         return GsonBuilder().serializeNulls().create().fromJson(this, succeed)

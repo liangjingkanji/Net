@@ -15,10 +15,7 @@ import androidx.fragment.app.Fragment
 import com.drake.net.sample.R
 import com.drake.net.utils.scope
 import kotlinx.android.synthetic.main.fragment_async_task.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class AsyncTaskFragment : Fragment() {
 
@@ -36,13 +33,9 @@ class AsyncTaskFragment : Fragment() {
 
         scope {
             tv_fragment.text = withContext(Dispatchers.IO) {
+                delay(2000)
                 "结果"
             }
-//            withIO() // 抽出异步任务函数
-
-//            tv_fragment.text = async {
-//                "结果"
-//            }.await()
         }
     }
 

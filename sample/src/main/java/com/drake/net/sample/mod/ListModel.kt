@@ -7,13 +7,6 @@
 
 package com.drake.net.sample.mod
 
-data class ListModel(
-        var code: Int,
-        var msg: String,
-        var data: Data
-                    ) {
-    data class Data(
-            var totalPage: Int,
-            var list: List<String>
-                   )
+data class ListModel(var code: Int, var msg: String, var data: Data) {
+    data class Data(var total: Int, var list: List<String>)
 }

@@ -41,6 +41,7 @@ class SwitchDispatcherFragment : Fragment() {
                     "异步调度器切换到主线程"
                 }
             }
+
             val data = withIO {
                 "主线程切换到IO调度器"
             }

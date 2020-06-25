@@ -24,11 +24,9 @@ import kotlinx.android.synthetic.main.fragment_push_refresh.*
 
 class PushRefreshFragment : Fragment() {
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-                             ): View? {
-
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_push_refresh, container, false)
     }
 
@@ -36,7 +34,7 @@ class PushRefreshFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         rv_push.linear().setup {
-            addType<ListModel.Data>(R.layout.item_list)
+            addType<String>(R.layout.item_list)
         }
 
         page.onRefresh {
