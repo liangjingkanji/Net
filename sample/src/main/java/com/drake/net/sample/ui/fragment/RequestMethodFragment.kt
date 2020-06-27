@@ -34,8 +34,7 @@ class RequestMethodFragment : Fragment() {
 
     private fun GET() {
         scopeNetLife {
-            val data = Get<String>("api").await()
-            tv_fragment.text = data
+            tv_fragment.text = Get<String>("api").await()
         }
     }
 

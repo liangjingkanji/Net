@@ -106,8 +106,7 @@ implementation 'com.github.liangjingkanji:Net:2.2.3'
 
 ```kotlin
 scopeNetLife {
-  val data = Post<String>("https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md")
-  textView.text = data.await()
+    tv_fragment.text = Post<String>("api").await()
 }
 ```
 
@@ -119,37 +118,22 @@ scopeNetLife {
 
 ```kotlin
 scopeNetLife {
-
-  val data = Get<String>(
-    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-    absolutePath = true
-  )
-
-  textView.text = data.await()
+    tv_fragment.text = Get<String>("api").await()
 }
 ```
 
 `Model` 泛型如果换成String, 将会在成功回调中得到字符串对象.
 
-
-
 ### 文件上传
 
 ```kotlin
 scopeNetLife {
-
-  val data = Post<String>(
-    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-    absolutePath = true
-  ){
-    file("file", File())
-  }.await()
-
-  textView.text = data.await()
+    Post<String>("upload", requireContext().cacheDir.path) {
+        val saveFile = getFile()
+        file("file", saveFile)
+    }.await()
 }
 ```
-
-这是支持Kalle任何参数添加方式
 
 
 
@@ -157,14 +141,7 @@ scopeNetLife {
 
 ```kotlin
 scopeNetLife {
-  Download("/path", "下载目录"){
-
-    // 进度监听
-    onProgress { progress, byteCount, speed ->
-
-               }
-
-  }.await()
+    Download("download", requireContext().filesDir.path).await()
 }
 ```
 
@@ -183,13 +160,10 @@ Context.DownloadImage(url: String, with: Int = -1, height: Int = -1)
 示例
 
 ```kotlin
-scopeNetLife {
-
-  val data = DownloadImage(
-    "https://cdn.sspai.com/article/ebe361e4-c891-3afd-8680-e4bad609723e.jpg?imageMogr2/quality/95/thumbnail/!2880x620r/gravity/Center/crop/2880x620/interlace/1".
-    200,200
-  ).await()
-
+scopeDialog {
+    val file = DownloadImage(NetConfig.host + "download/img", 100, 100).await()
+    val uri = Uri.fromFile(file)
+    iv_img.setImageURI(uri)
 }
 ```
 
@@ -201,7 +175,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        initNet("主机名"){
+        initNet("http://182.92.97.186/"){
 
             // 转换器, 也可以自己实现Convert或者复写DefaultConverter.
             converter(object : DefaultConverter() {
@@ -222,7 +196,7 @@ class App : Application() {
 在初始化的时候可以选择配置网络请求
 
 ```kotlin
-initNet("http://192.168.2.1") {
+initNet("http://182.92.97.186/") {
 
   // 默认错误处理
   onError {
@@ -383,9 +357,9 @@ fun LifecycleOwner.scopeLife(
 
 ```kotlin
 scopeNet {
-  post<Model>("/path"){
+  Post<Model>("api"){
     param("key", "value")
-  }
+  }.await()
 }
 ```
 
@@ -395,7 +369,7 @@ scopeNet {
 
 ```kotlin
 scopeNetLife {
-  post<Model>("/path"){
+  Post<Model>("api"){
     param("key", "value")
   }
 }
@@ -405,9 +379,12 @@ scopeNetLife {
 
 ### 自动加载对话框
 
-```
+```kotlin
 scopeDialog {
-
+    tv_fragment.text = Post<String>("dialog") {
+        param("u_name", "drake")
+        param("pwd", "123456")
+    }.await()
 }
 ```
 
@@ -417,12 +394,12 @@ scopeDialog {
 
 
 
-> 自定义全局对话框
+**自定义全局对话框**
 
 全局对话框设置通过NetConfig.onDialog设置
 
 ```kotlin
-initNet("http://localhost.com") {
+initNet("http://182.92.97.186/") {
   onDialog {
     ProgressDialog(it).apply { setMessage("正在加载中") } // 返回一个Dialog
   }
@@ -440,7 +417,7 @@ state.onRefresh {
   scope {
     // 异步作用域
 
-    val data = post<Model>("/path"){
+    val data = Post<Model>("api"){
       param("key", "value")
     }.await()
 
@@ -480,25 +457,17 @@ StateLayout使用`scope`函数开启作用域
 ```kotlin
 pageRefreshLayout.onRefresh { 
 
-  pageRefreshLayout.scope {
+    pageRefreshLayout.scope {
 
-    val result = Post<Model>("/path"){
-      param("key", "value")
-      param("page", index) // 页面索引使用pageRefreshLayout的属性index
-    }
+        val data = Get<ListModel>("list") {
+            param("page", index) // index会自增
+        }.await().data
 
-    val data = result.await().data
-
-    if (data.isEmpty()){
-      showEmpty()
-      return
+        addData(data){
+            index < data.totalPage // 判断是否存在下一页
+        }
     }
-    
-    addData(data){
-      index < data.totalPage // 判断是否存在下一页
-    }
-  }
-}.showLoading
+}.showLoading()
 ```
 
 此时下拉和上拉都会调用该回调`onRefresh`中的接口请求. 
@@ -519,16 +488,6 @@ showLoading属于现实缺省页中的加载页, 你也可以使用`autoRefresh(
 
 
 
-如果仅仅是自动完成下拉加载. 例如一般用户中心页面只需要自动处理下拉刷新的状态
-
-```
-pageRefreshLayout.scopeRefresh{
-
-}
-```
-
-
-
 Tip: PageRefreshLayout只要加载成功后即使后续请求失败也不会显示错误缺省页
 
 ### 错误处理
@@ -537,17 +496,12 @@ Tip: PageRefreshLayout只要加载成功后即使后续请求失败也不会显�
 
 ```kotlin
 scopeDialog {
-
-  val data = Get<String>(
-    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-    absolutePath = true
-  )
-
-  textView.text = data.await()
+    val data = Get<String>("error")
+    textView.text = data.await()
 }.catch { 
-	// 只有发生异常才会执行, it为异常对象
+    // 只有发生异常才会执行, it为异常对象
 }.finally { 
- // 无论是否正常结束还是异常都会执行,  it为异常对象, 如果非异常结束为NULL
+    // 无论是否正常结束还是异常都会执行,  it为异常对象, 如果非异常结束为NULL
 }
 ```
 
@@ -576,10 +530,10 @@ Convert 主要进行数据转换, 这里一般解析JSON对象.
 这就是实现`DefaultConvert`自己解析Json对象. DefaultConverter是框架中定义的一个默认处理JSON示例, 一般情况使用它解析下JSON即可. 
 
 ```kotlin
-initNet("http://localhost.com") {
+initNet("hhttp://182.92.97.186/") {
     converter(object : DefaultConverter() {
-        override fun <S> convert(succeed: Type, body: String): S? {
-            return Moshi.Builder().build().adapter<S>(succeed).fromJson(body)
+        override fun <S> String.parseBody(succeed: Type): S? {
+            return Moshi.Builder().build().adapter<S>(succeed).fromJson(this)
         }
     })
 }
@@ -588,11 +542,9 @@ initNet("http://localhost.com") {
 DefaultConvert构造函数拥有三个参数默认值
 
 ```kotlin
-abstract class DefaultConverter(
-    val success: String = "0",
-    val code: String = "code",
-    val msg: String = "msg"
-)
+abstract class DefaultConverter(val success: String = "0",
+                                val code: String = "code",
+                                val msg: String = "msg")
 ```
 
 因为内部需要得到错误码`code`来判断请求是否真正成功以及错误消息`msg`来在错误的时候进行打印吐司错误信息. 
@@ -605,19 +557,9 @@ abstract class DefaultConverter(
 
 ```kotlin
 /**
-     * 解析数据用于获取基本接口信息
-     */
-open fun String.parseBody(): String {
-  return this
-}
-
-/**
-     * 解析JSON数据
-     *
-     * @param succeed Type 请求函数传过来的字节码类型
-     * @return S? 解析后的数据实体
-     */
-abstract fun <S> String.parseJson(succeed: Type): S?
+* 解析数据用于获取基本接口信息
+*/
+abstract fun <S> String.parseBody(succeed: Type): S?
 ```
 
 
@@ -635,7 +577,7 @@ abstract fun <S> String.parseJson(succeed: Type): S?
 首先在初始化的时候启用缓存功能
 
 ```kotlin
-initNet("http://localhost.com") {
+initNet("http://182.92.97.186/") {
 	cacheEnabled()
 }
 ```
@@ -657,32 +599,15 @@ fun KalleConfig.Builder.cacheEnabled(
 
 ```kotlin
 scopeNetLife {
-
-  Log.d("日志", "网络请求")
-
-  val data = Get<String>(
-    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-    cache = CacheMode.NETWORK_YES_THEN_WRITE_CACHE,
-    absolutePath = true
-  )
-
-  textView.text = data.await()
-
+    Log.d("日志", "网络请求")
+    textView.text = Get<String>("api", cache = CacheMode.NETWORK_YES_THEN_WRITE_CACHE).await()
 }.cache {
-
-  Log.d("日志", "读取缓存")
-
-  val data = Get<String>(
-    "https://raw.githubusercontent.com/liangjingkanji/BRV/master/README.md",
-    cache = CacheMode.READ_CACHE,
-    absolutePath = true
-  )
-
-  textView.text = data.await()
+    Log.d("日志", "读取缓存")
+    textView.text = Get<String>("api", cache = CacheMode.READ_CACHE).await()
 }
 ```
 
-上面示例代码这种属于: 先加载缓存(没有缓存不会报异常), 后网络请求(缓存和网络请求都失败报异常信息), 网络请求成功缓存到本地并刷新界面UI.
+上面示例代码这种属于: 先加载缓存(没有缓存不会报异常), 后网络请求(缓存和网络请求都失败报异常信息), 网络请求成功缓存到本地并刷新界面UI
 
 
 
@@ -695,11 +620,9 @@ scopeNetLife {
 
 
 ```kotlin
-fun cache(
-  error: Boolean = false, // 缓存读取成功但网络请求失败是否吐司错误信息
-  animate: Boolean = false, // 缓存读取成功是否立即停止加载动画, 只有PageRefreshLayout有效
-  onCache: suspend CoroutineScope.() -> Unit
-): AndroidScope 
+fun cache(error: Boolean = false, // 缓存读取成功但网络请求失败是否吐司错误信息
+          animate: Boolean = false, // 缓存读取成功是否立即停止加载动画, 只有PageRefreshLayout有效
+          onCache: suspend CoroutineScope.() -> Unit): AndroidScope 
 ```
 
 
