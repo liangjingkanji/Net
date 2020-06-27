@@ -6,12 +6,16 @@ Android上 最强网络任务库, 创新式的网络请求库(针对[Kalle](http
 
 本项目为Android项目中的所有的异步任务和网络请求而生, Demo示例代码不过百行, 欢迎阅读
 
-The project is supported by [JetBrains](https://www.jetbrains.com/), Best IDE to developer <img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaskr305czj30u00wjtcz.jpg" alt="jetbrains" style="zoom:5%;" />
+The project is supported by [JetBrains](https://www.jetbrains.com/), Best IDE to developer <img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaskr305czj30u00wjtcz.jpg" alt="jetbrains" width="150" />
 
 
 
 1.0+ 版本为RxKotlin实现
-2.0+ 版本开始引入Kotlin协程特性, 开发者无需掌握协程也可以使用, 两个版本存在Api变动需要手动迁移 
+2.0+ 版本开始引入Kotlin协程特性, 开发者无需掌握协程也可以使用
+
+
+
+![image-20200628013903616](https://i.imgur.com/9nGtlrd.png)
 
 
 
