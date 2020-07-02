@@ -64,8 +64,8 @@ object NetConfig {
             is RequestParamsException,
             is ResponseException,
             is NullPointerException -> onError(
-                this
-            )
+                    this
+                                              )
             else -> printStackTrace()
         }
     }
@@ -122,14 +122,11 @@ fun KalleConfig.Builder.onDialog(block: (DialogCoroutineScope.(context: Fragment
     NetConfig.defaultDialog = block
 }
 
-fun KalleConfig.Builder.cacheEnabled(
-    path: String = NetConfig.app.cacheDir.absolutePath,
-    password: String = "cache"
-) {
+fun KalleConfig.Builder.cacheEnabled(path: String = NetConfig.app.cacheDir.absolutePath,
+                                     password: String = "cache") {
     val cacheStore = DiskCacheStore.newBuilder(path)
-        .password(password)
-        .build()
-
+            .password(password)
+            .build()
     cacheStore(cacheStore)
 }
 

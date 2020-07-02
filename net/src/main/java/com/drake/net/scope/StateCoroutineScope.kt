@@ -11,7 +11,6 @@ import android.view.View
 import com.drake.net.NetConfig
 import com.drake.statelayout.StateLayout
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.cancel
 
 /**
  * 缺省页作用域

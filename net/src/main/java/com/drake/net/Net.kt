@@ -12,7 +12,7 @@ package com.drake.net
 import android.content.Context
 import com.bumptech.glide.Glide
 import com.drake.net.error.ResponseException
-import com.yanzhenjie.kalle.Canceler
+import com.yanzhenjie.kalle.NetDispose
 import com.yanzhenjie.kalle.RequestMethod
 import com.yanzhenjie.kalle.Url
 import com.yanzhenjie.kalle.download.BodyDownload
@@ -36,17 +36,16 @@ import java.net.SocketException
  * @return Observable<M> 结果会在主线程
  */
 
-inline fun <reified M> CoroutineScope.Get(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleUrlRequest.Api.() -> Unit = {}): Deferred<M> = async(Dispatchers.IO) {
+inline fun <reified M> CoroutineScope.Get(path: String,
+                                          tag: Any? = null,
+                                          cache: CacheMode = CacheMode.HTTP,
+                                          absolutePath: Boolean = false,
+                                          uid: CoroutineExceptionHandler? = coroutineContext[CoroutineExceptionHandler],
+                                          noinline block: SimpleUrlRequest.Api.() -> Unit = {}): Deferred<M> = async(Dispatchers.IO) {
     if (!isActive) throw CancellationException()
 
-    val uid = coroutineContext[CoroutineExceptionHandler]
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) Canceler.cancel(uid) else Canceler.removeCancel(uid)
+        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -67,18 +66,17 @@ inline fun <reified M> CoroutineScope.Get(
 }
 
 
-inline fun <reified M> CoroutineScope.Post(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleBodyRequest.Api.() -> Unit = {}): Deferred<M> =
+inline fun <reified M> CoroutineScope.Post(path: String,
+                                           tag: Any? = null,
+                                           cache: CacheMode = CacheMode.HTTP,
+                                           absolutePath: Boolean = false,
+                                           uid: CoroutineExceptionHandler? = coroutineContext[CoroutineExceptionHandler],
+                                           noinline block: SimpleBodyRequest.Api.() -> Unit = {}): Deferred<M> =
         async(Dispatchers.IO) {
             if (!isActive) throw CancellationException()
 
-            val uid = coroutineContext[CoroutineExceptionHandler]
             coroutineContext[Job]?.invokeOnCompletion {
-                if (it != null) Canceler.cancel(uid) else Canceler.removeCancel(uid)
+                if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
             }
 
             val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -99,17 +97,16 @@ inline fun <reified M> CoroutineScope.Post(
             if (response.isSucceed) response.success!! else throw response.failure!!
         }
 
-inline fun <reified M> CoroutineScope.Head(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleUrlRequest.Api.() -> Unit = {}): Deferred<M> = async(Dispatchers.IO) {
+inline fun <reified M> CoroutineScope.Head(path: String,
+                                           tag: Any? = null,
+                                           cache: CacheMode = CacheMode.HTTP,
+                                           absolutePath: Boolean = false,
+                                           uid: CoroutineExceptionHandler? = coroutineContext[CoroutineExceptionHandler],
+                                           noinline block: SimpleUrlRequest.Api.() -> Unit = {}): Deferred<M> = async(Dispatchers.IO) {
     if (!isActive) throw CancellationException()
 
-    val uid = coroutineContext[CoroutineExceptionHandler]
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) Canceler.cancel(uid) else Canceler.removeCancel(uid)
+        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -130,17 +127,16 @@ inline fun <reified M> CoroutineScope.Head(
     if (response.isSucceed) response.success!! else throw response.failure!!
 }
 
-inline fun <reified M> CoroutineScope.Options(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleUrlRequest.Api.() -> Unit = {}): Deferred<M> = async(Dispatchers.IO) {
+inline fun <reified M> CoroutineScope.Options(path: String,
+                                              tag: Any? = null,
+                                              cache: CacheMode = CacheMode.HTTP,
+                                              absolutePath: Boolean = false,
+                                              uid: CoroutineExceptionHandler? = coroutineContext[CoroutineExceptionHandler],
+                                              noinline block: SimpleUrlRequest.Api.() -> Unit = {}): Deferred<M> = async(Dispatchers.IO) {
     if (!isActive) throw CancellationException()
 
-    val uid = coroutineContext[CoroutineExceptionHandler]
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) Canceler.cancel(uid) else Canceler.removeCancel(uid)
+        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -162,17 +158,16 @@ inline fun <reified M> CoroutineScope.Options(
 }
 
 
-inline fun <reified M> CoroutineScope.Trace(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleUrlRequest.Api.() -> Unit = {}): Deferred<M> = async(Dispatchers.IO) {
+inline fun <reified M> CoroutineScope.Trace(path: String,
+                                            tag: Any? = null,
+                                            cache: CacheMode = CacheMode.HTTP,
+                                            absolutePath: Boolean = false,
+                                            uid: CoroutineExceptionHandler? = coroutineContext[CoroutineExceptionHandler],
+                                            noinline block: SimpleUrlRequest.Api.() -> Unit = {}): Deferred<M> = async(Dispatchers.IO) {
     if (!isActive) throw CancellationException()
 
-    val uid = coroutineContext[CoroutineExceptionHandler]
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) Canceler.cancel(uid) else Canceler.removeCancel(uid)
+        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -193,18 +188,16 @@ inline fun <reified M> CoroutineScope.Trace(
     if (response.isSucceed) response.success!! else throw response.failure!!
 }
 
-inline fun <reified M> CoroutineScope.Delete(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleBodyRequest.Api.() -> Unit = {}
-                                            ): Deferred<M> = async(Dispatchers.IO) {
+inline fun <reified M> CoroutineScope.Delete(path: String,
+                                             tag: Any? = null,
+                                             cache: CacheMode = CacheMode.HTTP,
+                                             absolutePath: Boolean = false,
+                                             uid: CoroutineExceptionHandler? = coroutineContext[CoroutineExceptionHandler],
+                                             noinline block: SimpleBodyRequest.Api.() -> Unit = {}): Deferred<M> = async(Dispatchers.IO) {
     if (!isActive) throw CancellationException()
 
-    val uid = coroutineContext[CoroutineExceptionHandler]
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) Canceler.cancel(uid) else Canceler.removeCancel(uid)
+        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -225,71 +218,65 @@ inline fun <reified M> CoroutineScope.Delete(
     if (response.isSucceed) response.success!! else throw response.failure!!
 }
 
-inline fun <reified M> CoroutineScope.Put(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleBodyRequest.Api.() -> Unit = {}): Deferred<M> =
-        async(Dispatchers.IO) {
-            if (!isActive) throw CancellationException()
+inline fun <reified M> CoroutineScope.Put(path: String,
+                                          tag: Any? = null,
+                                          cache: CacheMode = CacheMode.HTTP,
+                                          absolutePath: Boolean = false,
+                                          uid: CoroutineExceptionHandler? = coroutineContext[CoroutineExceptionHandler],
+                                          noinline block: SimpleBodyRequest.Api.() -> Unit = {}): Deferred<M> = async(Dispatchers.IO) {
+    if (!isActive) throw CancellationException()
 
-            val uid = coroutineContext[CoroutineExceptionHandler]
-            coroutineContext[Job]?.invokeOnCompletion {
-                if (it != null) Canceler.cancel(uid) else Canceler.removeCancel(uid)
-            }
+    coroutineContext[Job]?.invokeOnCompletion {
+        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
+    }
 
-            val realPath = if (absolutePath) path else (NetConfig.host + path)
+    val realPath = if (absolutePath) path else (NetConfig.host + path)
 
-            val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(),
-                                                   RequestMethod.PUT)
-                    .tag(tag)
-                    .uid(uid)
-                    .cacheKey(path)
-                    .cacheMode(cache)
+    val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(),
+                                           RequestMethod.PUT)
+            .tag(tag)
+            .uid(uid)
+            .cacheKey(path)
+            .cacheMode(cache)
 
-            val response = try {
-                request.apply(block)
-                        .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
-            } catch (e: SocketException) {
-                throw CancellationException()
-            }
+    val response = try {
+        request.apply(block)
+                .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
+    } catch (e: SocketException) {
+        throw CancellationException()
+    }
 
-            if (response.isSucceed) response.success!! else throw response.failure!!
-        }
+    if (response.isSucceed) response.success!! else throw response.failure!!
+}
 
-inline fun <reified M> CoroutineScope.Patch(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleBodyRequest.Api.() -> Unit = {}): Deferred<M> =
-        async(Dispatchers.IO) {
-            if (!isActive) throw CancellationException()
+inline fun <reified M> CoroutineScope.Patch(path: String,
+                                            tag: Any? = null,
+                                            cache: CacheMode = CacheMode.HTTP,
+                                            absolutePath: Boolean = false,
+                                            uid: CoroutineExceptionHandler? = coroutineContext[CoroutineExceptionHandler],
+                                            noinline block: SimpleBodyRequest.Api.() -> Unit = {}): Deferred<M> = async(Dispatchers.IO) {
+    if (!isActive) throw CancellationException()
 
-            val uid = coroutineContext[CoroutineExceptionHandler]
-            coroutineContext[Job]?.invokeOnCompletion {
-                if (it != null) Canceler.cancel(uid) else Canceler.removeCancel(uid)
-            }
+    coroutineContext[Job]?.invokeOnCompletion {
+        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
+    }
 
-            val realPath = if (absolutePath) path else (NetConfig.host + path)
+    val realPath = if (absolutePath) path else (NetConfig.host + path)
 
-            val request =
-                    SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.PATCH)
-                            .tag(tag)
-                            .uid(uid)
-                            .cacheKey(path)
-                            .cacheMode(cache)
+    val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.PATCH)
+            .tag(tag)
+            .uid(uid)
+            .cacheKey(path)
+            .cacheMode(cache)
 
-            val response = try {
-                request.apply(block)
-                        .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
-            } catch (e: SocketException) {
-                throw CancellationException()
-            }
+    val response = try {
+        request.apply(block).perform<M, ResponseException>(M::class.java, ResponseException::class.java)
+    } catch (e: SocketException) {
+        throw CancellationException()
+    }
 
-            if (response.isSucceed) response.success!! else throw response.failure!!
-        }
+    if (response.isSucceed) response.success!! else throw response.failure!!
+}
 
 /**
  * 用于提交URL体下载文件(默认GET请求)
@@ -301,13 +288,13 @@ inline fun <reified M> CoroutineScope.Patch(
  * @param absolutePath  下载链接是否是绝对路径
  * @param block 请求参数
  */
-fun CoroutineScope.Download(
-        path: String,
-        dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
-        tag: Any? = null,
-        absolutePath: Boolean = false,
-        method: RequestMethod = RequestMethod.GET,
-        block: UrlDownload.Api.() -> Unit = {}): Deferred<String> = async(Dispatchers.IO) {
+fun CoroutineScope.Download(path: String,
+                            dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
+                            tag: Any? = null,
+                            absolutePath: Boolean = false,
+                            method: RequestMethod = RequestMethod.GET,
+                            uid: CoroutineExceptionHandler? = coroutineContext[CoroutineExceptionHandler],
+                            block: UrlDownload.Api.() -> Unit = {}): Deferred<String> = async(Dispatchers.IO) {
 
     if (!isActive) throw CancellationException()
 
@@ -315,9 +302,8 @@ fun CoroutineScope.Download(
         throw UnsupportedOperationException("You should use [DownloadBody] function")
     }
 
-    val uid = coroutineContext[CoroutineExceptionHandler]
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null && it !is CancellationException) Canceler.cancel(uid) else Canceler.removeCancel(uid)
+        if (it != null && it !is CancellationException) NetDispose.dispose(uid) else NetDispose.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -334,13 +320,13 @@ fun CoroutineScope.Download(
 /**
  * 用于提交请求体下载文件(默认POST请求)
  */
-fun CoroutineScope.DownloadBody(
-        path: String,
-        dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
-        tag: Any? = null,
-        absolutePath: Boolean = false,
-        method: RequestMethod = RequestMethod.POST,
-        block: BodyDownload.Api.() -> Unit = {}): Deferred<String> = async(Dispatchers.IO) {
+fun CoroutineScope.DownloadBody(path: String,
+                                dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
+                                tag: Any? = null,
+                                absolutePath: Boolean = false,
+                                method: RequestMethod = RequestMethod.POST,
+                                uid: CoroutineExceptionHandler? = coroutineContext[CoroutineExceptionHandler],
+                                block: BodyDownload.Api.() -> Unit = {}): Deferred<String> = async(Dispatchers.IO) {
 
     if (!isActive) throw CancellationException()
 
@@ -348,9 +334,8 @@ fun CoroutineScope.DownloadBody(
         throw UnsupportedOperationException("You should use [Download] function")
     }
 
-    val uid = coroutineContext[CoroutineExceptionHandler]
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null && it !is CancellationException) Canceler.cancel(uid) else Canceler.removeCancel(uid)
+        if (it != null && it !is CancellationException) NetDispose.dispose(uid) else NetDispose.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -392,17 +377,18 @@ fun CoroutineScope.DownloadImage(url: String, with: Int = -1, height: Int = -1):
 
 // <editor-fold desc="同步请求">
 
-inline fun <reified M> syncGet(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleUrlRequest.Api.() -> Unit = {}): M {
+inline fun <reified M> syncGet(path: String,
+                               tag: Any? = null,
+                               cache: CacheMode = CacheMode.HTTP,
+                               absolutePath: Boolean = false,
+                               uid: Any? = null,
+                               noinline block: SimpleUrlRequest.Api.() -> Unit = {}): M {
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.GET)
             .tag(tag)
+            .uid(uid)
             .cacheKey(path)
             .cacheMode(cache)
 
@@ -416,17 +402,18 @@ inline fun <reified M> syncGet(
     }
 }
 
-inline fun <reified M> syncPost(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleBodyRequest.Api.() -> Unit = {}): M {
+inline fun <reified M> syncPost(path: String,
+                                tag: Any? = null,
+                                cache: CacheMode = CacheMode.HTTP,
+                                absolutePath: Boolean = false,
+                                uid: Any? = null,
+                                noinline block: SimpleBodyRequest.Api.() -> Unit = {}): M {
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.POST)
             .tag(tag)
+            .uid(uid)
             .cacheKey(path)
             .cacheMode(cache)
 
@@ -440,17 +427,18 @@ inline fun <reified M> syncPost(
     }
 }
 
-inline fun <reified M> syncHead(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleUrlRequest.Api.() -> Unit = {}): M {
+inline fun <reified M> syncHead(path: String,
+                                tag: Any? = null,
+                                cache: CacheMode = CacheMode.HTTP,
+                                absolutePath: Boolean = false,
+                                uid: Any? = null,
+                                noinline block: SimpleUrlRequest.Api.() -> Unit = {}): M {
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.HEAD)
             .tag(tag)
+            .uid(uid)
             .cacheKey(path)
             .cacheMode(cache)
 
@@ -464,17 +452,18 @@ inline fun <reified M> syncHead(
     }
 }
 
-inline fun <reified M> syncOptions(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleUrlRequest.Api.() -> Unit = {}): M {
+inline fun <reified M> syncOptions(path: String,
+                                   tag: Any? = null,
+                                   cache: CacheMode = CacheMode.HTTP,
+                                   absolutePath: Boolean = false,
+                                   uid: Any? = null,
+                                   noinline block: SimpleUrlRequest.Api.() -> Unit = {}): M {
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.OPTIONS)
             .tag(tag)
+            .uid(uid)
             .cacheKey(path)
             .cacheMode(cache)
 
@@ -488,17 +477,18 @@ inline fun <reified M> syncOptions(
     }
 }
 
-inline fun <reified M> syncTrace(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleUrlRequest.Api.() -> Unit = {}): M {
+inline fun <reified M> syncTrace(path: String,
+                                 tag: Any? = null,
+                                 cache: CacheMode = CacheMode.HTTP,
+                                 absolutePath: Boolean = false,
+                                 uid: Any? = null,
+                                 noinline block: SimpleUrlRequest.Api.() -> Unit = {}): M {
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.TRACE)
             .tag(tag)
+            .uid(uid)
             .cacheKey(path)
             .cacheMode(cache)
 
@@ -512,17 +502,18 @@ inline fun <reified M> syncTrace(
     }
 }
 
-inline fun <reified M> syncDelete(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleBodyRequest.Api.() -> Unit = {}): M {
+inline fun <reified M> syncDelete(path: String,
+                                  tag: Any? = null,
+                                  cache: CacheMode = CacheMode.HTTP,
+                                  absolutePath: Boolean = false,
+                                  uid: Any? = null,
+                                  noinline block: SimpleBodyRequest.Api.() -> Unit = {}): M {
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.DELETE)
             .tag(tag)
+            .uid(uid)
             .cacheKey(path)
             .cacheMode(cache)
 
@@ -536,17 +527,18 @@ inline fun <reified M> syncDelete(
     }
 }
 
-inline fun <reified M> syncPut(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleBodyRequest.Api.() -> Unit = {}): M {
+inline fun <reified M> syncPut(path: String,
+                               tag: Any? = null,
+                               cache: CacheMode = CacheMode.HTTP,
+                               absolutePath: Boolean = false,
+                               uid: Any? = null,
+                               noinline block: SimpleBodyRequest.Api.() -> Unit = {}): M {
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.PUT)
             .tag(tag)
+            .uid(uid)
             .cacheKey(path)
             .cacheMode(cache)
 
@@ -560,17 +552,18 @@ inline fun <reified M> syncPut(
     }
 }
 
-inline fun <reified M> syncPatch(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        noinline block: SimpleBodyRequest.Api.() -> Unit = {}): M {
+inline fun <reified M> syncPatch(path: String,
+                                 tag: Any? = null,
+                                 cache: CacheMode = CacheMode.HTTP,
+                                 absolutePath: Boolean = false,
+                                 uid: Any? = null,
+                                 noinline block: SimpleBodyRequest.Api.() -> Unit = {}): M {
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.PATCH)
             .tag(tag)
+            .uid(uid)
             .cacheKey(path)
             .cacheMode(cache)
 
@@ -584,33 +577,33 @@ inline fun <reified M> syncPatch(
     }
 }
 
-fun syncDownload(
-        path: String,
-        dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
-        tag: Any? = null,
-        absolutePath: Boolean = false,
-        method: RequestMethod = RequestMethod.GET,
-        block: UrlDownload.Api.() -> Unit = {}): String {
+fun syncDownload(path: String,
+                 dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
+                 tag: Any? = null,
+                 absolutePath: Boolean = false,
+                 method: RequestMethod = RequestMethod.GET,
+                 uid: Any? = null,
+                 block: UrlDownload.Api.() -> Unit = {}): String {
     if (method == RequestMethod.POST || method == RequestMethod.DELETE || method == RequestMethod.PUT || method == RequestMethod.PATCH) {
         throw UnsupportedOperationException("You should use [syncDownloadBody] function")
     }
     val realPath = if (absolutePath) path else (NetConfig.host + path)
-    val download = UrlDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
+    val download = UrlDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag).uid(uid)
     return download.apply(block).perform()
 }
 
-fun syncDownloadBody(
-        path: String,
-        dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
-        tag: Any? = null,
-        absolutePath: Boolean = false,
-        method: RequestMethod = RequestMethod.GET,
-        block: BodyDownload.Api.() -> Unit = {}): String {
+fun syncDownloadBody(path: String,
+                     dir: String = NetConfig.app.externalCacheDir!!.absolutePath,
+                     tag: Any? = null,
+                     absolutePath: Boolean = false,
+                     method: RequestMethod = RequestMethod.GET,
+                     uid: Any? = null,
+                     block: BodyDownload.Api.() -> Unit = {}): String {
     if (method == RequestMethod.GET || method == RequestMethod.HEAD || method == RequestMethod.OPTIONS || method == RequestMethod.TRACE) {
         throw UnsupportedOperationException("You should use [syncDownload] function")
     }
     val realPath = if (absolutePath) path else (NetConfig.host + path)
-    val download = BodyDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
+    val download = BodyDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag).uid(uid)
     return download.apply(block).perform()
 }
 

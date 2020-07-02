@@ -15,9 +15,9 @@
  */
 package com.yanzhenjie.kalle.simple;
 
-import com.yanzhenjie.kalle.Canceler;
 import com.yanzhenjie.kalle.Canceller;
 import com.yanzhenjie.kalle.Kalle;
+import com.yanzhenjie.kalle.NetDispose;
 
 import java.lang.reflect.Type;
 import java.util.concurrent.Executor;
@@ -59,10 +59,10 @@ public class RequestManager {
             @Override
             public void onEnd() {
                 super.onEnd();
-                Canceler.INSTANCE.removeCancel(request.uid());
+                NetDispose.INSTANCE.remove(request.uid());
             }
         });
-        Canceler.INSTANCE.addCancel(request.uid(), work);
+        NetDispose.INSTANCE.add(request.uid(), work);
         mExecutor.execute(work);
         return work;
     }
@@ -79,7 +79,7 @@ public class RequestManager {
      */
     public <S, F> Result<S, F> perform(SimpleUrlRequest request, Type succeed, Type failed) throws Exception {
         UrlWorker<S, F> worker = new UrlWorker<>(request, succeed, failed);
-        Canceler.INSTANCE.addCancel(request.uid(), worker);
+        NetDispose.INSTANCE.add(request.uid(), worker);
         return worker.call();
     }
 
@@ -97,10 +97,10 @@ public class RequestManager {
             @Override
             public void onEnd() {
                 super.onEnd();
-                Canceler.INSTANCE.removeCancel(request.uid());
+                NetDispose.INSTANCE.remove(request.uid());
             }
         });
-        Canceler.INSTANCE.addCancel(request.uid(), work);
+        NetDispose.INSTANCE.add(request.uid(), work);
         mExecutor.execute(work);
         return work;
     }
@@ -117,7 +117,7 @@ public class RequestManager {
      */
     public <S, F> Result<S, F> perform(SimpleBodyRequest request, Type succeed, Type failed) throws Exception {
         BodyWorker<S, F> worker = new BodyWorker<>(request, succeed, failed);
-        Canceler.INSTANCE.addCancel(request.uid(), worker);
+        NetDispose.INSTANCE.add(request.uid(), worker);
         return worker.call();
     }
 

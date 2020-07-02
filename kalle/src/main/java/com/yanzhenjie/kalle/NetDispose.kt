@@ -16,9 +16,9 @@
 package com.yanzhenjie.kalle
 
 
-object Canceler {
+object NetDispose {
 
-    private val map = mutableMapOf<Any, Canceller>()
+    private val map = mutableMapOf<Canceller, Any>()
 
     /**
      * Add a task to cancel.
@@ -26,9 +26,9 @@ object Canceler {
      * @param uid   target request.
      * @param canceller canceller.
      */
-    fun addCancel(uid: Any?, canceller: Canceller) {
+    fun add(uid: Any?, canceller: Canceller) {
         uid ?: return
-        map[uid] = canceller
+        map[canceller] = uid
     }
 
     /**
@@ -36,23 +36,26 @@ object Canceler {
      *
      * @param uid target request.
      */
-    fun removeCancel(uid: Any?) {
+    fun remove(uid: Any?) {
         uid ?: return
-        map.remove(uid)
+        val iterator = map.iterator()
+        while (iterator.hasNext()) {
+            if (iterator.next().value == uid) iterator.remove()
+        }
     }
 
     /**
      * According to the tag to cancel a task.
      *
      */
-    fun cancel(uid: Any?) {
+    fun dispose(uid: Any?) {
         uid ?: return
         val iterator = map.iterator()
         while (iterator.hasNext()) {
             val next = iterator.next()
-            if (uid == next.key) {
+            if (uid == next.value) {
                 iterator.remove()
-                next.value.cancel()
+                next.key.cancel()
             }
         }
     }

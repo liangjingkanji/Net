@@ -28,19 +28,16 @@ import java.lang.reflect.Type
  * @param message  错误信息在Json中的字段名
  */
 @Suppress("UNCHECKED_CAST")
-abstract class DefaultConvert(
-    val success: String = "0",
-    val code: String = "code",
-    val message: String = "msg"
-) : Converter {
+abstract class DefaultConvert(val success: String = "0",
+                              val code: String = "code",
+                              val message: String = "msg") : Converter {
 
-    override fun <S, F> convert(
-            succeed: Type,
-            failed: Type,
-            request: Request,
-            response: Response,
-            result: Result<S, F>
-    ) {
+    override fun <S, F> convert(succeed: Type,
+                                failed: Type,
+                                request: Request,
+                                response: Response,
+                                result: Result<S, F>) {
+
         val body = response.body().string()
         val code = response.code()
 

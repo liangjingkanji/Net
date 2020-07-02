@@ -16,17 +16,13 @@ import kotlinx.coroutines.withContext
 
 // <editor-fold desc="切换调度器">
 
-suspend fun <T> withMain(block: suspend CoroutineScope.() -> T) =
-    withContext(Dispatchers.Main, block)
+suspend fun <T> withMain(block: suspend CoroutineScope.() -> T) = withContext(Dispatchers.Main, block)
 
-suspend fun <T> withIO(block: suspend CoroutineScope.() -> T) =
-    withContext(Dispatchers.IO, block)
+suspend fun <T> withIO(block: suspend CoroutineScope.() -> T) = withContext(Dispatchers.IO, block)
 
-suspend fun <T> withDefault(block: suspend CoroutineScope.() -> T) =
-    withContext(Dispatchers.Default, block)
+suspend fun <T> withDefault(block: suspend CoroutineScope.() -> T) = withContext(Dispatchers.Default, block)
 
-suspend fun <T> withUnconfined(block: suspend CoroutineScope.() -> T) =
-    withContext(Dispatchers.Unconfined, block)
+suspend fun <T> withUnconfined(block: suspend CoroutineScope.() -> T) = withContext(Dispatchers.Unconfined, block)
 
 // </editor-fold>
 

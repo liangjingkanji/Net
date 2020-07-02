@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.kalle;
+package com.yanzhenjie.kalle
 
-/**
- * Created by Zhenjie Yan on 2018/2/27.
- */
-public interface Canceller {
+interface Canceller {
     /**
      * Cancel operation.
      */
-    void cancel();
+    fun cancel()
 
     /**
      * Operation is canceled.
      */
-    boolean isCancelled();
+    val isCancelled: Boolean
 }

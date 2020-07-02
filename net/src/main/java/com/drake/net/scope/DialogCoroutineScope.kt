@@ -30,11 +30,9 @@ import com.drake.net.R
  * @param cancelable 是否允许用户取消对话框
  */
 @Suppress("DEPRECATION")
-class DialogCoroutineScope(
-    val activity: FragmentActivity,
-    var dialog: Dialog? = null,
-    val cancelable: Boolean = true
-) : NetCoroutineScope(), LifecycleObserver {
+class DialogCoroutineScope(val activity: FragmentActivity,
+                           var dialog: Dialog? = null,
+                           val cancelable: Boolean = true) : NetCoroutineScope(), LifecycleObserver {
 
     init {
         activity.lifecycle.addObserver(this)

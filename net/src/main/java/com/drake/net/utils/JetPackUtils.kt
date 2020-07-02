@@ -43,11 +43,9 @@ fun <M> LifecycleOwner.observe(liveData: LiveData<M>?, block: M?.() -> Unit) {
  * 监听数据库
  */
 @UseExperimental(ExperimentalCoroutinesApi::class)
-fun <T> Flow<List<T>>.listen(
-    lifecycleOwner: LifecycleOwner? = null,
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    block: (List<T>) -> Unit
-) {
+fun <T> Flow<List<T>>.listen(lifecycleOwner: LifecycleOwner? = null,
+                             lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+                             block: (List<T>) -> Unit) {
     AndroidScope(lifecycleOwner, lifeEvent).launch {
         distinctUntilChanged().collect { data ->
             withMain {
@@ -65,15 +63,12 @@ inline fun <reified M : ViewModel> ViewModelStoreOwner.getViewModel(): M {
 
 inline fun <reified M : ViewModel> FragmentActivity.getSavedModel(): M {
     return ViewModelProvider(
-        this,
-        SavedStateViewModelFactory(application, this)
-    ).get(M::class.java)
+            this,
+            SavedStateViewModelFactory(application, this)
+                            ).get(M::class.java)
 }
 
 
 inline fun <reified M : ViewModel> Fragment.getSavedModel(): M {
-    return ViewModelProvider(
-        this,
-        SavedStateViewModelFactory(activity!!.application, this)
-    ).get(M::class.java)
+    return ViewModelProvider(this, SavedStateViewModelFactory(activity!!.application, this)).get(M::class.java)
 }

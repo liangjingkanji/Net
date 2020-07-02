@@ -18,11 +18,8 @@ import kotlin.coroutines.EmptyCoroutineContext
  * 异步协程作用域
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING")
-open class AndroidScope(
-    lifecycleOwner: LifecycleOwner? = null,
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
-) : CoroutineScope {
-
+open class AndroidScope(lifecycleOwner: LifecycleOwner? = null,
+                        lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY) : CoroutineScope {
 
     init {
         lifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
@@ -96,8 +93,8 @@ open class AndroidScope(
         job.cancel(cause)
     }
 
-    open fun cancel(message: String, cause: Throwable? = null) =
-            cancel(CancellationException(message, cause))
+    open fun cancel(message: String,
+                    cause: Throwable? = null) = cancel(CancellationException(message, cause))
 
 }
 

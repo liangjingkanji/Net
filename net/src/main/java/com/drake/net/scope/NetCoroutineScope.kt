@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.drake.net.NetConfig
-import com.yanzhenjie.kalle.Canceler
+import com.yanzhenjie.kalle.NetDispose
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -36,10 +36,8 @@ open class NetCoroutineScope() : AndroidScope() {
 
     var animate: Boolean = false
 
-    constructor(
-            lifecycleOwner: LifecycleOwner,
-            lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
-               ) : this() {
+    constructor(lifecycleOwner: LifecycleOwner,
+                lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY) : this() {
         lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 if (lifeEvent == event) cancel()
@@ -47,9 +45,7 @@ open class NetCoroutineScope() : AndroidScope() {
         })
     }
 
-    override fun launch(
-            block: suspend CoroutineScope.() -> Unit
-                       ): NetCoroutineScope {
+    override fun launch(block: suspend CoroutineScope.() -> Unit): NetCoroutineScope {
         launch(EmptyCoroutineContext) {
             start()
             if (onCache != null && isReadCache) {
@@ -104,7 +100,7 @@ open class NetCoroutineScope() : AndroidScope() {
     }
 
     override fun cancel(cause: CancellationException?) {
-        Canceler.cancel(uid)
+        NetDispose.dispose(uid)
         super.cancel(cause)
     }
 }
