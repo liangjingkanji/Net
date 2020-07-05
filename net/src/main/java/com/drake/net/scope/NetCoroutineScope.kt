@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.drake.net.NetConfig
-import com.yanzhenjie.kalle.NetDispose
+import com.yanzhenjie.kalle.NetCancel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -100,7 +100,7 @@ open class NetCoroutineScope() : AndroidScope() {
     }
 
     override fun cancel(cause: CancellationException?) {
-        NetDispose.dispose(uid)
+        NetCancel.cancel(uid)
         super.cancel(cause)
     }
 }

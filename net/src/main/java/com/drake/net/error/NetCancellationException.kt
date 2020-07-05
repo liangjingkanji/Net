@@ -7,7 +7,7 @@
 
 package com.drake.net.error
 
-import com.yanzhenjie.kalle.NetDispose
+import com.yanzhenjie.kalle.NetCancel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import java.util.concurrent.CancellationException
@@ -15,7 +15,7 @@ import java.util.concurrent.CancellationException
 class NetCancellationException(coroutineScope: CoroutineScope,
                                message: String? = null) : CancellationException(message) {
     init {
-        NetDispose.dispose(coroutineScope.coroutineContext[CoroutineExceptionHandler])
+        NetCancel.cancel(coroutineScope.coroutineContext[CoroutineExceptionHandler])
     }
 }
 

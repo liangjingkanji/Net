@@ -89,7 +89,7 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 // 支持自动下拉刷新和缺省页的, 可选, 刷新头和上拉加载参考SmartRefreshLayout (可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.6'
 
-implementation 'com.github.liangjingkanji:Net:2.2.5'
+implementation 'com.github.liangjingkanji:Net:2.2.6'
 ```
 
 

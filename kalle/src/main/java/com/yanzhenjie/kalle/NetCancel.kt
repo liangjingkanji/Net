@@ -16,7 +16,7 @@
 package com.yanzhenjie.kalle
 
 
-object NetDispose {
+object NetCancel {
 
     private val map = mutableMapOf<Canceller, Any>()
 
@@ -48,7 +48,7 @@ object NetDispose {
      * According to the tag to cancel a task.
      *
      */
-    fun dispose(uid: Any?) {
+    fun cancel(uid: Any?) {
         uid ?: return
         val iterator = map.iterator()
         while (iterator.hasNext()) {

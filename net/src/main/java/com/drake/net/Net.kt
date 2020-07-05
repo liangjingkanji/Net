@@ -12,7 +12,7 @@ package com.drake.net
 import android.content.Context
 import com.bumptech.glide.Glide
 import com.drake.net.error.ResponseException
-import com.yanzhenjie.kalle.NetDispose
+import com.yanzhenjie.kalle.NetCancel
 import com.yanzhenjie.kalle.RequestMethod
 import com.yanzhenjie.kalle.Url
 import com.yanzhenjie.kalle.download.BodyDownload
@@ -45,7 +45,7 @@ inline fun <reified M> CoroutineScope.Get(path: String,
     if (!isActive) throw CancellationException()
 
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
+        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -76,7 +76,7 @@ inline fun <reified M> CoroutineScope.Post(path: String,
             if (!isActive) throw CancellationException()
 
             coroutineContext[Job]?.invokeOnCompletion {
-                if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
+                if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
             }
 
             val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -106,7 +106,7 @@ inline fun <reified M> CoroutineScope.Head(path: String,
     if (!isActive) throw CancellationException()
 
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
+        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -136,7 +136,7 @@ inline fun <reified M> CoroutineScope.Options(path: String,
     if (!isActive) throw CancellationException()
 
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
+        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -167,7 +167,7 @@ inline fun <reified M> CoroutineScope.Trace(path: String,
     if (!isActive) throw CancellationException()
 
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
+        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -197,7 +197,7 @@ inline fun <reified M> CoroutineScope.Delete(path: String,
     if (!isActive) throw CancellationException()
 
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
+        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -227,7 +227,7 @@ inline fun <reified M> CoroutineScope.Put(path: String,
     if (!isActive) throw CancellationException()
 
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
+        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -258,7 +258,7 @@ inline fun <reified M> CoroutineScope.Patch(path: String,
     if (!isActive) throw CancellationException()
 
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetDispose.dispose(uid) else NetDispose.remove(uid)
+        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -303,7 +303,7 @@ fun CoroutineScope.Download(path: String,
     }
 
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null && it !is CancellationException) NetDispose.dispose(uid) else NetDispose.remove(uid)
+        if (it != null && it !is CancellationException) NetCancel.cancel(uid) else NetCancel.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -335,7 +335,7 @@ fun CoroutineScope.DownloadBody(path: String,
     }
 
     coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null && it !is CancellationException) NetDispose.dispose(uid) else NetDispose.remove(uid)
+        if (it != null && it !is CancellationException) NetCancel.cancel(uid) else NetCancel.remove(uid)
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)

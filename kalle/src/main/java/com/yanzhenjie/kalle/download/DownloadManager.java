@@ -17,7 +17,7 @@ package com.yanzhenjie.kalle.download;
 
 import com.yanzhenjie.kalle.Canceller;
 import com.yanzhenjie.kalle.Kalle;
-import com.yanzhenjie.kalle.NetDispose;
+import com.yanzhenjie.kalle.NetCancel;
 
 import java.util.concurrent.Executor;
 
@@ -56,10 +56,10 @@ public class DownloadManager {
             @Override
             public void onEnd() {
                 super.onEnd();
-                NetDispose.INSTANCE.remove(download.uid());
+                NetCancel.INSTANCE.remove(download.uid());
             }
         });
-        NetDispose.INSTANCE.add(download.uid(), work);
+        NetCancel.INSTANCE.add(download.uid(), work);
         mExecutor.execute(work);
         return work;
     }
@@ -72,7 +72,7 @@ public class DownloadManager {
      */
     public String perform(UrlDownload download) throws Exception {
         UrlWorker worker = new UrlWorker(download);
-        NetDispose.INSTANCE.add(download.uid(), worker);
+        NetCancel.INSTANCE.add(download.uid(), worker);
         return worker.call();
     }
 
@@ -88,10 +88,10 @@ public class DownloadManager {
             @Override
             public void onEnd() {
                 super.onEnd();
-                NetDispose.INSTANCE.remove(download.uid());
+                NetCancel.INSTANCE.remove(download.uid());
             }
         });
-        NetDispose.INSTANCE.add(download.uid(), work);
+        NetCancel.INSTANCE.add(download.uid(), work);
         mExecutor.execute(work);
         return work;
     }
@@ -104,7 +104,7 @@ public class DownloadManager {
      */
     public String perform(BodyDownload download) throws Exception {
         BodyWorker worker = new BodyWorker(download);
-        NetDispose.INSTANCE.add(download.uid(), worker);
+        NetCancel.INSTANCE.add(download.uid(), worker);
         return worker.call();
     }
 
