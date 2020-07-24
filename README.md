@@ -16,6 +16,13 @@ The project is supported by [JetBrains](https://www.jetbrains.com/), Best IDE to
 2.0+ 版本开始引入Kotlin协程特性, 开发者无需掌握协程也可以使用
 
 
+目前计划
+
+- [ ] 重写使用文档
+- [ ] 升级到OkHttp4.7
+- [ ] 插件输出网络日志, 支持超长输出
+- [ ] WebSocket路由
+
 
 ![image-20200628013903616](https://i.imgur.com/9nGtlrd.png)
 
