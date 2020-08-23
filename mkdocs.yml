@@ -1,0 +1,58 @@
+site_name: Net
+site_author: drake
+site_description: Net document
+copyright: Copyright &copy; 2018 - 2020 Drake
+
+repo_name: Net
+repo_url: https://github.com/liangjingkanji/Net
+
+extra_css:
+  - css/extra.css
+
+docs_dir: 'docs'
+
+theme:
+  name: material
+  custom_dir: docs/material
+
+  palette:
+    scheme: 'drake'
+
+  font: false
+
+  language: zh
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed
+
+nav:
+  - 使用: 'index.md'
+  - 并发: 'parallel.md'
+  - 作用域: 'scope.md'
+  - 全局配置: 'config.md'
+  - 转换器: 'convert.md'
+  - 拦截器: 'interceptor.md'
+  - 异常追踪: 'exception-track.md'
+  - 自动化:
+      - 自动加载框: 'auto-dialog.md'
+      - 自动缺省页: 'auto-state.md'
+      - 自动下拉刷新: 'auto-refresh.md'
+      - 自动分页加载: 'auto-page.md'
+      - 自动错误处理: 'auto-error-handle.md'
+  - 切换调度器: 'switch-dispatcher.md'
+  - 上传文件: 'upload-file.md'
+  - 下载文件: 'download-file.md'
+  - 下载图片: 'download-image.md'
+  - 读取缓存: 'read-cache.md'
+  - 取消请求: 'cancel.md'
+  - 轮循器: 'interval.md'
+  #  - 日志: 'log.md'
+  - 2.x文档: api/net/index.md

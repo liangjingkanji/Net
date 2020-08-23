@@ -19,7 +19,7 @@
             android:layout_height="wrap_content" />
 
         <fragment
-            android:id="@+id/fragment_nav"
+            android:id="@+id/nav"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,7 +29,7 @@
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav"
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

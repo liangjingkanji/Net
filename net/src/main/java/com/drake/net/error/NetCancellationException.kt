@@ -12,8 +12,11 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import java.util.concurrent.CancellationException
 
-class NetCancellationException(coroutineScope: CoroutineScope,
-                               message: String? = null) : CancellationException(message) {
+/**
+ * 取消网络任务的异常
+ */
+class NetCancellationException(coroutineScope: CoroutineScope, message: String? = null) :
+    CancellationException(message) {
     init {
         NetCancel.cancel(coroutineScope.coroutineContext[CoroutineExceptionHandler])
     }

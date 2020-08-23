@@ -9,29 +9,32 @@ package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
 import android.text.format.Formatter
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import com.drake.net.Download
 import com.drake.net.sample.R
+import com.drake.net.scope.NetCoroutineScope
 import com.drake.net.utils.scopeNetLife
 import kotlinx.android.synthetic.main.fragment_download_file.*
 
 
 class DownloadFileFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    private lateinit var downloadScope: NetCoroutineScope
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_download_file, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
 
-        scopeNetLife {
+        downloadScope = scopeNetLife {
             Download("download", requireContext().filesDir.path) {
                 // 下载进度回调
                 onProgress { progress, byteCount, speed ->
@@ -47,5 +50,17 @@ class DownloadFileFragment : Fragment() {
                 }
             }.await()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_download, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.cancel -> downloadScope.cancel() // 取消下载
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -1,0 +1,43 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+$dokka.location:com.drake.net$Delete(kotlinx.coroutines.CoroutineScope, kotlin.String, kotlin.Any, com.yanzhenjie.kalle.simple.cache.CacheMode, kotlin.Boolean, kotlin.Any, kotlin.Function1((com.yanzhenjie.kalle.simple.SimpleBodyRequest.Api, kotlin.Unit)))com.drake.net/kotlinx.coroutines.-coroutine-scope/-delete.md
+$dokka.location:com.drake.net$Download(kotlinx.coroutines.CoroutineScope, kotlin.String, kotlin.String, kotlin.Any, kotlin.Boolean, com.yanzhenjie.kalle.RequestMethod, kotlin.Any, kotlin.Function1((com.yanzhenjie.kalle.download.UrlDownload.Api, kotlin.Unit)))com.drake.net/kotlinx.coroutines.-coroutine-scope/-download.md
+$dokka.location:com.drake.net$DownloadBody(kotlinx.coroutines.CoroutineScope, kotlin.String, kotlin.String, kotlin.Any, kotlin.Boolean, com.yanzhenjie.kalle.RequestMethod, kotlin.Any, kotlin.Function1((com.yanzhenjie.kalle.download.BodyDownload.Api, kotlin.Unit)))com.drake.net/kotlinx.coroutines.-coroutine-scope/-download-body.md
+$dokka.location:com.drake.net$DownloadImage(kotlinx.coroutines.CoroutineScope, kotlin.String, kotlin.Int, kotlin.Int)com.drake.net/kotlinx.coroutines.-coroutine-scope/-download-image.md
+$dokka.location:com.drake.net$Get(kotlinx.coroutines.CoroutineScope, kotlin.String, kotlin.Any, com.yanzhenjie.kalle.simple.cache.CacheMode, kotlin.Boolean, kotlin.Any, kotlin.Function1((com.yanzhenjie.kalle.simple.SimpleUrlRequest.Api, kotlin.Unit)))com.drake.net/kotlinx.coroutines.-coroutine-scope/-get.md
+$dokka.location:com.drake.net$Head(kotlinx.coroutines.CoroutineScope, kotlin.String, kotlin.Any, com.yanzhenjie.kalle.simple.cache.CacheMode, kotlin.Boolean, kotlin.Any, kotlin.Function1((com.yanzhenjie.kalle.simple.SimpleUrlRequest.Api, kotlin.Unit)))com.drake.net/kotlinx.coroutines.-coroutine-scope/-head.md
+$dokka.location:com.drake.net$Options(kotlinx.coroutines.CoroutineScope, kotlin.String, kotlin.Any, com.yanzhenjie.kalle.simple.cache.CacheMode, kotlin.Boolean, kotlin.Any, kotlin.Function1((com.yanzhenjie.kalle.simple.SimpleUrlRequest.Api, kotlin.Unit)))com.drake.net/kotlinx.coroutines.-coroutine-scope/-options.md
+$dokka.location:com.drake.net$Patch(kotlinx.coroutines.CoroutineScope, kotlin.String, kotlin.Any, com.yanzhenjie.kalle.simple.cache.CacheMode, kotlin.Boolean, kotlin.Any, kotlin.Function1((com.yanzhenjie.kalle.simple.SimpleBodyRequest.Api, kotlin.Unit)))com.drake.net/kotlinx.coroutines.-coroutine-scope/-patch.md
+$dokka.location:com.drake.net$Post(kotlinx.coroutines.CoroutineScope, kotlin.String, kotlin.Any, com.yanzhenjie.kalle.simple.cache.CacheMode, kotlin.Boolean, kotlin.Any, kotlin.Function1((com.yanzhenjie.kalle.simple.SimpleBodyRequest.Api, kotlin.Unit)))com.drake.net/kotlinx.coroutines.-coroutine-scope/-post.md
+$dokka.location:com.drake.net$Put(kotlinx.coroutines.CoroutineScope, kotlin.String, kotlin.Any, com.yanzhenjie.kalle.simple.cache.CacheMode, kotlin.Boolean, kotlin.Any, kotlin.Function1((com.yanzhenjie.kalle.simple.SimpleBodyRequest.Api, kotlin.Unit)))com.drake.net/kotlinx.coroutines.-coroutine-scope/-put.md
+$dokka.location:com.drake.net$Trace(kotlinx.coroutines.CoroutineScope, kotlin.String, kotlin.Any, com.yanzhenjie.kalle.simple.cache.CacheMode, kotlin.Boolean, kotlin.Any, kotlin.Function1((com.yanzhenjie.kalle.simple.SimpleUrlRequest.Api, kotlin.Unit)))com.drake.net/kotlinx.coroutines.-coroutine-scope/-trace.md
+$dokka.location:com.drake.net$cacheEnabled(com.yanzhenjie.kalle.KalleConfig.Builder, kotlin.String, kotlin.String)com.drake.net/com.yanzhenjie.kalle.-kalle-config.-builder/cache-enabled.md
+$dokka.location:com.drake.net$initNet(android.app.Application, kotlin.String, kotlin.Function1((com.yanzhenjie.kalle.KalleConfig.Builder, kotlin.Unit)))com.drake.net/android.app.-application/init-net.md
+$dokka.location:com.drake.net$onDialog(com.yanzhenjie.kalle.KalleConfig.Builder, kotlin.Function2((com.drake.net.scope.DialogCoroutineScope, androidx.fragment.app.FragmentActivity, android.app.Dialog)))com.drake.net/com.yanzhenjie.kalle.-kalle-config.-builder/on-dialog.md
+$dokka.location:com.drake.net$onError(com.yanzhenjie.kalle.KalleConfig.Builder, kotlin.Function1((kotlin.Throwable, kotlin.Unit)))com.drake.net/com.yanzhenjie.kalle.-kalle-config.-builder/on-error.md
+$dokka.location:com.drake.net$onStateError(com.yanzhenjie.kalle.KalleConfig.Builder, kotlin.Function2((kotlin.Throwable, android.view.View, kotlin.Unit)))com.drake.net/com.yanzhenjie.kalle.-kalle-config.-builder/on-state-error.md
+$dokka.location:com.drake.net$syncDownloadImage(android.content.Context, kotlin.String, kotlin.Int, kotlin.Int)com.drake.net/android.content.-context/sync-download-image.md
+$dokka.location:com.drake.net.error$NetCancellationException(kotlinx.coroutines.CoroutineScope, kotlin.String)com.drake.net.error/kotlinx.coroutines.-coroutine-scope/-net-cancellation-exception.md
+$dokka.location:com.drake.net.utils$foreach(android.database.Cursor, kotlin.Function1((android.database.Cursor, kotlin.Unit)))com.drake.net.utils/android.database.-cursor/foreach.md
+$dokka.location:com.drake.net.utils$getSavedModel(androidx.fragment.app.Fragment)com.drake.net.utils/androidx.fragment.app.-fragment/get-saved-model.md
+$dokka.location:com.drake.net.utils$getSavedModel(androidx.fragment.app.FragmentActivity)com.drake.net.utils/androidx.fragment.app.-fragment-activity/get-saved-model.md
+$dokka.location:com.drake.net.utils$getViewModel(androidx.lifecycle.ViewModelStoreOwner)com.drake.net.utils/androidx.lifecycle.-view-model-store-owner/get-view-model.md
+$dokka.location:com.drake.net.utils$listen(kotlinx.coroutines.flow.Flow((kotlin.collections.List((com.drake.net.utils.listen.T)))), androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event, kotlin.Function1((kotlin.collections.List((com.drake.net.utils.listen.T)), kotlin.Unit)))com.drake.net.utils/kotlinx.coroutines.flow.-flow/listen.md
+$dokka.location:com.drake.net.utils$observe(androidx.lifecycle.LifecycleOwner, androidx.lifecycle.LiveData((com.drake.net.utils.observe.M)), kotlin.Function1((com.drake.net.utils.observe.M, kotlin.Unit)))com.drake.net.utils/androidx.lifecycle.-lifecycle-owner/observe.md
+$dokka.location:com.drake.net.utils$scope(com.drake.brv.PageRefreshLayout, kotlin.coroutines.SuspendFunction1((kotlinx.coroutines.CoroutineScope, kotlin.Unit)))com.drake.net.utils/com.drake.brv.-page-refresh-layout/scope.md
+$dokka.location:com.drake.net.utils$scope(com.drake.statelayout.StateLayout, kotlin.coroutines.SuspendFunction1((kotlinx.coroutines.CoroutineScope, kotlin.Unit)))com.drake.net.utils/com.drake.statelayout.-state-layout/scope.md
+$dokka.location:com.drake.net.utils$scope(kotlinx.coroutines.flow.Flow((com.drake.net.utils.scope.T)), androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event, kotlin.coroutines.SuspendFunction1((com.drake.net.utils.scope.T, kotlin.Unit)))com.drake.net.utils/kotlinx.coroutines.flow.-flow/scope.md
+$dokka.location:com.drake.net.utils$scopeDialog(androidx.fragment.app.Fragment, android.app.Dialog, kotlin.Boolean, kotlin.coroutines.SuspendFunction1((kotlinx.coroutines.CoroutineScope, kotlin.Unit)))com.drake.net.utils/androidx.fragment.app.-fragment/scope-dialog.md
+$dokka.location:com.drake.net.utils$scopeDialog(androidx.fragment.app.FragmentActivity, android.app.Dialog, kotlin.Boolean, kotlin.coroutines.SuspendFunction1((kotlinx.coroutines.CoroutineScope, kotlin.Unit)))com.drake.net.utils/androidx.fragment.app.-fragment-activity/scope-dialog.md
+$dokka.location:com.drake.net.utils$scopeLife(androidx.fragment.app.Fragment, androidx.lifecycle.Lifecycle.Event, kotlin.coroutines.SuspendFunction1((kotlinx.coroutines.CoroutineScope, kotlin.Unit)))com.drake.net.utils/androidx.fragment.app.-fragment/scope-life.md
+$dokka.location:com.drake.net.utils$scopeLife(androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event, kotlin.coroutines.SuspendFunction1((kotlinx.coroutines.CoroutineScope, kotlin.Unit)))com.drake.net.utils/androidx.lifecycle.-lifecycle-owner/scope-life.md
+$dokka.location:com.drake.net.utils$scopeNetLife(androidx.fragment.app.Fragment, androidx.lifecycle.Lifecycle.Event, kotlin.coroutines.SuspendFunction1((kotlinx.coroutines.CoroutineScope, kotlin.Unit)))com.drake.net.utils/androidx.fragment.app.-fragment/scope-net-life.md
+$dokka.location:com.drake.net.utils$scopeNetLife(androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event, kotlin.coroutines.SuspendFunction1((kotlinx.coroutines.CoroutineScope, kotlin.Unit)))com.drake.net.utils/androidx.lifecycle.-lifecycle-owner/scope-net-life.md
+com.drake.net
+com.drake.net.connect
+com.drake.net.convert
+com.drake.net.error
+com.drake.net.scope
+com.drake.net.tag
+com.drake.net.time
+com.drake.net.utils

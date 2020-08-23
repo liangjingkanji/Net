@@ -24,39 +24,48 @@ import java.lang.reflect.Type
  * 默认的转换器实现, 如果不满足需求建议将该文件复制到项目中修改
  *
  * @param success  后端定义为成功状态的错误码值
- * @param code  错误码在Json中的字段名
- * @param message  错误信息在Json中的字段名
+ * @param code  错误码在JSON中的字段名
+ * @param message  错误信息在JSON中的字段名
  */
 @Suppress("UNCHECKED_CAST")
-abstract class DefaultConvert(val success: String = "0",
-                              val code: String = "code",
-                              val message: String = "msg") : Converter {
+abstract class DefaultConvert(
+    val success: String = "0",
+    val code: String = "code",
+    val message: String = "msg"
+) : Converter {
 
-    override fun <S, F> convert(succeed: Type,
-                                failed: Type,
-                                request: Request,
-                                response: Response,
-                                result: Result<S, F>) {
-
+    override fun <S, F> convert(
+        succeed: Type,
+        failed: Type,
+        request: Request,
+        response: Response,
+        result: Result<S, F>
+    ) {
         val body = response.body().string()
         val code = response.code()
 
         when {
-            code in 200..299 -> {
+            code in 200..299 -> { // 请求成功
+                val jsonObject = JSONObject(body) // 获取JSON中后端定义的错误码和错误信息
 
-                val jsonObject = JSONObject(body)
-
-                if (jsonObject.getString(this.code) == success) {
-                    result.success = if (succeed === String::class.java) body as S else body.parseBody(succeed)
-                } else {
-                    result.failure = ResponseException(code, jsonObject.getString(message), request) as F
+                if (jsonObject.getString(this.code) == success) { // 对比后端自定义错误码
+                    result.success =
+                        if (succeed === String::class.java) body as S else body.parseBody(succeed)
+                } else { // 错误码匹配失败, 开始写入错误异常
+                    result.failure =
+                        ResponseException(code, jsonObject.getString(message), request) as F
                 }
             }
-            code in 400..499 -> throw RequestParamsException(code, request)
-            code >= 500 -> throw ServerResponseException(code, request)
+            code in 400..499 -> throw RequestParamsException(code, request) // 请求参数错误
+            code >= 500 -> throw ServerResponseException(code, request) // 服务器异常错误
         }
     }
 
+    /**
+     * 解析字符串数据
+     * 一般用于解析JSON
+     * @param succeed 请求函数定义的泛型, 例如一般的Moshi/Gson解析数据需要使用
+     * @receiver 原始字符串
+     */
     abstract fun <S> String.parseBody(succeed: Type): S?
-
 }

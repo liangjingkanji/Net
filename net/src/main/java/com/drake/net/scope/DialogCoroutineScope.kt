@@ -8,14 +8,12 @@
 package com.drake.net.scope
 
 import android.app.Dialog
-import android.app.ProgressDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.drake.net.NetConfig
-import com.drake.net.NetConfig.defaultDialog
-import com.drake.net.R
+import com.drake.net.NetConfig.onDialog
 
 /**
  * 自动加载对话框网络请求
@@ -30,9 +28,11 @@ import com.drake.net.R
  * @param cancelable 是否允许用户取消对话框
  */
 @Suppress("DEPRECATION")
-class DialogCoroutineScope(val activity: FragmentActivity,
-                           var dialog: Dialog? = null,
-                           val cancelable: Boolean = true) : NetCoroutineScope(), LifecycleObserver {
+class DialogCoroutineScope(
+    val activity: FragmentActivity,
+    var dialog: Dialog? = null,
+    val cancelable: Boolean = true
+) : NetCoroutineScope(), LifecycleObserver {
 
     init {
         activity.lifecycle.addObserver(this)
@@ -41,12 +41,7 @@ class DialogCoroutineScope(val activity: FragmentActivity,
     override fun start() {
         dialog = when {
             dialog != null -> dialog
-            defaultDialog != null -> defaultDialog?.invoke(this, activity)
-            else -> {
-                val progress = ProgressDialog(activity)
-                progress.setMessage(activity.getString(R.string.net_dialog_msg))
-                progress
-            }
+            else -> onDialog.invoke(this, activity)
         }
         dialog?.setOnDismissListener { cancel() }
         dialog?.setCancelable(cancelable)

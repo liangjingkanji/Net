@@ -10,10 +10,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
+import android.view.*
 import androidx.fragment.app.Fragment
 import com.drake.net.*
 import com.drake.net.sample.R
@@ -27,10 +24,9 @@ class RequestMethodFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        initToolbar()
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_request_method, container, false)
     }
-
 
     private fun GET() {
         scopeNetLife {
@@ -81,22 +77,23 @@ class RequestMethodFragment : Fragment() {
     }
 
 
-    private fun initToolbar() {
-        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-        toolbar.inflateMenu(R.menu.menu_request_method)
-        toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.get -> GET()
-                R.id.post -> POST()
-                R.id.head -> HEAD()
-                R.id.put -> PUT()
-                R.id.patch -> PATCH()
-                R.id.delete -> DELETE()
-                R.id.trace -> TRACE()
-                R.id.options -> OPTIONS()
-            }
-            true
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_request_method, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.get -> GET()
+            R.id.post -> POST()
+            R.id.head -> HEAD()
+            R.id.put -> PUT()
+            R.id.patch -> PATCH()
+            R.id.delete -> DELETE()
+            R.id.trace -> TRACE()
+            R.id.options -> OPTIONS()
         }
+        return super.onOptionsItemSelected(item)
     }
 
 }

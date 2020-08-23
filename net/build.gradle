@@ -2,6 +2,7 @@ apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
 apply plugin: "kotlin-kapt"
+apply plugin: 'org.jetbrains.dokka'
 
 apply plugin: "com.github.dcendents.android-maven"
 group = "com.gitlab.liangjingkanji"
@@ -28,12 +29,17 @@ android {
         }
     }
 
+    dokka {
+        outputFormat = 'gfm'
+        outputDirectory = "$rootDir/docs/api"
+    }
+
 }
 
 
 dependencies {
     api fileTree(dir: "libs", include: ["*.jar"])
-    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.appcompat:appcompat:1.2.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation "junit:junit:4.13"
     androidTestImplementation "androidx.test:runner:1.2.0"

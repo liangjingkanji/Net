@@ -9,8 +9,14 @@ package com.drake.net
 
 import android.app.Application
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.view.View
 import androidx.fragment.app.FragmentActivity
+import com.drake.net.NetConfig.app
+import com.drake.net.NetConfig.host
+import com.drake.net.NetConfig.onDialog
+import com.drake.net.NetConfig.onError
+import com.drake.net.NetConfig.onStateError
 import com.drake.net.connect.OkHttpConnectFactory
 import com.drake.net.error.RequestParamsException
 import com.drake.net.error.ResponseException
@@ -25,14 +31,27 @@ import com.yanzhenjie.kalle.simple.cache.DiskCacheStore
 import java.util.concurrent.ExecutionException
 
 
+/**
+ * Net的全局配置
+ *
+ * @property host 域名或者ip(baseUrl)
+ * @property app 全局上下文, 一般执行[initNet]即可, 无需手动赋值
+ * @property onDialog 全局加载框
+ * @property onError 全局错误处理
+ * @property onStateError 全局缺省页错误处理
+ */
 object NetConfig {
 
     lateinit var host: String
     lateinit var app: Application
 
-    internal var defaultDialog: (DialogCoroutineScope.(FragmentActivity) -> Dialog)? = null
-    var onError: Throwable.() -> Unit = {
+    var onDialog: DialogCoroutineScope.(FragmentActivity) -> Dialog = {
+        val progress = ProgressDialog(activity)
+        progress.setMessage(activity.getString(R.string.net_dialog_msg))
+        progress
+    }
 
+    var onError: Throwable.() -> Unit = {
         val message = when (this) {
             is NetworkError -> app.getString(R.string.net_network_error)
             is URLError -> app.getString(R.string.net_url_error)
@@ -58,14 +77,11 @@ object NetConfig {
     }
 
     var onStateError: Throwable.(view: View) -> Unit = {
-
         when (this) {
             is ParseError,
             is RequestParamsException,
             is ResponseException,
-            is NullPointerException -> onError(
-                    this
-                                              )
+            is NullPointerException -> onError(this)
             else -> printStackTrace()
         }
     }
@@ -119,14 +135,21 @@ fun KalleConfig.Builder.onStateError(block: Throwable.(view: View) -> Unit) {
  * 默认使用系统自带的ProgressDialog
  */
 fun KalleConfig.Builder.onDialog(block: (DialogCoroutineScope.(context: FragmentActivity) -> Dialog)) {
-    NetConfig.defaultDialog = block
+    NetConfig.onDialog = block
 }
 
-fun KalleConfig.Builder.cacheEnabled(path: String = NetConfig.app.cacheDir.absolutePath,
-                                     password: String = "cache") {
+/**
+ * 开启缓存
+ * @param path 缓存数据库路径
+ * @param password 缓存数据库密码
+ */
+fun KalleConfig.Builder.cacheEnabled(
+    path: String = NetConfig.app.cacheDir.absolutePath,
+    password: String = "cache"
+) {
     val cacheStore = DiskCacheStore.newBuilder(path)
-            .password(password)
-            .build()
+        .password(password)
+        .build()
     cacheStore(cacheStore)
 }
 

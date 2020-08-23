@@ -24,9 +24,9 @@ import java.io.FileOutputStream
 class UploadFileFragment : Fragment() {
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-                             ): View? {
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         return inflater.inflate(R.layout.fragment_upload_file, container, false)
     }
@@ -35,9 +35,7 @@ class UploadFileFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         scopeNetLife {
-
-            Post<String>("upload", requireContext().cacheDir.path) {
-
+            Post<String>("upload") {
                 val saveFile = getFile()
                 val form = FormBody.newBuilder().file("file", saveFile).build()
 
@@ -45,8 +43,10 @@ class UploadFileFragment : Fragment() {
 
                     seek.progress = progress // 进度条
                     // 格式化显示单位
-                    val downloadSize = android.text.format.Formatter.formatFileSize(requireContext(), 23)
-                    val downloadSpeed = android.text.format.Formatter.formatFileSize(requireContext(), 23)
+                    val downloadSize =
+                        android.text.format.Formatter.formatFileSize(requireContext(), 23)
+                    val downloadSpeed =
+                        android.text.format.Formatter.formatFileSize(requireContext(), 23)
 
                     // 显示下载信息
                     tv_progress.text = "上传进度: $progress% 已下载: $downloadSize 下载速度: $downloadSpeed"

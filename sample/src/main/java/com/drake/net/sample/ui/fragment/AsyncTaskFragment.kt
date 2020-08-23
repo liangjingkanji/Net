@@ -44,6 +44,7 @@ class AsyncTaskFragment : Fragment() {
      * 抽出异步任务为一个函数
      */
     private suspend fun withDownloadFile() = withContext(Dispatchers.IO) {
+        delay(200)
         "结果"
     }
 

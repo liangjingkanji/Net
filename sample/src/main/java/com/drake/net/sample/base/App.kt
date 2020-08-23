@@ -30,8 +30,6 @@ class App : Application() {
             errorLayout = R.layout.layout_error
         }
 
-        // Net 网络初始化信息
-        // initNet("http://192.168.1.222:80/") {
         initNet("http://182.92.97.186/") {
             converter(JsonConvert()) // 自动解析JSON映射到实体类中, 转换器分为全局和单例, 覆盖生效(拦截器允许多个)
             cacheEnabled()

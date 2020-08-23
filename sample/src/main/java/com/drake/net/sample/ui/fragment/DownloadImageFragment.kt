@@ -23,9 +23,10 @@ import kotlinx.android.synthetic.main.fragment_download_image.*
 class DownloadImageFragment : Fragment() {
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-                             ): View? {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         return inflater.inflate(R.layout.fragment_download_image, container, false)
     }

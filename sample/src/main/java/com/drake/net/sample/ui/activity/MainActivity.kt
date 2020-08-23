@@ -11,29 +11,28 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.drake.net.sample.R
 import com.drake.statusbar.immersiveDark
 import kotlinx.android.synthetic.main.activity_main.*
 
+/**
+ * 以下代码设置导航, 和框架本身无关无需关心, 请查看[com.drake.net.sample.ui.fragment]内的Fragment
+ */
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         immersiveDark(toolbar)
-
-        fragment_nav.findNavController().addOnDestinationChangedListener { _, destination, _ ->
-            toolbar.title = destination.label // 更新标题
-            toolbar.menu.clear() // 清除菜单
-        }
-
-        toolbar.setNavigationOnClickListener { drawer.openDrawer(GravityCompat.START) }
-        nav.setupWithNavController(fragment_nav.findNavController())
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        return false
+        setSupportActionBar(toolbar)
+        toolbar.setupWithNavController(
+            nav.findNavController(),
+            AppBarConfiguration(nav_view.menu, drawer)
+        )
+        nav_view.setupWithNavController(nav.findNavController())
     }
 
     override fun onBackPressed() {
