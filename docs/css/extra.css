@@ -29,20 +29,23 @@
     --md-accent-fg-color--dark:  #d63200;
 }
 
-@font-face {
-    font-family: "Sarasa Mono SC";
-    src: local("Sarasa Mono SC") format('truetype'),
-         url('https://gitlab.com/liangjingkanji/fonts/-/raw/master/sarasa-mono/sarasa-mono-sc-regular.ttf') format('truetype');
+@font-face{
+    font-family: 'JetBrains Mono';
+    src: local("JetBrains Mono")
+         url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/web/eot/JetBrainsMono-Regular.eot') format('embedded-opentype'),
+         url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/web/woff2/JetBrainsMono-Regular.woff2') format('woff2'),
+         url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/web/woff/JetBrainsMono-Regular.woff') format('woff'),
+         url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/ttf/JetBrainsMono-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 body, input {
-    font-family: "Sarasa Mono SC", -apple-system, Helvetica, Arial, sans-serif;
+    font-family: "JetBrains Mono", -apple-system, Helvetica, Arial, sans-serif;
 }
 
 pre, code, kbd {
-    font-family: "Sarasa Mono SC", SFMono-Regular, Consolas, Menlo, monospace;
+    font-family: "JetBrains Mono", Consolas, Menlo, monospace;
 }
 
 * {

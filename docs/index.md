@@ -114,3 +114,40 @@ private fun OPTIONS() {
     }
 }
 ```
+
+## 函数
+
+### 异步请求
+即会在IO线程执行网络请求, 要求在作用域内执行
+
+|异步请求函数|描述|
+|-|-|
+| [Get](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-get.md)|标准REST FUL|
+| [Post](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-post.md)|标准REST FUL|
+| [Head](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-head.md)|标准REST FUL|
+| [Options](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-options.md)|标准REST FUL|
+| [Trace](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-trace.md)|标准REST FUL|
+| [Delete](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-delete.md)|标准REST FUL|
+| [Put](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-put.md)|标准REST FUL|
+| [Patch](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-patch.md)|标准REST FUL|
+| [Download](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-download.md)|下载文件(默认Get)|
+| [DownloadBody](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-download-body.md)|下载文件(默认Post, 附带请求体)|
+| [DownloadImage](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-download-image.md)|下载图片(可指定图片大小), 如果使用要求依赖Glide|
+
+### 同步请求
+
+即在当前线程执行, 会阻塞当前线程
+
+|同步请求函数|描述|
+|-|-|
+|syncGet|标准REST FUL|
+|syncPost|标准REST FUL|
+|syncHead|标准REST FUL|
+|syncOptions|标准REST FUL|
+|syncTrace|标准REST FUL|
+|syncDelete|标准REST FUL|
+|syncPut|标准REST FUL|
+|syncPatch|标准REST FUL|
+|syncDownload|下载文件(默认Get)|
+|syncDownloadBody|下载文件(默认Post, 附带请求体)|
+|syncDownloadImage|下载图片(可指定图片大小), 如果使用要求依赖Glide|
