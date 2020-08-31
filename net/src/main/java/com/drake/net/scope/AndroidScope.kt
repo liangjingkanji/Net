@@ -1,8 +1,17 @@
 /*
- * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
- * Project：Net
- * Author：Drake
- * Date：12/20/19 11:51 AM
+ * Copyright (C) 2018 Drake, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.drake.net.scope
@@ -18,8 +27,10 @@ import kotlin.coroutines.EmptyCoroutineContext
  * 异步协程作用域
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING")
-open class AndroidScope(lifecycleOwner: LifecycleOwner? = null,
-                        lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY) : CoroutineScope {
+open class AndroidScope(
+    lifecycleOwner: LifecycleOwner? = null,
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
+) : CoroutineScope {
 
     init {
         lifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
@@ -40,12 +51,12 @@ open class AndroidScope(lifecycleOwner: LifecycleOwner? = null,
     val uid = exceptionHandler
 
     override val coroutineContext: CoroutineContext =
-            Dispatchers.Main + exceptionHandler + SupervisorJob()
+        Dispatchers.Main + exceptionHandler + SupervisorJob()
 
 
     open fun launch(
-            block: suspend CoroutineScope.() -> Unit
-                   ): AndroidScope {
+        block: suspend CoroutineScope.() -> Unit
+    ): AndroidScope {
         start()
         launch(EmptyCoroutineContext, block = block).invokeOnCompletion { finally(it) }
         return this
@@ -59,6 +70,9 @@ open class AndroidScope(lifecycleOwner: LifecycleOwner? = null,
         catch?.invoke(this, e) ?: handleError(e)
     }
 
+    /**
+     * @param e 如果发生异常导致作用域执行完毕, 则该参数为该异常对象, 正常结束则为null
+     */
     protected open fun finally(e: Throwable?) {
         finally?.invoke(this, e)
     }
@@ -89,12 +103,14 @@ open class AndroidScope(lifecycleOwner: LifecycleOwner? = null,
 
     open fun cancel(cause: CancellationException? = null) {
         val job = coroutineContext[Job]
-                  ?: error("Scope cannot be cancelled because it does not have a job: $this")
+            ?: error("Scope cannot be cancelled because it does not have a job: $this")
         job.cancel(cause)
     }
 
-    open fun cancel(message: String,
-                    cause: Throwable? = null) = cancel(CancellationException(message, cause))
+    open fun cancel(
+        message: String,
+        cause: Throwable? = null
+    ) = cancel(CancellationException(message, cause))
 
 }
 

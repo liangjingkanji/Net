@@ -4,11 +4,13 @@
 
 `open class SavedViewModel : ViewModel`
 
+继承这个类可以快速创建具备saveInstance的ViewModel
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `SavedViewModel(saved: SavedStateHandle)` |
+| [&lt;init&gt;](-init-.md) | 继承这个类可以快速创建具备saveInstance的ViewModel`SavedViewModel(saved: SavedStateHandle)` |
 
 ### Properties
 

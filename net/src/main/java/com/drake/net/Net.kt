@@ -1,8 +1,17 @@
 /*
- * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
- * Project：Net
- * Author：Drake
- * Date：9/16/19 12:54 AM
+ * Copyright (C) 2018 Drake, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 @file:Suppress("unused", "FunctionName")
@@ -26,13 +35,15 @@ import java.net.SocketException
 
 // <editor-fold desc="异步请求">
 
+
 /**
  * 异步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ *
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> CoroutineScope.Get(
     path: String,
@@ -41,12 +52,8 @@ inline fun <reified M> CoroutineScope.Get(
     absolutePath: Boolean = false,
     uid: Any? = coroutineContext[CoroutineExceptionHandler],
     noinline block: SimpleUrlRequest.Api.() -> Unit = {}
-): Deferred<M> = async(Dispatchers.IO) {
+): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
-
-    coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
-    }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
@@ -69,11 +76,12 @@ inline fun <reified M> CoroutineScope.Get(
 
 /**
  * 异步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ *
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> CoroutineScope.Post(
     path: String,
@@ -82,21 +90,16 @@ inline fun <reified M> CoroutineScope.Post(
     absolutePath: Boolean = false,
     uid: Any? = coroutineContext[CoroutineExceptionHandler],
     noinline block: SimpleBodyRequest.Api.() -> Unit = {}
-): Deferred<M> =
-    async(Dispatchers.IO) {
-        if (!isActive) throw CancellationException()
+): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
+    if (!isActive) throw CancellationException()
 
-        coroutineContext[Job]?.invokeOnCompletion {
-            if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
-        }
+    val realPath = if (absolutePath) path else (NetConfig.host + path)
 
-        val realPath = if (absolutePath) path else (NetConfig.host + path)
-
-        val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.POST)
-            .tag(tag)
-            .uid(uid)
-            .cacheKey(path)
-            .cacheMode(cache)
+    val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.POST)
+        .tag(tag)
+        .uid(uid)
+        .cacheKey(path)
+        .cacheMode(cache)
 
         val response = try {
             request.apply(block)
@@ -111,11 +114,11 @@ inline fun <reified M> CoroutineScope.Post(
 
 /**
  * 异步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> CoroutineScope.Head(
     path: String,
@@ -124,12 +127,8 @@ inline fun <reified M> CoroutineScope.Head(
     absolutePath: Boolean = false,
     uid: Any? = coroutineContext[CoroutineExceptionHandler],
     noinline block: SimpleUrlRequest.Api.() -> Unit = {}
-): Deferred<M> = async(Dispatchers.IO) {
+): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
-
-    coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
-    }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
@@ -151,11 +150,11 @@ inline fun <reified M> CoroutineScope.Head(
 
 /**
  * 异步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> CoroutineScope.Options(
     path: String,
@@ -164,12 +163,8 @@ inline fun <reified M> CoroutineScope.Options(
     absolutePath: Boolean = false,
     uid: Any? = coroutineContext[CoroutineExceptionHandler],
     noinline block: SimpleUrlRequest.Api.() -> Unit = {}
-): Deferred<M> = async(Dispatchers.IO) {
+): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
-
-    coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
-    }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
@@ -191,11 +186,11 @@ inline fun <reified M> CoroutineScope.Options(
 
 /**
  * 异步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> CoroutineScope.Trace(
     path: String,
@@ -204,12 +199,8 @@ inline fun <reified M> CoroutineScope.Trace(
     absolutePath: Boolean = false,
     uid: Any? = coroutineContext[CoroutineExceptionHandler],
     noinline block: SimpleUrlRequest.Api.() -> Unit = {}
-): Deferred<M> = async(Dispatchers.IO) {
+): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
-
-    coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
-    }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
@@ -231,11 +222,11 @@ inline fun <reified M> CoroutineScope.Trace(
 
 /**
  * 异步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> CoroutineScope.Delete(
     path: String,
@@ -244,12 +235,8 @@ inline fun <reified M> CoroutineScope.Delete(
     absolutePath: Boolean = false,
     uid: Any? = coroutineContext[CoroutineExceptionHandler],
     noinline block: SimpleBodyRequest.Api.() -> Unit = {}
-): Deferred<M> = async(Dispatchers.IO) {
+): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
-
-    coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
-    }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
@@ -271,11 +258,11 @@ inline fun <reified M> CoroutineScope.Delete(
 
 /**
  * 异步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> CoroutineScope.Put(
     path: String,
@@ -284,12 +271,8 @@ inline fun <reified M> CoroutineScope.Put(
     absolutePath: Boolean = false,
     uid: Any? = coroutineContext[CoroutineExceptionHandler],
     noinline block: SimpleBodyRequest.Api.() -> Unit = {}
-): Deferred<M> = async(Dispatchers.IO) {
+): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
-
-    coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
-    }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
@@ -314,11 +297,11 @@ inline fun <reified M> CoroutineScope.Put(
 
 /**
  * 异步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> CoroutineScope.Patch(
     path: String,
@@ -327,12 +310,8 @@ inline fun <reified M> CoroutineScope.Patch(
     absolutePath: Boolean = false,
     uid: Any? = coroutineContext[CoroutineExceptionHandler],
     noinline block: SimpleBodyRequest.Api.() -> Unit = {}
-): Deferred<M> = async(Dispatchers.IO) {
+): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
-
-    coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null) NetCancel.cancel(uid) else NetCancel.remove(uid)
-    }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
@@ -355,10 +334,10 @@ inline fun <reified M> CoroutineScope.Patch(
 /**
  * 用于提交URL体下载文件(默认GET请求)
  *
- * @param path  网络路径, 非绝对路径会加上HOST[NetConfig.host]为前缀
+ * @param path  请求路径, 非绝对路径会加上HOST[NetConfig.host]为前缀
  * @param method 请求方式, 默认GET
  * @param dir  下载文件存放目录 {默认存在android/data/packageName/cache目录}
- * @param tag 可以传递对象给Request请求
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
  * @param absolutePath  下载链接是否是绝对路径
  * @param block 请求参数
  */
@@ -370,18 +349,12 @@ fun CoroutineScope.Download(
     method: RequestMethod = RequestMethod.GET,
     uid: Any? = coroutineContext[CoroutineExceptionHandler],
     block: UrlDownload.Api.() -> Unit = {}
-): Deferred<String> = async(Dispatchers.IO) {
+): Deferred<String> = async(Dispatchers.IO + SupervisorJob()) {
 
     if (!isActive) throw CancellationException()
 
     if (method == RequestMethod.POST || method == RequestMethod.DELETE || method == RequestMethod.PUT || method == RequestMethod.PATCH) {
         throw UnsupportedOperationException("You should use [DownloadBody] function")
-    }
-
-    coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null && it !is CancellationException) NetCancel.cancel(uid) else NetCancel.remove(
-            uid
-        )
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -400,10 +373,10 @@ fun CoroutineScope.Download(
 /**
  * 用于提交请求体下载文件(默认POST请求)
  *
- * @param path  网络路径, 非绝对路径会加上HOST[NetConfig.host]为前缀
+ * @param path  请求路径, 非绝对路径会加上HOST[NetConfig.host]为前缀
  * @param method 请求方式, 默认GET
  * @param dir  下载文件存放目录 {默认存在android/data/packageName/cache目录}
- * @param tag 可以传递对象给Request请求
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
  * @param absolutePath  下载链接是否是绝对路径
  * @param block 配置请求参数
  */
@@ -415,18 +388,12 @@ fun CoroutineScope.DownloadBody(
     method: RequestMethod = RequestMethod.POST,
     uid: Any? = coroutineContext[CoroutineExceptionHandler],
     block: BodyDownload.Api.() -> Unit = {}
-): Deferred<String> = async(Dispatchers.IO) {
+): Deferred<String> = async(Dispatchers.IO + SupervisorJob()) {
 
     if (!isActive) throw CancellationException()
 
     if (method == RequestMethod.GET || method == RequestMethod.HEAD || method == RequestMethod.OPTIONS || method == RequestMethod.TRACE) {
         throw UnsupportedOperationException("You should use [Download] function")
-    }
-
-    coroutineContext[Job]?.invokeOnCompletion {
-        if (it != null && it !is CancellationException) NetCancel.cancel(uid) else NetCancel.remove(
-            uid
-        )
     }
 
     val realPath = if (absolutePath) path else (NetConfig.host + path)
@@ -451,7 +418,7 @@ fun CoroutineScope.DownloadBody(
  * @param height 图片高度
  */
 fun CoroutineScope.DownloadImage(url: String, with: Int = -1, height: Int = -1): Deferred<File> =
-    async(Dispatchers.IO) {
+    async(Dispatchers.IO + SupervisorJob()) {
 
         val download = Glide.with(NetConfig.app).download(url)
 
@@ -470,11 +437,12 @@ fun CoroutineScope.DownloadImage(url: String, with: Int = -1, height: Int = -1):
 
 /**
  * 同步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ *
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> syncGet(
     path: String,
@@ -505,11 +473,11 @@ inline fun <reified M> syncGet(
 
 /**
  * 同步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> syncPost(
     path: String,
@@ -540,11 +508,11 @@ inline fun <reified M> syncPost(
 
 /**
  * 同步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> syncHead(
     path: String,
@@ -575,11 +543,11 @@ inline fun <reified M> syncHead(
 
 /**
  * 同步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> syncOptions(
     path: String,
@@ -610,11 +578,11 @@ inline fun <reified M> syncOptions(
 
 /**
  * 同步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> syncTrace(
     path: String,
@@ -645,11 +613,11 @@ inline fun <reified M> syncTrace(
 
 /**
  * 同步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> syncDelete(
     path: String,
@@ -680,11 +648,11 @@ inline fun <reified M> syncDelete(
 
 /**
  * 同步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> syncPut(
     path: String,
@@ -715,11 +683,11 @@ inline fun <reified M> syncPut(
 
 /**
  * 同步网络请求
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 inline fun <reified M> syncPatch(
     path: String,
@@ -749,12 +717,13 @@ inline fun <reified M> syncPatch(
 }
 
 /**
- * 同步文件下载(默认Get请求)
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * 同步文件下载, 默认Get请求
+ *
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 fun syncDownload(
     path: String,
@@ -776,12 +745,13 @@ fun syncDownload(
 }
 
 /**
- * 同步文件下载, 以提交请求体方式(默认Post请求)
- * @param path String 网络路径, 非绝对路径会加上[NetConfig.host]为前缀
- * @param tag 可以传递对象给Request请求
- * @param absolutePath Path是否是绝对路径
- * @param uid 表示请求的唯一id
- * @param block 配置参数lambda
+ * 同步文件下载, 允许提交请求体方式, 默认Post请求
+ *
+ * @param path String 请求路径, 非绝对路径会加上[NetConfig.host]为前缀
+ * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param absolutePath 请求路径是否是绝对路径
+ * @param uid 表示请求的唯一id, 和[NetCancel.cancel]中的uid一致, 一般用于指定取消网络请求的唯一id
+ * @param block 函数中可以配置请求参数
  */
 fun syncDownloadBody(
     path: String,

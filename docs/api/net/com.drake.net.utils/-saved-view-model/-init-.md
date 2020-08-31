@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `SavedViewModel(saved: SavedStateHandle)`
+
+继承这个类可以快速创建具备saveInstance的ViewModel
+

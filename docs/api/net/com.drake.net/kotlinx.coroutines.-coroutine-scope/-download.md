@@ -8,13 +8,13 @@
 
 ### Parameters
 
-`path` - 网络路径, 非绝对路径会加上HOST[NetConfig.host](../-net-config/host.md)为前缀
+`path` - 请求路径, 非绝对路径会加上HOST[NetConfig.host](../-net-config/host.md)为前缀
 
 `method` - 请求方式, 默认GET
 
 `dir` - 下载文件存放目录 {默认存在android/data/packageName/cache目录}
 
-`tag` - 可以传递对象给Request请求
+`tag` - 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
 
 `absolutePath` - 下载链接是否是绝对路径
 

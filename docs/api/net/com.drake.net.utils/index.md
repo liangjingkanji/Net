@@ -6,7 +6,7 @@
 
 | Name | Summary |
 |---|---|
-| [SavedViewModel](-saved-view-model/index.md) | `open class SavedViewModel : ViewModel` |
+| [SavedViewModel](-saved-view-model/index.md) | 继承这个类可以快速创建具备saveInstance的ViewModel`open class SavedViewModel : ViewModel` |
 
 ### Extensions for External Classes
 

@@ -159,6 +159,8 @@ Created by Zhenjie Yan on 2016/10/15.
 
 ##### [com.drake.net.utils.SavedViewModel](../com.drake.net.utils/-saved-view-model/index.md)
 
+继承这个类可以快速创建具备saveInstance的ViewModel
+
 
 |
 

@@ -1,8 +1,17 @@
 /*
- * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
- * Project：Net
- * Author：Drake
- * Date：12/20/19 7:16 PM
+ * Copyright (C) 2018 Drake, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.drake.net.utils
@@ -15,8 +24,9 @@ import androidx.lifecycle.LifecycleOwner
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.scope.*
 import com.drake.statelayout.StateLayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.InternalCoroutinesApi
+import com.yanzhenjie.kalle.NetCancel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 
@@ -35,13 +45,17 @@ import kotlinx.coroutines.flow.FlowCollector
  *
  * 对话框被取消或者界面关闭作用域被取消
  */
-fun FragmentActivity.scopeDialog(dialog: Dialog? = null,
-                                 cancelable: Boolean = true,
-                                 block: suspend CoroutineScope.() -> Unit) = DialogCoroutineScope(this, dialog, cancelable).launch(block)
+fun FragmentActivity.scopeDialog(
+    dialog: Dialog? = null,
+    cancelable: Boolean = true,
+    block: suspend CoroutineScope.() -> Unit
+) = DialogCoroutineScope(this, dialog, cancelable).launch(block)
 
-fun Fragment.scopeDialog(dialog: Dialog? = null,
-                         cancelable: Boolean = true,
-                         block: suspend CoroutineScope.() -> Unit) = DialogCoroutineScope(requireActivity(), dialog, cancelable).launch(block)
+fun Fragment.scopeDialog(
+    dialog: Dialog? = null,
+    cancelable: Boolean = true,
+    block: suspend CoroutineScope.() -> Unit
+) = DialogCoroutineScope(requireActivity(), dialog, cancelable).launch(block)
 
 // </editor-fold>
 
@@ -91,11 +105,15 @@ fun scope(block: suspend CoroutineScope.() -> Unit): AndroidScope {
     return AndroidScope().launch(block)
 }
 
-fun LifecycleOwner.scopeLife(lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-                             block: suspend CoroutineScope.() -> Unit) = AndroidScope(this, lifeEvent).launch(block)
+fun LifecycleOwner.scopeLife(
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+    block: suspend CoroutineScope.() -> Unit
+) = AndroidScope(this, lifeEvent).launch(block)
 
-fun Fragment.scopeLife(lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
-                       block: suspend CoroutineScope.() -> Unit) = AndroidScope(this, lifeEvent).launch(block)
+fun Fragment.scopeLife(
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
+    block: suspend CoroutineScope.() -> Unit
+) = AndroidScope(this, lifeEvent).launch(block)
 
 /**
  * 网络请求的异步作用域
@@ -106,23 +124,55 @@ fun Fragment.scopeLife(lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
 fun scopeNet(block: suspend CoroutineScope.() -> Unit) = NetCoroutineScope().launch(block)
 
 
-fun LifecycleOwner.scopeNetLife(lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-                                block: suspend CoroutineScope.() -> Unit) = NetCoroutineScope(this, lifeEvent).launch(block)
+fun LifecycleOwner.scopeNetLife(
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+    block: suspend CoroutineScope.() -> Unit
+) = NetCoroutineScope(this, lifeEvent).launch(block)
 
 /**
  * Fragment应当在[Lifecycle.Event.ON_STOP]时就取消作用域, 避免[Fragment.onDestroyView]导致引用空视图
  */
-fun Fragment.scopeNetLife(lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
-                          block: suspend CoroutineScope.() -> Unit) = NetCoroutineScope(this, lifeEvent).launch(block)
+fun Fragment.scopeNetLife(
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
+    block: suspend CoroutineScope.() -> Unit
+) = NetCoroutineScope(this, lifeEvent).launch(block)
 
 
 @UseExperimental(InternalCoroutinesApi::class)
-inline fun <T> Flow<T>.scope(owner: LifecycleOwner? = null,
-                             event: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-                             crossinline action: suspend (value: T) -> Unit): CoroutineScope = AndroidScope(owner, event).launch {
+inline fun <T> Flow<T>.scope(
+    owner: LifecycleOwner? = null,
+    event: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+    crossinline action: suspend (value: T) -> Unit
+): CoroutineScope = AndroidScope(owner, event).launch {
     this@scope.collect(object : FlowCollector<T> {
         override suspend fun emit(value: T) = action(value)
     })
+}
+
+
+/**
+ * 该函数将选择[deferredArray]中的Deferred执行[Deferred.await], 然后将返回最快的结果
+ * 执行过程中的异常将被忽略, 如果全部抛出异常则将抛出最后一个Deferred的异常
+ *
+ * @param deferredArray 一系列并发任务
+ */
+@Suppress("SuspendFunctionOnCoroutineScope")
+suspend fun <T> CoroutineScope.fastest(vararg deferredArray: Deferred<T>): T {
+    val chan = Channel<T>()
+    deferredArray.forEach {
+        launch {
+            try {
+                val result = it.await()
+                NetCancel.cancel(coroutineContext[CoroutineExceptionHandler])
+                chan.send(result)
+            } catch (e: Exception) {
+                it.cancel()
+                val allFail = deferredArray.all { it.isCancelled }
+                if (allFail) throw e else e.printStackTrace()
+            }
+        }
+    }
+    return chan.receive()
 }
 
 

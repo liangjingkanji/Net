@@ -3,3 +3,6 @@
 # getSavedModel
 
 `fun <reified M : ViewModel> Fragment.getSavedModel(): M`
+
+返回当前组件指定的SavedViewModel
+

@@ -4,4 +4,4 @@
 
 | Name | Summary |
 |---|---|
-| [getViewModel](get-view-model.md) | `fun <M : ViewModel> ViewModelStoreOwner.getViewModel(): M` |
+| [getViewModel](get-view-model.md) | 返回当前组件指定的ViewModel`fun <M : ViewModel> ViewModelStoreOwner.getViewModel(): M` |

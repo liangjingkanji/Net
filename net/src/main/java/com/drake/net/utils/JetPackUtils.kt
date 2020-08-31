@@ -1,8 +1,17 @@
 /*
- * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
- * Project：Net
- * Author：Drake
- * Date：2/15/20 4:30 AM
+ * Copyright (C) 2018 Drake, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.drake.net.utils
@@ -18,7 +27,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 /**
- * 迭代Cursor
+ * 方便迭代Cursor, 针对数据库的便携函数
  */
 fun Cursor.foreach(block: Cursor.() -> Unit) {
     if (count == 0) {
@@ -33,7 +42,7 @@ fun Cursor.foreach(block: Cursor.() -> Unit) {
 }
 
 /**
- * 观察LiveData
+ * 快速创建LiveData的观察者
  */
 fun <M> LifecycleOwner.observe(liveData: LiveData<M>?, block: M?.() -> Unit) {
     liveData?.observe(this, Observer { it.block() })
@@ -43,9 +52,11 @@ fun <M> LifecycleOwner.observe(liveData: LiveData<M>?, block: M?.() -> Unit) {
  * 监听数据库
  */
 @UseExperimental(ExperimentalCoroutinesApi::class)
-fun <T> Flow<List<T>>.listen(lifecycleOwner: LifecycleOwner? = null,
-                             lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-                             block: (List<T>) -> Unit) {
+fun <T> Flow<List<T>>.listen(
+    lifecycleOwner: LifecycleOwner? = null,
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+    block: (List<T>) -> Unit
+) {
     AndroidScope(lifecycleOwner, lifeEvent).launch {
         distinctUntilChanged().collect { data ->
             withMain {
@@ -55,20 +66,34 @@ fun <T> Flow<List<T>>.listen(lifecycleOwner: LifecycleOwner? = null,
     }
 }
 
+/**
+ * 继承这个类可以快速创建具备saveInstance的ViewModel
+ */
 open class SavedViewModel(var saved: SavedStateHandle) : ViewModel()
 
+/**
+ * 返回当前组件指定的ViewModel
+ */
 inline fun <reified M : ViewModel> ViewModelStoreOwner.getViewModel(): M {
     return ViewModelProvider(this).get(M::class.java)
 }
 
+/**
+ * 返回当前组件指定的SavedViewModel
+ */
 inline fun <reified M : ViewModel> FragmentActivity.getSavedModel(): M {
     return ViewModelProvider(
-            this,
-            SavedStateViewModelFactory(application, this)
-                            ).get(M::class.java)
+        this,
+        SavedStateViewModelFactory(application, this)
+    ).get(M::class.java)
 }
 
-
+/**
+ * 返回当前组件指定的SavedViewModel
+ */
 inline fun <reified M : ViewModel> Fragment.getSavedModel(): M {
-    return ViewModelProvider(this, SavedStateViewModelFactory(activity!!.application, this)).get(M::class.java)
+    return ViewModelProvider(
+        this,
+        SavedStateViewModelFactory(activity!!.application, this)
+    ).get(M::class.java)
 }

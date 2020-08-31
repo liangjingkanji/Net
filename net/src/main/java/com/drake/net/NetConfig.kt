@@ -1,8 +1,17 @@
 /*
- * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
- * Project：Net
- * Author：Drake
- * Date：9/16/19 12:54 AM
+ * Copyright (C) 2018 Drake, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.drake.net
@@ -34,7 +43,7 @@ import java.util.concurrent.ExecutionException
 /**
  * Net的全局配置
  *
- * @property host 域名或者ip(baseUrl)
+ * @property host 全局的域名或者ip(baseUrl)
  * @property app 全局上下文, 一般执行[initNet]即可, 无需手动赋值
  * @property onDialog 全局加载框
  * @property onError 全局错误处理

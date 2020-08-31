@@ -1,8 +1,17 @@
 /*
- * Copyright (C) 2018, Umbrella CompanyLimited All rights reserved.
- * Project：Net
- * Author：Drake
- * Date：12/20/19 9:26 PM
+ * Copyright (C) 2018 Drake, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.drake.net.scope
@@ -36,8 +45,10 @@ open class NetCoroutineScope() : AndroidScope() {
 
     var animate: Boolean = false
 
-    constructor(lifecycleOwner: LifecycleOwner,
-                lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY) : this() {
+    constructor(
+        lifecycleOwner: LifecycleOwner,
+        lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
+    ) : this() {
         lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 if (lifeEvent == event) cancel()
@@ -66,8 +77,14 @@ open class NetCoroutineScope() : AndroidScope() {
         return this
     }
 
+    override fun finally(e: Throwable?) {
+        super.finally(e)
+        NetCancel.cancel(uid)
+    }
+
     /**
      * 读取缓存回调
+     * @param succeed 缓存是否成功
      */
     protected open fun readCache(succeed: Boolean) {}
 
@@ -90,9 +107,11 @@ open class NetCoroutineScope() : AndroidScope() {
      * @param animate 是否在缓存成功后依然显示加载动画
      * @param onCache 该作用域内的所有异常都算缓存读取失败, 不会吐司和打印任何错误
      */
-    fun cache(error: Boolean = false,
-              animate: Boolean = false,
-              onCache: suspend CoroutineScope.() -> Unit): AndroidScope {
+    fun cache(
+        error: Boolean = false,
+        animate: Boolean = false,
+        onCache: suspend CoroutineScope.() -> Unit
+    ): AndroidScope {
         this.animate = animate
         this.error = error
         this.onCache = onCache

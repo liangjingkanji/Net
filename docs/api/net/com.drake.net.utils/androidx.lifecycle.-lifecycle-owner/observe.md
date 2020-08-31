@@ -4,5 +4,5 @@
 
 `fun <M> LifecycleOwner.observe(liveData: LiveData<M>?, block: M?.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
-观察LiveData
+快速创建LiveData的观察者
 

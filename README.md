@@ -23,7 +23,7 @@ Android上 最强网络任务库, 创新式的网络请求库(针对[Kalle](http
 
 
 
-Net 1.0+ 版本为RxJava实现
+Net 1.0+ 版本为RxJava实现 <br>
 Net 2.0+ 版本开始引入Kotlin协程特性, 开发者无需掌握协程也可以使用
 
 
@@ -54,6 +54,7 @@ Net 2.0+ 版本开始引入Kotlin协程特性, 开发者无需掌握协程也可
 - 自动处理加载对话框
 - 协程作用域支持错误和结束回调
 - 支持先强制读取缓存后网络请求二次刷新
+- 多个并发请求返回最快请求结果
 - 附带超强轮循器
 
 
@@ -101,9 +102,9 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 
 // 支持自动下拉刷新和缺省页的(可选)
-implementation 'com.github.liangjingkanji:BRV:1.3.6'
+implementation 'com.github.liangjingkanji:BRV:1.3.8'
 
-implementation 'com.github.liangjingkanji:Net:2.2.7'
+implementation 'com.github.liangjingkanji:Net:2.2.8'
 ```
 
 <br>

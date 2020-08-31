@@ -1,11 +1,11 @@
 /*
- * Copyright © 2018 Zhenjie Yan.
+ * Copyright (C) 2018 Drake, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,7 +47,8 @@ public class Call {
      * Execute request.
      */
     public Response execute() throws IOException {
-        if (isCanceled) throw new CancellationException("The request has been cancelled.");
+        if (isCanceled)
+            throw new CancellationException("The request has been cancelled [" + mRequest.location() + "]");
         isExecuted = true;
 
         List<Interceptor> interceptors = new ArrayList<>(Kalle.getConfig().getInterceptor());
@@ -59,7 +60,7 @@ public class Call {
             return chain.proceed(mRequest);
         } catch (Exception e) {
             if (isCanceled) {
-                throw new CancellationException("The request has been cancelled.");
+                throw new CancellationException("The request has been cancelled [" + mRequest.location() + "]");
             } else {
                 throw e;
             }

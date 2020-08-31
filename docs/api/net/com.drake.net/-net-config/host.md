@@ -4,8 +4,8 @@
 
 `lateinit var host: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
-域名或者ip(baseUrl)
+全局的域名或者ip(baseUrl)
 
 ### Property
 
-`host` - 域名或者ip(baseUrl)
+`host` - 全局的域名或者ip(baseUrl)
