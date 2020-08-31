@@ -2,7 +2,9 @@
 
 <p align="center"><img src="https://i.imgur.com/YRdJdzG.jpg" width="50%"/></p>
 
-<p align="center"><strong>不仅仅是网络请求的异步任务库</strong></p><br>
+<p align="center"><strong>不仅仅是网络请求的异步任务库</strong></p>
+
+<img src="https://i.imgur.com/NFL3tTk.jpg" width="60%"/>
 
 <p align="center">
 <a href="https://jitpack.io/#liangjingkanji/Net"><img src="https://jitpack.io/v/liangjingkanji/Net.svg"/></a>
