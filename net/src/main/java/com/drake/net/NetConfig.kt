@@ -26,7 +26,6 @@ import com.drake.net.NetConfig.host
 import com.drake.net.NetConfig.onDialog
 import com.drake.net.NetConfig.onError
 import com.drake.net.NetConfig.onStateError
-import com.drake.net.connect.OkHttpConnectFactory
 import com.drake.net.error.RequestParamsException
 import com.drake.net.error.ResponseException
 import com.drake.net.error.ServerResponseException
@@ -111,7 +110,6 @@ fun Application.initNet(host: String, config: KalleConfig.Builder.() -> Unit = {
     NetConfig.app = this
     val builder = KalleConfig.newBuilder()
     builder.apply {
-        connectFactory(OkHttpConnectFactory.newBuilder().build())
         network(BroadcastNetwork(this@initNet))
         config()
     }

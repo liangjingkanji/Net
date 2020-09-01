@@ -63,7 +63,6 @@ dependencies {
 
 
     api project(path: ':kalle')
-    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.12.12'
 
     implementation "com.github.liangjingkanji:Tooltip:1.0.4"
 
