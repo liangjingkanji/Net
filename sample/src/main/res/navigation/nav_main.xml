@@ -18,7 +18,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    app:startDestination="@id/request_method">
+    app:startDestination="@id/fastest">
 
     <fragment
         android:id="@+id/async_task"
@@ -112,9 +112,9 @@
         android:label="上传文件"
         tools:layout="@layout/fragment_upload_file" />
     <fragment
-        android:id="@+id/fast_select"
-        android:name="com.drake.net.sample.ui.fragment.FastSelectFragment"
-        android:label="最快选择"
-        tools:layout="@layout/fragment_fast_select" />
+        android:id="@+id/fastest"
+        android:name="com.drake.net.sample.ui.fragment.FastestFragment"
+        android:label="最快请求"
+        tools:layout="@layout/fragment_fastest" />
 
 </navigation>

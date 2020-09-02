@@ -6,3 +6,6 @@
 
 读取缓存回调
 
+### Parameters
+
+`succeed` - 缓存是否成功

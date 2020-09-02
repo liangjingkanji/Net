@@ -23,12 +23,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.scope.*
+import com.drake.net.transform.DeferredTransform
 import com.drake.statelayout.StateLayout
 import com.yanzhenjie.kalle.NetCancel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * 作用域内部全在主线程
@@ -169,6 +172,42 @@ suspend fun <T> CoroutineScope.fastest(vararg deferredArray: Deferred<T>): T {
                 it.cancel()
                 val allFail = deferredArray.all { it.isCancelled }
                 if (allFail) throw e else e.printStackTrace()
+            }
+        }
+    }
+    return chan.receive()
+}
+
+/**
+ * 该函数将选择[deferredArray]中的Deferred执行[Deferred.await], 然后将返回最快的结果
+ * 执行过程中的异常将被忽略, 如果全部抛出异常则将抛出最后一个Deferred的异常
+ *
+ * @see DeferredTransform 允许监听[Deferred]返回数据回调
+ * @param deferredArray 一系列并发任务
+ */
+@OptIn(ExperimentalCoroutinesApi::class)
+@Suppress("SuspendFunctionOnCoroutineScope")
+suspend fun <T> CoroutineScope.fastest(vararg deferredArray: DeferredTransform<T>): T {
+    val chan = Channel<T>()
+    val mutex = Mutex()
+    deferredArray.forEach {
+        launch(Dispatchers.IO) {
+            try {
+                val result = it.deferred.await()
+                NetCancel.cancel(coroutineContext[CoroutineExceptionHandler])
+                mutex.withLock {
+                    if (!chan.isClosedForSend) {
+                        val transformResult = it.block(result)
+                        chan.send(transformResult)
+                        chan.close()
+                    }
+                }
+            } catch (e: Exception) {
+                it.deferred.cancel()
+                val allFail = deferredArray.all { it.deferred.isCancelled }
+                if (allFail) throw e else e.printStackTrace()
+            } finally {
+                chan.close()
             }
         }
     }

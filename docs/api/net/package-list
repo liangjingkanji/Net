@@ -18,6 +18,9 @@ $dokka.location:com.drake.net$onError(com.yanzhenjie.kalle.KalleConfig.Builder, 
 $dokka.location:com.drake.net$onStateError(com.yanzhenjie.kalle.KalleConfig.Builder, kotlin.Function2((kotlin.Throwable, android.view.View, kotlin.Unit)))com.drake.net/com.yanzhenjie.kalle.-kalle-config.-builder/on-state-error.md
 $dokka.location:com.drake.net$syncDownloadImage(android.content.Context, kotlin.String, kotlin.Int, kotlin.Int)com.drake.net/android.content.-context/sync-download-image.md
 $dokka.location:com.drake.net.error$NetCancellationException(kotlinx.coroutines.CoroutineScope, kotlin.String)com.drake.net.error/kotlinx.coroutines.-coroutine-scope/-net-cancellation-exception.md
+$dokka.location:com.drake.net.transform$transform(kotlinx.coroutines.Deferred((com.drake.net.transform.transform.T)), kotlin.Function1((com.drake.net.transform.transform.T, )))com.drake.net.transform/kotlinx.coroutines.-deferred/transform.md
+$dokka.location:com.drake.net.utils$fastest(kotlinx.coroutines.CoroutineScope, kotlin.Array((com.drake.net.transform.DeferredTransform((com.drake.net.utils.fastest.T)))))com.drake.net.utils/kotlinx.coroutines.-coroutine-scope/fastest.md
+$dokka.location:com.drake.net.utils$fastest(kotlinx.coroutines.CoroutineScope, kotlin.Array((kotlinx.coroutines.Deferred((com.drake.net.utils.fastest.T)))))com.drake.net.utils/kotlinx.coroutines.-coroutine-scope/fastest.md
 $dokka.location:com.drake.net.utils$foreach(android.database.Cursor, kotlin.Function1((android.database.Cursor, kotlin.Unit)))com.drake.net.utils/android.database.-cursor/foreach.md
 $dokka.location:com.drake.net.utils$getSavedModel(androidx.fragment.app.Fragment)com.drake.net.utils/androidx.fragment.app.-fragment/get-saved-model.md
 $dokka.location:com.drake.net.utils$getSavedModel(androidx.fragment.app.FragmentActivity)com.drake.net.utils/androidx.fragment.app.-fragment-activity/get-saved-model.md
@@ -34,10 +37,10 @@ $dokka.location:com.drake.net.utils$scopeLife(androidx.lifecycle.LifecycleOwner,
 $dokka.location:com.drake.net.utils$scopeNetLife(androidx.fragment.app.Fragment, androidx.lifecycle.Lifecycle.Event, kotlin.coroutines.SuspendFunction1((kotlinx.coroutines.CoroutineScope, kotlin.Unit)))com.drake.net.utils/androidx.fragment.app.-fragment/scope-net-life.md
 $dokka.location:com.drake.net.utils$scopeNetLife(androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event, kotlin.coroutines.SuspendFunction1((kotlinx.coroutines.CoroutineScope, kotlin.Unit)))com.drake.net.utils/androidx.lifecycle.-lifecycle-owner/scope-net-life.md
 com.drake.net
-com.drake.net.connect
 com.drake.net.convert
 com.drake.net.error
 com.drake.net.scope
 com.drake.net.tag
 com.drake.net.time
+com.drake.net.transform
 com.drake.net.utils

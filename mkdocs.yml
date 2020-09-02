@@ -52,8 +52,7 @@ nav:
   - 下载文件: download-file.md
   - 下载图片: download-image.md
   - 读取缓存: read-cache.md
-  - 最快选择: fast-select.md
+  - 最快选择: fastest.md
   - 取消请求: cancel.md
   - 轮循器: interval.md
-  #  - 日志: log.md
   - 2.x文档: api/net/index.md

@@ -19,6 +19,7 @@
 | [androidx.lifecycle.ViewModelStoreOwner](androidx.lifecycle.-view-model-store-owner/index.md) |  |
 | [com.drake.brv.PageRefreshLayout](com.drake.brv.-page-refresh-layout/index.md) |  |
 | [com.drake.statelayout.StateLayout](com.drake.statelayout.-state-layout/index.md) |  |
+| [kotlinx.coroutines.CoroutineScope](kotlinx.coroutines.-coroutine-scope/index.md) |  |
 | [kotlinx.coroutines.flow.Flow](kotlinx.coroutines.flow.-flow/index.md) |  |
 
 ### Functions

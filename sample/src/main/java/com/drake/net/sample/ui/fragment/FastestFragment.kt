@@ -26,15 +26,14 @@ import com.drake.net.Post
 import com.drake.net.sample.R
 import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_fast_select.*
+import kotlinx.android.synthetic.main.fragment_fastest.*
 
-class FastSelectFragment : Fragment() {
+class FastestFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_fast_select, container, false)
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_fastest, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -51,5 +50,10 @@ class FastSelectFragment : Fragment() {
             // 只返回最快的请求结果
             tv_fragment.text = fastest(deferred, deferred1, deferred2, deferred3)
         }
+
+        /*
+        假设并发的接口返回的数据类型不同  或者 想要监听最快请求返回的结果回调请使用 [Deferred.transform] 函数
+        具体请看文档 https://liangjingkanji.github.io/Net/fastest/
+        */
     }
 }

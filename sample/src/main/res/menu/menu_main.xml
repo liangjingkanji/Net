@@ -64,8 +64,8 @@
         android:icon="@drawable/ic_read_cache"
         android:title="预读缓存" />
     <item
-        android:id="@+id/fast_select"
-        android:icon="@drawable/ic_fast_select"
+        android:id="@+id/fastest"
+        android:icon="@drawable/ic_fastest"
         android:title="最快选择" />
     <item
         android:id="@+id/state_layout"

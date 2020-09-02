@@ -38,6 +38,11 @@
 
 | (extensions in package com.drake.net.utils)
 
+##### [kotlinx.coroutines.CoroutineScope](../com.drake.net.utils/kotlinx.coroutines.-coroutine-scope/index.md)
+
+
+| (extensions in package com.drake.net.utils)
+
 ##### [android.database.Cursor](../com.drake.net.utils/android.database.-cursor/index.md)
 
 
@@ -46,6 +51,16 @@
 ##### [com.drake.net.convert.DefaultConvert](../com.drake.net.convert/-default-convert/index.md)
 
 默认的转换器实现, 如果不满足需求建议将该文件复制到项目中修改
+
+
+| (extensions in package com.drake.net.transform)
+
+##### [kotlinx.coroutines.Deferred](../com.drake.net.transform/kotlinx.coroutines.-deferred/index.md)
+
+
+|
+
+##### [com.drake.net.transform.DeferredTransform](../com.drake.net.transform/-deferred-transform/index.md)
 
 
 |
@@ -108,13 +123,6 @@ Net的全局配置
 ##### [com.drake.net.scope.NetCoroutineScope](../com.drake.net.scope/-net-coroutine-scope/index.md)
 
 自动显示网络错误信息协程作用域
-
-
-|
-
-##### [com.drake.net.connect.OkHttpConnectFactory](../com.drake.net.connect/-ok-http-connect-factory/index.md)
-
-Created by Zhenjie Yan on 2016/10/15.
 
 
 |
