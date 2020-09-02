@@ -19,11 +19,11 @@ package com.drake.net.transform
 import kotlinx.coroutines.Deferred
 
 
-fun <T> Deferred<T>.transform(block: (T) -> T): DeferredTransform<T> {
+fun <T, R> Deferred<T>.transform(block: (T) -> R): DeferredTransform<T, R> {
     return DeferredTransform(this, block)
 }
 
-data class DeferredTransform<T>(
-    val deferred: Deferred<T>,
-    val block: (T) -> T = { it }
-)
+data class DeferredTransform<T, R>(
+        val deferred: Deferred<T>,
+        val block: (T) -> R
+                                  )
