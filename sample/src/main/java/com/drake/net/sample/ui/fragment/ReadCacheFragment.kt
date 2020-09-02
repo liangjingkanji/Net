@@ -45,9 +45,10 @@ class ReadCacheFragment : Fragment() {
 
         scopeNetLife {
             // 然后执行这里(网络请求)
-            tv_fragment.text = Post<String>("api", cache = CacheMode.NETWORK_YES_THEN_WRITE_CACHE).await()
+            tv_fragment.text =
+                Post<String>("api", cache = CacheMode.NETWORK_YES_THEN_WRITE_CACHE).await()
             Log.d("日志", "网络请求")
-        }.cache {
+        }.preview {
             // 先执行这里(仅读缓存), 任何异常都视为读取缓存失败
             tv_fragment.text = Get<String>("api", cache = CacheMode.READ_CACHE).await()
             Log.d("日志", "读取缓存")

@@ -21,15 +21,15 @@ initNet("http://182.92.97.186/") {
         // 然后执行这里(网络请求)
         tv_fragment.text = Post<String>("api", cache = CacheMode.NETWORK_YES_THEN_WRITE_CACHE).await()
         Log.d("日志", "网络请求")
-    }.cache {
+    }.preview {
         // 先执行这里(仅读缓存), 任何异常都视为读取缓存失败
         tv_fragment.text = Get<String>("api", cache = CacheMode.READ_CACHE).await()
         Log.d("日志", "读取缓存")
     }
     ```
 
-预读模式本质上就是创建一个`cache`附加作用域, 里面的所有异常崩溃都会被静默捕捉(算作缓存失败), 然后再执行scope本身,
-而且一旦缓存读取成功(cache内部无异常)即使网络请求失败也可以不提醒用户任何错误信息(可配置), 其实可以应用于其他场景
+预读模式本质上就是创建一个`preview`附加作用域, 里面的所有异常崩溃都会被静默捕捉(算作缓存失败), 会优先于`scope*`执行, 然后再执行scope本身,
+而且一旦缓存读取成功(`preview`内部无异常)即使网络请求失败也可以不提醒用户任何错误信息(可配置), 其实可以应用于其他场景
 
 <br>
 

@@ -35,10 +35,10 @@ import kotlin.coroutines.EmptyCoroutineContext
 open class NetCoroutineScope() : AndroidScope() {
 
     protected var isReadCache = true
-    protected var onCache: (suspend CoroutineScope.() -> Unit)? = null
+    protected var preview: (suspend CoroutineScope.() -> Unit)? = null
 
     protected var isCacheSucceed = false
-        get() = if (onCache != null) field else false
+        get() = if (preview != null) field else false
 
     protected var error = true
         get() = if (isCacheSucceed) field else true
@@ -59,10 +59,10 @@ open class NetCoroutineScope() : AndroidScope() {
     override fun launch(block: suspend CoroutineScope.() -> Unit): NetCoroutineScope {
         launch(EmptyCoroutineContext) {
             start()
-            if (onCache != null && isReadCache) {
+            if (preview != null && isReadCache) {
                 supervisorScope {
                     isCacheSucceed = try {
-                        onCache?.invoke(this)
+                        preview?.invoke(this)
                         true
                     } catch (e: Exception) {
                         false
@@ -98,23 +98,23 @@ open class NetCoroutineScope() : AndroidScope() {
     }
 
     /**
-     * 该函数一般用于缓存读取
+     * "预览"作用域, 该函数一般用于缓存读取
      * 只在第一次启动作用域时回调
      * 该函数在作用域[launch]之前执行
      * 函数内部所有的异常都不会被抛出, 也不会终止作用域执行
      *
      * @param error 是否在缓存读取成功但网络请求错误时吐司错误信息
      * @param animate 是否在缓存成功后依然显示加载动画
-     * @param onCache 该作用域内的所有异常都算缓存读取失败, 不会吐司和打印任何错误
+     * @param block 该作用域内的所有异常都算缓存读取失败, 不会吐司和打印任何错误
      */
-    fun cache(
+    fun preview(
         error: Boolean = false,
         animate: Boolean = false,
-        onCache: suspend CoroutineScope.() -> Unit
+        block: suspend CoroutineScope.() -> Unit
     ): AndroidScope {
         this.animate = animate
         this.error = error
-        this.onCache = onCache
+        this.preview = block
         return this
     }
 
