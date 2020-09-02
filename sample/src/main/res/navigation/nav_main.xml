@@ -18,7 +18,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    app:startDestination="@id/fastest">
+    app:startDestination="@id/request_method">
 
     <fragment
         android:id="@+id/async_task"

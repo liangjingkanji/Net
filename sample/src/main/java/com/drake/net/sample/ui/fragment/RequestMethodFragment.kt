@@ -30,16 +30,13 @@ import kotlinx.android.synthetic.main.fragment_async_task.*
 class RequestMethodFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+                             ): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_request_method, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
 
     private fun GET() {
         scopeNetLife {
