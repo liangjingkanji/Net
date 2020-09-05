@@ -22,7 +22,7 @@
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | 自动加载对话框网络请求`DialogCoroutineScope(activity: FragmentActivity, dialog: `[`Dialog`](https://developer.android.com/reference/android/app/Dialog.html)`? = null, cancelable: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = true)` |
+| [&lt;init&gt;](-init-.md) | 自动加载对话框网络请求`DialogCoroutineScope(activity: FragmentActivity, dialog: `[`Dialog`](https://developer.android.com/reference/android/app/Dialog.html)`? = null, cancelable: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = true, dispatcher: CoroutineDispatcher = Dispatchers.Main)` |
 
 ### Properties
 

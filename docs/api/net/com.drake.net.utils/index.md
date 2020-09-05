@@ -27,8 +27,8 @@
 | Name | Summary |
 |---|---|
 | [runMain](run-main.md) | 在主线程运行`fun runMain(block: () -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [scope](scope.md) | 异步作用域`fun scope(block: suspend CoroutineScope.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`AndroidScope`](../com.drake.net.scope/-android-scope/index.md) |
-| [scopeNet](scope-net.md) | 网络请求的异步作用域 自动显示错误信息吐司`fun scopeNet(block: suspend CoroutineScope.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`NetCoroutineScope`](../com.drake.net.scope/-net-coroutine-scope/index.md) |
+| [scope](scope.md) | 异步作用域`fun scope(dispatcher: CoroutineDispatcher = Dispatchers.Main, block: suspend CoroutineScope.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`AndroidScope`](../com.drake.net.scope/-android-scope/index.md) |
+| [scopeNet](scope-net.md) | 网络请求的异步作用域 自动显示错误信息吐司`fun scopeNet(dispatcher: CoroutineDispatcher = Dispatchers.Main, block: suspend CoroutineScope.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`NetCoroutineScope`](../com.drake.net.scope/-net-coroutine-scope/index.md) |
 | [withDefault](with-default.md) | 切换到默认调度器`suspend fun <T> withDefault(block: suspend CoroutineScope.() -> T): T` |
 | [withIO](with-i-o.md) | 切换到IO程调度器`suspend fun <T> withIO(block: suspend CoroutineScope.() -> T): T` |
 | [withMain](with-main.md) | 切换到主线程调度器`suspend fun <T> withMain(block: suspend CoroutineScope.() -> T): T` |

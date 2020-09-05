@@ -2,17 +2,17 @@
 
 # DeferredTransform
 
-`data class DeferredTransform<T>`
+`data class DeferredTransform<T, R>`
 
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `DeferredTransform(deferred: Deferred<T>, block: (T) -> T = { it })` |
+| [&lt;init&gt;](-init-.md) | `DeferredTransform(deferred: Deferred<T>, block: (T) -> R)` |
 
 ### Properties
 
 | Name | Summary |
 |---|---|
-| [block](block.md) | `val block: (T) -> T` |
+| [block](block.md) | `val block: (T) -> R` |
 | [deferred](deferred.md) | `val deferred: Deferred<T>` |

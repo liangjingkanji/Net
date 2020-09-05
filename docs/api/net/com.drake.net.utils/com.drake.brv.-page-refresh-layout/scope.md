@@ -2,7 +2,7 @@
 
 # scope
 
-`fun PageRefreshLayout.scope(block: suspend CoroutineScope.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`PageCoroutineScope`](../../com.drake.net.scope/-page-coroutine-scope/index.md)
+`fun PageRefreshLayout.scope(dispatcher: CoroutineDispatcher = Dispatchers.Main, block: suspend CoroutineScope.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`PageCoroutineScope`](../../com.drake.net.scope/-page-coroutine-scope/index.md)
 
 PageRefreshLayout的异步作用域
 

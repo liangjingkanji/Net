@@ -20,9 +20,14 @@ import android.view.View
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.NetConfig
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
 @Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING")
-class PageCoroutineScope(val page: PageRefreshLayout) : NetCoroutineScope() {
+class PageCoroutineScope(
+    val page: PageRefreshLayout,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main
+                        ) : NetCoroutineScope(dispatcher = dispatcher) {
 
     val index get() = page.index
 

@@ -10,7 +10,7 @@
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | 缺省页作用域`StateCoroutineScope(state: StateLayout)` |
+| [&lt;init&gt;](-init-.md) | 缺省页作用域`StateCoroutineScope(state: StateLayout, dispatcher: CoroutineDispatcher = Dispatchers.Main)` |
 
 ### Properties
 

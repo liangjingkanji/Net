@@ -23,6 +23,8 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.drake.net.NetConfig
 import com.drake.net.NetConfig.onDialog
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
 /**
  * 自动加载对话框网络请求
@@ -40,8 +42,9 @@ import com.drake.net.NetConfig.onDialog
 class DialogCoroutineScope(
     val activity: FragmentActivity,
     var dialog: Dialog? = null,
-    val cancelable: Boolean = true
-) : NetCoroutineScope(), LifecycleObserver {
+    val cancelable: Boolean = true,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main
+                          ) : NetCoroutineScope(dispatcher = dispatcher), LifecycleObserver {
 
     init {
         activity.lifecycle.addObserver(this)

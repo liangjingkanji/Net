@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`StateCoroutineScope(state: StateLayout)`
+`StateCoroutineScope(state: StateLayout, dispatcher: CoroutineDispatcher = Dispatchers.Main)`
 
 缺省页作用域
 

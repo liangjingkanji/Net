@@ -2,4 +2,4 @@
 
 # block
 
-`val block: (T) -> T`
+`val block: (T) -> R`

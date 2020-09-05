@@ -2,4 +2,4 @@
 
 # scopeLife
 
-`fun Fragment.scopeLife(lifeEvent: Event = Lifecycle.Event.ON_STOP, block: suspend CoroutineScope.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`AndroidScope`](../../com.drake.net.scope/-android-scope/index.md)
+`fun Fragment.scopeLife(lifeEvent: Event = Lifecycle.Event.ON_STOP, dispatcher: CoroutineDispatcher = Dispatchers.Main, block: suspend CoroutineScope.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`AndroidScope`](../../com.drake.net.scope/-android-scope/index.md)

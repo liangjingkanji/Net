@@ -20,11 +20,16 @@ import android.view.View
 import com.drake.net.NetConfig
 import com.drake.statelayout.StateLayout
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
 /**
  * 缺省页作用域
  */
-class StateCoroutineScope(val state: StateLayout) : NetCoroutineScope() {
+class StateCoroutineScope(
+    val state: StateLayout,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main
+                         ) : NetCoroutineScope(dispatcher = dispatcher) {
 
     init {
         state.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {

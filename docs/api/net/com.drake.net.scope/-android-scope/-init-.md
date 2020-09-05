@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`AndroidScope(lifecycleOwner: LifecycleOwner? = null, lifeEvent: Event = Lifecycle.Event.ON_DESTROY)`
+`AndroidScope(lifecycleOwner: LifecycleOwner? = null, lifeEvent: Event = Lifecycle.Event.ON_DESTROY, dispatcher: CoroutineDispatcher = Dispatchers.Main)`
 
 异步协程作用域
 

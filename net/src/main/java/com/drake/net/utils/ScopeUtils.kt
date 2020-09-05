@@ -49,16 +49,18 @@ import kotlinx.coroutines.sync.withLock
  * 对话框被取消或者界面关闭作用域被取消
  */
 fun FragmentActivity.scopeDialog(
-    dialog: Dialog? = null,
-    cancelable: Boolean = true,
-    block: suspend CoroutineScope.() -> Unit
-) = DialogCoroutineScope(this, dialog, cancelable).launch(block)
+        dialog: Dialog? = null,
+        cancelable: Boolean = true,
+        dispatcher: CoroutineDispatcher = Dispatchers.Main,
+        block: suspend CoroutineScope.() -> Unit
+                                ) = DialogCoroutineScope(this, dialog, cancelable, dispatcher).launch(block)
 
 fun Fragment.scopeDialog(
-    dialog: Dialog? = null,
-    cancelable: Boolean = true,
-    block: suspend CoroutineScope.() -> Unit
-) = DialogCoroutineScope(requireActivity(), dialog, cancelable).launch(block)
+        dialog: Dialog? = null,
+        cancelable: Boolean = true,
+        dispatcher: CoroutineDispatcher = Dispatchers.Main,
+        block: suspend CoroutineScope.() -> Unit
+                        ) = DialogCoroutineScope(requireActivity(), dialog, cancelable, dispatcher).launch(block)
 
 // </editor-fold>
 
@@ -74,8 +76,9 @@ fun Fragment.scopeDialog(
  *
  * 布局被销毁或者界面关闭作用域被取消
  */
-fun StateLayout.scope(block: suspend CoroutineScope.() -> Unit): NetCoroutineScope {
-    val scope = StateCoroutineScope(this)
+fun StateLayout.scope(dispatcher: CoroutineDispatcher = Dispatchers.Main,
+                      block: suspend CoroutineScope.() -> Unit): NetCoroutineScope {
+    val scope = StateCoroutineScope(this, dispatcher)
     scope.launch(block)
     return scope
 }
@@ -93,8 +96,9 @@ fun StateLayout.scope(block: suspend CoroutineScope.() -> Unit): NetCoroutineSco
  *
  * 布局被销毁或者界面关闭作用域被取消
  */
-fun PageRefreshLayout.scope(block: suspend CoroutineScope.() -> Unit): PageCoroutineScope {
-    val scope = PageCoroutineScope(this)
+fun PageRefreshLayout.scope(dispatcher: CoroutineDispatcher = Dispatchers.Main,
+                            block: suspend CoroutineScope.() -> Unit): PageCoroutineScope {
+    val scope = PageCoroutineScope(this, dispatcher)
     scope.launch(block)
     return scope
 }
@@ -104,19 +108,22 @@ fun PageRefreshLayout.scope(block: suspend CoroutineScope.() -> Unit): PageCorou
  *
  * 该作用域生命周期跟随整个应用, 注意内存泄漏
  */
-fun scope(block: suspend CoroutineScope.() -> Unit): AndroidScope {
-    return AndroidScope().launch(block)
+fun scope(dispatcher: CoroutineDispatcher = Dispatchers.Main,
+          block: suspend CoroutineScope.() -> Unit): AndroidScope {
+    return AndroidScope(dispatcher = dispatcher).launch(block)
 }
 
 fun LifecycleOwner.scopeLife(
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    block: suspend CoroutineScope.() -> Unit
-) = AndroidScope(this, lifeEvent).launch(block)
+        lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+        dispatcher: CoroutineDispatcher = Dispatchers.Main,
+        block: suspend CoroutineScope.() -> Unit
+                            ) = AndroidScope(this, lifeEvent, dispatcher).launch(block)
 
 fun Fragment.scopeLife(
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
-    block: suspend CoroutineScope.() -> Unit
-) = AndroidScope(this, lifeEvent).launch(block)
+        lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
+        dispatcher: CoroutineDispatcher = Dispatchers.Main,
+        block: suspend CoroutineScope.() -> Unit
+                      ) = AndroidScope(this, lifeEvent, dispatcher).launch(block)
 
 /**
  * 网络请求的异步作用域
@@ -124,29 +131,33 @@ fun Fragment.scopeLife(
  *
  * 该作用域生命周期跟随整个应用, 注意内存泄漏
  */
-fun scopeNet(block: suspend CoroutineScope.() -> Unit) = NetCoroutineScope().launch(block)
+fun scopeNet(dispatcher: CoroutineDispatcher = Dispatchers.Main,
+             block: suspend CoroutineScope.() -> Unit) = NetCoroutineScope(dispatcher = dispatcher).launch(block)
 
 
 fun LifecycleOwner.scopeNetLife(
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    block: suspend CoroutineScope.() -> Unit
-) = NetCoroutineScope(this, lifeEvent).launch(block)
+        lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+        dispatcher: CoroutineDispatcher = Dispatchers.Main,
+        block: suspend CoroutineScope.() -> Unit
+                               ) = NetCoroutineScope(this, lifeEvent, dispatcher).launch(block)
 
 /**
  * Fragment应当在[Lifecycle.Event.ON_STOP]时就取消作用域, 避免[Fragment.onDestroyView]导致引用空视图
  */
 fun Fragment.scopeNetLife(
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
-    block: suspend CoroutineScope.() -> Unit
-) = NetCoroutineScope(this, lifeEvent).launch(block)
+        lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
+        dispatcher: CoroutineDispatcher = Dispatchers.Main,
+        block: suspend CoroutineScope.() -> Unit
+                         ) = NetCoroutineScope(this, lifeEvent, dispatcher).launch(block)
 
 
-@UseExperimental(InternalCoroutinesApi::class)
+@OptIn(InternalCoroutinesApi::class)
 inline fun <T> Flow<T>.scope(
-    owner: LifecycleOwner? = null,
-    event: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    crossinline action: suspend (value: T) -> Unit
-): CoroutineScope = AndroidScope(owner, event).launch {
+        owner: LifecycleOwner? = null,
+        event: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+        dispatcher: CoroutineDispatcher = Dispatchers.Main,
+        crossinline action: suspend (value: T) -> Unit
+                            ): AndroidScope = AndroidScope(owner, event, dispatcher).launch {
     this@scope.collect(object : FlowCollector<T> {
         override suspend fun emit(value: T) = action(value)
     })

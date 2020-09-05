@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `PageCoroutineScope(page: PageRefreshLayout)` |
+| [&lt;init&gt;](-init-.md) | `PageCoroutineScope(page: PageRefreshLayout, dispatcher: CoroutineDispatcher = Dispatchers.Main)` |
 
 ### Properties
 

@@ -2,4 +2,4 @@
 
 # &lt;init&gt;
 
-`DeferredTransform(deferred: Deferred<T>, block: (T) -> T = { it })`
+`DeferredTransform(deferred: Deferred<T>, block: (T) -> R)`

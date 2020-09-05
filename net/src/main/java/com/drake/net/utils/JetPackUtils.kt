@@ -21,7 +21,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import com.drake.net.scope.AndroidScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -49,19 +50,15 @@ fun <M> LifecycleOwner.observe(liveData: LiveData<M>?, block: M?.() -> Unit) {
 }
 
 /**
- * 监听数据库
+ * 收集Flow结果并过滤重复结果
  */
-@UseExperimental(ExperimentalCoroutinesApi::class)
-fun <T> Flow<List<T>>.listen(
-    lifecycleOwner: LifecycleOwner? = null,
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    block: (List<T>) -> Unit
-) {
-    AndroidScope(lifecycleOwner, lifeEvent).launch {
+fun <T> Flow<List<T>>.listen(lifecycleOwner: LifecycleOwner? = null,
+                             lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+                             dispatcher: CoroutineDispatcher = Dispatchers.Main,
+                             block: (List<T>) -> Unit): AndroidScope {
+    return AndroidScope(lifecycleOwner, lifeEvent, dispatcher).launch {
         distinctUntilChanged().collect { data ->
-            withMain {
-                block(data)
-            }
+            block(data)
         }
     }
 }
@@ -82,18 +79,12 @@ inline fun <reified M : ViewModel> ViewModelStoreOwner.getViewModel(): M {
  * 返回当前组件指定的SavedViewModel
  */
 inline fun <reified M : ViewModel> FragmentActivity.getSavedModel(): M {
-    return ViewModelProvider(
-        this,
-        SavedStateViewModelFactory(application, this)
-    ).get(M::class.java)
+    return ViewModelProvider(this, SavedStateViewModelFactory(application, this)).get(M::class.java)
 }
 
 /**
  * 返回当前组件指定的SavedViewModel
  */
 inline fun <reified M : ViewModel> Fragment.getSavedModel(): M {
-    return ViewModelProvider(
-        this,
-        SavedStateViewModelFactory(activity!!.application, this)
-    ).get(M::class.java)
+    return ViewModelProvider(this, SavedStateViewModelFactory(activity!!.application, this)).get(M::class.java)
 }

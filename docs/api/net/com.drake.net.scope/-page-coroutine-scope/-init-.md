@@ -2,4 +2,4 @@
 
 # &lt;init&gt;
 
-`PageCoroutineScope(page: PageRefreshLayout)`
+`PageCoroutineScope(page: PageRefreshLayout, dispatcher: CoroutineDispatcher = Dispatchers.Main)`

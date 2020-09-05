@@ -2,4 +2,4 @@
 
 # transform
 
-`fun <T> Deferred<T>.transform(block: (T) -> T): `[`DeferredTransform`](../-deferred-transform/index.md)`<T>`
+`fun <T, R> Deferred<T>.transform(block: (T) -> R): `[`DeferredTransform`](../-deferred-transform/index.md)`<T, R>`

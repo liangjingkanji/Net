@@ -6,7 +6,7 @@
 
 | Name | Summary |
 |---|---|
-| [DeferredTransform](-deferred-transform/index.md) | `data class DeferredTransform<T>` |
+| [DeferredTransform](-deferred-transform/index.md) | `data class DeferredTransform<T, R>` |
 
 ### Extensions for External Classes
 
