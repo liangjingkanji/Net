@@ -4,6 +4,8 @@
 
 <p align="center"><strong>不仅仅是网络请求的异步任务库</strong></p>
 
+<p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a></p>
+
 <p align="center"><img src="https://i.imgur.com/NFL3tTk.jpg" width="60%"/></p>
 
 <p align="center">
@@ -12,8 +14,6 @@
 <img src="https://img.shields.io/badge/license-Apache-blue"/>
 <a href="https://jq.qq.com/?_wv=1027&k=vWsXSNBJ"><img src="https://img.shields.io/badge/QQ群-752854893-blue"/></a>
 </p>
-<p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a></p>
-
 
 <p align="center"><img src="https://i.imgur.com/aBe7Ib2.png" align="center" width="30%;" /></p>
 
@@ -39,7 +39,7 @@ Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用)
 
 主要新增特性
 
-- 代码优雅
+- 代码简洁(最少一行代码发起请求)
 - 文档详细
 - Kotlin
 - 协程
@@ -107,7 +107,7 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 // 支持自动下拉刷新和缺省页的(可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.9'
 
-implementation 'com.github.liangjingkanji:Net:2.2.14'
+implementation 'com.github.liangjingkanji:Net:2.2.15'
 ```
 
 <br>

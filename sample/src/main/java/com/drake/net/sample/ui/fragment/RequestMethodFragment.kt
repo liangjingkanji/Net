@@ -23,7 +23,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.drake.net.*
 import com.drake.net.sample.R
-import com.drake.net.utils.scopeNet
 import com.drake.net.utils.scopeNetLife
 import kotlinx.android.synthetic.main.fragment_async_task.*
 
@@ -37,16 +36,6 @@ class RequestMethodFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_request_method, container, false)
     }
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        scopeNet {
-            throw NullPointerException()
-        }.catch {
-            handleError(it)
-        }
-    }
 
     private fun GET() {
         scopeNetLife {
