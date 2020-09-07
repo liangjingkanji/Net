@@ -86,9 +86,7 @@ open class NetCoroutineScope(lifecycleOwner: LifecycleOwner? = null,
     }
 
     override fun catch(e: Throwable) {
-        launch(adjustDispatcher()) {
-            catch?.invoke(this@NetCoroutineScope, e) ?: if (error) handleError(e)
-        }
+        catch?.invoke(this@NetCoroutineScope, e) ?: if (error) handleError(e)
     }
 
     /**

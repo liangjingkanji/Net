@@ -27,9 +27,11 @@ import kotlin.coroutines.EmptyCoroutineContext
  * 异步协程作用域
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING")
-open class AndroidScope(lifecycleOwner: LifecycleOwner? = null,
-                        lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-                        val dispatcher: CoroutineDispatcher = Dispatchers.Main) : CoroutineScope {
+open class AndroidScope(
+    lifecycleOwner: LifecycleOwner? = null,
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+    val dispatcher: CoroutineDispatcher = Dispatchers.Main
+                       ) : CoroutineScope {
 
     init {
         lifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
@@ -47,7 +49,8 @@ open class AndroidScope(lifecycleOwner: LifecycleOwner? = null,
 
     val uid = exceptionHandler
 
-    override val coroutineContext: CoroutineContext = dispatcher + exceptionHandler + SupervisorJob()
+    override val coroutineContext: CoroutineContext =
+        dispatcher + exceptionHandler + SupervisorJob()
 
 
     open fun launch(block: suspend CoroutineScope.() -> Unit): AndroidScope {
@@ -60,22 +63,15 @@ open class AndroidScope(lifecycleOwner: LifecycleOwner? = null,
     }
 
     protected open fun catch(e: Throwable) {
-        launch(adjustDispatcher()) {
-            catch?.invoke(this@AndroidScope, e) ?: handleError(e)
-        }
+        catch?.invoke(this@AndroidScope, e) ?: handleError(e)
     }
 
     /**
      * @param e 如果发生异常导致作用域执行完毕, 则该参数为该异常对象, 正常结束则为null
      */
     protected open fun finally(e: Throwable?) {
-        launch(adjustDispatcher()) {
-            finally?.invoke(this@AndroidScope, e)
-        }
+        finally?.invoke(this@AndroidScope, e)
     }
-
-    protected fun adjustDispatcher() = if (dispatcher === Dispatchers.Main) dispatcher.immediate else dispatcher
-
 
     /**
      * 当作用域内发生异常时回调
@@ -103,12 +99,14 @@ open class AndroidScope(lifecycleOwner: LifecycleOwner? = null,
 
     open fun cancel(cause: CancellationException? = null) {
         val job = coroutineContext[Job]
-                  ?: error("Scope cannot be cancelled because it does not have a job: $this")
+            ?: error("Scope cannot be cancelled because it does not have a job: $this")
         job.cancel(cause)
     }
 
-    open fun cancel(message: String,
-                    cause: Throwable? = null) = cancel(CancellationException(message, cause))
+    open fun cancel(
+        message: String,
+        cause: Throwable? = null
+                   ) = cancel(CancellationException(message, cause))
 
 }
 
