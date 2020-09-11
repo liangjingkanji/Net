@@ -30,11 +30,29 @@ Net使用协程发起网络, 但是即使不会协程也可以使用该框架
 
         // 随任务同时进行, 但是数据依然可以按序返回
         val aData = Deferred.await() // 等待任务A返回数据
-        val bData = bDeferred.await() // 等待任务A返回数据
+        val bData = bDeferred.await() // 等待任务B返回数据
     }
     ```
 
 多个网络请求放在同一个作用域内就可以统一控制, 如果你的多个网络请求毫无关联, 你可以创建多个作用域.
+
+<br>
+
+!!! note
+    当`Get`或`Post`等函数调用就会开始发起网络请求, `await`只是等待其请求成功返回结果, 所以如果你在`await`后执行的网络请求,这不属于并发(属于串行)
+
+并发的错误示例
+```kotlin hl_lines="3"
+scopeNetLife {
+    // 请求A
+    val aDeferred = Get<String>("http://www.baidu.com/").await()
+    // 请求B, 由于上面使用`await()`函数, 所以必须等待A请求返回结果后才会执行B
+    val bDeferred = Get<String>("http://www.baidu.com/")
+
+    val bData = bDeferred.await() // 等待任务B返回数据
+}
+```
+
 
 <br>
 关于JSON解析以及全局URL等初始化配置后面讲解

@@ -9,9 +9,49 @@ Net具备完善的全局错误处理机制
 
 但是所有的错误信息和错误码都会在LogCat控制台看到, 具体查看[异常追踪](exception-track.md)
 
+
+## 手动错误处理
+<br>
+
+!!! note
+    假设不需要全局错误处理, 我们可以`catch`作用域来自己处理异常
+
+
+```kotlin
+scopeNetLife {
+    val data = Get<String>("http://www.thisiserror.com/").await()
+}.catch {
+    // 这里进行错误处理, it即为错误的异常对象
+}
+```
+
+catch里面的`it`属于异常对象, 这里列举可能存在的异常
+
+| 异常 | 描述 |
+|-|-|
+| NetworkError | 无网络 |
+| URLError | 地址错误 |
+| HostError | 域名错误 |
+| ConnectTimeoutError | 连接超时 |
+| ReadTimeoutError | 读取超时 |
+| DownloadError | 下载异常 |
+| NoCacheError | 没有缓存 |
+| ParseError | 解析错误, `Convert`中发生的未捕获异常都算解析错误 |
+| RequestParamsException | 请求参数错误 `400 - 499` 范围内错误码 |
+| ServerResponseException | 服务器错误 `500 - 599` 范围内错误码 |
+| ExecutionException | 加载图片异常等 |
+| NullPointerException | 空指针, 一般是在作用域内操作一个空的对象 |
+| ConnectException | 连接异常 |
+| WriteException | 写入异常 |
+| ReadException | 读取异常 |
+| ResponseException | 响应异常, 这里属于后端返回的错误码和其定义的成功码不匹配 |
+
+假设你重写`DefaultConvert`可以改变异常发生的条件, 当然你在转换器或者拦截器中抛出任何异常都会被捕获或者全局处理, 这里你可以自定义你的异常
+
+
 ## 默认错误处理
 
-Net默认的错误处理方式
+Net默认的错误处理源码
 
 <img src="https://i.imgur.com/t1Ep8tj.png" width="70%"/>
 

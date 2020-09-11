@@ -4,6 +4,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        // http://182.92.97.186/  这是接口全局域名, 可以使用NetConfig.host读写
         initNet("http://182.92.97.186/") {
             converter(JsonConvert()) // 转换器
             cacheEnabled() // 开启缓存
@@ -11,20 +12,6 @@ class App : Application() {
     }
 }
 ```
-
-```kotlin
-class App : Application() {
-    override fun onCreate() {
-        super.onCreate()
-
-        initNet("http://182.92.97.186/") {
-            converter(JsonConvert()) // 转换器
-            cacheEnabled() // 开启缓存
-        }
-    }
-}
-```
-
 
 initNet 作用域内可选函数
 
