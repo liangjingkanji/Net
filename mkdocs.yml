@@ -48,6 +48,7 @@ nav:
       - 自动分页加载: auto-page.md
       - 自动错误处理: auto-error-handle.md
   - 切换调度器: switch-dispatcher.md
+  - 标签: tag.md
   - 上传文件: upload-file.md
   - 下载文件: download-file.md
   - 下载图片: download-image.md

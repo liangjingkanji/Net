@@ -42,6 +42,24 @@ scopeNetLife {
 
 有的场景下并发的接口返回的数据类型不同, 但是fastest只能返回一个类型, 我们可以使`transform`的回调函数返回结果都拥有一个共同的接口, 然后去类型判断
 
+## 捕获Fastest
+```kotlin
+scopeNetLife {
+    val task = Get<String>("api2")
+    val task1 = Get<String>("api2")
+    val task2 = Get<String>("api2")
+
+    val data = try {
+        fastest(task, task1, task2) // 当 task/task1/task2 全部异常之后再并发执行 backupTask/backupTask1
+    } catch (e: Exception) {
+        val backupTask = Get<String>("api2")
+        val backupTask1 = Get<String>("api")
+        fastest(backupTask, backupTask1)
+    }
+}
+```
+
+
 <br>
 
 !!! note
