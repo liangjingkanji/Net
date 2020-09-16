@@ -19,7 +19,6 @@ package com.drake.net.utils
 import com.drake.net.transform.DeferredTransform
 import com.yanzhenjie.kalle.NetCancel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -33,7 +32,7 @@ import kotlinx.coroutines.sync.withLock
 @OptIn(ExperimentalCoroutinesApi::class)
 @Suppress("SuspendFunctionOnCoroutineScope")
 suspend fun <T> CoroutineScope.fastest(vararg deferredArray: Deferred<T>): T {
-    val chan = Channel<T>()
+    val deferred = CompletableDeferred<T>()
     val mutex = Mutex()
     deferredArray.forEach {
         launch(Dispatchers.IO) {
@@ -41,18 +40,18 @@ suspend fun <T> CoroutineScope.fastest(vararg deferredArray: Deferred<T>): T {
                 val result = it.await()
                 mutex.withLock {
                     NetCancel.cancel(coroutineContext[CoroutineExceptionHandler])
-                    chan.send(result)
+                    deferred.complete(result)
                 }
             } catch (e: Exception) {
                 it.cancel()
                 val allFail = deferredArray.all { it.isCancelled }
-                if (allFail) throw e else {
+                if (allFail) deferred.completeExceptionally(e) else {
                     if (e !is CancellationException) e.printStackTrace()
                 }
             }
         }
     }
-    return chan.receive()
+    return deferred.await()
 }
 
 /**
@@ -64,7 +63,7 @@ suspend fun <T> CoroutineScope.fastest(vararg deferredArray: Deferred<T>): T {
 @OptIn(ExperimentalCoroutinesApi::class)
 @Suppress("SuspendFunctionOnCoroutineScope")
 suspend fun <T> CoroutineScope.fastest(deferredArray: List<Deferred<T>>): T {
-    val chan = Channel<T>()
+    val deferred = CompletableDeferred<T>()
     val mutex = Mutex()
     deferredArray.forEach {
         launch(Dispatchers.IO) {
@@ -72,18 +71,18 @@ suspend fun <T> CoroutineScope.fastest(deferredArray: List<Deferred<T>>): T {
                 val result = it.await()
                 mutex.withLock {
                     NetCancel.cancel(coroutineContext[CoroutineExceptionHandler])
-                    chan.send(result)
+                    deferred.complete(result)
                 }
             } catch (e: Exception) {
                 it.cancel()
                 val allFail = deferredArray.all { it.isCancelled }
-                if (allFail) throw e else {
+                if (allFail) deferred.completeExceptionally(e) else {
                     if (e !is CancellationException) e.printStackTrace()
                 }
             }
         }
     }
-    return chan.receive()
+    return deferred.await()
 }
 
 /**
@@ -96,7 +95,7 @@ suspend fun <T> CoroutineScope.fastest(deferredArray: List<Deferred<T>>): T {
 @OptIn(ExperimentalCoroutinesApi::class)
 @Suppress("SuspendFunctionOnCoroutineScope")
 suspend fun <T, R> CoroutineScope.fastest(vararg deferredArray: DeferredTransform<T, R>): R {
-    val chan = Channel<R>()
+    val deferred = CompletableDeferred<R>()
     val mutex = Mutex()
     deferredArray.forEach {
         launch(Dispatchers.IO) {
@@ -104,21 +103,21 @@ suspend fun <T, R> CoroutineScope.fastest(vararg deferredArray: DeferredTransfor
                 val result = it.deferred.await()
                 mutex.withLock {
                     NetCancel.cancel(coroutineContext[CoroutineExceptionHandler])
-                    if (!chan.isClosedForSend) {
+                    if (!deferred.isCompleted) {
                         val transformResult = it.block(result)
-                        chan.send(transformResult)
+                        deferred.complete(transformResult)
                     }
                 }
             } catch (e: Exception) {
                 it.deferred.cancel()
                 val allFail = deferredArray.all { it.deferred.isCancelled }
-                if (allFail) throw e else {
+                if (allFail) deferred.completeExceptionally(e) else {
                     if (e !is CancellationException) e.printStackTrace()
                 }
             }
         }
     }
-    return chan.receive()
+    return deferred.await()
 }
 
 /**
@@ -132,7 +131,7 @@ suspend fun <T, R> CoroutineScope.fastest(vararg deferredArray: DeferredTransfor
 @OptIn(ExperimentalCoroutinesApi::class)
 @Suppress("SuspendFunctionOnCoroutineScope")
 suspend fun <T, R> CoroutineScope.fastest(deferredList: List<DeferredTransform<T, R>>): R {
-    val chan = Channel<R>()
+    val deferred = CompletableDeferred<R>()
     val mutex = Mutex()
     deferredList.forEach {
         launch(Dispatchers.IO) {
@@ -140,19 +139,19 @@ suspend fun <T, R> CoroutineScope.fastest(deferredList: List<DeferredTransform<T
                 val result = it.deferred.await()
                 mutex.withLock {
                     NetCancel.cancel(coroutineContext[CoroutineExceptionHandler])
-                    if (!chan.isClosedForSend) {
+                    if (!deferred.isCompleted) {
                         val transformResult = it.block(result)
-                        chan.send(transformResult)
+                        deferred.complete(transformResult)
                     }
                 }
             } catch (e: Exception) {
                 it.deferred.cancel()
                 val allFail = deferredList.all { it.deferred.isCancelled }
-                if (allFail) throw e else {
+                if (allFail) deferred.completeExceptionally(e) else {
                     if (e !is CancellationException) e.printStackTrace()
                 }
             }
         }
     }
-    return chan.receive()
+    return deferred.await()
 }

@@ -42,7 +42,7 @@ class InterceptorFragment : Fragment() {
 
         scopeNetLife {
             tv_fragment.text = Get<String>("api") {
-                // 拦截器只支持全局, 无法单例
+                // 拦截器只支持全局, 无法单例, 请查看[com.drake.net.sample.callback.NetInterceptor]
             }.await()
         }
     }
