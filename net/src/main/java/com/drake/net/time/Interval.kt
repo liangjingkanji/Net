@@ -51,19 +51,26 @@ import java.util.concurrent.TimeUnit
  * @param unit 事件单位
  * @param initialDelay 第一次事件的间隔时间
  * @param start 开始值, 当[start]]比[end]值大, 且end不等于-1时, 即为倒计时
+ *
+ * @property count 轮循器的计数
+ * @property state 轮循器当前状态
  */
-class Interval(var end: Long, /* -1 表示永远不结束, 可以修改*/
-               private val period: Long,
-               private val unit: TimeUnit,
-               private val start: Long = 0,
-               private val initialDelay: Long = period) : Serializable {
+class Interval(
+    var end: Long, // -1 表示永远不结束
+    private val period: Long,
+    private val unit: TimeUnit,
+    private val start: Long = 0,
+    private val initialDelay: Long = 0
+              ) : Serializable {
 
-    constructor(period: Long,
-                unit: TimeUnit,
-                initialDelay: Long = period) : this(-1, period, unit, 0, initialDelay)
+    constructor(
+        period: Long,
+        unit: TimeUnit,
+        initialDelay: Long = 0
+               ) : this(-1, period, unit, 0, initialDelay)
 
-    private val receiveList: MutableList<(Long) -> Unit> = mutableListOf()
-    private val finishList: MutableList<(Long) -> Unit> = mutableListOf()
+    private val listReceive: MutableList<(Long) -> Unit> = mutableListOf()
+    private val listFinish: MutableList<(Long) -> Unit> = mutableListOf()
     private var countTime = 0L
     private var delay = 0L
     private var scope: AndroidScope? = null
@@ -79,7 +86,7 @@ class Interval(var end: Long, /* -1 表示永远不结束, 可以修改*/
      * 订阅轮循器
      */
     fun subscribe(block: (Long) -> Unit): Interval {
-        receiveList.add(block)
+        listReceive.add(block)
         return this
     }
 
@@ -87,7 +94,7 @@ class Interval(var end: Long, /* -1 表示永远不结束, 可以修改*/
      * 轮循器完成
      */
     fun finish(block: (Long) -> Unit): Interval {
-        finishList.add(block)
+        listFinish.add(block)
         return this
     }
 
@@ -114,7 +121,7 @@ class Interval(var end: Long, /* -1 表示永远不结束, 可以修改*/
         if (state == IntervalStatus.STATE_IDLE) return
         state = IntervalStatus.STATE_IDLE
         scope?.cancel()
-        finishList.forEach {
+        listFinish.forEach {
             it.invoke(count)
         }
         count = start
@@ -168,8 +175,10 @@ class Interval(var end: Long, /* -1 表示永远不结束, 可以修改*/
      * 绑定生命周期, 在指定生命周期发生时取消轮循器
      * @param lifecycleOwner 默认在销毁时取消轮循器
      */
-    fun life(lifecycleOwner: LifecycleOwner,
-             lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP): Interval {
+    fun life(
+        lifecycleOwner: LifecycleOwner,
+        lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP
+            ): Interval {
         lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 if (lifeEvent == event) scope?.cancel()
@@ -186,20 +195,19 @@ class Interval(var end: Long, /* -1 表示永远不结束, 可以修改*/
 
             for (unit in ticker) {
 
-                if (end != -1L && start > end) count-- else count++
-
-                countTime = System.currentTimeMillis()
-
-                receiveList.forEach {
+                listReceive.forEach {
                     it.invoke(count)
                 }
 
                 if (end != -1L && count == end) {
                     scope?.cancel()
-                    finishList.forEach {
+                    listFinish.forEach {
                         it.invoke(count)
                     }
                 }
+
+                if (end != -1L && start > end) count-- else count++
+                countTime = System.currentTimeMillis()
             }
         }
     }
