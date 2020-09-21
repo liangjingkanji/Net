@@ -178,7 +178,7 @@ class Interval(
     fun life(
         lifecycleOwner: LifecycleOwner,
         lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP
-            ): Interval {
+    ): Interval {
         lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 if (lifeEvent == event) scope?.cancel()

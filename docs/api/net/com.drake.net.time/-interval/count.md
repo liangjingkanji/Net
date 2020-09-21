@@ -3,3 +3,9 @@
 # count
 
 `var count: `[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)
+
+轮循器的计数
+
+### Property
+
+`count` - 轮循器的计数
