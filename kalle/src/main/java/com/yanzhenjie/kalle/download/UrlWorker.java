@@ -40,7 +40,7 @@ public class UrlWorker extends BasicWorker<UrlDownload> {
     @Override
     public void cancel() {
         if (mCall != null && !mCall.isCanceled()) {
-            mCall.asyncCancel();
+            mCall.cancel();
         }
     }
 

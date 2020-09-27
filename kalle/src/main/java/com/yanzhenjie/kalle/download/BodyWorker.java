@@ -40,7 +40,7 @@ public class BodyWorker extends BasicWorker<BodyDownload> {
     @Override
     public void cancel() {
         if (mCall != null && !mCall.isCanceled()) {
-            mCall.asyncCancel();
+            mCall.cancel();
         }
     }
 

@@ -16,13 +16,7 @@
 package com.yanzhenjie.kalle
 
 interface Canceller {
-    /**
-     * Cancel operation.
-     */
-    fun cancel()
 
-    /**
-     * Operation is canceled.
-     */
+    fun cancel()
     val isCancelled: Boolean
 }
