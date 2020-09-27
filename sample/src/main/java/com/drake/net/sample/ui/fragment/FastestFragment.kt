@@ -26,13 +26,15 @@ import com.drake.net.Post
 import com.drake.net.sample.R
 import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_fastest.*
+import kotlinx.android.synthetic.main.fragment_request_method.*
 
 class FastestFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_fastest, container, false)
     }
 
@@ -40,15 +42,19 @@ class FastestFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         scopeNetLife {
+            /*
+            网络请求的取消本质上依靠uid来辨别,如果设置[uid]参数可以在返回最快结果后取消掉其他网络请求, 反之不会取消其他网络请求
+            Tip: uid可以是任何值
+            */
 
             // 同时发起四个网络请求
-            val deferred = Get<String>("api0") // 错误接口
-            val deferred1 = Get<String>("api1") // 错误接口
-            val deferred2 = Get<String>("api")
-            val deferred3 = Post<String>("api")
+            val deferred2 = Get<String>("api", uid = "最快")
+            val deferred3 = Post<String>("api", uid = "最快")
+            val deferred = Get<String>("api0", uid = "最快") // 错误接口
+            val deferred1 = Get<String>("api1", uid = "最快") // 错误接口
 
             // 只返回最快的请求结果
-            tv_fragment.text = fastest(deferred, deferred1, deferred2, deferred3)
+            tv_fragment.text = fastest(listOf(deferred, deferred1, deferred2, deferred3), "最快")
         }
 
         /*
