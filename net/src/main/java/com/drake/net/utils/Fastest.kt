@@ -38,6 +38,9 @@ suspend fun <T> CoroutineScope.fastest(
     uid: Any? = null
 ): T {
     val deferred = CompletableDeferred<T>()
+    if (listDeferred.isNullOrEmpty()) {
+        deferred.completeExceptionally(IllegalArgumentException("Fastest is null or empty"))
+    }
     val mutex = Mutex()
     listDeferred.forEach {
         launch(Dispatchers.IO) {
@@ -73,12 +76,15 @@ suspend fun <T> CoroutineScope.fastest(
 @OptIn(ExperimentalCoroutinesApi::class)
 @Suppress("SuspendFunctionOnCoroutineScope")
 suspend fun <T, R> CoroutineScope.fastest(
-    listDeferred: List<DeferredTransform<T, R>>,
+    listDeferred: List<DeferredTransform<T, R>>?,
     uid: Any? = null
 ): R {
     val deferred = CompletableDeferred<R>()
+    if (listDeferred.isNullOrEmpty()) {
+        deferred.completeExceptionally(IllegalArgumentException("Fastest is null or empty"))
+    }
     val mutex = Mutex()
-    listDeferred.forEach {
+    listDeferred?.forEach {
         launch(Dispatchers.IO) {
             try {
                 val result = it.deferred.await()
