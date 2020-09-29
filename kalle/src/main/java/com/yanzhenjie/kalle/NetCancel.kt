@@ -26,6 +26,7 @@ object NetCancel {
      * @param uid   target request.
      * @param canceller canceller.
      */
+    @Synchronized
     fun add(uid: Any?, canceller: Canceller) {
         uid ?: return
         map[canceller] = uid
@@ -36,6 +37,7 @@ object NetCancel {
      *
      * @param uid target request.
      */
+    @Synchronized
     fun remove(uid: Any?) {
         uid ?: return
         val iterator = map.iterator()
@@ -49,6 +51,7 @@ object NetCancel {
      *
      * @param uid 网络请求的ID
      */
+    @Synchronized
     fun cancel(uid: Any?) {
         uid ?: return
         val iterator = map.iterator()
