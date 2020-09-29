@@ -51,15 +51,15 @@ abstract class DefaultConvert(
         result: Result<S, F>
     ) {
         val body = response.body().string()
+        result.logResponseBody = body // 日志记录响应信息
         val code = response.code()
 
         when {
             code in 200..299 -> { // 请求成功
                 val jsonObject = JSONObject(body) // 获取JSON中后端定义的错误码和错误信息
-
                 if (jsonObject.getString(this.code) == success) { // 对比后端自定义错误码
                     result.success =
-                        if (succeed === String::class.java) body as S else body.parseBody(succeed)
+                            if (succeed === String::class.java) body as S else body.parseBody(succeed)
                 } else { // 错误码匹配失败, 开始写入错误异常
                     result.failure =
                         ResponseException(code, jsonObject.getString(message), request) as F

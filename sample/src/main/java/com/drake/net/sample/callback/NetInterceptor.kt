@@ -27,6 +27,8 @@ class NetInterceptor : Interceptor {
     override fun intercept(chain: Chain): Response {
         val request = chain.request()
 
+        request.logRequestBody()
+
         val tag = request.tag() as TAG
 
         if (tag.contains(REQUEST)) {

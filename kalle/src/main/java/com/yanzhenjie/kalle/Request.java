@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.kalle;
 
+import com.yanzhenjie.kalle.recorder.LogRecorder;
+
 import java.net.Proxy;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +31,6 @@ public abstract class Request {
 
     private final RequestMethod mMethod;
     private final Headers mHeaders;
-
     private final Proxy mProxy;
     private final SSLSocketFactory mSSLSocketFactory;
     private final HostnameVerifier mHostnameVerifier;
@@ -37,13 +38,52 @@ public abstract class Request {
     private final int mReadTimeout;
     private final Object mTag;
     private final Object uid;
-
+    private String logId = LogRecorder.INSTANCE.generateId();
+    private String logRequestBody;
+    private long requestTime = System.currentTimeMillis();
     private String location;
 
+    /**
+     * 请求Id, 每个请求都有独一无二的Id
+     */
+    public String logId() {
+        return logId;
+    }
+
+    /**
+     * 请求开始时间
+     */
+    public long getRequestStartTime() {
+        return requestTime;
+    }
+
+    /**
+     * 请求体
+     */
+    public String logRequestBody() {
+        if (logRequestBody == null) {
+            return copyParams().toString();
+        } else return logRequestBody;
+    }
+
+    /**
+     * 设置一个请求体, 默认使用copyParams()
+     */
+    public void logRequestBody(String logRequestBody) {
+        this.logRequestBody = logRequestBody;
+    }
+
+    /**
+     * 一个表示请求的地址值, 因为某些接口可能存在无法通过Url来判断请求地址(例如通过参数区分接口), 这个时候可以通过location来为开发者标识
+     * 默认使用Request.url()
+     */
     public void location(String location) {
         this.location = location;
     }
 
+    /**
+     * 一个表示请求的地址值
+     */
     public String location() {
         if (location != null) {
             return location;

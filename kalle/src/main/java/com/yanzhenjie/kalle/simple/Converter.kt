@@ -19,9 +19,6 @@ import com.yanzhenjie.kalle.Request
 import com.yanzhenjie.kalle.Response
 import java.lang.reflect.Type
 
-/**
- * Created by Zhenjie Yan on 2018/2/12.
- */
 @Suppress("UNCHECKED_CAST")
 interface Converter {
 
@@ -47,7 +44,9 @@ interface Converter {
                 result: Result<S, F>
             ) {
                 if (succeed === String::class.java) {
-                    result.success = response.body().string() as S
+                    val string = response.body().string()
+                    result.logResponseBody = string
+                    result.success = string as S
                 }
             }
         }

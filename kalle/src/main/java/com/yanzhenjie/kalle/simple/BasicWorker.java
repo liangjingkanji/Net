@@ -18,10 +18,12 @@ package com.yanzhenjie.kalle.simple;
 import com.yanzhenjie.kalle.Canceller;
 import com.yanzhenjie.kalle.Headers;
 import com.yanzhenjie.kalle.Kalle;
+import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.Response;
 import com.yanzhenjie.kalle.exception.NetException;
 import com.yanzhenjie.kalle.exception.NoCacheError;
 import com.yanzhenjie.kalle.exception.ParseError;
+import com.yanzhenjie.kalle.recorder.LogRecorder;
 import com.yanzhenjie.kalle.simple.cache.Cache;
 import com.yanzhenjie.kalle.simple.cache.CacheMode;
 import com.yanzhenjie.kalle.simple.cache.CacheStore;
@@ -62,8 +64,10 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
         if (response != null) return buildSimpleResponse(response, true);
 
         tryAttachCache();
-
         try {
+            Request request = mRequest.request();
+            LogRecorder.INSTANCE.recordRequest(request.logId(), request.location(), request.method().toString(), request.headers().toMap(), request.logRequestBody());
+
             response = requestNetwork(mRequest);
 
             int code = response.code();
@@ -76,14 +80,13 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
                 }
             }
             Headers headers = response.headers();
+
             byte[] body = {};
             if (code != 204) {
                 body = response.body().byteArray();
             }
             IOUtils.closeQuietly(response);
-
             tryDetachCache(code, headers, body);
-
             response = buildResponse(code, headers, body);
             return buildSimpleResponse(response, false);
         } catch (IOException e) {
@@ -91,6 +94,7 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
             if (cacheResponse != null) {
                 return buildSimpleResponse(cacheResponse, true);
             }
+            LogRecorder.INSTANCE.recordException(mRequest.request().logId(), e);
             throw e;
         } finally {
             IOUtils.closeQuietly(response);
@@ -287,21 +291,26 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
     }
 
     private Result<Succeed, Failed> buildSimpleResponse(Response response, boolean cache) throws IOException {
+        Request request = mRequest.request();
         try {
+            Result<Succeed, Failed> result = new Result<>();
 
-            Result<Succeed, Failed> result = new Result<>(response.code(), response.headers(), cache, null, null);
+            mConverter.convert(mSucceed, mFailed, request, response, result);
 
-            mConverter.convert(mSucceed, mFailed, mRequest.request(), response, result);
+            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
+            LogRecorder.INSTANCE.recordResponse(request.logId(), String.valueOf(response.code()), response.headers().toMap(), result.getLogResponseBody());
 
             if (result.getSuccess() == null && result.getFailure() == null) {
-                throw new ParseError(mRequest.request(), mConverter.getClass().getName() + " does not process result", null);
+                throw new ParseError(request, mConverter.getClass().getName() + " does not process result", null);
             }
 
             return result;
         } catch (NetException e) {
+            LogRecorder.INSTANCE.recordException(request.logId(), e);
             throw e;
         } catch (Exception e) {
-            throw new ParseError(mRequest.request(), "An exception occurred while parsing the data", e);
+            LogRecorder.INSTANCE.recordException(request.logId(), e);
+            throw new ParseError(request, "An exception occurred while parsing the data", e);
         }
     }
 }

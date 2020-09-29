@@ -22,12 +22,6 @@ import com.yanzhenjie.kalle.download.UrlDownload;
 import com.yanzhenjie.kalle.simple.SimpleBodyRequest;
 import com.yanzhenjie.kalle.simple.SimpleUrlRequest;
 
-/**
- * <p>
- * Kalle.
- * </p>
- * Created in Jul 28, 2015 7:32:22 PM.
- */
 public final class Kalle {
 
     private static KalleConfig sConfig;

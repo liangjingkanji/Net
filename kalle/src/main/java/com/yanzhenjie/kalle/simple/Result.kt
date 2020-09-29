@@ -16,17 +16,12 @@
 
 package com.yanzhenjie.kalle.simple
 
-import com.yanzhenjie.kalle.Headers
-
 data class Result<S, F>(
-    var code: Int,
-    var headers: Headers,
-    var fromCache: Boolean,
+    var logResponseBody: String? = null,
     var success: S? = null,
     var failure: F? = null
-) {
+                       ) {
 
     val isSucceed
         get() = success != null || failure == null
-
 }

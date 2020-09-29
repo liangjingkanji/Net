@@ -19,6 +19,7 @@ import com.yanzhenjie.kalle.connect.ConnectFactory;
 import com.yanzhenjie.kalle.connect.Interceptor;
 import com.yanzhenjie.kalle.connect.Network;
 import com.yanzhenjie.kalle.cookie.CookieStore;
+import com.yanzhenjie.kalle.recorder.LogRecorder;
 import com.yanzhenjie.kalle.simple.Converter;
 import com.yanzhenjie.kalle.simple.cache.CacheStore;
 import com.yanzhenjie.kalle.ssl.SSLUtils;
@@ -213,6 +214,14 @@ public final class KalleConfig {
          */
         public Builder mainThreadExecutor(Executor executor) {
             this.mMainExecutor = executor;
+            return this;
+        }
+
+        /**
+         * 是否开启日志记录器
+         */
+        public Builder setLogRecord(boolean enabled) {
+            LogRecorder.INSTANCE.setLogEnabled(enabled);
             return this;
         }
 
