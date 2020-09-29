@@ -221,7 +221,7 @@ public final class KalleConfig {
          * 是否开启日志记录器
          */
         public Builder setLogRecord(boolean enabled) {
-            LogRecorder.INSTANCE.setLogEnabled(enabled);
+            LogRecorder.INSTANCE.setEnabled(enabled);
             return this;
         }
 

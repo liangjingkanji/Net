@@ -3,14 +3,20 @@ package com.yanzhenjie.kalle.recorder
 import android.annotation.SuppressLint
 import android.os.*
 import android.util.Log
+import com.yanzhenjie.kalle.recorder.LogRecorder.enabled
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.atomic.AtomicLong
 
+/**
+ * 日志记录器
+ *
+ * @property enabled 是否启用日志记录器
+ */
 object LogRecorder {
 
-    var logEnabled = false;
+    var enabled = false
 
     private val handler: Handler
         get() {
@@ -36,7 +42,7 @@ object LogRecorder {
      */
     @Synchronized
     fun generateId(): String {
-        if (!logEnabled) return ""
+        if (!enabled) return ""
         var currentTime: Long = format.format(Date()).toLong()
         var previousTime: Long = this.previousTime.get()
         if (currentTime <= previousTime) {
@@ -55,12 +61,14 @@ object LogRecorder {
      * @param headers 请求头
      * @param body 请求体
      */
-    fun recordRequest(id: String,
-                      url: String,
-                      method: String,
-                      headers: Map<String, List<String>>,
-                      body: String?) {
-        if (!logEnabled) return
+    fun recordRequest(
+        id: String,
+        url: String,
+        method: String,
+        headers: Map<String, List<String>>,
+        body: String?
+    ) {
+        if (!enabled) return
 
         fastLog(id, MessageType.REQUEST_METHOD, method)
         fastLog(id, MessageType.REQUEST_URL, url)
@@ -86,11 +94,13 @@ object LogRecorder {
      * @param headers 响应头
      * @param body 响应体
      */
-    fun recordResponse(id: String,
-                       code: String,
-                       headers: Map<String, List<String>>,
-                       body: String?) {
-        if (!logEnabled) return
+    fun recordResponse(
+        id: String,
+        code: String,
+        headers: Map<String, List<String>>,
+        body: String?
+    ) {
+        if (!enabled) return
         largeLog(id, MessageType.RESPONSE_BODY, body)
         logWithHandler(id, MessageType.RESPONSE_STATUS, code, 0)
         for ((key, value) in headers) {
@@ -106,7 +116,7 @@ object LogRecorder {
      * @param id 请求的唯一标识符
      */
     fun recordException(id: String, response: Exception) {
-        if (!logEnabled) return
+        if (!enabled) return
         logWithHandler(id, MessageType.RESPONSE_ERROR, response.localizedMessage, 0)
     }
 
@@ -117,7 +127,7 @@ object LogRecorder {
      * @param duration 间隔时间
      */
     fun recordDuration(id: String, duration: Long) {
-        if (!logEnabled) return
+        if (!enabled) return
         logWithHandler(id, MessageType.RESPONSE_TIME, duration.toString(), 0)
         logWithHandler(id, MessageType.RESPONSE_END, "-->", 0)
     }

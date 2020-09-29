@@ -33,7 +33,6 @@ Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用)
 正在进行的任务
 
 - OkHttp4.8 重构
-- 开发网络日志插件解决`LogCat`输出缺陷
 
 <br>
 
@@ -47,7 +46,7 @@ Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用)
 - 串行网络请求
 - 切换线程
 - DSL编程
-- 日志记录器(解决网络日志问题)
+- 日志记录器(精准拦截日志)
 - 支持先强制读取缓存后网络请求二次刷新
 - 并发请求返回最快请求结果(可返回不同响应数据)
 - 方便的缓存处理
@@ -108,7 +107,7 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 // 支持自动下拉刷新和缺省页的(可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.13'
 
-implementation 'com.github.liangjingkanji:Net:2.3.1'
+implementation 'com.github.liangjingkanji:Net:2.3.2'
 ```
 
 <br>
