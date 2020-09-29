@@ -94,7 +94,9 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
             if (cacheResponse != null) {
                 return buildSimpleResponse(cacheResponse, true);
             }
-            LogRecorder.INSTANCE.recordException(mRequest.request().logId(), e);
+            Request request = mRequest.request();
+            LogRecorder.INSTANCE.recordException(request.logId(), e);
+            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
             throw e;
         } finally {
             IOUtils.closeQuietly(response);
@@ -297,8 +299,8 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
 
             mConverter.convert(mSucceed, mFailed, request, response, result);
 
-            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
             LogRecorder.INSTANCE.recordResponse(request.logId(), String.valueOf(response.code()), response.headers().toMap(), result.getLogResponseBody());
+            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
 
             if (result.getSuccess() == null && result.getFailure() == null) {
                 throw new ParseError(request, mConverter.getClass().getName() + " does not process result", null);
@@ -307,9 +309,11 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
             return result;
         } catch (NetException e) {
             LogRecorder.INSTANCE.recordException(request.logId(), e);
+            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
             throw e;
         } catch (Exception e) {
             LogRecorder.INSTANCE.recordException(request.logId(), e);
+            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
             throw new ParseError(request, "An exception occurred while parsing the data", e);
         }
     }
