@@ -1,5 +1,8 @@
 在Net中转换器([Convert](https://github.com/liangjingkanji/Net/blob/master/kalle/src/main/java/com/yanzhenjie/kalle/simple/Converter.kt))负责数据解析的工作, 自定义转换器即实现Convert接口即可
 
+!!! note
+    你的业务可能需要请求参数加密或者拼接一串特殊含义的参数, 或者响应信息需要解密. 请不要尝试封装Post或者Get等请求函数(这是蠢材做法), 自定义拦截器和转换器可以应对任何项目需求.
+
 - 数据解密
 - 解析JSON
 - 判断请求是否成功
