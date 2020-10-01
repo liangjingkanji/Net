@@ -103,8 +103,8 @@ allprojects {
 
 ```groovy
 // 协程库(版本自定)
-implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
-implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
+implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
+implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
 
 // 支持自动下拉刷新和缺省页的(可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.13'
