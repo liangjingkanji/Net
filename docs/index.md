@@ -29,7 +29,7 @@ Net使用协程发起网络, 但是即使不会协程也可以使用该框架
         val bDeferred = Get<String>("http://www.baidu.com/") // 发起请求并返回"任务B"
 
         // 随任务同时进行, 但是数据依然可以按序返回
-        val aData = Deferred.await() // 等待任务A返回数据
+        val aData = aDeferred.await() // 等待任务A返回数据
         val bData = bDeferred.await() // 等待任务B返回数据
     }
     ```
