@@ -299,13 +299,12 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
 
             mConverter.convert(mSucceed, mFailed, request, response, result);
 
-            LogRecorder.INSTANCE.recordResponse(request.logId(), String.valueOf(response.code()), response.headers().toMap(), result.getLogResponseBody());
-            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
-
             if (result.getSuccess() == null && result.getFailure() == null) {
                 throw new ParseError(request, mConverter.getClass().getName() + " does not process result", null);
             }
 
+            LogRecorder.INSTANCE.recordResponse(request.logId(), String.valueOf(response.code()), response.headers().toMap(), result.getLogResponseBody());
+            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
             return result;
         } catch (NetException e) {
             LogRecorder.INSTANCE.recordException(request.logId(), e);
