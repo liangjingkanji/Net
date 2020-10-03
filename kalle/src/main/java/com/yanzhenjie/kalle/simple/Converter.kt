@@ -23,31 +23,23 @@ import java.lang.reflect.Type
 interface Converter {
 
     @Throws(Exception::class)
-    fun <S, F> convert(
-        succeed: Type,
-        failed: Type,
-        request: Request,
-        response: Response,
-        result: Result<S, F>
-    )
+    fun <S> convert(succeed: Type, request: Request, response: Response, cache: Boolean): S?
 
     companion object {
 
         @JvmField
         val DEFAULT: Converter = object : Converter {
 
-            override fun <S, F> convert(
-                succeed: Type,
-                failed: Type,
-                request: Request,
-                response: Response,
-                result: Result<S, F>
-            ) {
+            override fun <S> convert(succeed: Type,
+                                     request: Request,
+                                     response: Response,
+                                     cache: Boolean): S? {
                 if (succeed === String::class.java) {
                     val string = response.body().string()
-                    result.logResponseBody = string
-                    result.success = string as S
+                    response.logBody = string
+                    return string as S
                 }
+                return null
             }
         }
     }

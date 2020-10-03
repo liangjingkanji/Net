@@ -36,11 +36,7 @@ import java.util.concurrent.Callable;
 import static com.yanzhenjie.kalle.Headers.KEY_IF_MODIFIED_SINCE;
 import static com.yanzhenjie.kalle.Headers.KEY_IF_NONE_MATCH;
 
-/**
- * Created by Zhenjie Yan on 2018/2/18.
- */
-abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
-        implements Callable<Result<Succeed, Failed>>, Canceller {
+abstract class BasicWorker<T extends SimpleRequest, Succeed> implements Callable<Succeed>, Canceller {
 
     private static final long MAX_EXPIRES = System.currentTimeMillis() + 100L * 365L * 24L * 60L * 60L * 1000L;
 
@@ -48,18 +44,16 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
     private final CacheStore mCacheStore;
     private final Converter mConverter;
     private final Type mSucceed;
-    private final Type mFailed;
 
-    BasicWorker(T request, Type succeed, Type failed) {
+    BasicWorker(T request, Type succeed) {
         this.mRequest = request;
         this.mSucceed = succeed;
-        this.mFailed = failed;
         this.mCacheStore = Kalle.getConfig().getCacheStore();
         this.mConverter = request.converter() == null ? Kalle.getConfig().getConverter() : request.converter();
     }
 
     @Override
-    public final Result<Succeed, Failed> call() throws Exception {
+    public final Succeed call() throws Exception {
         Response response = tryReadCacheBefore();
         if (response != null) return buildSimpleResponse(response, true);
 
@@ -292,19 +286,14 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed, Failed>
                 .build();
     }
 
-    private Result<Succeed, Failed> buildSimpleResponse(Response response, boolean cache) throws IOException {
+    private Succeed buildSimpleResponse(Response response, boolean cache) throws IOException {
         Request request = mRequest.request();
         try {
-            Result<Succeed, Failed> result = new Result<>();
+            Succeed result = mConverter.convert(mSucceed, request, response, cache);
 
-            mConverter.convert(mSucceed, mFailed, request, response, result);
-
-            if (result.getSuccess() == null && result.getFailure() == null) {
-                throw new ParseError(request, mConverter.getClass().getName() + " does not process result", null);
-            }
-
-            LogRecorder.INSTANCE.recordResponse(request.logId(), String.valueOf(response.code()), response.headers().toMap(), result.getLogResponseBody());
+            LogRecorder.INSTANCE.recordResponse(request.logId(), String.valueOf(response.code()), response.headers().toMap(), response.getLogBody());
             LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
+
             return result;
         } catch (NetException e) {
             LogRecorder.INSTANCE.recordException(request.logId(), e);

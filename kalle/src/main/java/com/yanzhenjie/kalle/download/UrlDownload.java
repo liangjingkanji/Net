@@ -15,7 +15,6 @@
  */
 package com.yanzhenjie.kalle.download;
 
-import com.yanzhenjie.kalle.Canceller;
 import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.RequestMethod;
 import com.yanzhenjie.kalle.Url;
@@ -102,10 +101,6 @@ public class UrlDownload extends UrlRequest implements Download {
 
         public String perform() throws Exception {
             return DownloadManager.getInstance().perform(new UrlDownload(this));
-        }
-
-        public Canceller perform(Callback callback) {
-            return DownloadManager.getInstance().perform(new UrlDownload(this), callback);
         }
     }
 }

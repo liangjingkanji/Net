@@ -18,7 +18,6 @@ package com.yanzhenjie.kalle.simple;
 import android.text.TextUtils;
 
 import com.yanzhenjie.kalle.BodyRequest;
-import com.yanzhenjie.kalle.Canceller;
 import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.RequestMethod;
 import com.yanzhenjie.kalle.Url;
@@ -95,12 +94,8 @@ public class SimpleBodyRequest extends BodyRequest implements SimpleRequest {
             return this;
         }
 
-        public <S, F> Result<S, F> perform(Type succeed, Type failed) throws Exception {
-            return RequestManager.getInstance().perform(new SimpleBodyRequest(this), succeed, failed);
-        }
-
-        public <S, F> Canceller perform(Callback<S, F> callback) {
-            return RequestManager.getInstance().perform(new SimpleBodyRequest(this), callback);
+        public <S> S perform(Type succeed) throws Exception {
+            return RequestManager.getInstance().perform(new SimpleBodyRequest(this), succeed);
         }
     }
 }

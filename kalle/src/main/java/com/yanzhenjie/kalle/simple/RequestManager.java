@@ -15,12 +15,9 @@
  */
 package com.yanzhenjie.kalle.simple;
 
-import com.yanzhenjie.kalle.Canceller;
-import com.yanzhenjie.kalle.Kalle;
 import com.yanzhenjie.kalle.NetCancel;
 
 import java.lang.reflect.Type;
-import java.util.concurrent.Executor;
 
 /**
  * Created by Zhenjie Yan on 2018/2/13.
@@ -28,10 +25,8 @@ import java.util.concurrent.Executor;
 public class RequestManager {
 
     private static RequestManager sInstance;
-    private final Executor mExecutor;
 
     private RequestManager() {
-        this.mExecutor = Kalle.getConfig().getWorkExecutor();
     }
 
     public static RequestManager getInstance() {
@@ -46,25 +41,17 @@ public class RequestManager {
     }
 
     /**
-     * Submit a request to the queue.
+     * Execute a request.
      *
-     * @param request  request.
-     * @param callback accept the result callback.
-     * @param <S>      target object parameter.
-     * @param <F>      target object parameter.
-     * @return this request corresponds to the task cancel handle.
+     * @param request request.
+     * @param succeed the data type when the business succeed.
+     * @param <S>     target object parameter.
+     * @return the response to this request.
      */
-    public <S, F> Canceller perform(final SimpleUrlRequest request, Callback<S, F> callback) {
-        final Work<SimpleUrlRequest, S, F> work = new Work<>(new UrlWorker<S, F>(request, callback.getSucceed(), callback.getFailed()), new AsyncCallback<S, F>(callback) {
-            @Override
-            public void onEnd() {
-                super.onEnd();
-                NetCancel.INSTANCE.remove(request.uid());
-            }
-        });
-        NetCancel.INSTANCE.add(request.uid(), work);
-        mExecutor.execute(work);
-        return work;
+    public <S> S perform(SimpleUrlRequest request, Type succeed) throws Exception {
+        UrlWorker<S> worker = new UrlWorker<>(request, succeed);
+        NetCancel.INSTANCE.add(request.uid(), worker);
+        return worker.call();
     }
 
     /**
@@ -72,128 +59,12 @@ public class RequestManager {
      *
      * @param request request.
      * @param succeed the data type when the business succeed.
-     * @param failed  the data type when the business failed.
      * @param <S>     target object parameter.
-     * @param <F>     target object parameter.
      * @return the response to this request.
      */
-    public <S, F> Result<S, F> perform(SimpleUrlRequest request, Type succeed, Type failed) throws Exception {
-        UrlWorker<S, F> worker = new UrlWorker<>(request, succeed, failed);
+    public <S> S perform(SimpleBodyRequest request, Type succeed) throws Exception {
+        BodyWorker<S> worker = new BodyWorker<>(request, succeed);
         NetCancel.INSTANCE.add(request.uid(), worker);
         return worker.call();
-    }
-
-    /**
-     * Submit a request to the queue.
-     *
-     * @param request  request.
-     * @param callback accept the result callback.
-     * @param <S>      target object parameter.
-     * @param <F>      target object parameter.
-     * @return this request corresponds to the task cancel handle.
-     */
-    public <S, F> Canceller perform(final SimpleBodyRequest request, Callback<S, F> callback) {
-        Work<SimpleBodyRequest, S, F> work = new Work<>(new BodyWorker<S, F>(request, callback.getSucceed(), callback.getFailed()), new AsyncCallback<S, F>(callback) {
-            @Override
-            public void onEnd() {
-                super.onEnd();
-                NetCancel.INSTANCE.remove(request.uid());
-            }
-        });
-        NetCancel.INSTANCE.add(request.uid(), work);
-        mExecutor.execute(work);
-        return work;
-    }
-
-    /**
-     * Execute a request.
-     *
-     * @param request request.
-     * @param succeed the data type when the business succeed.
-     * @param failed  the data type when the business failed.
-     * @param <S>     target object parameter.
-     * @param <F>     target object parameter.
-     * @return the response to this request.
-     */
-    public <S, F> Result<S, F> perform(SimpleBodyRequest request, Type succeed, Type failed) throws Exception {
-        BodyWorker<S, F> worker = new BodyWorker<>(request, succeed, failed);
-        NetCancel.INSTANCE.add(request.uid(), worker);
-        return worker.call();
-    }
-
-    private static class AsyncCallback<S, F> extends Callback<S, F> {
-
-        private final Callback<S, F> mCallback;
-        private final Executor mExecutor;
-
-        AsyncCallback(Callback<S, F> callback) {
-            this.mCallback = callback;
-            this.mExecutor = Kalle.getConfig().getMainExecutor();
-        }
-
-        @Override
-        public Type getSucceed() {
-            return mCallback.getSucceed();
-        }
-
-        @Override
-        public Type getFailed() {
-            return mCallback.getFailed();
-        }
-
-        @Override
-        public void onStart() {
-            if (mCallback == null) return;
-            mExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mCallback.onStart();
-                }
-            });
-        }
-
-        @Override
-        public void onResponse(final Result<S, F> response) {
-            if (mCallback == null) return;
-            mExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mCallback.onResponse(response);
-                }
-            });
-        }
-
-        @Override
-        public void onException(final Exception e) {
-            if (mCallback == null) return;
-            mExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mCallback.onException(e);
-                }
-            });
-        }
-
-        @Override
-        public void onCancel() {
-            if (mCallback == null) return;
-            mExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mCallback.onCancel();
-                }
-            });
-        }
-
-        @Override
-        public void onEnd() {
-            if (mCallback == null) return;
-            mExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mCallback.onEnd();
-                }
-            });
-        }
     }
 }

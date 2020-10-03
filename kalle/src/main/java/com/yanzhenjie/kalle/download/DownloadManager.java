@@ -15,11 +15,7 @@
  */
 package com.yanzhenjie.kalle.download;
 
-import com.yanzhenjie.kalle.Canceller;
-import com.yanzhenjie.kalle.Kalle;
 import com.yanzhenjie.kalle.NetCancel;
-
-import java.util.concurrent.Executor;
 
 /**
  * Created by Zhenjie Yan on 2018/3/18.
@@ -27,10 +23,8 @@ import java.util.concurrent.Executor;
 public class DownloadManager {
 
     private static DownloadManager sInstance;
-    private final Executor mExecutor;
 
     private DownloadManager() {
-        this.mExecutor = Kalle.getConfig().getWorkExecutor();
     }
 
     public static DownloadManager getInstance() {
@@ -42,26 +36,6 @@ public class DownloadManager {
             }
         }
         return sInstance;
-    }
-
-    /**
-     * Submit a request to the queue.
-     *
-     * @param download download request.
-     * @param callback accept the result callback.
-     * @return this request corresponds to the task cancel handle.
-     */
-    public Canceller perform(final UrlDownload download, Callback callback) {
-        final Work<UrlDownload> work = new Work<>(new UrlWorker(download), new AsyncCallback(callback) {
-            @Override
-            public void onEnd() {
-                super.onEnd();
-                NetCancel.INSTANCE.remove(download.uid());
-            }
-        });
-        NetCancel.INSTANCE.add(download.uid(), work);
-        mExecutor.execute(work);
-        return work;
     }
 
     /**
@@ -77,26 +51,6 @@ public class DownloadManager {
     }
 
     /**
-     * Submit a request to the queue.
-     *
-     * @param download download request.
-     * @param callback accept the result callback.
-     * @return this request corresponds to the task cancel handle.
-     */
-    public Canceller perform(final BodyDownload download, Callback callback) {
-        final Work<BodyDownload> work = new Work<>(new BodyWorker(download), new AsyncCallback(callback) {
-            @Override
-            public void onEnd() {
-                super.onEnd();
-                NetCancel.INSTANCE.remove(download.uid());
-            }
-        });
-        NetCancel.INSTANCE.add(download.uid(), work);
-        mExecutor.execute(work);
-        return work;
-    }
-
-    /**
      * Execute a request.
      *
      * @param download download request.
@@ -106,71 +60,5 @@ public class DownloadManager {
         BodyWorker worker = new BodyWorker(download);
         NetCancel.INSTANCE.add(download.uid(), worker);
         return worker.call();
-    }
-
-    private static class AsyncCallback implements Callback {
-
-        private final Callback mCallback;
-        private final Executor mExecutor;
-
-        AsyncCallback(Callback callback) {
-            this.mCallback = callback;
-            this.mExecutor = Kalle.getConfig().getMainExecutor();
-        }
-
-        @Override
-        public void onStart() {
-            if (mCallback == null) return;
-            mExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mCallback.onStart();
-                }
-            });
-        }
-
-        @Override
-        public void onFinish(final String path) {
-            if (mCallback == null) return;
-            mExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mCallback.onFinish(path);
-                }
-            });
-        }
-
-        @Override
-        public void onException(final Exception e) {
-            if (mCallback == null) return;
-            mExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mCallback.onException(e);
-                }
-            });
-        }
-
-        @Override
-        public void onCancel() {
-            if (mCallback == null) return;
-            mExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mCallback.onCancel();
-                }
-            });
-        }
-
-        @Override
-        public void onEnd() {
-            if (mCallback == null) return;
-            mExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mCallback.onEnd();
-                }
-            });
-        }
     }
 }

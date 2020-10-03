@@ -20,7 +20,6 @@ package com.drake.net
 
 import android.content.Context
 import com.bumptech.glide.Glide
-import com.drake.net.error.ResponseException
 import com.yanzhenjie.kalle.NetCancel
 import com.yanzhenjie.kalle.RequestMethod
 import com.yanzhenjie.kalle.Url
@@ -58,19 +57,16 @@ inline fun <reified M> CoroutineScope.Get(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.GET)
-        .tag(tag)
-        .uid(uid)
-        .cacheKey(path)
-        .cacheMode(cache)
+            .tag(tag)
+            .uid(uid)
+            .cacheKey(path)
+            .cacheMode(cache)
 
-    val response = try {
-        request.apply(block)
-            .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
+    try {
+        request.apply(block).perform<M>(M::class.java)
     } catch (e: SocketException) {
         throw CancellationException()
     }
-
-    if (response.isSucceed) response.success!! else throw response.failure!!
 }
 
 
@@ -96,20 +92,17 @@ inline fun <reified M> CoroutineScope.Post(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.POST)
-        .tag(tag)
-        .uid(uid)
-        .cacheKey(path)
-        .cacheMode(cache)
+            .tag(tag)
+            .uid(uid)
+            .cacheKey(path)
+            .cacheMode(cache)
 
-        val response = try {
-            request.apply(block)
-                .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
-        } catch (e: SocketException) {
-            throw CancellationException()
-        }
-
-        if (response.isSucceed) response.success!! else throw response.failure!!
+    try {
+        request.apply(block).perform<M>(M::class.java)
+    } catch (e: SocketException) {
+        throw CancellationException()
     }
+}
 
 
 /**
@@ -133,19 +126,16 @@ inline fun <reified M> CoroutineScope.Head(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.HEAD)
-        .tag(tag)
-        .uid(uid)
-        .cacheKey(path)
-        .cacheMode(cache)
+            .tag(tag)
+            .uid(uid)
+            .cacheKey(path)
+            .cacheMode(cache)
 
-    val response = try {
-        request.apply(block)
-            .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
+    try {
+        request.apply(block).perform<M>(M::class.java)
     } catch (e: SocketException) {
         throw CancellationException()
     }
-
-    if (response.isSucceed) response.success!! else throw response.failure!!
 }
 
 /**
@@ -169,19 +159,16 @@ inline fun <reified M> CoroutineScope.Options(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.OPTIONS)
-        .tag(tag)
-        .uid(uid)
-        .cacheKey(path)
-        .cacheMode(cache)
+            .tag(tag)
+            .uid(uid)
+            .cacheKey(path)
+            .cacheMode(cache)
 
-    val response = try {
-        request.apply(block)
-            .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
+    try {
+        request.apply(block).perform<M>(M::class.java)
     } catch (e: SocketException) {
         throw CancellationException()
     }
-
-    if (response.isSucceed) response.success!! else throw response.failure!!
 }
 
 /**
@@ -205,19 +192,16 @@ inline fun <reified M> CoroutineScope.Trace(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.TRACE)
-        .tag(tag)
-        .uid(uid)
-        .cacheKey(path)
-        .cacheMode(cache)
+            .tag(tag)
+            .uid(uid)
+            .cacheKey(path)
+            .cacheMode(cache)
 
-    val response = try {
-        request.apply(block)
-            .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
+    try {
+        request.apply(block).perform<M>(M::class.java)
     } catch (e: SocketException) {
         throw CancellationException()
     }
-
-    if (response.isSucceed) response.success!! else throw response.failure!!
 }
 
 /**
@@ -241,19 +225,16 @@ inline fun <reified M> CoroutineScope.Delete(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.DELETE)
-        .tag(tag)
-        .uid(uid)
-        .cacheKey(path)
-        .cacheMode(cache)
+            .tag(tag)
+            .uid(uid)
+            .cacheKey(path)
+            .cacheMode(cache)
 
-    val response = try {
-        request.apply(block)
-            .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
+    try {
+        request.apply(block).perform<M>(M::class.java)
     } catch (e: SocketException) {
         throw CancellationException()
     }
-
-    if (response.isSucceed) response.success!! else throw response.failure!!
 }
 
 /**
@@ -277,22 +258,19 @@ inline fun <reified M> CoroutineScope.Put(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(
-        Url.newBuilder(realPath).build(),
-        RequestMethod.PUT
-    )
-        .tag(tag)
-        .uid(uid)
-        .cacheKey(path)
-        .cacheMode(cache)
+            Url.newBuilder(realPath).build(),
+            RequestMethod.PUT
+                                          )
+            .tag(tag)
+            .uid(uid)
+            .cacheKey(path)
+            .cacheMode(cache)
 
-    val response = try {
-        request.apply(block)
-            .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
+    try {
+        request.apply(block).perform<M>(M::class.java)
     } catch (e: SocketException) {
         throw CancellationException()
     }
-
-    if (response.isSucceed) response.success!! else throw response.failure!!
 }
 
 /**
@@ -316,19 +294,16 @@ inline fun <reified M> CoroutineScope.Patch(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.PATCH)
-        .tag(tag)
-        .uid(uid)
-        .cacheKey(path)
-        .cacheMode(cache)
+            .tag(tag)
+            .uid(uid)
+            .cacheKey(path)
+            .cacheMode(cache)
 
-    val response = try {
-        request.apply(block)
-            .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
+    try {
+        request.apply(block).perform<M>(M::class.java)
     } catch (e: SocketException) {
         throw CancellationException()
     }
-
-    if (response.isSucceed) response.success!! else throw response.failure!!
 }
 
 /**
@@ -461,14 +436,7 @@ inline fun <reified M> syncGet(
         .cacheKey(path)
         .cacheMode(cache)
 
-    val response = request.apply(block)
-        .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
-
-    return if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure!!
-    }
+    return request.apply(block).perform(M::class.java)
 }
 
 /**
@@ -496,14 +464,7 @@ inline fun <reified M> syncPost(
         .cacheKey(path)
         .cacheMode(cache)
 
-    val response = request.apply(block)
-        .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
-
-    return if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure!!
-    }
+    return request.apply(block).perform(M::class.java)
 }
 
 /**
@@ -531,14 +492,7 @@ inline fun <reified M> syncHead(
         .cacheKey(path)
         .cacheMode(cache)
 
-    val response = request.apply(block)
-        .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
-
-    return if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure!!
-    }
+    return request.apply(block).perform(M::class.java)
 }
 
 /**
@@ -566,14 +520,7 @@ inline fun <reified M> syncOptions(
         .cacheKey(path)
         .cacheMode(cache)
 
-    val response = request.apply(block)
-        .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
-
-    return if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure!!
-    }
+    return request.apply(block).perform(M::class.java)
 }
 
 /**
@@ -601,14 +548,7 @@ inline fun <reified M> syncTrace(
         .cacheKey(path)
         .cacheMode(cache)
 
-    val response = request.apply(block)
-        .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
-
-    return if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure!!
-    }
+    return request.apply(block).perform(M::class.java)
 }
 
 /**
@@ -636,14 +576,7 @@ inline fun <reified M> syncDelete(
         .cacheKey(path)
         .cacheMode(cache)
 
-    val response = request.apply(block)
-        .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
-
-    return if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure!!
-    }
+    return request.apply(block).perform(M::class.java)
 }
 
 /**
@@ -671,14 +604,7 @@ inline fun <reified M> syncPut(
         .cacheKey(path)
         .cacheMode(cache)
 
-    val response = request.apply(block)
-        .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
-
-    return if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure!!
-    }
+    return request.apply(block).perform(M::class.java)
 }
 
 /**
@@ -706,14 +632,7 @@ inline fun <reified M> syncPatch(
         .cacheKey(path)
         .cacheMode(cache)
 
-    val response = request.apply(block)
-        .perform<M, ResponseException>(M::class.java, ResponseException::class.java)
-
-    return if (response.isSucceed) {
-        response.success!!
-    } else {
-        throw response.failure!!
-    }
+    return request.apply(block).perform(M::class.java)
 }
 
 /**

@@ -16,7 +16,6 @@
 package com.yanzhenjie.kalle.download;
 
 import com.yanzhenjie.kalle.BodyRequest;
-import com.yanzhenjie.kalle.Canceller;
 import com.yanzhenjie.kalle.Request;
 import com.yanzhenjie.kalle.RequestMethod;
 import com.yanzhenjie.kalle.Url;
@@ -101,10 +100,6 @@ public class BodyDownload extends BodyRequest implements Download {
 
         public String perform() throws Exception {
             return DownloadManager.getInstance().perform(new BodyDownload(this));
-        }
-
-        public Canceller perform(Callback callback) {
-            return DownloadManager.getInstance().perform(new BodyDownload(this), callback);
         }
     }
 }

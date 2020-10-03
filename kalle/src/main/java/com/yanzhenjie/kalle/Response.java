@@ -28,6 +28,7 @@ public final class Response implements Closeable {
     private final int mCode;
     private final Headers mHeaders;
     private final ResponseBody mBody;
+    private String logBody;
 
     private Response(Builder builder) {
         this.mCode = builder.mCode;
@@ -39,6 +40,16 @@ public final class Response implements Closeable {
         return new Builder();
     }
 
+    /**
+     * 设置日志信息
+     */
+    public void setLogBody(String logBody) {
+        this.logBody = logBody;
+    }
+
+    public String getLogBody() {
+        return logBody;
+    }
 
     /**
      * Get the mCode of response.

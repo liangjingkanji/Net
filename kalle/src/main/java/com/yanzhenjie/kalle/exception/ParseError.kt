@@ -20,8 +20,9 @@ import com.yanzhenjie.kalle.Request
 /**
  * Created by Zhenjie Yan on 2018/2/27.
  */
+
 class ParseError(
     request: Request,
-    message: String = "",
+    message: String = "An exception occurred while parsing the data",
     cause: Throwable? = null
-) : NetException(request, message, cause)
+                ) : NetException(request, message, cause)

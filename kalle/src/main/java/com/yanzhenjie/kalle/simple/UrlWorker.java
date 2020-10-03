@@ -24,12 +24,12 @@ import java.lang.reflect.Type;
 /**
  * Created by Zhenjie Yan on 2018/2/13.
  */
-final class UrlWorker<S, F> extends BasicWorker<SimpleUrlRequest, S, F> {
+final class UrlWorker<S> extends BasicWorker<SimpleUrlRequest, S> {
 
     private Call mCall;
 
-    UrlWorker(SimpleUrlRequest request, Type succeed, Type failed) {
-        super(request, succeed, failed);
+    UrlWorker(SimpleUrlRequest request, Type succeed) {
+        super(request, succeed);
     }
 
     @Override

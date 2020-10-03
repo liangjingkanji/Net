@@ -23,8 +23,8 @@ import com.drake.net.error.ResponseException
 import com.drake.net.error.ServerResponseException
 import com.yanzhenjie.kalle.Request
 import com.yanzhenjie.kalle.Response
+import com.yanzhenjie.kalle.exception.ParseError
 import com.yanzhenjie.kalle.simple.Converter
-import com.yanzhenjie.kalle.simple.Result
 import org.json.JSONObject
 import java.lang.reflect.Type
 
@@ -37,36 +37,29 @@ import java.lang.reflect.Type
  * @param message  错误信息在JSON中的字段名
  */
 @Suppress("UNCHECKED_CAST")
-abstract class DefaultConvert(
-    val success: String = "0",
-    val code: String = "code",
-    val message: String = "msg"
-) : Converter {
+abstract class DefaultConvert(val success: String = "0",
+                              val code: String = "code",
+                              val message: String = "msg") : Converter {
 
-    override fun <S, F> convert(
-        succeed: Type,
-        failed: Type,
-        request: Request,
-        response: Response,
-        result: Result<S, F>
-    ) {
+    override fun <S> convert(succeed: Type,
+                             request: Request,
+                             response: Response,
+                             cache: Boolean): S? {
         val body = response.body().string()
-        result.logResponseBody = body // 日志记录响应信息
+        response.logBody = body  // 日志记录响应信息
         val code = response.code()
-
         when {
             code in 200..299 -> { // 请求成功
                 val jsonObject = JSONObject(body) // 获取JSON中后端定义的错误码和错误信息
                 if (jsonObject.getString(this.code) == success) { // 对比后端自定义错误码
-                    result.success =
-                            if (succeed === String::class.java) body as S else body.parseBody(succeed)
+                    return if (succeed === String::class.java) body as S else body.parseBody(succeed)
                 } else { // 错误码匹配失败, 开始写入错误异常
-                    result.failure =
-                        ResponseException(code, jsonObject.getString(message), request) as F
+                    throw ResponseException(code, jsonObject.getString(message), request)
                 }
             }
             code in 400..499 -> throw RequestParamsException(code, request) // 请求参数错误
             code >= 500 -> throw ServerResponseException(code, request) // 服务器异常错误
+            else -> throw ParseError(request)
         }
     }
 
