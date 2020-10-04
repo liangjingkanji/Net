@@ -22,5 +22,7 @@ import com.yanzhenjie.kalle.exception.NetException
 /**
  * 404
  */
-class RequestParamsException(val code: Int,
-                             request: Request) : NetException(request, code.toString())
+class RequestParamsException(
+    val code: Int,
+    request: Request
+) : NetException(request, code.toString())

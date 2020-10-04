@@ -44,7 +44,7 @@ class DialogCoroutineScope(
     var dialog: Dialog? = null,
     val cancelable: Boolean = true,
     dispatcher: CoroutineDispatcher = Dispatchers.Main
-                          ) : NetCoroutineScope(dispatcher = dispatcher), LifecycleObserver {
+) : NetCoroutineScope(dispatcher = dispatcher), LifecycleObserver {
 
     init {
         activity.lifecycle.addObserver(this)

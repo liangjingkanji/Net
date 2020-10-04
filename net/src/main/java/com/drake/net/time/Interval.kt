@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:UseExperimental(ObsoleteCoroutinesApi::class)
+@file:OptIn(ObsoleteCoroutinesApi::class)
 
 package com.drake.net.time
 
@@ -61,13 +61,13 @@ class Interval(
     private val unit: TimeUnit,
     private val start: Long = 0,
     private val initialDelay: Long = 0
-              ) : Serializable {
+) : Serializable {
 
     constructor(
         period: Long,
         unit: TimeUnit,
         initialDelay: Long = 0
-               ) : this(-1, period, unit, 0, initialDelay)
+    ) : this(-1, period, unit, 0, initialDelay)
 
     private val listReceive: MutableList<(Long) -> Unit> = mutableListOf()
     private val listFinish: MutableList<(Long) -> Unit> = mutableListOf()

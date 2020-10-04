@@ -52,10 +52,12 @@ fun <M> LifecycleOwner.observe(liveData: LiveData<M>?, block: M?.() -> Unit) {
 /**
  * 收集Flow结果并过滤重复结果
  */
-fun <T> Flow<List<T>>.listen(lifecycleOwner: LifecycleOwner? = null,
-                             lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-                             dispatcher: CoroutineDispatcher = Dispatchers.Main,
-                             block: (List<T>) -> Unit): AndroidScope {
+fun <T> Flow<List<T>>.listen(
+    lifecycleOwner: LifecycleOwner? = null,
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main,
+    block: (List<T>) -> Unit
+): AndroidScope {
     return AndroidScope(lifecycleOwner, lifeEvent, dispatcher).launch {
         distinctUntilChanged().collect { data ->
             block(data)

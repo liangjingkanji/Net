@@ -37,14 +37,18 @@ import java.lang.reflect.Type
  * @param message  错误信息在JSON中的字段名
  */
 @Suppress("UNCHECKED_CAST")
-abstract class DefaultConvert(val success: String = "0",
-                              val code: String = "code",
-                              val message: String = "msg") : Converter {
+abstract class DefaultConvert(
+    val success: String = "0",
+    val code: String = "code",
+    val message: String = "msg"
+) : Converter {
 
-    override fun <S> convert(succeed: Type,
-                             request: Request,
-                             response: Response,
-                             cache: Boolean): S? {
+    override fun <S> convert(
+        succeed: Type,
+        request: Request,
+        response: Response,
+        cache: Boolean
+    ): S? {
         val body = response.body().string()
         response.logBody = body  // 日志记录响应信息
         val code = response.code()

@@ -57,10 +57,10 @@ inline fun <reified M> CoroutineScope.Get(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.GET)
-            .tag(tag)
-            .uid(uid)
-            .cacheKey(path)
-            .cacheMode(cache)
+        .tag(tag)
+        .uid(uid)
+        .cacheKey(path)
+        .cacheMode(cache)
 
     try {
         request.apply(block).perform<M>(M::class.java)
@@ -92,10 +92,10 @@ inline fun <reified M> CoroutineScope.Post(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.POST)
-            .tag(tag)
-            .uid(uid)
-            .cacheKey(path)
-            .cacheMode(cache)
+        .tag(tag)
+        .uid(uid)
+        .cacheKey(path)
+        .cacheMode(cache)
 
     try {
         request.apply(block).perform<M>(M::class.java)
@@ -126,10 +126,10 @@ inline fun <reified M> CoroutineScope.Head(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.HEAD)
-            .tag(tag)
-            .uid(uid)
-            .cacheKey(path)
-            .cacheMode(cache)
+        .tag(tag)
+        .uid(uid)
+        .cacheKey(path)
+        .cacheMode(cache)
 
     try {
         request.apply(block).perform<M>(M::class.java)
@@ -159,10 +159,10 @@ inline fun <reified M> CoroutineScope.Options(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.OPTIONS)
-            .tag(tag)
-            .uid(uid)
-            .cacheKey(path)
-            .cacheMode(cache)
+        .tag(tag)
+        .uid(uid)
+        .cacheKey(path)
+        .cacheMode(cache)
 
     try {
         request.apply(block).perform<M>(M::class.java)
@@ -192,10 +192,10 @@ inline fun <reified M> CoroutineScope.Trace(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleUrlRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.TRACE)
-            .tag(tag)
-            .uid(uid)
-            .cacheKey(path)
-            .cacheMode(cache)
+        .tag(tag)
+        .uid(uid)
+        .cacheKey(path)
+        .cacheMode(cache)
 
     try {
         request.apply(block).perform<M>(M::class.java)
@@ -225,10 +225,10 @@ inline fun <reified M> CoroutineScope.Delete(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.DELETE)
-            .tag(tag)
-            .uid(uid)
-            .cacheKey(path)
-            .cacheMode(cache)
+        .tag(tag)
+        .uid(uid)
+        .cacheKey(path)
+        .cacheMode(cache)
 
     try {
         request.apply(block).perform<M>(M::class.java)
@@ -258,13 +258,13 @@ inline fun <reified M> CoroutineScope.Put(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(
-            Url.newBuilder(realPath).build(),
-            RequestMethod.PUT
-                                          )
-            .tag(tag)
-            .uid(uid)
-            .cacheKey(path)
-            .cacheMode(cache)
+        Url.newBuilder(realPath).build(),
+        RequestMethod.PUT
+    )
+        .tag(tag)
+        .uid(uid)
+        .cacheKey(path)
+        .cacheMode(cache)
 
     try {
         request.apply(block).perform<M>(M::class.java)
@@ -294,10 +294,10 @@ inline fun <reified M> CoroutineScope.Patch(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val request = SimpleBodyRequest.newApi(Url.newBuilder(realPath).build(), RequestMethod.PATCH)
-            .tag(tag)
-            .uid(uid)
-            .cacheKey(path)
-            .cacheMode(cache)
+        .tag(tag)
+        .uid(uid)
+        .cacheKey(path)
+        .cacheMode(cache)
 
     try {
         request.apply(block).perform<M>(M::class.java)
@@ -335,8 +335,8 @@ fun CoroutineScope.Download(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val download =
-        UrlDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
-            .uid(uid)
+            UrlDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
+                .uid(uid)
 
     try {
         download.apply(block).perform()
@@ -374,8 +374,8 @@ fun CoroutineScope.DownloadBody(
     val realPath = if (absolutePath) path else (NetConfig.host + path)
 
     val download =
-        BodyDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
-            .uid(uid)
+            BodyDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
+                .uid(uid)
 
     try {
         download.apply(block).perform()
@@ -393,18 +393,18 @@ fun CoroutineScope.DownloadBody(
  * @param height 图片高度
  */
 fun CoroutineScope.DownloadImage(url: String, with: Int = -1, height: Int = -1): Deferred<File> =
-    async(Dispatchers.IO + SupervisorJob()) {
+        async(Dispatchers.IO + SupervisorJob()) {
 
-        val download = Glide.with(NetConfig.app).download(url)
+            val download = Glide.with(NetConfig.app).download(url)
 
-        val futureTarget = if (with == -1 && height == -1) {
-            download.submit()
-        } else {
-            download.submit(with, height)
+            val futureTarget = if (with == -1 && height == -1) {
+                download.submit()
+            } else {
+                download.submit(with, height)
+            }
+
+            futureTarget.get()
         }
-
-        futureTarget.get()
-    }
 
 // </editor-fold>
 
@@ -658,8 +658,8 @@ fun syncDownload(
     }
     val realPath = if (absolutePath) path else (NetConfig.host + path)
     val download =
-        UrlDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
-            .uid(uid)
+            UrlDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
+                .uid(uid)
     return download.apply(block).perform()
 }
 
@@ -686,8 +686,8 @@ fun syncDownloadBody(
     }
     val realPath = if (absolutePath) path else (NetConfig.host + path)
     val download =
-        BodyDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
-            .uid(uid)
+            BodyDownload.newApi(Url.newBuilder(realPath).build(), method).directory(dir).tag(tag)
+                .uid(uid)
     return download.apply(block).perform()
 }
 

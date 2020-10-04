@@ -28,9 +28,11 @@ import kotlin.coroutines.EmptyCoroutineContext
  * 自动显示网络错误信息协程作用域
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING")
-open class NetCoroutineScope(lifecycleOwner: LifecycleOwner? = null,
-                             lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-                             dispatcher: CoroutineDispatcher = Dispatchers.Main) : AndroidScope(lifecycleOwner, lifeEvent, dispatcher) {
+open class NetCoroutineScope(
+    lifecycleOwner: LifecycleOwner? = null,
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main
+) : AndroidScope(lifecycleOwner, lifeEvent, dispatcher) {
 
     protected var isReadCache = true
     protected var preview: (suspend CoroutineScope.() -> Unit)? = null
@@ -99,9 +101,11 @@ open class NetCoroutineScope(lifecycleOwner: LifecycleOwner? = null,
      * @param animate 是否在缓存成功后依然显示加载动画
      * @param block 该作用域内的所有异常都算缓存读取失败, 不会吐司和打印任何错误
      */
-    fun preview(ignore: Boolean = false,
-                animate: Boolean = false,
-                block: suspend CoroutineScope.() -> Unit): AndroidScope {
+    fun preview(
+        ignore: Boolean = false,
+        animate: Boolean = false,
+        block: suspend CoroutineScope.() -> Unit
+    ): AndroidScope {
         this.animate = animate
         this.error = ignore
         this.preview = block

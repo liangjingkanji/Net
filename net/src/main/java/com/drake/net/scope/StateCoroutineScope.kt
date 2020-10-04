@@ -29,7 +29,7 @@ import kotlinx.coroutines.Dispatchers
 class StateCoroutineScope(
     val state: StateLayout,
     dispatcher: CoroutineDispatcher = Dispatchers.Main
-                         ) : NetCoroutineScope(dispatcher = dispatcher) {
+) : NetCoroutineScope(dispatcher = dispatcher) {
 
     init {
         state.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {

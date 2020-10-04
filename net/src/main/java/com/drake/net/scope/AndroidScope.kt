@@ -31,7 +31,7 @@ open class AndroidScope(
     lifecycleOwner: LifecycleOwner? = null,
     lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
     val dispatcher: CoroutineDispatcher = Dispatchers.Main
-                       ) : CoroutineScope {
+) : CoroutineScope {
 
     init {
         lifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
@@ -50,7 +50,7 @@ open class AndroidScope(
     val uid = exceptionHandler
 
     override val coroutineContext: CoroutineContext =
-        dispatcher + exceptionHandler + SupervisorJob()
+            dispatcher + exceptionHandler + SupervisorJob()
 
 
     open fun launch(block: suspend CoroutineScope.() -> Unit): AndroidScope {
@@ -99,14 +99,14 @@ open class AndroidScope(
 
     open fun cancel(cause: CancellationException? = null) {
         val job = coroutineContext[Job]
-            ?: error("Scope cannot be cancelled because it does not have a job: $this")
+                  ?: error("Scope cannot be cancelled because it does not have a job: $this")
         job.cancel(cause)
     }
 
     open fun cancel(
         message: String,
         cause: Throwable? = null
-                   ) = cancel(CancellationException(message, cause))
+    ) = cancel(CancellationException(message, cause))
 
 }
 

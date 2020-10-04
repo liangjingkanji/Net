@@ -22,5 +22,7 @@ import com.yanzhenjie.kalle.exception.NetException
 /**
  * 500
  */
-class ServerResponseException(val code: Int,
-                              request: Request) : NetException(request, code.toString())
+class ServerResponseException(
+    val code: Int,
+    request: Request
+) : NetException(request, code.toString())

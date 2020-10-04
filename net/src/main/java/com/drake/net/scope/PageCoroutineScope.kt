@@ -27,7 +27,7 @@ import kotlinx.coroutines.Dispatchers
 class PageCoroutineScope(
     val page: PageRefreshLayout,
     dispatcher: CoroutineDispatcher = Dispatchers.Main
-                        ) : NetCoroutineScope(dispatcher = dispatcher) {
+) : NetCoroutineScope(dispatcher = dispatcher) {
 
     val index get() = page.index
 
