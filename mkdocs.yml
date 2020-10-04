@@ -39,6 +39,7 @@ nav:
   - 作用域: scope.md
   - 全局配置: config.md
   - 转换器: convert.md
+  - 解析JSON数组: parse-list.md
   - 拦截器: interceptor.md
   - 异常追踪: exception-track.md
   - 自动化:

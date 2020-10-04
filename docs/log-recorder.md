@@ -39,15 +39,14 @@ abstract class DefaultConvert(
     val message: String = "msg"
 ) : Converter {
 
-    override fun <S, F> convert(
+    override fun <S> convert(
         succeed: Type,
-        failed: Type,
         request: Request,
         response: Response,
-        result: Result<S, F>
-    ) {
+        cache: Boolean
+    ): S? {
         val body = response.body().string()
-        result.logResponseBody = body // 将字符串响应赋值给result.logResponseBody
+        response.log = body // 将字符串响应赋值给response.log
         // .... 其他操作
     }
 }
@@ -55,7 +54,7 @@ abstract class DefaultConvert(
 <br>
 
 !!! note
-    假设后端返回的加密数据, 可以为`result.logResponseBody`赋值解密后的字符串
+    假设后端返回的加密数据, 可以为`response.log`赋值解密后的字符串 <br>
 
 
 ### 请求参数加密
@@ -67,7 +66,7 @@ class NetInterceptor : Interceptor {
     override fun intercept(chain: Chain): Response {
         val request = chain.request()
 
-        request.logRequestBody("解密后的请求参数字符串")
+        request.log = "解密后的请求参数字符串"
 
         return chain.proceed(request)
     }
@@ -75,6 +74,13 @@ class NetInterceptor : Interceptor {
 ```
 
 <br>
+
+响应和请求都可以设置日志信息, 以在插件中查看
+
+| 函数 | 描述 |
+|-|-|
+| request.log | 请求的日志信息, 默认是params |
+| response.log | 响应的日志信息, 默认为空 |
 
 !!! note
     实际上Net的网络日志还是会被打印到LogCat, 然后通过插件捕捉显示. 如果不想LogCat的冗余日志影响查看其它日志, 可以通过AndroidStudio的功能折叠隐藏
@@ -91,4 +97,3 @@ class NetInterceptor : Interceptor {
 | recordRequest | 记录请求信息 |
 | recordResponse | 记录响应信息 |
 | recordException | 记录请求异常信息 |
-| recordDuration | 记录请求间隔时间 |

@@ -35,6 +35,10 @@ state.onRefresh {
     }
 }.showLoading()
 ```
+<br>
+
+!!! note
+    注意高亮处使用的是`scope`而不是其他作用域, 只能使用scope, 否则无法跟随StateLayout生命周期(自动显示对应缺省页)等功能
 
 ## 生命周期
 

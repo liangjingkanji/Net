@@ -67,31 +67,27 @@ abstract class DefaultConvert(
     val message: String = "msg"
 ) : Converter {
 
-    override fun <S, F> convert(
+    override fun <S> convert(
         succeed: Type,
-        failed: Type,
         request: Request,
         response: Response,
-        result: Result<S, F>
-    ) {
-
+        cache: Boolean
+    ): S? {
         val body = response.body().string()
+        response.log = body  // 日志记录响应信息
         val code = response.code()
-
         when {
-            code in 200..299 -> {  // 服务器错误码为200-299时为成功
-                val jsonObject = JSONObject(body)
-                if (jsonObject.getString(this.code) == success) { // 对比后端返回的自定义错误码
-                    result.success =
-                        if (succeed === String::class.java) body as S else body.parseBody(succeed)
-                } else {
-                    // 如果不匹配后端自定义错误码则认为请求失败, [result.failure]写入错误异常, 会自动吐司出该信息
-                    result.failure =
-                        ResponseException(code, jsonObject.getString(message), request) as F
+            code in 200..299 -> { // 请求成功
+                val jsonObject = JSONObject(body) // 获取JSON中后端定义的错误码和错误信息
+                if (jsonObject.getString(this.code) == success) { // 对比后端自定义错误码
+                    return if (succeed === String::class.java) body as S else body.parseBody(succeed)
+                } else { // 错误码匹配失败, 开始写入错误异常
+                    throw ResponseException(code, jsonObject.getString(message), request, body)
                 }
             }
             code in 400..499 -> throw RequestParamsException(code, request) // 请求参数错误
             code >= 500 -> throw ServerResponseException(code, request) // 服务器异常错误
+            else -> throw ParseError(request)
         }
     }
 
@@ -107,3 +103,8 @@ DefaultConvert对于的核心逻辑
 1. 如果都判断成功则开始解析数据
 
 根据需要你可以在这里加上常见的日志打印, 解密数据, 跳转登录界面等逻辑
+
+<br>
+
+!!! note
+    转换器允许返回null, 如果你有任何认为不支持或者需要中断请求的操作可以在转换器中抛出任何异常, 推荐你的自定义异常继承`NetException`

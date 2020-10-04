@@ -11,7 +11,6 @@ Net属于低耦合框架, 自动下拉刷新需要依赖第三方组件: [BRV](h
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/page"
     android:layout_width="match_parent"
-    app:srlEnableLoadMore="false"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.PushRefreshFragment">
 
@@ -31,7 +30,7 @@ rv_push.linear().setup {
 ```
 
 创建网络请求
-```kotlin
+```kotlin hl_lines="2"
 page.onRefresh {
     scope {
         // 请求到数据设置到RecyclerView
@@ -39,6 +38,11 @@ page.onRefresh {
     }
 }.autoRefresh()
 ```
+
+<br>
+
+!!! note
+    注意高亮处使用的是`scope`而不是其他作用域, 只能使用scope, 否则无法跟随PageRefreshLayout生命周期等功能
 
 <br>
 

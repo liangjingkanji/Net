@@ -6,8 +6,12 @@ class App : Application() {
 
         // http://182.92.97.186/  这是接口全局域名, 可以使用NetConfig.host读写
         initNet("http://182.92.97.186/") {
+
+            // 大括号内部都是可选项配置
+
             converter(JsonConvert()) // 转换器
             cacheEnabled() // 开启缓存
+            logEnabled = false // 关闭异常信息打印
         }
     }
 }
