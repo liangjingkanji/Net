@@ -58,7 +58,7 @@ abstract class DefaultConvert(
                 if (jsonObject.getString(this.code) == success) { // 对比后端自定义错误码
                     return if (succeed === String::class.java) body as S else body.parseBody(succeed)
                 } else { // 错误码匹配失败, 开始写入错误异常
-                    throw ResponseException(code, jsonObject.getString(message), request)
+                    throw ResponseException(code, jsonObject.getString(message), request, body)
                 }
             }
             code in 400..499 -> throw RequestParamsException(code, request) // 请求参数错误

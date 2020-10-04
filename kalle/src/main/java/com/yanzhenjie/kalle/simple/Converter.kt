@@ -17,6 +17,7 @@ package com.yanzhenjie.kalle.simple
 
 import com.yanzhenjie.kalle.Request
 import com.yanzhenjie.kalle.Response
+import com.yanzhenjie.kalle.exception.ParseError
 import java.lang.reflect.Type
 
 @Suppress("UNCHECKED_CAST")
@@ -39,7 +40,7 @@ interface Converter {
                     response.log = string
                     return string as S
                 }
-                return null
+                throw ParseError(request, "Only strings are supported by default")
             }
         }
     }
