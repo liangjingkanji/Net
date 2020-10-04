@@ -151,6 +151,12 @@ fun KalleConfig.Builder.onDialog(block: (DialogCoroutineScope.(context: Fragment
     NetConfig.onDialog = block
 }
 
+var KalleConfig.Builder.logEnabled: Boolean
+    get() = NetConfig.logEnabled
+    set(value) {
+        NetConfig.logEnabled = value
+    }
+
 /**
  * 开启缓存
  * @param path 缓存数据库路径
