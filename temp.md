@@ -266,7 +266,8 @@ internal var onError: Throwable.() -> Unit = {
     is ServerResponseException -> app.getString(R.string.server_error)
     is ResponseException -> msg
     else -> {
-      printStackTrace()
+       if (NetConfig.logEnabled)
+           printStackTrace()
       app.getString(R.string.other_error)
     }
   }

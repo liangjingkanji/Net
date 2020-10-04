@@ -16,6 +16,7 @@
 
 package com.drake.net.utils
 
+import com.drake.net.NetConfig
 import com.drake.net.transform.DeferredTransform
 import com.yanzhenjie.kalle.NetCancel
 import kotlinx.coroutines.*
@@ -54,7 +55,10 @@ suspend fun <T> CoroutineScope.fastest(
                 it.cancel()
                 val allFail = listDeferred.all { it.isCancelled }
                 if (allFail) deferred.completeExceptionally(e) else {
-                    if (e !is CancellationException) e.printStackTrace()
+                    if (e !is CancellationException) {
+                        if (NetConfig.logEnabled)
+                            e.printStackTrace()
+                    }
                 }
             }
         }
@@ -99,7 +103,10 @@ suspend fun <T, R> CoroutineScope.fastest(
                 it.deferred.cancel()
                 val allFail = listDeferred.all { it.deferred.isCancelled }
                 if (allFail) deferred.completeExceptionally(e) else {
-                    if (e !is CancellationException) e.printStackTrace()
+                    if (e !is CancellationException) {
+                        if (NetConfig.logEnabled)
+                            e.printStackTrace()
+                    }
                 }
             }
         }

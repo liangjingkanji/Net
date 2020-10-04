@@ -50,8 +50,9 @@ import java.util.concurrent.ExecutionException
  */
 object NetConfig {
 
-    lateinit var host: String
     lateinit var app: Application
+    var host: String = ""
+    var logEnabled = true
 
     var onDialog: DialogCoroutineScope.(FragmentActivity) -> Dialog = {
         val progress = ProgressDialog(activity)
@@ -59,7 +60,9 @@ object NetConfig {
         progress
     }
 
-    var onError: Throwable.() -> Unit = {
+    var onError: Throwable.() -> Unit = onError@{
+        if (!this@NetConfig::app.isInitialized) return@onError
+
         val message = when (this) {
             is NetworkError -> app.getString(R.string.net_network_error)
             is URLError -> app.getString(R.string.net_url_error)
@@ -80,7 +83,8 @@ object NetConfig {
             else -> app.getString(R.string.net_other_error)
         }
 
-        printStackTrace()
+        if (logEnabled)
+            printStackTrace()
         app.toast(message)
     }
 
@@ -90,7 +94,10 @@ object NetConfig {
             is RequestParamsException,
             is ResponseException,
             is NullPointerException -> onError(this)
-            else -> printStackTrace()
+            else -> {
+                if (logEnabled)
+                    printStackTrace()
+            }
         }
     }
 }
@@ -107,7 +114,7 @@ object NetConfig {
  */
 fun Application.initNet(host: String, config: KalleConfig.Builder.() -> Unit = {}) {
     NetConfig.host = host
-    NetConfig.app = this
+    app = this
     val builder = KalleConfig.newBuilder()
     builder.apply {
         network(BroadcastNetwork(this@initNet))
@@ -151,7 +158,7 @@ fun KalleConfig.Builder.onDialog(block: (DialogCoroutineScope.(context: Fragment
  * @param password 缓存数据库密码
  */
 fun KalleConfig.Builder.cacheEnabled(
-    path: String = NetConfig.app.cacheDir.absolutePath,
+    path: String = app.cacheDir.absolutePath,
     password: String = "cache"
 ) {
     val cacheStore = DiskCacheStore.newBuilder(path)
