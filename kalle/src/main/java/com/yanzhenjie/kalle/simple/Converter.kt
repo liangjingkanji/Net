@@ -36,7 +36,7 @@ interface Converter {
                                      cache: Boolean): S? {
                 if (succeed === String::class.java) {
                     val string = response.body().string()
-                    response.logBody = string
+                    response.log = string
                     return string as S
                 }
                 return null

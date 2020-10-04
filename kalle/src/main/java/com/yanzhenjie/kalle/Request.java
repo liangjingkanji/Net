@@ -38,10 +38,10 @@ public abstract class Request {
     private final int mReadTimeout;
     private final Object mTag;
     private final Object uid;
-    private String logId = LogRecorder.INSTANCE.generateId();
-    private String logRequestBody;
-    private long requestTime = System.currentTimeMillis();
     private String location;
+    private String logId = LogRecorder.INSTANCE.generateId();
+    private String log;
+    private long timeMillis = System.currentTimeMillis();
 
     /**
      * 请求Id, 每个请求都有独一无二的Id
@@ -53,24 +53,24 @@ public abstract class Request {
     /**
      * 请求开始时间
      */
-    public long getRequestStartTime() {
-        return requestTime;
+    public long getTimeMillis() {
+        return timeMillis;
     }
 
     /**
      * 请求体
      */
-    public String logRequestBody() {
-        if (logRequestBody == null) {
+    public String getLog() {
+        if (log == null) {
             return copyParams().toString();
-        } else return logRequestBody;
+        } else return log;
     }
 
     /**
      * 设置一个请求体, 默认使用copyParams()
      */
-    public void logRequestBody(String logRequestBody) {
-        this.logRequestBody = logRequestBody;
+    public void setLog(String log) {
+        this.log = log;
     }
 
     /**

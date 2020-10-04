@@ -18,12 +18,9 @@ package com.yanzhenjie.kalle.exception
 import com.yanzhenjie.kalle.Headers
 import com.yanzhenjie.kalle.Request
 
-/**
- * Created by Zhenjie Yan on 2018/3/18.
- */
 class DownloadError(
-    code: Int,
-    headers: Headers,
+    val code: Int,
+    val headers: Headers,
     request: Request,
     message: String = ""
 ) : NetException(request, message)

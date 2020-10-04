@@ -36,7 +36,7 @@ import java.util.concurrent.Callable;
 import static com.yanzhenjie.kalle.Headers.KEY_IF_MODIFIED_SINCE;
 import static com.yanzhenjie.kalle.Headers.KEY_IF_NONE_MATCH;
 
-abstract class BasicWorker<T extends SimpleRequest, Succeed> implements Callable<Succeed>, Canceller {
+abstract class BasicWorker<T extends SimpleRequest, S> implements Callable<S>, Canceller {
 
     private static final long MAX_EXPIRES = System.currentTimeMillis() + 100L * 365L * 24L * 60L * 60L * 1000L;
 
@@ -53,14 +53,14 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed> implements Callable
     }
 
     @Override
-    public final Succeed call() throws Exception {
+    public final S call() throws Exception {
         Response response = tryReadCacheBefore();
         if (response != null) return buildSimpleResponse(response, true);
 
         tryAttachCache();
         try {
             Request request = mRequest.request();
-            LogRecorder.INSTANCE.recordRequest(request.logId(), request.location(), request.method().toString(), request.headers().toMap(), request.logRequestBody());
+            LogRecorder.INSTANCE.recordRequest(request.logId(), request.location(), request.method().toString(), request.headers().toMap(), request.getLog());
 
             response = requestNetwork(mRequest);
 
@@ -89,8 +89,14 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed> implements Callable
                 return buildSimpleResponse(cacheResponse, true);
             }
             Request request = mRequest.request();
-            LogRecorder.INSTANCE.recordException(request.logId(), e);
-            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
+
+            String errorMsg = null;
+            int code = 0;
+            if (response != null) {
+                errorMsg = response.getLog();
+                code = response.code();
+            }
+            LogRecorder.INSTANCE.recordException(request.logId(), request.getTimeMillis(), code, e.getLocalizedMessage(), errorMsg);
             throw e;
         } finally {
             IOUtils.closeQuietly(response);
@@ -286,22 +292,15 @@ abstract class BasicWorker<T extends SimpleRequest, Succeed> implements Callable
                 .build();
     }
 
-    private Succeed buildSimpleResponse(Response response, boolean cache) throws IOException {
+    private S buildSimpleResponse(Response response, boolean cache) throws IOException {
         Request request = mRequest.request();
         try {
-            Succeed result = mConverter.convert(mSucceed, request, response, cache);
-
-            LogRecorder.INSTANCE.recordResponse(request.logId(), String.valueOf(response.code()), response.headers().toMap(), response.getLogBody());
-            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
-
+            S result = mConverter.convert(mSucceed, request, response, cache);
+            LogRecorder.INSTANCE.recordResponse(request.logId(), request.getTimeMillis(), response.code(), response.headers().toMap(), response.getLog());
             return result;
         } catch (NetException e) {
-            LogRecorder.INSTANCE.recordException(request.logId(), e);
-            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
             throw e;
         } catch (Exception e) {
-            LogRecorder.INSTANCE.recordException(request.logId(), e);
-            LogRecorder.INSTANCE.recordDuration(request.logId(), System.currentTimeMillis() - request.getRequestStartTime());
             throw new ParseError(request, "An exception occurred while parsing the data", e);
         }
     }

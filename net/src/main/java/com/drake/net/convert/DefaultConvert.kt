@@ -50,7 +50,7 @@ abstract class DefaultConvert(
         cache: Boolean
     ): S? {
         val body = response.body().string()
-        response.logBody = body  // 日志记录响应信息
+        response.log = body  // 日志记录响应信息
         val code = response.code()
         when {
             code in 200..299 -> { // 请求成功

@@ -33,7 +33,6 @@ import com.drake.net.scope.DialogCoroutineScope
 import com.drake.tooltip.toast
 import com.yanzhenjie.kalle.Kalle
 import com.yanzhenjie.kalle.KalleConfig
-import com.yanzhenjie.kalle.connect.BroadcastNetwork
 import com.yanzhenjie.kalle.exception.*
 import com.yanzhenjie.kalle.simple.cache.DiskCacheStore
 import java.util.concurrent.ExecutionException
@@ -117,7 +116,7 @@ fun Application.initNet(host: String, config: KalleConfig.Builder.() -> Unit = {
     app = this
     val builder = KalleConfig.newBuilder()
     builder.apply {
-        network(BroadcastNetwork(this@initNet))
+        // network(BroadcastNetwork(this@initNet))
         config()
     }
     Kalle.setConfig(builder.build())

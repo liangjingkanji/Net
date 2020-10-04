@@ -17,9 +17,6 @@ package com.yanzhenjie.kalle.exception
 
 import com.yanzhenjie.kalle.Request
 
-/**
- * Created by Zhenjie Yan on 2018/2/26.
- */
 class NoCacheError(
     request: Request,
     message: String = ""

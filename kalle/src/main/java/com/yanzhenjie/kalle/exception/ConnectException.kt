@@ -17,9 +17,6 @@ package com.yanzhenjie.kalle.exception
 
 import com.yanzhenjie.kalle.Request
 
-/**
- * Created by Zhenjie Yan on 2018/2/13.
- */
 open class ConnectException(
     request: Request,
     message: String = "",

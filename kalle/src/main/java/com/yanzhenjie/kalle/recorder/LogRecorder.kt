@@ -96,39 +96,42 @@ object LogRecorder {
      */
     fun recordResponse(
         id: String,
-        code: String,
+        requestMillis: Long,
+        code: Int,
         headers: Map<String, List<String>>,
         body: String?
     ) {
         if (!enabled) return
         largeLog(id, MessageType.RESPONSE_BODY, body)
-        logWithHandler(id, MessageType.RESPONSE_STATUS, code, 0)
+        logWithHandler(id, MessageType.RESPONSE_STATUS, code.toString(), 0)
         for ((key, value) in headers) {
             var header = value.toString()
             if (header.length > 2) header = header.substring(1, header.length - 1)
             logWithHandler(id, MessageType.RESPONSE_HEADER, key + HEADER_DELIMITER + header, 0)
         }
+        logWithHandler(id, MessageType.RESPONSE_TIME, (System.currentTimeMillis() - requestMillis).toString(), 0)
+        logWithHandler(id, MessageType.RESPONSE_END, "-->", 0)
     }
 
     /**
      * 发送请求异常到记录器
      *
      * @param id 请求的唯一标识符
+     * @param requestMillis 请求时间毫秒值
+     * @param errorMessage 错误信息, 如果存在\n换行符, 仅接受最后一行
      */
-    fun recordException(id: String, response: Exception) {
+    fun recordException(
+        id: String,
+        requestMillis: Long,
+        code: Int?,
+        response: String?,
+        errorMessage: String?
+    ) {
         if (!enabled) return
-        logWithHandler(id, MessageType.RESPONSE_ERROR, response.localizedMessage, 0)
-    }
-
-    /**
-     * 发送请求到响应时间间隔
-     *
-     * @param id 请求的唯一标识符
-     * @param duration 间隔时间
-     */
-    fun recordDuration(id: String, duration: Long) {
-        if (!enabled) return
-        logWithHandler(id, MessageType.RESPONSE_TIME, duration.toString(), 0)
+        largeLog(id, MessageType.RESPONSE_BODY, response)
+        logWithHandler(id, MessageType.RESPONSE_STATUS, code.toString(), 0)
+        logWithHandler(id, MessageType.RESPONSE_ERROR, errorMessage, 0)
+        logWithHandler(id, MessageType.RESPONSE_TIME, (System.currentTimeMillis() - requestMillis).toString(), 0)
         logWithHandler(id, MessageType.RESPONSE_END, "-->", 0)
     }
 
@@ -180,11 +183,9 @@ object LogRecorder {
                         e.printStackTrace()
                     }
                 }
-                val data = bundle.getString(KEY_VALUE)
+                val data = bundle.getString(KEY_VALUE) ?: "null"
                 val key = bundle.getString(KEY_TAG)
-                if (data != null && key != null) {
-                    Log.v(key, data)
-                }
+                Log.v(key, data)
             }
         }
     }

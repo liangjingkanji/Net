@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.drake.net.error
 
 import com.yanzhenjie.kalle.Request
@@ -28,5 +30,6 @@ import com.yanzhenjie.kalle.exception.NetException
 class ResponseException(
     val code: Int,
     val msg: String,
-    request: Request
+    request: Request,
+    val tag: Any? = null
 ) : NetException(request, "$code $msg")

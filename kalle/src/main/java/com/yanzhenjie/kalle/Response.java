@@ -43,11 +43,11 @@ public final class Response implements Closeable {
     /**
      * 设置日志信息
      */
-    public void setLogBody(String logBody) {
+    public void setLog(String logBody) {
         this.logBody = logBody;
     }
 
-    public String getLogBody() {
+    public String getLog() {
         return logBody;
     }
 
