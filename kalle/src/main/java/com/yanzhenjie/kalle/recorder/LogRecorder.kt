@@ -18,12 +18,11 @@ object LogRecorder {
 
     var enabled = false
 
-    private val handler: Handler
-        get() {
-            val handlerThread = HandlerThread("OkHttpProfiler", Process.THREAD_PRIORITY_BACKGROUND)
-            handlerThread.start()
-            return LogBodyHandler(handlerThread.looper)
-        }
+    private val handler by lazy {
+        val handlerThread = HandlerThread("OkHttpProfiler", Process.THREAD_PRIORITY_BACKGROUND)
+        handlerThread.start()
+        LogBodyHandler(handlerThread.looper)
+    }
 
     private const val LOG_LENGTH = 4000
     private const val SLOW_DOWN_PARTS_AFTER = 20
@@ -109,7 +108,12 @@ object LogRecorder {
             if (header.length > 2) header = header.substring(1, header.length - 1)
             logWithHandler(id, MessageType.RESPONSE_HEADER, key + HEADER_DELIMITER + header, 0)
         }
-        logWithHandler(id, MessageType.RESPONSE_TIME, (System.currentTimeMillis() - requestMillis).toString(), 0)
+        logWithHandler(
+            id,
+            MessageType.RESPONSE_TIME,
+            (System.currentTimeMillis() - requestMillis).toString(),
+            0
+        )
         logWithHandler(id, MessageType.RESPONSE_END, "-->", 0)
     }
 
@@ -131,7 +135,12 @@ object LogRecorder {
         largeLog(id, MessageType.RESPONSE_BODY, response)
         logWithHandler(id, MessageType.RESPONSE_STATUS, code.toString(), 0)
         logWithHandler(id, MessageType.RESPONSE_ERROR, errorMessage, 0)
-        logWithHandler(id, MessageType.RESPONSE_TIME, (System.currentTimeMillis() - requestMillis).toString(), 0)
+        logWithHandler(
+            id,
+            MessageType.RESPONSE_TIME,
+            (System.currentTimeMillis() - requestMillis).toString(),
+            0
+        )
         logWithHandler(id, MessageType.RESPONSE_END, "-->", 0)
     }
 
