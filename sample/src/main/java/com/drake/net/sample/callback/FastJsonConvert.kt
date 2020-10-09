@@ -16,14 +16,14 @@
 
 package com.drake.net.sample.callback
 
+import com.alibaba.fastjson.JSON
 import com.drake.net.convert.DefaultConvert
-import com.google.gson.GsonBuilder
 import java.lang.reflect.Type
 
-class GsonConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
-    val gson = GsonBuilder().serializeNulls().create()
+class FastJsonConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
 
     override fun <S> String.parseBody(succeed: Type): S? {
-        return gson.fromJson(this, succeed)
+
+        return JSON.parseObject(this, succeed)
     }
 }

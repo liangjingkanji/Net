@@ -80,6 +80,7 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:1.8.0"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.8.0"
     implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.alibaba:fastjson:1.2.48'
 
     // ------------------------------我的其他库-------------------------------------
     implementation 'com.github.liangjingkanji:StatusBar:1.0.3' // 透明状态栏

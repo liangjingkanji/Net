@@ -4,11 +4,20 @@ Net扩展`Okhttp Profiler`插件支持更好的日志拦截信息, 支持加密�
 
 ## 安装插件
 
+
+### 1) 安装插件
 在插件市场搜索: "`Okhttp Profiler`"
 
 <img src="https://i.imgur.com/Pvncs1W.png" width="100%"/>
 
-### 初始化
+
+### 2) 打开窗口
+安装以后在AndroidStudio右下角打开窗口
+
+<img src="https://i.imgur.com/lZ0RvN4.png" width="80%"/>
+
+
+### 3) 初始化
 ```kotlin hl_lines="3"
 initNet("http://182.92.97.186/") {
     converter(JsonConvert()) // 转换器
@@ -28,7 +37,7 @@ initNet("http://182.92.97.186/") {
 | <img src="https://i.imgur.com/WG2WgBy.png" width="20%"/> 清空 | 清空记录 |
 
 
-### 自定义转换器
+### 响应字符串解密
 
 假设你使用的是`DefaultConvert`或者没有使用转换器直接返回String则无需多余处理, 如果覆写或者直接实现的`Convert`, 请确保`result.logResponseBody`被赋值
 ```kotlin hl_lines="16"
@@ -82,9 +91,15 @@ class NetInterceptor : Interceptor {
 | request.log | 请求的日志信息, 默认是params |
 | response.log | 响应的日志信息, 默认为空 |
 
-!!! note
-    实际上Net的网络日志还是会被打印到LogCat, 然后通过插件捕捉显示. 如果不想LogCat的冗余日志影响查看其它日志, 可以通过AndroidStudio的功能折叠隐藏
-    <img src="https://i.imgur.com/F6DoICr.png" width="100%"/>
+
+
+## LogCat冗余日志过滤
+实际上Net的网络日志还是会被打印到LogCat, 然后通过插件捕捉显示.
+
+<img src="https://i.imgur.com/0BZAg4M.png" width="50%"/>
+
+如果不想LogCat的冗余日志影响查看其它日志, 可以通过AndroidStudio的功能折叠隐藏, 添加一个`OKPREL_`过滤字段即可
+<img src="https://i.imgur.com/F6DoICr.png" width="100%"/>
 
 
 ## 扩展至其他请求框架

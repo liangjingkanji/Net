@@ -15,23 +15,42 @@
 
 === "Gson"
     ```kotlin
-    class JsonConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
+    class GsonConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
+        val gson = GsonBuilder().serializeNulls().create()
+
         override fun <S> String.parseBody(succeed: Type): S? {
-            return Gson().fromJson(this, succeed)
+            return gson.fromJson(this, succeed)
         }
     }
     ```
 === "Moshi"
     ```kotlin
-    class JsonConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
+    class MoshiConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
+        val moshi = Moshi.Builder().build()
+
         override fun <S> String.parseBody(succeed: Type): S? {
-            return Moshi.Builder().build().adapter<S>(succeed).fromJson(this)
+
+            return moshi.adapter<S>(succeed).fromJson(this)
+        }
+    }
+    ```
+=== "FastJson"
+    ```kotlin
+    class FastJsonConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
+
+        override fun <S> String.parseBody(succeed: Type): S? {
+            return JSON.parseObject(this, succeed)
         }
     }
     ```
 
 - 请自己手动添加[Moshi](https://github.com/square/moshi)或者[Gson](https://github.com/google/gson)的依赖
 - Moshi属于Kotlin上解析Json我比较推荐的一个解析库, 支持Kotlin默认值(Gson不支持)
+
+<br>
+
+!!! note
+    注意解析器(Gson或者Moshi)的对象记得定义为类成员, 这样可以不会导致每次解析都要创建一个新的对象, 减少内存消耗
 
 <br>
 
