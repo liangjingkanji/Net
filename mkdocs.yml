@@ -3,7 +3,7 @@ site_author: drake
 site_description: Net document
 copyright: Copyright &copy; 2018 - 2020 Drake
 
-repo_name: Net
+repo_name: GitHub
 repo_url: https://github.com/liangjingkanji/Net
 
 extra_css:
@@ -17,6 +17,7 @@ theme:
 
   palette:
     scheme: drake
+    primary: white
 
   font: false
 

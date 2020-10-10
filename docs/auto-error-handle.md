@@ -11,11 +11,8 @@ Net具备完善的全局错误处理机制
 
 
 ## 手动错误处理
-<br>
 
-!!! note
-    假设不需要全局错误处理, 我们可以`catch`作用域来自己处理异常
-
+> 假设不需要全局错误处理, 我们可以`catch`作用域来自己处理异常
 
 ```kotlin
 scopeNetLife {
@@ -53,7 +50,7 @@ catch里面的`it`属于异常对象, 这里列举可能存在的异常
 
 Net默认的错误处理源码
 
-<img src="https://i.imgur.com/t1Ep8tj.png" width="70%"/>
+<img src="https://i.imgur.com/t1Ep8tj.png" width="50%"/>
 
 
 ## 错误信息文本

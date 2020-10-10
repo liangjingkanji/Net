@@ -19,7 +19,9 @@ package com.drake.net.sample.base
 import android.app.Application
 import com.drake.net.cacheEnabled
 import com.drake.net.initNet
+import com.drake.net.logEnabled
 import com.drake.net.sample.BR
+import com.drake.net.sample.BuildConfig
 import com.drake.net.sample.R
 import com.drake.net.sample.callback.MoshiConvert
 import com.drake.statelayout.StateConfig
@@ -42,7 +44,8 @@ class App : Application() {
         initNet("http://182.92.97.186/") {
             converter(MoshiConvert()) // 自动解析JSON映射到实体类中, 转换器分为全局和单例, 覆盖生效(拦截器允许多个)
             cacheEnabled()
-            setLogRecord(true)
+            setLogRecord(BuildConfig.DEBUG) // 日志记录器
+            logEnabled = BuildConfig.DEBUG // LogCat异常日志
         }
 
         // 初始化SmartRefreshLayout, 这是自动下拉刷新和上拉加载采用的第三方库  [https://github.com/scwang90/SmartRefreshLayout/tree/master] V2版本

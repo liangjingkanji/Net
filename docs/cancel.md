@@ -31,16 +31,17 @@ NetCancel.cancel("请求用户信息")
 
 <br>
 
-!!! note
-    需要注意的是一旦为网络请求设置UID你就无法在作用域执行完毕自动取消网络请求了, 因为自动取消的原理就是使用作用域
-    的上下文错误处理器来作为UID
-    ```kotlin hl_lines="6"
-    inline fun <reified M> CoroutineScope.Get(
-        path: String,
-        tag: Any? = null,
-        cache: CacheMode = CacheMode.HTTP,
-        absolutePath: Boolean = false,
-        uid: Any? = coroutineContext[CoroutineExceptionHandler],
-        noinline block: SimpleUrlRequest.Api.() -> Unit = {}
-    ): Deferred<M> = async(Dispatchers.IO)
-    ```
+> 需要注意的是一旦为网络请求设置UID你就无法在作用域执行完毕自动取消网络请求了, 因为自动取消的原理就是使用作用域
+的上下文错误处理器来作为UID
+
+
+```kotlin hl_lines="6"
+inline fun <reified M> CoroutineScope.Get(
+    path: String,
+    tag: Any? = null,
+    cache: CacheMode = CacheMode.HTTP,
+    absolutePath: Boolean = false,
+    uid: Any? = coroutineContext[CoroutineExceptionHandler],
+    noinline block: SimpleUrlRequest.Api.() -> Unit = {}
+): Deferred<M> = async(Dispatchers.IO)
+```

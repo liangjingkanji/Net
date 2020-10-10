@@ -4,7 +4,7 @@
     code:"200",
     msg:"错误信息",
     data: {
-        name: "drake"
+        name: "value"
     }
 }
 ```
@@ -36,15 +36,14 @@ inline fun <reified T> String.toJsonArray(): MutableList<T> {
     return JSON.parseArray(this, T::class.java)
 }
 ```
-<br>
 
-!!! note
-    `JSON.parseArray`这是FastJson的函数, 如果你使用的是Gson可以使用
-    ```kotlin
-    inline fun <reified T> String.toJsonArray(): MutableList<T> {
-        return Gson().fromJson(this, TypeToken.getParameterized(List::class.java, T::class.java).type)
-    }
-    ```
+`JSON.parseArray`这是FastJson的函数, 如果你使用的是Gson可以使用
+
+```kotlin
+inline fun <reified T> String.toJsonArray(): MutableList<T> {
+    return Gson().fromJson(this, TypeToken.getParameterized(List::class.java, T::class.java).type)
+}
+```
 
 ### 2) 使用
 
@@ -56,6 +55,5 @@ scope {
 ```
 <br>
 
-!!! note
-    这样的优点是扩展方便, 整体清晰. 毕竟不是每个接口的data都可能是JSON数组, 而且这样还支持List嵌套(JSON数组嵌套)<br>
-    该扩展函数太简单我就不加入到框架中了, 大家复制粘贴下就OK了
+> 这样的优点是扩展方便, 整体清晰. 毕竟不是每个接口的data都可能是JSON数组, 而且这样还支持List嵌套(JSON数组嵌套)<br>
+  该扩展函数太简单我就不加入到框架中了, 大家复制粘贴下就OK了

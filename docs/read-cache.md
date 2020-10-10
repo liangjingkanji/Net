@@ -33,8 +33,7 @@ initNet("http://182.92.97.186/") {
 
 <br>
 
-!!! note
-    `preview`并没有说只能用在网络缓存上, 也可以用于其他的处理场景
+> `preview`并没有说只能用在网络缓存上, 也可以用于其他的处理场景
 
 <br>
 
@@ -71,4 +70,4 @@ initNet("http://182.92.97.186/") {
 
 <br>
 便于理解
-<img src="https://i.imgur.com/sHnrzWX.png" width="100%"/>
+<img src="https://i.imgur.com/sHnrzWX.png" width="80%%"/>

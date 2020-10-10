@@ -1,7 +1,6 @@
 在Net中转换器([Convert](https://github.com/liangjingkanji/Net/blob/master/kalle/src/main/java/com/yanzhenjie/kalle/simple/Converter.kt))负责数据解析的工作, 自定义转换器即实现Convert接口即可
 
-!!! note
-    你的业务可能需要请求参数加密或者拼接一串特殊含义的参数, 或者响应信息需要解密. 请不要尝试封装Post或者Get等请求函数(这是蠢材做法), 自定义拦截器和转换器可以应对任何项目需求.
+> 你的业务可能需要请求参数加密或者拼接一串特殊含义的参数, 或者响应信息需要解密. 请不要尝试封装Post或者Get等请求函数(这是蠢材做法), 自定义拦截器和转换器可以应对任何项目需求.
 
 - 数据解密
 - 解析JSON
@@ -49,8 +48,7 @@
 
 <br>
 
-!!! note
-    注意解析器(Gson或者Moshi)的对象记得定义为类成员, 这样可以不会导致每次解析都要创建一个新的对象, 减少内存消耗
+> 注意解析器(Gson或者Moshi)的对象记得定义为类成员, 这样可以不会导致每次解析都要创建一个新的对象, 减少内存消耗
 
 <br>
 
@@ -76,8 +74,9 @@
 ## 自定义转换器
 
 [DefaultConvert](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/DefaultConvert.kt) 实际上也只是实现Convert接口的一个抽象类
-!!! note "自定义转换器"
-    当你对DefaultConvert有更多需求或者功能扩展的话推荐参考DefaultConvert来实现Convert接口(直接复制DefaultConvert文件修改也行)
+
+> 当你对DefaultConvert有更多需求或者功能扩展的话推荐参考DefaultConvert来实现Convert接口(直接复制DefaultConvert文件修改也行)
+
 源码如下
 ```kotlin
 abstract class DefaultConvert(
@@ -125,5 +124,4 @@ DefaultConvert对于的核心逻辑
 
 <br>
 
-!!! note
-    转换器允许返回null, 如果你有任何认为不支持或者需要中断请求的操作可以在转换器中抛出任何异常, 推荐你的自定义异常继承`NetException`
+> 转换器允许返回null, 如果你有任何认为不支持或者需要中断请求的操作可以在转换器中抛出任何异常, 推荐你的自定义异常继承`NetException`

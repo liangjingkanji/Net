@@ -9,9 +9,10 @@ class App : Application() {
 
             // 大括号内部都是可选项配置
 
-            converter(JsonConvert()) // 转换器
+            converter(MoshiConvert()) // 转换器
             cacheEnabled() // 开启缓存
-            logEnabled = false // 关闭异常信息打印
+            setLogRecord(BuildConfig.DEBUG) // 日志记录器
+            logEnabled = BuildConfig.DEBUG // LogCat异常日志
         }
     }
 }
@@ -19,7 +20,7 @@ class App : Application() {
 
 initNet 作用域内可选函数
 
-<img src="https://i.imgur.com/G8W4oDX.png" width="60%"/>
+<img src="https://i.imgur.com/G8W4oDX.png" width="40%"/>
 
 ## 动态配置
 

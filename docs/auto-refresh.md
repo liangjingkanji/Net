@@ -1,8 +1,7 @@
 Net属于低耦合框架, 自动下拉刷新需要依赖第三方组件: [BRV](https://github.com/liangjingkanji/BRV)(点击链接按文档依赖)
 <br>
 
-!!! note
-    当然如果自己处理下拉刷新也是可以的, Net可以仅仅作为网络框架存在
+> 当然如果自己处理下拉刷新也是可以的, Net可以仅仅作为网络框架存在
 
 创建PageRefreshLayout
 ```xml
@@ -41,8 +40,7 @@ page.onRefresh {
 
 <br>
 
-!!! note
-    注意高亮处使用的是`scope`而不是其他作用域, 只能使用scope, 否则无法跟随PageRefreshLayout生命周期等功能
+> 注意高亮处使用的是`scope`而不是其他作用域, 只能使用scope, 否则无法跟随PageRefreshLayout生命周期等功能
 
 <br>
 

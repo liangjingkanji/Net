@@ -33,8 +33,8 @@ initNet("http://182.92.97.186/") {
 |-|-|
 | Device | 选择调试设备 |
 | Process | 选择展示记录的进程 |
-| <img src="https://i.imgur.com/bLXKLrI.png" width="20%"/> 抓取 | 一般情况不需要使用, 假设没有及时更新请点击图标 |
-| <img src="https://i.imgur.com/WG2WgBy.png" width="20%"/> 清空 | 清空记录 |
+| <img src="https://i.imgur.com/bLXKLrI.png" width="10%"/> 抓取 | 一般情况不需要使用, 假设没有及时更新请点击图标 |
+| <img src="https://i.imgur.com/WG2WgBy.png" width="10%"/> 清空 | 清空记录 |
 
 
 ### 响应字符串解密
@@ -62,8 +62,7 @@ abstract class DefaultConvert(
 ```
 <br>
 
-!!! note
-    假设后端返回的加密数据, 可以为`response.log`赋值解密后的字符串 <br>
+> 假设后端返回的加密数据, 可以为`response.log`赋值解密后的字符串 <br>
 
 
 ### 请求参数加密
@@ -96,7 +95,7 @@ class NetInterceptor : Interceptor {
 ## LogCat冗余日志过滤
 实际上Net的网络日志还是会被打印到LogCat, 然后通过插件捕捉显示.
 
-<img src="https://i.imgur.com/0BZAg4M.png" width="50%"/>
+<img src="https://i.imgur.com/0BZAg4M.png" width="40%"/>
 
 如果不想LogCat的冗余日志影响查看其它日志, 可以通过AndroidStudio的功能折叠隐藏, 添加一个`OKPREL_`过滤字段即可
 <img src="https://i.imgur.com/F6DoICr.png" width="100%"/>

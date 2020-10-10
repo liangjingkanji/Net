@@ -28,8 +28,7 @@ Net的网络请求本身支持在官方的自带的作用域内使用, 但是考
 
 <br>
 
-!!! note
-    PageRefreshLayout/StateLayout 属于[BRV](https://github.com/liangjingkanji/BRV)框架中的布局, 用于支持[自动化缺省页/下拉刷新](auto-state.md)
+> PageRefreshLayout/StateLayout 属于[BRV](https://github.com/liangjingkanji/BRV)框架中的布局, 用于支持[自动化缺省页/下拉刷新](auto-state.md)
 <br>
 
 ## 捕捉异常/执行完成

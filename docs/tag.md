@@ -97,5 +97,4 @@ class NetInterceptor : Interceptor {
 ```
 <br>
 
-!!! note
-    RESPONSE 和 REQUEST 已经在Net框架中存在, 可以直接使用
+> RESPONSE 和 REQUEST 已经在Net框架中存在, 可以直接使用

@@ -13,5 +13,4 @@ scopeDialog {
 
 DownloadImage的第一个参数Url不会包含`baseUrl`, 所以你可以看到我手动`NetConfig.host + "download/img"`.
 
-!!! note
-    这是因为一般项目设计中图片都是单独与服务器之外的地址, 例如CDN图床, 所以默认不自动拼接baseUrl
+> 这是因为一般项目设计中图片都是单独与服务器之外的地址, 例如CDN图床, 所以默认不自动拼接baseUrl
