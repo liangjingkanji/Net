@@ -10,7 +10,7 @@ scopeNetLife {
 这里演示一个包含下载进度监听的
 ```kotlin
 scopeNetLife {
-    Download("download", requireContext().filesDir.path) {
+    val filePath = Download("download", requireContext().filesDir.path) {
         // 下载进度回调
         onProgress { progress, byteCount, speed ->
             // 进度条
@@ -26,3 +26,12 @@ scopeNetLife {
     }.await()
 }
 ```
+
+Download函数一调用就会开始执行下载文件请求, 然后`await`则会等待下载文件完成然后返回一个文件下载完成后的地址, 示例中即`filePath`.
+
+
+> 不使用`await`函数则下载报错也不会被Net捕捉到, 将会被忽略, 使用await则会触发Net的错误处理, 终止当前作用域(scope)内其他网络请求, 被Net全局错误处理捕获
+
+
+
+

@@ -44,7 +44,7 @@ class DownloadFileFragment : Fragment() {
         setHasOptionsMenu(true)
 
         downloadScope = scopeNetLife {
-            Download("download", requireContext().filesDir.path) {
+            val filePath = Download("download", requireContext().filesDir.path) {
                 // 下载进度回调
                 onProgress { progress, byteCount, speed ->
                     // 进度条
