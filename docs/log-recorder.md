@@ -95,7 +95,7 @@ class NetInterceptor : Interceptor {
 ## LogCat冗余日志过滤
 实际上Net的网络日志还是会被打印到LogCat, 然后通过插件捕捉显示.
 
-<img src="https://i.imgur.com/0BZAg4M.png" width="40%"/>
+<img src="https://i.imgur.com/0BZAg4M.png" width="350"/>
 
 如果不想LogCat的冗余日志影响查看其它日志, 可以通过AndroidStudio的功能折叠隐藏, 添加一个`OKPREL_`过滤字段即可
 <img src="https://i.imgur.com/F6DoICr.png" width="100%"/>

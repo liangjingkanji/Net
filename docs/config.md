@@ -20,7 +20,7 @@ class App : Application() {
 
 initNet 作用域内可选函数
 
-<img src="https://i.imgur.com/G8W4oDX.png" width="40%"/>
+<img src="https://i.imgur.com/G8W4oDX.png" width="300"/>
 
 ## 动态配置
 

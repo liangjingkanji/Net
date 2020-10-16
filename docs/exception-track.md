@@ -14,7 +14,7 @@ scopeNetLife {
 
 查看LogCat
 
-<img src="https://i.imgur.com/5BpSWVv.png" width="80%%"/>
+<img src="https://i.imgur.com/5BpSWVv.png" width="600"/>
 
 这属于请求参数错误404, 将会打印出错误码以及请求的URL.
 

@@ -15,7 +15,8 @@ scopeDialog {
 <br>
 
 加载框默认使用的是Android原生加载框(MaterialDesign Dialog), 当然也提供配置函数
-<img src="https://i.imgur.com/egUM3V1.png" width="40%"/>
+
+<img src="https://i.imgur.com/egUM3V1.png" width="300"/>
 
 ## 自定义加载框
 
