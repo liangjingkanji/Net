@@ -82,8 +82,7 @@ object NetConfig {
             else -> app.getString(R.string.net_other_error)
         }
 
-        if (logEnabled)
-            printStackTrace()
+        if (logEnabled) printStackTrace()
         app.toast(message)
     }
 
@@ -93,10 +92,7 @@ object NetConfig {
             is RequestParamsException,
             is ResponseException,
             is NullPointerException -> onError(this)
-            else -> {
-                if (logEnabled)
-                    printStackTrace()
-            }
+            else -> if (logEnabled) printStackTrace()
         }
     }
 }

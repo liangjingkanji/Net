@@ -15,10 +15,11 @@
  */
 package com.yanzhenjie.kalle
 
+import java.util.concurrent.ConcurrentHashMap
 
 object NetCancel {
 
-    private val map = mutableMapOf<Canceller, Any>()
+    private val cancellerMap = ConcurrentHashMap<Canceller, Any>()
 
     /**
      * 添加一个网络请求取消者用于取消网络
@@ -29,7 +30,7 @@ object NetCancel {
     @Synchronized
     fun add(uid: Any?, canceller: Canceller) {
         uid ?: return
-        map[canceller] = uid
+        cancellerMap[canceller] = uid
     }
 
     /**
@@ -40,7 +41,7 @@ object NetCancel {
     @Synchronized
     fun remove(uid: Any?) {
         uid ?: return
-        val iterator = map.iterator()
+        val iterator = cancellerMap.iterator()
         while (iterator.hasNext()) {
             if (iterator.next().value == uid) iterator.remove()
         }
@@ -54,7 +55,7 @@ object NetCancel {
     @Synchronized
     fun cancel(uid: Any?) {
         uid ?: return
-        val iterator = map.iterator()
+        val iterator = cancellerMap.iterator()
         while (iterator.hasNext()) {
             val next = iterator.next()
             if (uid == next.value) {

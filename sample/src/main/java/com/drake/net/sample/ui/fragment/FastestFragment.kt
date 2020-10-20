@@ -61,22 +61,21 @@ class FastestFragment : Fragment() {
         假设并发的接口返回的数据类型不同  或者 想要监听最快请求返回的结果回调请使用 [Deferred.transform] 函数
         具体请看文档 https://liangjingkanji.github.io/Net/fastest/
         */
-
         // scopeNetLife {
         //
         //     // 同时发起四个网络请求
-        //     val deferred = Get<String>("api").transform {
-        //         23
-        //     } // 错误接口
-        //     val deferred1 = Get<String>("api1").transform {
-        //         50
-        //     } // 错误接口
-        //     val deferred2 = Post<String>("api").transform {
-        //         100
+        //     val requestList = mutableListOf<DeferredTransform<String, String>>().apply {
+        //         for (i in 0..28) {
+        //             val request = Get<String>("api").transform {
+        //                 Log.d("日志", "(FastestFragment.kt:73)    it = ${it}")
+        //                 it
+        //             }
+        //             add(request)
+        //         }
         //     }
         //
         //     // 只返回最快的请求结果
-        //     tv_fragment.text = fastest(deferred, deferred1, deferred2).toString()
+        //     tv_fragment.text = fastest(requestList).toString()
         // }
     }
 }

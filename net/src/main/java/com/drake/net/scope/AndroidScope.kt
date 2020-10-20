@@ -95,8 +95,7 @@ open class AndroidScope(
      * 错误处理
      */
     open fun handleError(e: Throwable) {
-        if (NetConfig.logEnabled)
-            e.printStackTrace()
+        if (NetConfig.logEnabled) e.printStackTrace()
     }
 
     open fun cancel(cause: CancellationException? = null) {

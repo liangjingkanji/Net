@@ -56,8 +56,7 @@ suspend fun <T> CoroutineScope.fastest(
                 val allFail = listDeferred.all { it.isCancelled }
                 if (allFail) deferred.completeExceptionally(e) else {
                     if (e !is CancellationException) {
-                        if (NetConfig.logEnabled)
-                            e.printStackTrace()
+                        if (NetConfig.logEnabled) e.printStackTrace()
                     }
                 }
             }
@@ -104,8 +103,7 @@ suspend fun <T, R> CoroutineScope.fastest(
                 val allFail = listDeferred.all { it.deferred.isCancelled }
                 if (allFail) deferred.completeExceptionally(e) else {
                     if (e !is CancellationException) {
-                        if (NetConfig.logEnabled)
-                            e.printStackTrace()
+                        if (NetConfig.logEnabled) e.printStackTrace()
                     }
                 }
             }
