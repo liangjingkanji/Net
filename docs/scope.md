@@ -42,5 +42,7 @@ scope {
 }
 ```
 
+> 如果想了解详细的协程使用方式, 可以查看我的一篇文章: [最全面的Kotlin协程: Coroutine/Channel/Flow 以及实际应用](https://juejin.im/post/6844904037586829320)
+
 
 
