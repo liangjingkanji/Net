@@ -14,9 +14,11 @@ scopeDialog {
 
 <br>
 
-加载框默认使用的是Android原生加载框(MaterialDesign Dialog), 当然也提供配置函数
+加载框默认使用的是Android原生加载框(MaterialDesign Dialog), 当然也提供参数传入指定每个请求的对话框
 
 <img src="https://i.imgur.com/egUM3V1.png" width="300"/>
+
+> 想直接使用iOS风格的加载框可以使用: [BubbleDialog](https://liangjingkanji.github.io/Tooltip/bubble/)
 
 ## 自定义加载框
 
