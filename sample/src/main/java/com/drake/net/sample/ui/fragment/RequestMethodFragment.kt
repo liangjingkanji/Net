@@ -19,7 +19,9 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.drake.net.*
 import com.drake.net.sample.R
@@ -27,13 +29,11 @@ import com.drake.net.utils.scopeNetLife
 import kotlinx.android.synthetic.main.fragment_async_task.*
 
 
-class RequestMethodFragment : Fragment() {
+class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_request_method, container, false)
     }
 
 

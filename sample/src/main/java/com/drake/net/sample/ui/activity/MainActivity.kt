@@ -29,12 +29,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * 以下代码设置导航, 和框架本身无关无需关心, 请查看[com.drake.net.sample.ui.fragment]内的Fragment
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         immersiveDark(toolbar)
         setSupportActionBar(toolbar)
         toolbar.setupWithNavController(

@@ -18,7 +18,9 @@ package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
 import android.text.format.Formatter
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.drake.net.Download
 import com.drake.net.sample.R
@@ -27,17 +29,9 @@ import com.drake.net.utils.scopeNetLife
 import kotlinx.android.synthetic.main.fragment_download_file.*
 
 
-class DownloadFileFragment : Fragment() {
+class DownloadFileFragment : Fragment(R.layout.fragment_download_file) {
 
     private lateinit var downloadScope: NetCoroutineScope
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_download_file, container, false)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

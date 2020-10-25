@@ -17,9 +17,6 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.drake.net.Post
 import com.drake.net.sample.R
@@ -29,15 +26,7 @@ import kotlinx.android.synthetic.main.fragment_config_dialog.*
 import kotlinx.coroutines.CancellationException
 
 
-class ConfigDialogFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.fragment_config_dialog, container, false)
-    }
+class ConfigDialogFragment : Fragment(R.layout.fragment_config_dialog) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

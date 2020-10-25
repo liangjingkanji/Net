@@ -17,9 +17,6 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.drake.net.Get
 import com.drake.net.sample.R
@@ -27,16 +24,7 @@ import com.drake.net.utils.scope
 import kotlinx.android.synthetic.main.fragment_state_layout.*
 
 
-class StateLayoutFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.fragment_state_layout, container, false)
-    }
+class StateLayoutFragment : Fragment(R.layout.fragment_state_layout) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

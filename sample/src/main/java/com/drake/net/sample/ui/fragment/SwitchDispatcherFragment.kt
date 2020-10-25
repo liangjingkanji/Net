@@ -17,9 +17,6 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.drake.net.sample.R
 import com.drake.net.utils.scopeLife
@@ -28,19 +25,10 @@ import com.drake.net.utils.withMain
 import kotlinx.coroutines.launch
 
 
-class SwitchDispatcherFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.fragment_switch_dispatcher, container, false)
-    }
+class SwitchDispatcherFragment : Fragment(R.layout.fragment_switch_dispatcher) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
 
         scopeLife {
 
