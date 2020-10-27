@@ -68,6 +68,10 @@
         android:icon="@drawable/ic_fastest"
         android:title="最快选择" />
     <item
+        android:id="@+id/unique"
+        android:icon="@drawable/ic_unique"
+        android:title="唯一请求" />
+    <item
         android:id="@+id/state_layout"
         android:icon="@drawable/ic_state_layout"
         android:title="自动缺省页" />

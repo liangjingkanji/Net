@@ -116,5 +116,10 @@
         android:name="com.drake.net.sample.ui.fragment.FastestFragment"
         android:label="最快请求"
         tools:layout="@layout/fragment_fastest" />
+    <fragment
+        android:id="@+id/unique"
+        android:name="com.drake.net.sample.ui.fragment.UniqueRequestFragment"
+        android:label="唯一请求"
+        tools:layout="@layout/fragment_unique_request" />
 
 </navigation>
