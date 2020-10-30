@@ -57,16 +57,16 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:1.2.0"
-    implementation "androidx.core:core-ktx:1.3.1"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0"
+    implementation "androidx.core:core-ktx:1.3.2"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.3"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation "junit:junit:4.13"
+    testImplementation "junit:junit:4.13.1"
     androidTestImplementation "androidx.test:runner:1.3.0"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
-    implementation "com.google.android.material:material:1.2.0"
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
+    implementation "com.google.android.material:material:1.2.1"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
 
     implementation project(path: ":net")
 
@@ -83,10 +83,9 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.48'
 
     // ------------------------------我的其他库-------------------------------------
-    implementation 'com.github.liangjingkanji:StatusBar:1.0.3' // 透明状态栏
-    implementation "com.github.liangjingkanji:LogCat:1.0" // 日志输出工具
+    implementation 'com.github.liangjingkanji:StatusBar:1.1.0' // 透明状态栏
     implementation 'com.github.liangjingkanji:debugkit:1.2.9' // 开发调试窗口工具
-    implementation 'com.github.liangjingkanji:Tooltip:1.0.4' // 吐司工具
+    implementation 'com.github.liangjingkanji:Tooltip:1.1.0' // 吐司工具
 
     // ------------------------------Google数据库-------------------------------------
     implementation "androidx.room:room-runtime:$room_version"

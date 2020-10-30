@@ -23,7 +23,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.drake.net.sample.R
-import com.drake.statusbar.immersiveDark
+import com.drake.statusbar.immersive
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        immersiveDark(toolbar)
+        immersive(toolbar, true)
         setSupportActionBar(toolbar)
         toolbar.setupWithNavController(
             nav.findNavController(),
