@@ -31,6 +31,10 @@ scopeNetLife {
 
 catch里面的`it`属于异常对象, 这里列举可能存在的异常
 
+`scope/scopeLife`不会触发任何全局错误`onError/onStateError`, 请使用单例错误处理方式`catch`, 因为`scope`用于处理异步任务,不应当用于网络请求
+
+
+
 | 异常 | 描述 |
 |-|-|
 | NetworkError | 无网络 |
