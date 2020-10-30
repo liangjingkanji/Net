@@ -20,3 +20,13 @@ scopeNetLife {
 
 <br>
 同时任何网络请求错误都将在LogCat查看, 并且Convert(转换器)和Interceptor(拦截器)中都可以通过`request/response`获取请求/响应的信息.
+
+### 关闭日志
+
+在初始化时候可以关闭日志打印
+
+```kotlin
+initNet("http://182.92.97.186/") {
+    logEnabled = true // 默认即为true
+}
+```

@@ -30,6 +30,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            android:background="@color/windowBackground"
             app:navigationIcon="@drawable/ic_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
