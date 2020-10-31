@@ -17,11 +17,13 @@
 
 <p align="center"><img src="https://i.imgur.com/aBe7Ib2.png" align="center" width="30%;" /></p>
 
+搜索文件: `nav_main` 打开即可查看和跳转侧滑菜单所有功能界面 (任何疑问点击QQ群作者一对一解答)
+
 
 
 Android上不是最强网络任务库, 创新式的网络请求库(基于Kalle/OkHttp), 支持协程高并发网络请求 <br>
 <br>
-我是目前Android上最简洁和功能最多的网络请求库, 也是扩展性最强的, 可以完美适应任何项目的后端要求, 有最详细的文档和最简练的Demo. 并且我还是一个异步任务库
+是目前Android上最简洁和功能最多的网络请求库, 也是扩展性最强的, 可以完美适应任何项目的后端要求, 有最详细的文档和最简练的Demo. 并且还是一个异步任务库.
 
 <br>
 
@@ -119,12 +121,9 @@ implementation 'com.github.liangjingkanji:Net:2.3.5'
 
 ## Contribute
 
-<p align="center">
-<img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaskr305czj30u00wjtcz.jpg" alt="jetbrains" width="15%" />
-</p>
-<p align="center">
-<strong>The project is supported by <a href="https://www.jetbrains.com/">JetBrains</a></strong></p>
+<img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaskr305czj30u00wjtcz.jpg" width="100"/> 
 
+supported by [JetBrains](https://www.jetbrains.com/)
 
 
 ## License
