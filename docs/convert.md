@@ -84,7 +84,7 @@
 
 [DefaultConvert](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/DefaultConvert.kt) 实际上也只是实现Convert接口的一个抽象类
 
-> 当你对DefaultConvert有更多需求或者功能扩展的话推荐参考DefaultConvert来实现Convert接口(直接复制DefaultConvert文件修改也行)
+> 当你对DefaultConvert有更多需求或者功能扩展的话可以重写DefaultConvert的`convert`函数, 或直接实现Convert接口
 
 源码如下
 ```kotlin
