@@ -1,3 +1,5 @@
+如果你想要网络请求直接返回对应的Bean或者说POJO类你就要创建自定义的转换器, 来使用JSON解析框架处理你的数据(当然你可能是使用的protocol等其他数据格式)
+
 在Net中转换器([Convert](https://github.com/liangjingkanji/Net/blob/master/kalle/src/main/java/com/yanzhenjie/kalle/simple/Converter.kt))负责数据解析的工作, 自定义转换器即实现Convert接口即可
 
 > 你的业务可能需要请求参数加密或者拼接一串特殊含义的参数, 或者响应信息需要解密. 请不要尝试封装Post或者Get等请求函数(这是蠢材做法), 自定义拦截器和转换器可以应对任何项目需求.
@@ -45,6 +47,13 @@
 
 - 请自己手动添加[Moshi](https://github.com/square/moshi)或者[Gson](https://github.com/google/gson)的依赖
 - Moshi属于Kotlin上解析Json我比较推荐的一个解析库, 支持Kotlin默认值(Gson不支持)
+- 推荐使用官方的序列化框架: `kotlinx.Serialization`
+
+| 转换器参数 | 描述 |
+|-|-|
+| code | 即后端定义的`成功码`字段名 |
+| message | 即后端定义的`错误消息`字段名 |
+| success | 即`成功码`的值等于指定时才算网络请求成功 |
 
 <br>
 

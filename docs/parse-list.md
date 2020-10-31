@@ -1,28 +1,63 @@
-一般的JSON数据都是
+一般的解析过程是以下
+
+1) 后端返回的JSON数据
+
 ```json
 {
-    code:"200",
-    msg:"错误信息",
-    data: {
-        name: "value"
+    "code":200,
+    "msg":"错误信息",
+    "data": {
+        "name": "彭于晏"
     }
 }
 ```
 
-我们可以直接复制这个JSON来创建数据模型
+2) 创建数据模型
+
+```kotlin
+data class UserInfo (
+    var code:Int,
+    var msg:String,
+    var data:Info,
+) {
+   data class Info (var name:String)
+}
+```
+
+3) 发起网络请求
+
 ```kotlin
 scopeNetLife {
     val data = Get<UserInfo>("/list").await().data
 }
 ```
 
-但是这样每次都要`.data`才是你要的真实数据. 有些人就想省略直接不写code和msg, 希望直接返回data. 这样的确可以, 但是面临一个问题, 部分后端开发可能让data直接为JSON数组.
-由于Java的类型擦除机制, List的泛型在运行时将被擦除, 导致Gson或者FastJson等无法解析出正确的List模型
+这样每次都要`await().data`才是你要的`data`对象. 有些人就想省略直接不写code和msg, 希望直接返回data.
+
+这样的确可以, 但是面临一个问题, 部分后端开发可能让data直接为JSON数组.
+
+例如这种格式
+
+```json
+{
+    "code":200,
+    "msg":"错误信息",
+    "data": [
+        { "name": "彭于晏" },
+        { "name": "吴彦祖" },
+        { "name": "金城武" }
+    ]
+}
+```
+
+由于Java的类型擦除机制, List的泛型在运行时将被擦除, 导致Gson或者FastJson等无法解析出正确的List数据
+
+> 在Net的未来版本`3.0`中将支持直接返回List/Map/Pair等, 无需任何处理, 泛型是什么就返回什么
 
 所以这样的代码将报错
 ```kotlin
 scopeNetLife {
-    val data = Get<List<Data>>("/list").await().data
+    val data = Get<List<Info>>("/list").await().data
 }
 ```
 
@@ -45,11 +80,17 @@ inline fun <reified T> String.toJsonArray(): MutableList<T> {
 }
 ```
 
-### 2) 使用
+### 2) 创建数据类
 
 ```kotlin
-scope {
-    val listData = Post<String>("/list").await().toJsonArray<Data>()
+data class Info (var name:String)
+```
+
+### 3) 使用
+
+```kotlin
+scopeNetLife {
+    val listData = Post<String>("/list").await().toJsonArray<Info>()
     listData[0]
 }
 ```

@@ -54,7 +54,7 @@ nav:
   - 下载文件: download-file.md
   - 下载图片: download-image.md
   - 读取缓存: read-cache.md
-  - 解析JSON数组: parse-list.md
+  - 返回集合结果: parse-list.md
   - 嵌套作用域: nested-scope.md
   - 最快请求结果: fastest.md
   - 唯一请求: unique.md
