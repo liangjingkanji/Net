@@ -63,7 +63,15 @@ scopeNetLife {
 
 这里我推荐的解决方式是, 针对会data会为JSON数组的情况, 我们可以直接使用String创建一个扩展函数
 
-### 1) 定义解析函数
+### 1) 摘取字段
+
+你要保证`await()`返回的只有data的值, 而不是完整Json, 因为Json字符串必须和数据类字段匹配才能解析成功(这是解析JSON的常识和网络请求无关) <br>
+
+重写`convert`函数, 让转换器仅返回`data`
+
+<img src="https://i.loli.net/2020/10/31/R1y2Yrk8VpZADq4.png" width="600"/>
+
+### 2) 定义解析函数
 
 创建一个顶层函数(即在类之外的函数, 直接存在kt文件中)
 ```kotlin
@@ -77,22 +85,6 @@ inline fun <reified T> String.toJsonArray(): MutableList<T> {
 ```kotlin
 inline fun <reified T> String.toJsonArray(): MutableList<T> {
     return Gson().fromJson(this, TypeToken.getParameterized(List::class.java, T::class.java).type)
-}
-```
-
-> 这里要注意, String你要保证返回的只有data的值, 因为Json字符串必须和数据类字段匹配才能解析成功(这是解析JSON的常识和网络请求无关) <br>
-> 你要么自定义转换器保证返回只有Json的`data`字段值要么就在这个扩展里面先摘取到 `data的值`
-
-转换器返回`data`
-
-<img src="https://i.loli.net/2020/10/31/R1y2Yrk8VpZADq4.png" width="600"/>
-
-
-扩展函数摘取`data`
-```kotlin
-inline fun <reified T> String.toJsonArray(): MutableList<T> {
-    val data = JSONObject(this).getString("data") // 其实还是建议在转换器返回data, 便于统一错误信息
-    return Gson().fromJson(data, TypeToken.getParameterized(List::class.java, T::class.java).type)
 }
 ```
 
