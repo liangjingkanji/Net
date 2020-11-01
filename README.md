@@ -27,12 +27,8 @@ Android上不是最强网络任务库, 创新式的网络请求库(基于Kalle/O
 
 <br>
 
-
-
 Net 1.x 版本为RxJava实现 <br>
 Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用)
-
-
 
 正在进行的任务
 
@@ -108,8 +104,8 @@ allprojects {
 
 ```groovy
 // 协程库(版本自定)
-implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
-implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
+implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
+implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 
 // 支持自动下拉刷新和缺省页的(可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.14'
