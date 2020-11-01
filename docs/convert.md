@@ -46,8 +46,8 @@
     ```
 
 - 请自己手动添加[Moshi](https://github.com/square/moshi)或者[Gson](https://github.com/google/gson)的依赖
-- Moshi属于Kotlin上解析Json我比较推荐的一个解析库, 支持Kotlin默认值(Gson不支持)
-- 推荐使用官方的序列化框架: `kotlinx.Serialization`
+- Moshi支持Kotlin构造参数默认值, 但是如果Json中字段为null依然会覆盖默认值为null
+- 推荐使用官方的序列化框架: `kotlinx.Serialization`, 可以解析返回List, 支持Kotlin构造参数默认值, 可以非空覆盖
 
 | 转换器参数 | 描述 |
 |-|-|
