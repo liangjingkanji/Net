@@ -10,7 +10,8 @@
     ```
 === "倒计时"
     ```kotlin
-    interval = Interval(1, 1, TimeUnit.SECONDS, 5).life(this) // 倒计时轮循器, 当[start]]比[end]值大, 且end不等于-1时, 即为倒计时
+    // 倒计时轮循器, 当[start]]比[end]值大, 且end不等于-1时, 即为倒计时
+    interval = Interval(1, 1, TimeUnit.SECONDS, 5).life(this)
     ```
 
 监听轮循器
@@ -30,6 +31,14 @@ interval.resume() // 继续轮循器
 interval.reset() // 重置轮循器
 interval.switch() // 切换开关
 interval.stop() // 停止
+```
+
+自动取消(感知生命周期)
+
+```kotlin
+interval.life(this).subscribe { // 添加一个life函数即可
+    tv_fragment.text = it.toString()
+}
 ```
 
 [完整源码](https://github.com/liangjingkanji/Net/blob/master/sample/src/main/java/com/drake/net/sample/ui/fragment/SuperIntervalFragment.kt)
