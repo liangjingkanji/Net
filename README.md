@@ -51,6 +51,7 @@ Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用)
 - 并发请求返回最快请求结果(可返回不同响应数据)
 - 方便的缓存处理
 - 自动错误信息吐司
+- 详细的错误信息
 - 自动异常捕获
 - 自动日志打印异常(任何网络错误可追踪到具体请求接口)
 - 自动JSON解析(可解析List)
@@ -69,9 +70,7 @@ Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用)
 
 - 九种缓存模式
 - 重试次数拦截器
-- 重定向拦截器
-- 数据库缓存
-- 缓存加密
+- 数据库缓存加密
 - 上传进度监听
 - 下载进度监听
 - 断点续传
@@ -108,9 +107,9 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 
 // 支持自动下拉刷新和缺省页的(可选)
-implementation 'com.github.liangjingkanji:BRV:1.3.14'
+implementation 'com.github.liangjingkanji:BRV:1.3.15'
 
-implementation 'com.github.liangjingkanji:Net:2.3.5'
+implementation 'com.github.liangjingkanji:Net:2.3.6'
 ```
 
 <br>
