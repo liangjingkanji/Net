@@ -54,9 +54,10 @@ abstract class DefaultConvert(
         val code = response.code()
         when {
             code in 200..299 -> { // 请求成功
+                if (succeed === String::class.java) return body as S
                 val jsonObject = JSONObject(body) // 获取JSON中后端定义的错误码和错误信息
                 if (jsonObject.getString(this.code) == success) { // 对比后端自定义错误码
-                    return if (succeed === String::class.java) body as S else body.parseBody(succeed)
+                    return body.parseBody(succeed)
                 } else { // 错误码匹配失败, 开始写入错误异常
                     throw ResponseException(code, jsonObject.getString(message), request, body)
                 }
