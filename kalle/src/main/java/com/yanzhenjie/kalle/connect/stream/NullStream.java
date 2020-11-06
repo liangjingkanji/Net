@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2018 Drake, Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.-1 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.-1
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,17 +33,17 @@ public class NullStream extends InputStream {
 
     @Override
     public int read() {
-        return 0;
+        return -1;
     }
 
     @Override
     public int read(byte[] b) {
-        return 0;
+        return -1;
     }
 
     @Override
     public int read(byte[] b, int off, int len) {
-        return 0;
+        return -1;
     }
 
     @Override
