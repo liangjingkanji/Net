@@ -13,10 +13,15 @@ class App : Application() {
             cacheEnabled() // 开启缓存
             setLogRecord(BuildConfig.DEBUG) // 日志记录器
             logEnabled = BuildConfig.DEBUG // LogCat异常日志
+            addHeader("键" ,"值") // 全局请求头
+            setHeader("覆盖键" ,"值") // 全局请求头, 键相同会覆盖
+            addParam("键" ,"值") // 全局参数
         }
     }
 }
 ```
+
+> 假设全局参数属于动态获取的, 应当使用拦截器, 在拦截器里面添加
 
 initNet 作用域内可选函数
 
