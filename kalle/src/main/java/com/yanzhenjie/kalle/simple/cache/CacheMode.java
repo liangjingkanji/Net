@@ -54,5 +54,9 @@ public enum CacheMode {
     /**
      * First get the result from the cache, if the cache does not exist, get results from the network, and follow the http protocol.
      */
-    READ_CACHE_NO_THEN_HTTP
+    READ_CACHE_NO_THEN_HTTP,
+    /**
+     * 本地有缓存则读取缓存，如果没有缓存则读取网络并且写入缓存
+     */
+    READ_CACHE_NO_THEN_NETWORK_THEN_WRITE_CACHE
 }

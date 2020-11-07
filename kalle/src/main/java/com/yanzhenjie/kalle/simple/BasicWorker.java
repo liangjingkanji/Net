@@ -151,6 +151,13 @@ abstract class BasicWorker<T extends SimpleRequest, S> implements Callable<S>, C
                 }
                 break;
             }
+            case READ_CACHE_NO_THEN_NETWORK_THEN_WRITE_CACHE: {
+                Cache cache = mCacheStore.get(mRequest.cacheKey());
+                if (cache != null) {
+                    return buildResponse(cache.getCode(), cache.getHeaders(), cache.getBody());
+                }
+                break;
+            }
         }
         return null;
     }
@@ -172,6 +179,11 @@ abstract class BasicWorker<T extends SimpleRequest, S> implements Callable<S>, C
             case READ_CACHE_NO_THEN_NETWORK:
             case READ_CACHE_NO_THEN_HTTP: {
                 // Nothing.
+                break;
+            }
+            case READ_CACHE_NO_THEN_NETWORK_THEN_WRITE_CACHE: {
+                Cache cacheEntity = mCacheStore.get(mRequest.cacheKey());
+                if (cacheEntity != null) attachCache(cacheEntity.getHeaders());
                 break;
             }
         }
@@ -217,6 +229,10 @@ abstract class BasicWorker<T extends SimpleRequest, S> implements Callable<S>, C
                 }
                 break;
             }
+            case READ_CACHE_NO_THEN_NETWORK_THEN_WRITE_CACHE: {
+                detachCache(code, headers, body, MAX_EXPIRES);
+                break;
+            }
         }
     }
 
@@ -255,6 +271,13 @@ abstract class BasicWorker<T extends SimpleRequest, S> implements Callable<S>, C
                     if (cache != null) {
                         return buildResponse(cache.getCode(), cache.getHeaders(), cache.getBody());
                     }
+                }
+                break;
+            }
+            case READ_CACHE_NO_THEN_NETWORK_THEN_WRITE_CACHE: {
+                Cache cache = mCacheStore.get(mRequest.cacheKey());
+                if (cache != null) {
+                    return buildResponse(cache.getCode(), cache.getHeaders(), cache.getBody());
                 }
                 break;
             }
