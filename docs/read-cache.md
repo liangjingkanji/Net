@@ -54,6 +54,6 @@ initNet("http://182.92.97.186/") {
 | `READ_CACHE `                  | 仅读取缓存                                                   |
 | `READ_CACHE_NO_THEN_NETWORK`   | 读取缓存，如果缓存不存在就请求网络，<br>不写入缓存数据 |
 | `READ_CACHE_NO_THEN_HTTP`      | 先读取缓存，如果缓存不存在就请求网络，<br>根据服务器响应头来决定是否写入缓存数据 |
-| `READ_CACHE_NO_THEN_NETWORK_THEN_WRITE_CACHE`      | 先本地有缓存则读取缓存，如果没有缓存则读取网络并且写入缓存 |
+| `READ_CACHE_NO_THEN_NETWORK_THEN_WRITE_CACHE`      | 先本地有缓存则读取缓存，如果没有缓存则读取网络并且写入缓存, <br>该模式请求成功后会永久使用缓存, 但你可以指定动态的cacheKey来让缓存失效 <br>例如一天后失效, 可以做到客户端完全控制缓存 |
 
 <br>
