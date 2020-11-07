@@ -1,6 +1,6 @@
 ## Net
 
-<p align="center"><img src="https://i.imgur.com/YRdJdzG.jpg" width="40%"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/liangjingkanji/Net/master/docs/img/logo.gif" width="300"/>
 
 <p align="center"><strong>不仅仅是网络请求的异步任务库</strong></p>
 
