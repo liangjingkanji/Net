@@ -1,12 +1,10 @@
-## Net
-
 <p align="center"><img src="https://raw.githubusercontent.com/liangjingkanji/Net/master/docs/img/logo.gif" width="300"/>
 
 <p align="center"><strong>不仅仅是网络请求的异步任务库</strong></p>
 
 <p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a></p>
 
-<p align="center"><img src="https://i.imgur.com/NFL3tTk.jpg" width="400"/></p>
+<p align="center"><img src="https://i.imgur.com/lhuq5Ut.jpg" width="350"/></p>
 
 <p align="center">
 <a href="https://jitpack.io/#liangjingkanji/Net"><img src="https://jitpack.io/v/liangjingkanji/Net.svg"/></a>
@@ -17,18 +15,20 @@
 
 <p align="center"><img src="https://i.imgur.com/aBe7Ib2.png" align="center" width="30%;" /></p>
 
-搜索文件: `nav_main` 打开即可查看和跳转侧滑菜单所有功能界面 (任何疑问点击QQ群作者一对一解答)
-
-
-
-Android上不是最强网络任务库, 创新式的网络请求库(基于Kalle/OkHttp), 支持协程高并发网络请求 <br>
 <br>
-是目前Android上最简洁和功能最多的网络请求库, 也是扩展性最强的, 可以完美适应任何项目的后端要求, 有最详细的文档和最简练的Demo. 并且还是一个异步任务库.
+
+搜索文件: `nav_main` 打开即可查看所有功能界面
+
+<br>
+
+Android上不是最强网络任务库, 创新式的网络请求库(基于Kalle), 支持协程高并发网络请求
 
 <br>
 
 Net 1.x 版本为RxJava实现 <br>
 Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用)
+
+<br>
 
 正在进行的任务
 
