@@ -62,7 +62,12 @@ public abstract class Request {
      */
     public String getLog() {
         if (log == null) {
-            return copyParams().toString();
+            RequestBody body = body();
+            if (body instanceof StringBody) {
+                return body.toString();
+            } else {
+                return copyParams().toString();
+            }
         } else return log;
     }
 

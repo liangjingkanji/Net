@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("ControlFlowWithEmptyBody")
+
 package com.drake.net.sample.callback
 
 import com.drake.net.tag.REQUEST
@@ -27,13 +29,12 @@ class NetInterceptor : Interceptor {
     override fun intercept(chain: Chain): Response {
         val request = chain.request()
 
-        request.getLog()
-
         val tag = request.tag() as TAG
 
         if (tag.contains(REQUEST)) {
             // 可以打印响应体或者其他逻辑
         }
+
         if (tag.contains(RESPONSE)) {
             // 可以打印请求体或者其他逻辑
         }
