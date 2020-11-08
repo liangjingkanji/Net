@@ -24,7 +24,7 @@ import com.drake.net.sample.BR
 import com.drake.net.sample.BuildConfig
 import com.drake.net.sample.R
 import com.drake.net.sample.callback.MoshiConvert
-import com.drake.net.sample.callback.NetInterceptor
+import com.drake.net.sample.callback.NetTagInterceptor
 import com.drake.statelayout.StateConfig
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
@@ -45,7 +45,7 @@ class App : Application() {
         initNet("http://182.92.97.186/") {
             converter(MoshiConvert()) // 自动解析JSON映射到实体类中, 转换器分为全局和单例, 覆盖生效(拦截器允许多个)
             cacheEnabled()
-            addInterceptor(NetInterceptor())
+            addInterceptor(NetTagInterceptor())
             setLogRecord(BuildConfig.DEBUG) // 日志记录器
             logEnabled = BuildConfig.DEBUG // LogCat异常日志
         }

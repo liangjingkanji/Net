@@ -25,11 +25,11 @@ import com.yanzhenjie.kalle.Response
 import com.yanzhenjie.kalle.connect.Interceptor
 import com.yanzhenjie.kalle.connect.http.Chain
 
-class NetInterceptor : Interceptor {
+class NetTagInterceptor : Interceptor {
     override fun intercept(chain: Chain): Response {
         val request = chain.request()
 
-        val tag = request.tag() as TAG
+        val tag = request.tag() as? TAG ?: return chain.proceed(request)
 
         if (tag.contains(REQUEST)) {
             // 可以打印响应体或者其他逻辑

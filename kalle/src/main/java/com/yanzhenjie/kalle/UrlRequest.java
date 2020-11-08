@@ -57,7 +57,7 @@ public class UrlRequest extends Request {
 
     @Override
     public RequestBody body() {
-        throw new AssertionError("It should not be called.");
+        return null;
     }
 
     public static class Api<T extends Api<T>> extends Request.Api<T> {
