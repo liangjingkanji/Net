@@ -10,6 +10,7 @@
 <a href="https://jitpack.io/#liangjingkanji/Net"><img src="https://jitpack.io/v/liangjingkanji/Net.svg"/></a>
 <img src="https://img.shields.io/badge/language-kotlin-orange.svg"/>
 <img src="https://img.shields.io/badge/license-Apache-blue"/>
+<a href="http://liangjingkanji.github.io/Net/updates"><img src="https://img.shields.io/badge/updates-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97-brightgreen"/></a>
 <a href="https://jq.qq.com/?_wv=1027&k=vWsXSNBJ"><img src="https://img.shields.io/badge/QQ群-752854893-blue"/></a>
 </p>
 
