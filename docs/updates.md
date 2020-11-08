@@ -1,3 +1,6 @@
+## 2.3.8
+日志记录器默认支持输出Json参数
+
 ## 2.3.7
 
 新增缓存模式: `READ_CACHE_NO_THEN_NETWORK_THEN_WRITE_CACHE`
