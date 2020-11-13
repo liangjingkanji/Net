@@ -39,7 +39,7 @@ public abstract class Request {
     private final Object mTag;
     private final Object uid;
     private String location;
-    private String logId = LogRecorder.INSTANCE.generateId();
+    private String logId = LogRecorder.generateId();
     private String log;
     private long timeMillis = System.currentTimeMillis();
 

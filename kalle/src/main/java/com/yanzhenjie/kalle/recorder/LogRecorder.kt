@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicLong
  */
 object LogRecorder {
 
+    @JvmStatic
     var enabled = false
 
     private val handler by lazy {
@@ -39,6 +40,7 @@ object LogRecorder {
     /**
      * 产生一个唯一的基于时间戳Id
      */
+    @JvmStatic
     @Synchronized
     fun generateId(): String {
         if (!enabled) return ""
@@ -60,6 +62,7 @@ object LogRecorder {
      * @param headers 请求头
      * @param body 请求体
      */
+    @JvmStatic
     fun recordRequest(
         id: String,
         url: String,
@@ -93,6 +96,7 @@ object LogRecorder {
      * @param headers 响应头
      * @param body 响应体
      */
+    @JvmStatic
     fun recordResponse(
         id: String,
         requestMillis: Long,
@@ -124,6 +128,7 @@ object LogRecorder {
      * @param requestMillis 请求时间毫秒值
      * @param errorMessage 错误信息, 如果存在\n换行符, 仅接受最后一行
      */
+    @JvmStatic
     fun recordException(
         id: String,
         requestMillis: Long,

@@ -60,7 +60,7 @@ abstract class BasicWorker<T extends SimpleRequest, S> implements Callable<S>, C
         tryAttachCache();
         try {
             Request request = mRequest.request();
-            LogRecorder.INSTANCE.recordRequest(request.logId(), request.location(), request.method().toString(), request.headers().toMap(), request.getLog());
+            LogRecorder.recordRequest(request.logId(), request.location(), request.method().toString(), request.headers().toMap(), request.getLog());
 
             response = requestNetwork(mRequest);
 
@@ -96,7 +96,7 @@ abstract class BasicWorker<T extends SimpleRequest, S> implements Callable<S>, C
                 errorMsg = response.getLog();
                 code = response.code();
             }
-            LogRecorder.INSTANCE.recordException(request.logId(), request.getTimeMillis(), code, e.getLocalizedMessage(), errorMsg);
+            LogRecorder.recordException(request.logId(), request.getTimeMillis(), code, e.getLocalizedMessage(), errorMsg);
             throw e;
         } finally {
             IOUtils.closeQuietly(response);
@@ -319,7 +319,7 @@ abstract class BasicWorker<T extends SimpleRequest, S> implements Callable<S>, C
         Request request = mRequest.request();
         try {
             S result = mConverter.convert(mSucceed, request, response, cache);
-            LogRecorder.INSTANCE.recordResponse(request.logId(), request.getTimeMillis(), response.code(), response.headers().toMap(), response.getLog());
+            LogRecorder.recordResponse(request.logId(), request.getTimeMillis(), response.code(), response.headers().toMap(), response.getLog());
             return result;
         } catch (NetException e) {
             throw e;
