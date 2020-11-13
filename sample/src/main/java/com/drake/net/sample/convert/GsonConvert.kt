@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.drake.net.sample.callback
+package com.drake.net.sample.convert
 
 import com.drake.net.convert.DefaultConvert
 import com.google.gson.GsonBuilder

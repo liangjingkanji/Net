@@ -16,7 +16,7 @@
 
 @file:Suppress("ControlFlowWithEmptyBody")
 
-package com.drake.net.sample.callback
+package com.drake.net.sample.interceptor
 
 import com.drake.net.tag.REQUEST
 import com.drake.net.tag.RESPONSE
@@ -29,15 +29,18 @@ class NetTagInterceptor : Interceptor {
     override fun intercept(chain: Chain): Response {
         val request = chain.request()
 
-        val tag = request.tag() as? TAG ?: return chain.proceed(request)
+        val tag = request.tag() as? TAG
 
-        if (tag.contains(REQUEST)) {
-            // 可以打印响应体或者其他逻辑
+        tag?.let {
+            if (it.contains(REQUEST)) {
+                // 可以打印响应体或者其他逻辑
+            }
+
+            if (it.contains(RESPONSE)) {
+                // 可以打印请求体或者其他逻辑
+            }
         }
 
-        if (tag.contains(RESPONSE)) {
-            // 可以打印请求体或者其他逻辑
-        }
         return chain.proceed(request)
     }
 }

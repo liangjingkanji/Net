@@ -20,7 +20,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.drake.net.Get
 import com.drake.net.sample.R
-import com.drake.net.sample.callback.GsonConvert
+import com.drake.net.sample.convert.GsonConvert
 import com.drake.net.sample.mod.Model
 import com.drake.net.utils.scopeNetLife
 import kotlinx.android.synthetic.main.fragment_custom_convert.*
