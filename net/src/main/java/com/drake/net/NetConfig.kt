@@ -62,6 +62,7 @@ object NetConfig {
     }
 
     var onError: Throwable.() -> Unit = onError@{
+        if (logEnabled) printStackTrace()
         if (!this@NetConfig::app.isInitialized) return@onError
 
         val message = when (this) {
@@ -84,7 +85,6 @@ object NetConfig {
             else -> app.getString(R.string.net_other_error)
         }
 
-        if (logEnabled) printStackTrace()
         app.toast(message)
     }
 
