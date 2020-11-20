@@ -48,7 +48,7 @@ nav:
       - 自动缺省页: auto-state.md
       - 自动下拉刷新: auto-refresh.md
       - 自动分页加载: auto-page.md
-  - 切换调度器: switch-dispatcher.md
+  - 切换线程: switch-dispatcher.md
   - 标签: tag.md
   - 上传文件: upload-file.md
   - 下载文件: download-file.md
