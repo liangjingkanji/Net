@@ -16,6 +16,8 @@ Net扩展`Okhttp Profiler`插件支持更好的日志拦截信息, 支持加密�
 
 <img src="https://i.imgur.com/lZ0RvN4.png" width="80%"/>
 
+> 请在每次使用前都先打开插件窗口, 如果有延迟或者不显示就反复打开下窗口
+
 
 ### 3) 初始化
 ```kotlin hl_lines="3"
