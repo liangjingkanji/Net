@@ -231,7 +231,7 @@ abstract class BasicWorker<T extends SimpleRequest, S> implements Callable<S>, C
             }
             case READ_CACHE_NO_THEN_NETWORK_THEN_WRITE_CACHE: {
                 //禁止服务器错误时存入缓存
-                if (code != 400 && code != 403 && code != 404 && code != 500 && code != 501 && code != 502 && code != 503 && code != 504 && code != 505 && code != 506 && code != 507 && code != 509 && code != 510) {
+                if (code >= 200 && code <= 299) {
                     detachCache(code, headers, body, MAX_EXPIRES);
                 }
                 break;
@@ -298,6 +298,7 @@ abstract class BasicWorker<T extends SimpleRequest, S> implements Callable<S>, C
             headers.set(KEY_IF_MODIFIED_SINCE, Headers.formatMillisToGMT(lastModified));
     }
 
+    //存入缓存
     private void detachCache(int code, Headers headers, byte[] body, long expires) {
 
         String cacheKey = mRequest.cacheKey();
