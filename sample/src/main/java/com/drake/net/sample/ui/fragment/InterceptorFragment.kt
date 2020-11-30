@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.Get
 import com.drake.net.sample.R
@@ -26,9 +27,7 @@ import kotlinx.android.synthetic.main.fragment_exception_trace.*
 
 class InterceptorFragment : Fragment(R.layout.fragment_interceptor) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeNetLife {
             tv_fragment.text = Get<String>("api") {
                 // 拦截器只支持全局, 无法单例, 请查看[com.drake.net.sample.interceptor.NetInterceptor]

@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.Post
 import com.drake.net.sample.R
@@ -29,9 +30,7 @@ import java.io.FileOutputStream
 
 class UploadFileFragment : Fragment(R.layout.fragment_upload_file) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeNetLife {
             Post<String>("upload") {
                 val saveFile = getFile()
@@ -42,9 +41,9 @@ class UploadFileFragment : Fragment(R.layout.fragment_upload_file) {
                     seek.progress = progress // 进度条
                     // 格式化显示单位
                     val downloadSize =
-                        android.text.format.Formatter.formatFileSize(requireContext(), 23)
+                            android.text.format.Formatter.formatFileSize(requireContext(), 23)
                     val downloadSpeed =
-                        android.text.format.Formatter.formatFileSize(requireContext(), 23)
+                            android.text.format.Formatter.formatFileSize(requireContext(), 23)
 
                     // 显示下载信息
                     tv_progress.text = "上传进度: $progress% 已下载: $downloadSize 下载速度: $downloadSpeed"
@@ -54,7 +53,6 @@ class UploadFileFragment : Fragment(R.layout.fragment_upload_file) {
 
             }.await()
         }
-
     }
 
     /**

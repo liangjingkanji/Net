@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.setup
@@ -29,9 +30,7 @@ import kotlinx.android.synthetic.main.fragment_pull_refresh.*
 
 class PullRefreshFragment : Fragment(R.layout.fragment_pull_refresh) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         rv_pull.linear().setup {
             addType<String>(R.layout.item_list)
         }

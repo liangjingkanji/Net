@@ -21,6 +21,7 @@ import android.text.format.Formatter
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.Download
 import com.drake.net.sample.R
@@ -33,8 +34,7 @@ class DownloadFileFragment : Fragment(R.layout.fragment_download_file) {
 
     private lateinit var downloadScope: NetCoroutineScope
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
 
         downloadScope = scopeNetLife {

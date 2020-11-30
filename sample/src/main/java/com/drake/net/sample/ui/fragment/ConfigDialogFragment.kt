@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.Post
 import com.drake.net.sample.R
@@ -28,9 +29,7 @@ import kotlinx.coroutines.CancellationException
 
 class ConfigDialogFragment : Fragment(R.layout.fragment_config_dialog) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeDialog {
             tv_fragment.text = Post<String>("dialog") {
                 param("u_name", "drake")

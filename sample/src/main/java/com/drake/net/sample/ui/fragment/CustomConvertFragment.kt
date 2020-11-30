@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.Get
 import com.drake.net.sample.R
@@ -28,16 +29,12 @@ import kotlinx.android.synthetic.main.fragment_custom_convert.*
 
 class CustomConvertFragment : Fragment(R.layout.fragment_custom_convert) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeNetLife {
             tv_fragment.text = Get<Model>("api") {
                 converter(GsonConvert()) // 单例转换器, 此时会忽略全局转换器
             }.await().data.request_method
         }
-
     }
 
 }

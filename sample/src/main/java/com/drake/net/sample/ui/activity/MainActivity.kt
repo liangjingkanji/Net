@@ -35,17 +35,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         immersive(toolbar, true)
         setSupportActionBar(toolbar)
-        toolbar.setupWithNavController(
-            nav.findNavController(),
-            AppBarConfiguration(nav_view.menu, drawer)
-        )
+        toolbar.setupWithNavController(nav.findNavController(), AppBarConfiguration(nav_view.menu, drawer))
         nav_view.setupWithNavController(nav.findNavController())
     }
 
     override fun onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawers()
-        } else super.onBackPressed()
+        if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawers() else super.onBackPressed()
     }
 }
 

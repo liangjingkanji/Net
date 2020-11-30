@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
@@ -30,9 +31,7 @@ import kotlinx.android.synthetic.main.fragment_push_refresh.*
 
 class PushRefreshFragment : Fragment(R.layout.fragment_push_refresh) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         rv_push.linear().setup {
             addType<String>(R.layout.item_list)
         }

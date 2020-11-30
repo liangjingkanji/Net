@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.Get
 import com.drake.net.sample.R
@@ -26,9 +27,7 @@ import kotlinx.android.synthetic.main.fragment_exception_trace.*
 
 class ExceptionTraceFragment : Fragment(R.layout.fragment_exception_trace) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeNetLife {
             // 这是一个错误的地址, 请查看LogCat的错误信息, 在[Convert]中你也可以进行自定义错误信息打印
             tv_fragment.text = Get<String>("error").await()

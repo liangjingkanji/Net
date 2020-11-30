@@ -47,10 +47,10 @@ import java.util.concurrent.TimeUnit
  * 2. 停止或者结束
  *
  * @param end 结束值
- * @param period 事件间隔
- * @param unit 事件单位
- * @param initialDelay 第一次事件的间隔时间
- * @param start 开始值, 当[start]]比[end]值大, 且end不等于-1时, 即为倒计时
+ * @param period 计时器间隔
+ * @param unit 计时器单位
+ * @param initialDelay 第一次事件的间隔时间, 默认0
+ * @param start 开始值, 当[start]]比[end]值大, 且end不等于-1时, 即为倒计时, 反之正计时
  *
  * @property count 轮循器的计数
  * @property state 轮循器当前状态
@@ -84,6 +84,8 @@ class Interval(
 
     /**
      * 订阅轮循器
+     * 每次轮循器计时都会调用该回调函数
+     * 轮循器完成时会同时触发回调[block]和[finish]
      */
     fun subscribe(block: (Long) -> Unit): Interval {
         listReceive.add(block)
@@ -91,7 +93,7 @@ class Interval(
     }
 
     /**
-     * 轮循器完成
+     * 轮循器完成时回调该函数
      */
     fun finish(block: (Long) -> Unit): Interval {
         listFinish.add(block)
@@ -128,7 +130,7 @@ class Interval(
     }
 
     /**
-     * 开关
+     * 切换轮循器开始或结束
      */
     fun switch() {
         when (state) {
@@ -140,6 +142,7 @@ class Interval(
 
     /**
      * 继续
+     * 要求轮循器为暂停状态[IntervalStatus.STATE_PAUSE], 否则无效
      */
     fun resume() {
         if (state != IntervalStatus.STATE_PAUSE) return
@@ -174,6 +177,9 @@ class Interval(
     /**
      * 绑定生命周期, 在指定生命周期发生时取消轮循器
      * @param lifecycleOwner 默认在销毁时取消轮循器
+     * @param lifeEvent 销毁的时机, 默认为 ON_STOP 界面停止时停止轮循器
+     *
+     * Fragment的显示/隐藏不会调用onDestroy, 故轮循器默认是在ON_STOP停止, 如果你设置ON_DESTORY请考虑Fragment的情况下
      */
     fun life(
         lifecycleOwner: LifecycleOwner,

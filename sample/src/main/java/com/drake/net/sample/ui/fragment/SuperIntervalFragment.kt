@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.sample.R
 import com.drake.net.time.Interval
@@ -31,15 +32,8 @@ class SuperIntervalFragment : Fragment(R.layout.fragment_super_interval) {
 
     private lateinit var interval: Interval // 轮循器
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        interval = Interval(
-            0,
-            1,
-            TimeUnit.SECONDS,
-            10
-        ).life(this) // 自定义计数器个数的轮循器, 当[start]]比[end]值大, 且end不等于-1时, 即为倒计时
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        interval = Interval(0, 1, TimeUnit.SECONDS, 10).life(this) // 自定义计数器个数的轮循器, 当[start]]比[end]值大, 且end不等于-1时, 即为倒计时
         // interval = Interval(1, TimeUnit.SECONDS) // 每秒回调一次, 不会自动结束
         interval.subscribe {
             tv_fragment.text = it.toString()
@@ -48,12 +42,10 @@ class SuperIntervalFragment : Fragment(R.layout.fragment_super_interval) {
         }.start()
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_interval, menu)
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

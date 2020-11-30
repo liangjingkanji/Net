@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.Get
 import com.drake.net.sample.R
@@ -26,9 +27,7 @@ import kotlinx.android.synthetic.main.fragment_state_layout.*
 
 class StateLayoutFragment : Fragment(R.layout.fragment_state_layout) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         state.onRefresh {
             scope {
                 tv_fragment.text = Get<String>("api").await()

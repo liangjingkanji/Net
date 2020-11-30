@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import com.drake.net.sample.R
@@ -30,9 +31,7 @@ import kotlinx.coroutines.delay
 
 class CoroutineScopeFragment : Fragment(R.layout.fragment_coroutine_scope) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 其作用域在应用进程销毁时才会被动取消
         scope {
 

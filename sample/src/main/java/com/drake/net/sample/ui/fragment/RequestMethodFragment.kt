@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.*
 import com.drake.net.sample.R
@@ -31,11 +32,9 @@ import kotlinx.android.synthetic.main.fragment_async_task.*
 
 class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
     }
-
 
     private fun GET() {
         scopeNetLife {
@@ -84,7 +83,6 @@ class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
             tv_fragment.text = Options<String>("api").await()
         }
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

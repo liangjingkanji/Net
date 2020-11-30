@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.Get
 import com.drake.net.sample.R
@@ -26,9 +27,7 @@ import kotlinx.android.synthetic.main.fragment_error_handler.*
 
 class ErrorHandlerFragment : Fragment(R.layout.fragment_error_handler) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeNetLife {
             // 该请求是错误的路径会在控制台打印出错误信息
             Get<String>("error").await()

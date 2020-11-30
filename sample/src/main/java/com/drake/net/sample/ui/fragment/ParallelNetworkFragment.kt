@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.Get
 import com.drake.net.Post
@@ -27,9 +28,7 @@ import com.drake.net.utils.scopeNetLife
 
 class ParallelNetworkFragment : Fragment(R.layout.fragment_parallel_network) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeNetLife {
 
             // 同时发起三个请求

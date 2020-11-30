@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.sample.R
 import com.drake.net.utils.scopeLife
@@ -27,9 +28,7 @@ import kotlinx.coroutines.launch
 
 class SwitchDispatcherFragment : Fragment(R.layout.fragment_switch_dispatcher) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeLife {
 
             // 点击函数名查看更多相关函数

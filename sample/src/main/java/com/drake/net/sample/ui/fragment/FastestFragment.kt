@@ -17,6 +17,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.drake.net.Get
 import com.drake.net.Post
@@ -27,9 +28,7 @@ import kotlinx.android.synthetic.main.fragment_request_method.*
 
 class FastestFragment : Fragment(R.layout.fragment_fastest) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeNetLife {
             /*
             网络请求的取消本质上依靠uid来辨别,如果设置[uid]参数可以在返回最快结果后取消掉其他网络请求, 反之不会取消其他网络请求
