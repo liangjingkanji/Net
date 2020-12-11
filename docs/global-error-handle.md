@@ -67,6 +67,7 @@ catch里面的`it`属于异常对象, 这里列举可能存在的异常
 | WriteException | 写入异常 |
 | ReadException | 读取异常 |
 | ResponseException | 响应异常, 这里属于后端返回的错误码和其定义的成功码不匹配 |
+| NetException | 网络异常, 未知的网络异常, 一般情况应当继承他来创建自定义的网络异常 |
 
 假设你重写`DefaultConvert`可以改变异常发生的条件, 当然你在转换器或者拦截器中抛出任何异常都会被捕获或者全局处理, 这里你可以自定义你的异常
 
@@ -102,5 +103,6 @@ catch里面的`it`属于异常对象, 这里列举可能存在的异常
 <string name="net_server_error">服务响应错误</string>
 <string name="net_image_error">图片下载错误</string>
 <string name="net_null_error">数据为空</string>
+<string name="net_error">未知网络错误</string>
 <string name="net_other_error">未知错误</string>
 ```

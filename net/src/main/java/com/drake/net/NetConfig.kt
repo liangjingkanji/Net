@@ -82,6 +82,7 @@ object NetConfig {
             is WriteException -> app.getString(R.string.net_write_exception)
             is ReadException -> app.getString(R.string.net_read_exception)
             is ResponseException -> msg
+            is NetException -> app.getString(R.string.net_error)
             else -> app.getString(R.string.net_other_error)
         }
 
@@ -98,7 +99,6 @@ object NetConfig {
         }
     }
 }
-
 
 /**
  * 初始化框架
@@ -123,7 +123,7 @@ fun Application.initNet(host: String, config: KalleConfig.Builder.() -> Unit = {
 
 
 /**
- * 该函数指定某些Observer的onError中的默认错误信息处理
+ * 设置全局错误处理
  *
  * @see NetConfig.onError
  */
@@ -132,7 +132,7 @@ fun KalleConfig.Builder.onError(block: Throwable.() -> Unit) {
 }
 
 /**
- * 该函数指定某些Observer的onError中的默认错误信息处理
+ * 设置缺省页的全局错误处理
  *
  * 如果不设置默认只有 解析数据错误 | 后台自定义错误 会显示吐司
  * @see NetConfig.onStateError
@@ -140,7 +140,6 @@ fun KalleConfig.Builder.onError(block: Throwable.() -> Unit) {
 fun KalleConfig.Builder.onStateError(block: Throwable.(view: View) -> Unit) {
     NetConfig.onStateError = block
 }
-
 
 /**
  * 设置使用DialogObserver默认弹出的加载对话框

@@ -33,6 +33,7 @@
     <string name="net_server_error">服务响应错误</string>
     <string name="net_image_error">图片下载错误</string>
     <string name="net_null_error">数据为空</string>
+    <string name="net_error">未知网络错误</string>
     <string name="net_other_error">未知错误</string>
 
     <!--对话框-->
