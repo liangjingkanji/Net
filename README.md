@@ -108,9 +108,9 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 
 // 支持自动下拉刷新和缺省页的(可选)
-implementation 'com.github.liangjingkanji:BRV:1.3.15'
+implementation 'com.github.liangjingkanji:BRV:1.3.19'
 
-implementation 'com.github.liangjingkanji:Net:2.3.10'
+implementation 'com.github.liangjingkanji:Net:2.3.11'
 ```
 
 <br>
