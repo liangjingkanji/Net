@@ -55,7 +55,7 @@ public class URLConnectionFactory implements ConnectFactory {
     @Override
     public Connection connect(Request request) throws IOException {
         HttpURLConnection connection;
-        URL url = new URL(request.url().toString(true));
+        URL url = new URL(request.url().toString(false));
 
         Proxy proxy = request.proxy();
         if (proxy == null)
