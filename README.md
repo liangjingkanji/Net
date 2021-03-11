@@ -117,6 +117,8 @@ implementation 'com.github.liangjingkanji:Net:2.3.11'
 
 ## Contribute
 
+[![Join the chat at https://gitter.im/liangjingkanji/net](https://badges.gitter.im/liangjingkanji/net.svg)](https://gitter.im/liangjingkanji/net?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 <img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaskr305czj30u00wjtcz.jpg" width="100"/> 
 
 supported by [JetBrains](https://www.jetbrains.com/)
