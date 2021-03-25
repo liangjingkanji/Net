@@ -66,7 +66,7 @@ abstract class BasicWorker<T extends SimpleRequest, S> implements Callable<S>, C
 
             int code = response.code();
             if (code == 304) {
-                Response cacheResponse = tryReadCacheAfter(-1);
+                Response cacheResponse = tryReadCacheAfter(code);
                 if (cacheResponse != null) {
                     return buildSimpleResponse(cacheResponse, true);
                 } else {
