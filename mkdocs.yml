@@ -57,7 +57,7 @@ nav:
   - 返回集合结果: parse-list.md
   - 嵌套作用域: nested-scope.md
   - 最快请求结果: fastest.md
-  - 唯一请求: unique.md
+  - 重复请求: unique.md
   - 取消请求: cancel.md
   - 日志记录器: log-recorder.md
   - 轮循器: interval.md
