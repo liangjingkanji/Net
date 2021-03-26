@@ -70,7 +70,11 @@
     <item
         android:id="@+id/unique"
         android:icon="@drawable/ic_unique"
-        android:title="唯一请求" />
+        android:title="重复请求" />
+    <item
+        android:id="@+id/edit_throttle"
+        android:icon="@drawable/ic_debounce"
+        android:title="节流阀" />
     <item
         android:id="@+id/state_layout"
         android:icon="@drawable/ic_state_layout"

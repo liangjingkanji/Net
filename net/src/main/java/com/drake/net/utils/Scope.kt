@@ -27,9 +27,6 @@ import com.drake.statelayout.StateLayout
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 
 /**
  * 作用域内部全在主线程
@@ -161,24 +158,3 @@ fun Fragment.scopeNetLife(
     block: suspend CoroutineScope.() -> Unit
 ) = NetCoroutineScope(this, lifeEvent, dispatcher).launch(block)
 //</editor-fold>
-
-
-/**
- * Flow直接创建作用域
- * @param owner 跟随的生命周期组件
- * @param event 销毁时机
- * @param dispatcher 指定调度器
- */
-@OptIn(InternalCoroutinesApi::class)
-inline fun <T> Flow<T>.scope(
-    owner: LifecycleOwner? = null,
-    event: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    dispatcher: CoroutineDispatcher = Dispatchers.Main,
-    crossinline action: suspend (value: T) -> Unit
-): AndroidScope = AndroidScope(owner, event, dispatcher).launch {
-    this@scope.collect(object : FlowCollector<T> {
-        override suspend fun emit(value: T) = action(value)
-    })
-}
-
-

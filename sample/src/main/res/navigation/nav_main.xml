@@ -119,7 +119,12 @@
     <fragment
         android:id="@+id/unique"
         android:name="com.drake.net.sample.ui.fragment.UniqueRequestFragment"
-        android:label="唯一请求"
+        android:label="重复请求"
         tools:layout="@layout/fragment_unique_request" />
+    <fragment
+        android:id="@+id/edit_throttle"
+        android:name="com.drake.net.sample.ui.fragment.EditDebounceFragment"
+        android:label="节流阀"
+        tools:layout="@layout/fragment_edit_debounce" />
 
 </navigation>
