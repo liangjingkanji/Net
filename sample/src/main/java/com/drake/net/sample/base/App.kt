@@ -43,7 +43,7 @@ class App : Application() {
             errorLayout = R.layout.layout_error
         }
 
-        initNet("http://182.92.97.186/") {
+        initNet("http://43.128.31.195/") {
             converter(MoshiConvert()) // 自动解析JSON映射到实体类中, 转换器分为全局和单例, 覆盖生效(拦截器允许多个)
             cacheEnabled()
             addInterceptor(NetTagInterceptor())
