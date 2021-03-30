@@ -23,7 +23,7 @@ Net的网络请求本身支持在官方的自带的作用域内使用, 但是考
 | 函数 | 描述 |
 |-|-|
 |`scopeNet`|创建自动处理网络错误的作用域|
-|`scopeNetLife`|创建自动处理网络错误的作用域, 且包含跟随生命周期|
+|`scopeNetLife`|创建自动处理网络错误的作用域, 且包含跟随Activity或者Fragment生命周期|
 |`scopeDialog`|创建自动加载对话框的作用域, 生命周期跟随对话框|
 |`PageRefreshLayout.scope`|创建跟随[PageRefreshLayout](https://github.com/liangjingkanji/BRV)生命周期的作用域|
 |`StateLayout.scope`|创建跟随[StateLayout](https://github.com/liangjingkanji/BRV)生命周期的作用域|
