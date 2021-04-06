@@ -77,6 +77,16 @@ scopeNetLife { // 创建作用域
 |`binary`|二进制|
 |`binaries`|多个二进制|
 |`body`|自定义请求体|
+|`json`|请求参数为JSONObject/JsonArray/String|
+
+
+
+### JSON请求体
+
+在Demo中可以查看具体JSON请求的代码
+对于某些可能JSON请求参数存在固定值, 可以考虑继承JsonBody来扩展出自己的新的Body(), 然后使用`body`函数传入请求中.
+
+> JsonBody实际上也是继承自StringBody
 
 
 ## RESTFUL

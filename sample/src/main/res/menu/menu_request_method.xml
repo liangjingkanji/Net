@@ -39,4 +39,7 @@
     <item
         android:id="@+id/options"
         android:title="OPTIONS" />
+    <item
+        android:id="@+id/json"
+        android:title="JSON请求" />
 </menu>

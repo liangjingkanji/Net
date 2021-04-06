@@ -15,6 +15,9 @@
  */
 package com.yanzhenjie.kalle;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.nio.charset.Charset;
 
 import static com.yanzhenjie.kalle.Headers.VALUE_APPLICATION_JSON;
@@ -26,6 +29,14 @@ public class JsonBody extends StringBody {
 
     public JsonBody(String body) {
         this(body, Kalle.getConfig().getCharset());
+    }
+
+    public JsonBody(JSONObject body) {
+        this(body.toString(), Kalle.getConfig().getCharset());
+    }
+
+    public JsonBody(JSONArray body) {
+        this(body.toString(), Kalle.getConfig().getCharset());
     }
 
     public JsonBody(String body, Charset charset) {

@@ -15,6 +15,9 @@
  */
 package com.yanzhenjie.kalle;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.List;
 
@@ -331,6 +334,30 @@ public class BodyRequest extends Request {
          */
         public T body(RequestBody body) {
             this.mBody = body;
+            return (T) this;
+        }
+
+        /**
+         * Set JSON request body.
+         */
+        public T json(JSONObject json) {
+            this.mBody = new JsonBody(json);
+            return (T) this;
+        }
+
+        /**
+         * Set JSON request body.
+         */
+        public T json(JSONArray json) {
+            this.mBody = new JsonBody(json);
+            return (T) this;
+        }
+
+        /**
+         * Set JSON request body.
+         */
+        public T json(String json) {
+            this.mBody = new JsonBody(json);
             return (T) this;
         }
     }

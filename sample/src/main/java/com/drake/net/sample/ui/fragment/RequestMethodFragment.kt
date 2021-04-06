@@ -28,6 +28,8 @@ import com.drake.net.*
 import com.drake.net.sample.R
 import com.drake.net.utils.scopeNetLife
 import kotlinx.android.synthetic.main.fragment_async_task.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
@@ -84,6 +86,26 @@ class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
         }
     }
 
+
+    /**
+     * 请求参数为JSON
+     */
+    private fun JSON() {
+        scopeNetLife {
+            tv_fragment.text = Post<String>("api") {
+                json(JSONObject().run {
+                    put("name", "金城武")
+                    put("age", "23")
+                    put("measurements", JSONArray().run {
+                        put(100)
+                        put(100)
+                        put(100)
+                    })
+                })
+            }.await()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_request_method, menu)
@@ -99,6 +121,7 @@ class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
             R.id.delete -> DELETE()
             R.id.trace -> TRACE()
             R.id.options -> OPTIONS()
+            R.id.json -> JSON()
         }
         return super.onOptionsItemSelected(item)
     }
