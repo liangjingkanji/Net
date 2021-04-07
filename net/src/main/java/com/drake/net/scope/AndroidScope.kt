@@ -21,6 +21,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.drake.net.NetConfig
 import kotlinx.coroutines.*
+import java.io.Closeable
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -32,7 +33,7 @@ open class AndroidScope(
     lifecycleOwner: LifecycleOwner? = null,
     lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
     val dispatcher: CoroutineDispatcher = Dispatchers.Main
-) : CoroutineScope {
+) : CoroutineScope, Closeable {
 
     init {
         lifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
@@ -100,7 +101,7 @@ open class AndroidScope(
 
     open fun cancel(cause: CancellationException? = null) {
         val job = coroutineContext[Job]
-                  ?: error("Scope cannot be cancelled because it does not have a job: $this")
+            ?: error("Scope cannot be cancelled because it does not have a job: $this")
         job.cancel(cause)
     }
 
@@ -108,6 +109,10 @@ open class AndroidScope(
         message: String,
         cause: Throwable? = null
     ) = cancel(CancellationException(message, cause))
+
+    override fun close() {
+        cancel()
+    }
 
 }
 

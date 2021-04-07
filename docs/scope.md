@@ -12,6 +12,7 @@ Net的网络请求本身支持在官方的自带的作用域内使用, 但是考
 |-|-|
 |`scope`|创建最基础的作用域, 所有作用域都包含异常捕捉|
 |`scopeLife`|创建跟随生命周期取消的作用域|
+|`ViewModel.scopeLife`|创建跟随`ViewModel`生命周期的作用域|
 
 
 ## 网络请求的作用域
@@ -25,6 +26,7 @@ Net的网络请求本身支持在官方的自带的作用域内使用, 但是考
 |`scopeNet`|创建自动处理网络错误的作用域|
 |`scopeNetLife`|创建自动处理网络错误的作用域, 且包含跟随Activity或者Fragment生命周期|
 |`scopeDialog`|创建自动加载对话框的作用域, 生命周期跟随对话框|
+|`ViewModel.scopeNetLife`|创建跟随`ViewModel`生命周期的作用域|
 |`PageRefreshLayout.scope`|创建跟随[PageRefreshLayout](https://github.com/liangjingkanji/BRV)生命周期的作用域|
 |`StateLayout.scope`|创建跟随[StateLayout](https://github.com/liangjingkanji/BRV)生命周期的作用域|
 

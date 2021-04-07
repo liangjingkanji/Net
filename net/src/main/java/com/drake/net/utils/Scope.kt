@@ -28,6 +28,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
+
 /**
  * 作用域内部全在主线程
  * 作用域全部属于异步
@@ -131,9 +132,11 @@ fun Fragment.scopeLife(
 //</editor-fold>
 
 //<editor-fold desc="网络">
+
 /**
- * 网络请求的异步作用域
- * 自动显示错误信息吐司
+ * 该函数比[scope]多了以下功能
+ * - 在作用域内抛出异常时会被回调的[NetConfig.onError]函数中
+ * - 自动显示错误信息吐司, 可以通过指定[NetConfig.onError]来取消或者增加自己的处理
  *
  * 该作用域生命周期跟随整个应用, 注意内存泄漏
  */
@@ -142,7 +145,14 @@ fun scopeNet(
     block: suspend CoroutineScope.() -> Unit
 ) = NetCoroutineScope(dispatcher = dispatcher).launch(block)
 
-
+/**
+ * 该函数比scopeNet多了自动取消作用域功能
+ *
+ * 该作用域生命周期跟随LifecycleOwner. 比如传入Activity会默认在[FragmentActivity.onDestroy]时取消网络请求.
+ * @receiver 可传入FragmentActivity/AppCompatActivity, 或者其他的实现了LifecycleOwner的类
+ * @param lifeEvent 指定LifecycleOwner处于生命周期下取消网络请求/作用域
+ * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
+ */
 fun LifecycleOwner.scopeNetLife(
     lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
@@ -150,6 +160,8 @@ fun LifecycleOwner.scopeNetLife(
 ) = NetCoroutineScope(this, lifeEvent, dispatcher).launch(block)
 
 /**
+ * 和上述函数功能相同, 只是接受者为Fragment
+ *
  * Fragment应当在[Lifecycle.Event.ON_STOP]时就取消作用域, 避免[Fragment.onDestroyView]导致引用空视图
  */
 fun Fragment.scopeNetLife(
@@ -157,4 +169,6 @@ fun Fragment.scopeNetLife(
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     block: suspend CoroutineScope.() -> Unit
 ) = NetCoroutineScope(this, lifeEvent, dispatcher).launch(block)
+
+
 //</editor-fold>
