@@ -1,5 +1,23 @@
+## 2.3.14
+支持在ViewModel中创建绑定ViewModel生命周期的作用域: scopeLife/scopeNetLife
+
+
 ## 2.3.13
-简化Json的请求体创建
+增加函数[json]来便于快速构建Json请求参数
+
+```kotlin
+Post<String>("api") {
+    json(JSONObject().run {
+        put("name", "金城武")
+        put("age", "23")
+        put("measurements", JSONArray().run {
+            put(100)
+            put(100)
+            put(100)
+        })
+    })
+}.await()
+```
 
 ## 2.3.8
 日志记录器默认支持输出Json参数

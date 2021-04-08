@@ -18,10 +18,6 @@
 
 <br>
 
-搜索文件: `nav_main` 打开即可查看所有功能界面
-
-<br>
-
 Android上不是最强网络任务库, 创新式的网络请求库(基于Kalle), 支持协程高并发网络请求
 
 <br>
@@ -110,7 +106,7 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 // 支持自动下拉刷新和缺省页的(可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.19'
 
-implementation 'com.github.liangjingkanji:Net:2.3.13'
+implementation 'com.github.liangjingkanji:Net:2.3.14'
 ```
 
 <br>
