@@ -4,7 +4,7 @@
 
 <p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a></p>
 
-<p align="center"><img src="https://i.imgur.com/lhuq5Ut.jpg" width="350"/></p>
+<p align="center"><img src="https://i.imgur.com/LJDHRYV.jpg" width="350"/></p>
 
 <p align="center">
 <a href="https://jitpack.io/#liangjingkanji/Net"><img src="https://jitpack.io/v/liangjingkanji/Net.svg"/></a>
@@ -15,10 +15,6 @@
 </p>
 
 <p align="center"><img src="https://i.imgur.com/aBe7Ib2.png" align="center" width="30%;" /></p>
-
-<br>
-
-搜索文件: `nav_main` 打开即可查看所有功能界面
 
 <br>
 
@@ -110,7 +106,7 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 // 支持自动下拉刷新和缺省页的(可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.19'
 
-implementation 'com.github.liangjingkanji:Net:2.3.13'
+implementation 'com.github.liangjingkanji:Net:2.3.14'
 ```
 
 <br>
