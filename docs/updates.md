@@ -6,17 +6,25 @@
 增加函数[json]来便于快速构建Json请求参数
 
 ```kotlin
-Post<String>("api") {
-    json(JSONObject().run {
-        put("name", "金城武")
-        put("age", "23")
-        put("measurements", JSONArray().run {
-            put(100)
-            put(100)
-            put(100)
+val name = "金城武"
+val age = 29
+val measurements = listOf(100, 100, 100)
+
+scopeNetLife {
+
+    // 创建JSONObject对象
+    tv_fragment.text = Post<String>("api") {
+        json(JSONObject().run {
+            put("name", name)
+            put("age", age)
+            put("measurements", JSONArray(measurements))
         })
-    })
-}.await()
+    }.await()
+
+    // 创建JSON
+    tv_fragment.text = Post<String>("api") {
+        json("{name:$name, age:$age, measurements:$measurements}")
+    }.await()
 ```
 
 ## 2.3.8

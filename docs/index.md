@@ -83,7 +83,51 @@ scopeNetLife { // 创建作用域
 
 ### JSON请求体
 
-在Demo中可以查看具体JSON请求的代码
+这里提供三种创建Json请求的示例代码. 酌情选用
+
+=== "JSON字符串(推荐)"
+    ```kotlin
+    val name = "金城武"
+    val age = 29
+    val measurements = listOf(100, 100, 100)
+
+    scopeNetLife {
+        tv_fragment.text = Post<String>("api") {
+            json("{name:$name, age:$age, measurements:$measurements}")
+        }.await()
+    }
+    ```
+
+=== "JSONObject"
+    ```kotlin
+    val name = "金城武"
+    val age = 29
+    val measurements = listOf(100, 100, 100)
+
+    scopeNetLife {
+        tv_fragment.text = Post<String>("api") {
+            json(JSONObject().run {
+                put("name", name)
+                put("age", age)
+                put("measurements", JSONArray(measurements))
+            })
+        }.await()
+    }
+    ```
+
+=== "自定义的body"
+    ```kotlin
+    val name = "金城武"
+    val age = 29
+    val measurements = listOf(100, 100, 100)
+
+    scopeNetLife {
+        tv_fragment.text = Post<String>("api") {
+            body(MyJsonBody(name, age, measurements))
+        }.await()
+    }
+    ```
+
 对于某些可能JSON请求参数存在固定值, 可以考虑继承JsonBody来扩展出自己的新的Body(), 然后使用`body`函数传入请求中.
 
 > JsonBody实际上也是继承自StringBody
