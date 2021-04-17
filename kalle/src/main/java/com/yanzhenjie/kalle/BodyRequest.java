@@ -20,6 +20,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
+
+import kotlin.Pair;
 
 /**
  * Created by Zhenjie Yan on 2018/2/13.
@@ -345,17 +348,21 @@ public class BodyRequest extends Request {
             return (T) this;
         }
 
-        /**
-         * Set JSON request body.
-         */
         public T json(JSONArray json) {
             this.mBody = new JsonBody(json);
             return (T) this;
         }
 
-        /**
-         * Set JSON request body.
-         */
+        public T json(Pair<String, Object>... json) {
+            this.mBody = new JsonBody(json);
+            return (T) this;
+        }
+
+        public T json(Map<String, Object> json) {
+            this.mBody = new JsonBody(json);
+            return (T) this;
+        }
+
         public T json(String json) {
             this.mBody = new JsonBody(json);
             return (T) this;

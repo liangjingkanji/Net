@@ -106,7 +106,7 @@ class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
 
             // 创建JSON
             tv_fragment.text = Post<String>("api") {
-                json("{name:$name, age:$age, measurements:$measurements}")
+                json("name" to name, "age" to age, "measurements" to measurements) // 同时支持Map集合
             }.await()
         }
     }

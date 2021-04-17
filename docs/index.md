@@ -85,7 +85,7 @@ scopeNetLife { // 创建作用域
 
 这里提供三种创建Json请求的示例代码. 酌情选用
 
-=== "JSON字符串(推荐)"
+=== "JSON键值对(推荐)"
     ```kotlin
     val name = "金城武"
     val age = 29
@@ -93,7 +93,7 @@ scopeNetLife { // 创建作用域
 
     scopeNetLife {
         tv_fragment.text = Post<String>("api") {
-            json("{name:$name, age:$age, measurements:$measurements}")
+            json("name" to name, "age" to age, "measurements" to measurements) // 同时也支持Map集合
         }.await()
     }
     ```

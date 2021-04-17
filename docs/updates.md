@@ -1,3 +1,6 @@
+## 2.3.15
+[json]请求体支持Map和Pair参数
+
 ## 2.3.14
 支持在ViewModel中创建绑定ViewModel生命周期的作用域: scopeLife/scopeNetLife
 
