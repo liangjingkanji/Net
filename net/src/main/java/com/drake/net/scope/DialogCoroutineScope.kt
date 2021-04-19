@@ -51,13 +51,15 @@ class DialogCoroutineScope(
     }
 
     override fun start() {
-        dialog = when {
-            dialog != null -> dialog
-            else -> onDialog.invoke(this, activity)
+        activity.runOnUiThread {
+            dialog = when {
+                dialog != null -> dialog
+                else -> onDialog.invoke(this, activity)
+            }
+            dialog?.setOnDismissListener { cancel() }
+            dialog?.setCancelable(cancelable)
+            dialog?.show()
         }
-        dialog?.setOnDismissListener { cancel() }
-        dialog?.setCancelable(cancelable)
-        dialog?.show()
     }
 
     override fun readCache(succeed: Boolean) {
