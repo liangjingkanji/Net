@@ -36,25 +36,33 @@ markdown_extensions:
 
 nav:
   - 使用: index.md
-  - 并发: parallel.md
-  - 作用域: scope.md
+  - 协程请求: parallel.md
+  - 同步请求: sync-request.md
+  - 队列请求: enqueue-request.md
+  - 请求参数: request-params.md
+  - 创建作用域: scope.md
   - 全局配置: config.md
-  - 异常追踪: exception-track.md
-  - 全局错误处理: global-error-handle.md
-  - 转换器: convert.md
+  - OkHttpClient: okhttp-client.md
+  - 全局错误处理: error-handle.md
   - 拦截器: interceptor.md
+  - Https证书: https.md
+  - 转换器: converter.md
+  - 异常追踪: exception-track.md
   - 自动化:
       - 自动加载框: auto-dialog.md
       - 自动缺省页: auto-state.md
       - 自动下拉刷新: auto-refresh.md
       - 自动分页加载: auto-page.md
+  - 转换数据:
+      - 转换Data字段: convert-data-field.md
+      - 转换JSON数组: convert-json-array.md
+  - ViewModel: view-model.md
   - 切换线程: switch-dispatcher.md
   - 标签: tag.md
   - 上传文件: upload-file.md
   - 下载文件: download-file.md
-  - 下载图片: download-image.md
-  - 读取缓存: read-cache.md
-  - 返回集合结果: parse-list.md
+  - 进度监听: progress.md
+  #  - 读取缓存: read-cache.md
   - 嵌套作用域: nested-scope.md
   - 最快请求结果: fastest.md
   - 重复请求: unique.md

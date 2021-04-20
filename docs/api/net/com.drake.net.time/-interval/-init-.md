@@ -25,10 +25,10 @@
 
 `end` - 结束值
 
-`period` - 事件间隔
+`period` - 计时器间隔
 
-`unit` - 事件单位
+`unit` - 计时器单位
 
-`initialDelay` - 第一次事件的间隔时间
+`initialDelay` - 第一次事件的间隔时间, 默认0
 
-`start` - 开始值, 当[start](start.md)]比[end](end.md)值大, 且end不等于-1时, 即为倒计时
+`start` - 开始值, 当[start](start.md)]比[end](end.md)值大, 且end不等于-1时, 即为倒计时, 反之正计时

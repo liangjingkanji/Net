@@ -17,15 +17,18 @@
 package com.drake.net.sample.base
 
 import android.app.Application
-import com.drake.net.cacheEnabled
+import android.app.ProgressDialog
+import com.drake.brv.BindingAdapter
 import com.drake.net.initNet
-import com.drake.net.logEnabled
+import com.drake.net.interceptor.LogRecordInterceptor
+import com.drake.net.interceptor.RequestInterceptor
+import com.drake.net.okhttp.onDialog
+import com.drake.net.okhttp.setLog
+import com.drake.net.okhttp.setRequestInterceptor
+import com.drake.net.request.BaseRequest
 import com.drake.net.sample.BR
 import com.drake.net.sample.BuildConfig
 import com.drake.net.sample.R
-import com.drake.net.sample.convert.MoshiConvert
-import com.drake.net.sample.interceptor.DynamicParameterInterceptor
-import com.drake.net.sample.interceptor.NetTagInterceptor
 import com.drake.statelayout.StateConfig
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
@@ -36,6 +39,32 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        initNet("http://43.128.31.195/") {
+
+            setLog(BuildConfig.DEBUG) // LogCat异常日志
+            addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG)) // 添加日志记录器
+
+            setRequestInterceptor(object : RequestInterceptor { // 添加请求拦截器
+                override fun interceptor(request: BaseRequest) {
+                    request.param("client", "Net")
+                    request.setHeader("token", "123456")
+                }
+            })
+
+            onDialog { // 全局加载对话框
+                ProgressDialog(it).apply {
+                    setMessage("我是全局自定义的加载对话框...")
+                }
+            }
+        }
+        initDependent()
+    }
+
+    /**
+     * 初始化Net的可选附属库
+     */
+    private fun initDependent() {
+
         // 全局缺省页配置 [https://github.com/liangjingkanji/StateLayout]
         StateConfig.apply {
             emptyLayout = R.layout.layout_empty
@@ -43,24 +72,17 @@ class App : Application() {
             errorLayout = R.layout.layout_error
         }
 
-        initNet("http://43.128.31.195/") {
-            converter(MoshiConvert()) // 自动解析JSON映射到实体类中, 转换器分为全局和单例, 覆盖生效(拦截器允许多个)
-            cacheEnabled()
-            addInterceptor(NetTagInterceptor())
-            addInterceptor(DynamicParameterInterceptor())
-            setLogRecord(BuildConfig.DEBUG) // 日志记录器
-            logEnabled = BuildConfig.DEBUG // LogCat异常日志
-        }
 
         // 初始化SmartRefreshLayout, 这是自动下拉刷新和上拉加载采用的第三方库  [https://github.com/scwang90/SmartRefreshLayout/tree/master] V2版本
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, _ ->
             MaterialHeader(context)
         }
+
         SmartRefreshLayout.setDefaultRefreshFooterCreator { context, _ ->
             ClassicsFooter(context)
         }
 
-        com.drake.brv.BindingAdapter.modelId = BR.m
-
+        BindingAdapter.modelId = BR.m
     }
 }
+

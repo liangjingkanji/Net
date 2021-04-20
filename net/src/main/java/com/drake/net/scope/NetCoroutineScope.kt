@@ -18,8 +18,8 @@ package com.drake.net.scope
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import com.drake.net.Net
 import com.drake.net.NetConfig
-import com.yanzhenjie.kalle.NetCancel
 import kotlinx.coroutines.*
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -71,11 +71,6 @@ open class NetCoroutineScope(
 
     }
 
-    override fun finally(e: Throwable?) {
-        super.finally(e)
-        NetCancel.cancel(uid)
-    }
-
     /**
      * 读取缓存回调
      * @param succeed 缓存是否成功
@@ -113,7 +108,7 @@ open class NetCoroutineScope(
     }
 
     override fun cancel(cause: CancellationException?) {
-        NetCancel.cancel(uid)
+        Net.cancelGroup(scopeGroup)
         super.cancel(cause)
     }
 }

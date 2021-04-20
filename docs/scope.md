@@ -51,7 +51,7 @@ scope {
 
 | 函数 | 描述 |
 |-|-|
-| catch | 作用域被`catch`则不会被传递到全局异常处理回调中: [全局处理异常](global-error-handle.md), 除非使用`handleError`再次传递给全局 |
+| catch | 作用域被`catch`则不会被传递到全局异常处理回调中: [全局处理异常](error-handle.md), 除非使用`handleError`再次传递给全局 |
 | finally | 同样可以获取到异常对象, 且不影响全局异常回调处理 |
 
 

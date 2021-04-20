@@ -25,13 +25,13 @@
 
 `end` - 结束值
 
-`period` - 事件间隔
+`period` - 计时器间隔
 
-`unit` - 事件单位
+`unit` - 计时器单位
 
-`initialDelay` - 第一次事件的间隔时间
+`initialDelay` - 第一次事件的间隔时间, 默认0
 
-`start` - 开始值, 当[start](start.md)]比[end](end.md)值大, 且end不等于-1时, 即为倒计时
+`start` - 开始值, 当[start](start.md)]比[end](end.md)值大, 且end不等于-1时, 即为倒计时, 反之正计时
 
 ### Constructors
 
@@ -51,12 +51,12 @@
 
 | Name | Summary |
 |---|---|
-| [finish](finish.md) | 轮循器完成`fun finish(block: (`[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)`) -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`Interval`](./index.md) |
+| [finish](finish.md) | 轮循器完成时回调该函数`fun finish(block: (`[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)`) -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`Interval`](./index.md) |
 | [life](life.md) | 绑定生命周期, 在指定生命周期发生时取消轮循器`fun life(lifecycleOwner: LifecycleOwner, lifeEvent: Event = Lifecycle.Event.ON_STOP): `[`Interval`](./index.md) |
 | [pause](pause.md) | 暂停`fun pause(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [reset](reset.md) | 重置`fun reset(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [resume](resume.md) | 继续`fun resume(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [resume](resume.md) | 继续 要求轮循器为暂停状态[IntervalStatus.STATE_PAUSE](../-interval-status/-s-t-a-t-e_-p-a-u-s-e.md), 否则无效`fun resume(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [start](start.md) | 开始`fun start(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [stop](stop.md) | 停止`fun stop(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [subscribe](subscribe.md) | 订阅轮循器`fun subscribe(block: (`[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)`) -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`Interval`](./index.md) |
-| [switch](switch.md) | 开关`fun switch(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [subscribe](subscribe.md) | 订阅轮循器 每次轮循器计时都会调用该回调函数 轮循器完成时会同时触发回调[block](subscribe.md#com.drake.net.time.Interval$subscribe(kotlin.Function1((kotlin.Long, kotlin.Unit)))/block)和[finish](finish.md)`fun subscribe(block: (`[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)`) -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`Interval`](./index.md) |
+| [switch](switch.md) | 切换轮循器开始或结束`fun switch(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |

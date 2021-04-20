@@ -1,35 +1,59 @@
-全局配置推荐在Application中设置
-```kotlin
-class App : Application() {
-    override fun onCreate() {
-        super.onCreate()
+全局配置建议在Application中设置
 
-        // http://182.92.97.186/  这是接口全局域名, 可以使用NetConfig.host读写
-        initNet("http://182.92.97.186/") {
+=== "普通初始化"
 
-            // 大括号内部都是可选项配置
+    ```kotlin
+    class App : Application() {
+        override fun onCreate() {
+            super.onCreate()
 
-            converter(MoshiConvert()) // 转换器
-            cacheEnabled() // 开启缓存
-            setLogRecord(BuildConfig.DEBUG) // 日志记录器
-            logEnabled = BuildConfig.DEBUG // LogCat异常日志
-            addHeader("键" ,"值") // 全局请求头
-            setHeader("覆盖键" ,"值") // 全局请求头, 键相同会覆盖
-            addParam("键" ,"值") // 全局参数
+            // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
+
+            initNet("http://github.com/") {
+                setLog(BuildConfig.DEBUG) // 日志记录器
+                setConverter(GsonConvert()) // 转换器
+            }
         }
     }
-}
-```
+    ```
 
-> 假设全局参数属于动态获取的, 应当使用拦截器, 在拦截器里面添加
+=== "OkHttpClient.Builder"
 
-initNet 作用域内可选函数
+    ```kotlin
+    class App : Application() {
+        override fun onCreate() {
+            super.onCreate()
 
-<img src="https://i.imgur.com/G8W4oDX.png" width="300"/>
+            // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
+            val okHttpClientBuilder = OkHttpClient.Builder()
+                .setLog(BuildConfig.DEBUG)
+                .setConverter(GsonConvert())
+                .addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
+
+            initNet("http://github.com/", okHttpClientBuilder)
+        }
+    }
+    ```
+
+> 配置都是可选项, 不是不初始化就不能使用
+
+在initNet函数作用域中的this属于`OkHttpClient.Builder()`, 可以配置任何OkHttp参数选项
+
+| 函数 | 描述 |
+|-|-|
+| setLog | 日志 |
+| setHost | 全局域名, 和initNet("Host")函数中的第一个参数等效 |
+| setConverter | [转换器](converter.md) |
+| setRequestInterceptor | [请求拦截器](interceptor.md) |
+| onError | [全局错误处理](error-handle.md) |
+| onStateError | [全局缺省页错误处理](error-handle.md) |
+| onDialog | [全局对话框](auto-dialog.md) |
 
 ## 动态配置
 
-单例对象[NetConfig](api/net/com.drake.net/-net-config/index.md)存储了初始化时的配置, 可以后期动态读写.
+单例[NetConfig](api/net/com.drake.net/-net-config/index.md)存储了初始化时的配置, 可以后期动态读写.
 
-例如Retrofit的`baseUrl`功能就可以直接修改`NetConfig.host`
+例如Retrofit的动态`BaseURL`功能就可以直接修改`NetConfig.host`
+
+<img src="https://i.imgur.com/ueqcNYw.png" width="500"/>
 

@@ -20,6 +20,18 @@
         android:icon="@drawable/ic_request_method"
         android:title="请求方式" />
     <item
+        android:id="@+id/request_enqueue"
+        android:icon="@drawable/ic_enqueue_request"
+        android:title="队列请求" />
+    <item
+        android:id="@+id/request_sync"
+        android:icon="@drawable/ic_sync_request"
+        android:title="同步请求" />
+    <item
+        android:id="@+id/view_model"
+        android:icon="@drawable/ic_view_model"
+        android:title="ViewModel" />
+    <item
         android:id="@+id/async_task"
         android:icon="@drawable/ic_async_task"
         android:title="异步任务" />
@@ -48,6 +60,10 @@
         android:icon="@drawable/ic_interceptor"
         android:title="拦截器" />
     <item
+        android:id="@+id/https"
+        android:icon="@drawable/ic_https"
+        android:title="Https证书" />
+    <item
         android:id="@+id/parallel_network"
         android:icon="@drawable/ic_parallel_network"
         android:title="并发网络" />
@@ -60,9 +76,14 @@
         android:icon="@drawable/ic_pull_refresh"
         android:title="自动分页加载" />
     <item
-        android:id="@+id/read_cache"
-        android:icon="@drawable/ic_read_cache"
-        android:title="预读缓存" />
+        android:id="@+id/state_layout"
+        android:icon="@drawable/ic_state_layout"
+        android:title="自动缺省页" />
+    <!--缓存设计中-->
+    <!--<item-->
+    <!--    android:id="@+id/read_cache"-->
+    <!--    android:icon="@drawable/ic_read_cache"-->
+    <!--    android:title="预读缓存" />-->
     <item
         android:id="@+id/fastest"
         android:icon="@drawable/ic_fastest"
@@ -76,10 +97,6 @@
         android:icon="@drawable/ic_debounce"
         android:title="节流阀" />
     <item
-        android:id="@+id/state_layout"
-        android:icon="@drawable/ic_state_layout"
-        android:title="自动缺省页" />
-    <item
         android:id="@+id/switch_dispatcher"
         android:icon="@drawable/ic_switch_dispatcher"
         android:title="切换调度器" />
@@ -91,11 +108,6 @@
         android:id="@+id/upload_file"
         android:icon="@drawable/ic_upload_file"
         android:title="上传文件" />
-
-    <item
-        android:id="@+id/download_img"
-        android:icon="@drawable/ic_download_img"
-        android:title="下载图片" />
 
     <item
         android:id="@+id/super_interval"

@@ -17,41 +17,53 @@
 package com.drake.net.sample.ui.fragment
 
 import android.os.Bundle
-import android.text.format.Formatter
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.drake.net.Download
+import com.drake.net.Get
+import com.drake.net.component.Progress
+import com.drake.net.interfaces.ProgressListener
 import com.drake.net.sample.R
 import com.drake.net.scope.NetCoroutineScope
 import com.drake.net.utils.scopeNetLife
 import kotlinx.android.synthetic.main.fragment_download_file.*
+import java.io.File
+import kotlin.time.ExperimentalTime
 
 
 class DownloadFileFragment : Fragment(R.layout.fragment_download_file) {
 
     private lateinit var downloadScope: NetCoroutineScope
 
+    @ExperimentalTime
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
 
+
         downloadScope = scopeNetLife {
-            val filePath = Download("download", requireContext().filesDir.path) {
-                // 下载进度回调
-                onProgress { progress, byteCount, speed ->
-                    // 进度条
-                    seek.progress = progress
-
-                    // 格式化显示单位
-                    val downloadSize = Formatter.formatFileSize(requireContext(), byteCount)
-                    val downloadSpeed = Formatter.formatFileSize(requireContext(), speed)
-
-                    // 显示下载信息
-                    tv_progress.text = "下载进度: $progress% 已下载: $downloadSize 下载速度: $downloadSpeed"
-                }
-            }.await()
+            val file =
+                Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
+                    setDownloadFileName("net.apk")
+                    setDownloadDir(requireContext().filesDir)
+                    setDownloadMd5Verify()
+                    setDownloadTempFile()
+                    addDownloadListener(object : ProgressListener() {
+                        override fun onProgress(p: Progress) {
+                            Log.d("日志", "(DownloadFileFragment.kt:52)    p = ${p}")
+                            seek?.post {
+                                val progress = p.progress()
+                                seek.progress = progress
+                                tv_progress.text =
+                                    "下载进度: $progress% 下载速度: ${p.speedSize()}     " +
+                                            "\n\n文件大小: ${p.totalSize()}  已下载: ${p.currentSize()}  剩余大小: ${p.remainSize()}" +
+                                            "\n\n已使用时间: ${p.useTime()}  剩余时间: ${p.remainTime()}"
+                            }
+                        }
+                    })
+                }.await()
         }
     }
 

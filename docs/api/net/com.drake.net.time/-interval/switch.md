@@ -4,5 +4,5 @@
 
 `fun switch(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
-开关
+切换轮循器开始或结束
 

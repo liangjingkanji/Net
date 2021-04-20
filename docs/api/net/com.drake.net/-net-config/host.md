@@ -2,7 +2,7 @@
 
 # host
 
-`lateinit var host: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
+`var host: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 全局的域名或者ip(baseUrl)
 

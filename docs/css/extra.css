@@ -36,10 +36,9 @@
 
 /*字体渲染*/
 @font-face{
-    font-family: 'JetBrains Mono';
-    src: local('JetBrains Mono'),
-         url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/webfonts/JetBrainsMono-Regular.woff2') format('woff2'),
-         url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/ttf/JetBrainsMono-Regular.ttf') format('truetype');
+    font-family: 'PT Code';
+    src: local('PT Code'),
+         url('https://raw.githubusercontent.com/liangjingkanji/PTCode/master/font/PTCode-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -47,13 +46,16 @@
     -webkit-font-feature-settings: "liga" on, "calt" on;
     -webkit-font-smoothing: subpixel-antialiased;
     text-rendering: optimizeLegibility;
-    font-family: 'JetBrains Mono' !important;
+    font-family: 'PT Code' !important;
     text-shadow: #33333333 0px 0px 1px !important;
 }
 
 /*布局*/
+.md-content {
+    max-width: 49.5rem;
+}
 .md-grid {
-    max-width: 120em !important;
+    max-width: 80rem;
 }
 
 /*表格*/

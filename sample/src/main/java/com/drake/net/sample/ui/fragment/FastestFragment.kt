@@ -36,10 +36,10 @@ class FastestFragment : Fragment(R.layout.fragment_fastest) {
             */
 
             // 同时发起四个网络请求
-            val deferred2 = Get<String>("api", uid = "最快")
-            val deferred3 = Post<String>("api", uid = "最快")
-            val deferred = Get<String>("api0", uid = "最快") // 错误接口
-            val deferred1 = Get<String>("api1", uid = "最快") // 错误接口
+            val deferred2 = Get<String>("api") { setGroup("最快") }
+            val deferred3 = Post<String>("api") { setGroup("最快") }
+            val deferred = Get<String>("api0") { setGroup("最快") } // 错误接口
+            val deferred1 = Get<String>("api1") { setGroup("最快") } // 错误接口
 
             // 只返回最快的请求结果
             tv_fragment.text = fastest(listOf(deferred, deferred1, deferred2, deferred3), "最快")

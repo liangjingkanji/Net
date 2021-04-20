@@ -25,21 +25,21 @@
         android:id="@+id/head"
         android:title="HEAD" />
     <item
-        android:id="@+id/put"
-        android:title="PUT" />
-    <item
-        android:id="@+id/patch"
-        android:title="PATCH" />
-    <item
-        android:id="@+id/delete"
-        android:title="DELETE" />
-    <item
         android:id="@+id/trace"
         android:title="TRACE" />
     <item
         android:id="@+id/options"
         android:title="OPTIONS" />
     <item
+        android:id="@+id/delete"
+        android:title="DELETE" />
+    <item
+        android:id="@+id/put"
+        android:title="PUT" />
+    <item
+        android:id="@+id/patch"
+        android:title="PATCH" />
+    <item
         android:id="@+id/json"
-        android:title="JSON请求" />
+        android:title="JSON" />
 </menu>

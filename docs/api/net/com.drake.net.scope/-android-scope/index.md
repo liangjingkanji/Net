@@ -2,7 +2,7 @@
 
 # AndroidScope
 
-`open class AndroidScope : CoroutineScope`
+`open class AndroidScope : CoroutineScope, `[`Closeable`](https://docs.oracle.com/javase/6/docs/api/java/io/Closeable.html)
 
 异步协程作用域
 
@@ -20,7 +20,7 @@
 | [coroutineContext](coroutine-context.md) | `open val coroutineContext: `[`CoroutineContext`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/index.html) |
 | [dispatcher](dispatcher.md) | `val dispatcher: CoroutineDispatcher` |
 | [finally](finally.md) | `var finally: (`[`AndroidScope`](./index.md)`.(`[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`?) -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`)?` |
-| [uid](uid.md) | `val uid: CoroutineExceptionHandler` |
+| [scopeGroup](scope-group.md) | `val scopeGroup: CoroutineExceptionHandler` |
 
 ### Functions
 
@@ -28,6 +28,7 @@
 |---|---|
 | [cancel](cancel.md) | `open fun cancel(cause: CancellationException? = null): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)<br>`open fun cancel(message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`? = null): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [catch](catch.md) | `open fun catch(e: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)<br>当作用域内发生异常时回调`open fun catch(block: `[`AndroidScope`](./index.md)`.(`[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`) -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)` = {}): `[`AndroidScope`](./index.md) |
+| [close](close.md) | `open fun close(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [finally](finally.md) | `open fun finally(e: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`?): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)<br>无论正常或者异常结束都将最终执行`open fun finally(block: `[`AndroidScope`](./index.md)`.(`[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`?) -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)` = {}): `[`AndroidScope`](./index.md) |
 | [handleError](handle-error.md) | 错误处理`open fun handleError(e: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [launch](launch.md) | `open fun launch(block: suspend CoroutineScope.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`AndroidScope`](./index.md) |

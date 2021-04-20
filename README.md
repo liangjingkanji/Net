@@ -2,7 +2,9 @@
 
 <p align="center"><strong>不仅仅是网络请求的异步任务库</strong></p>
 
-<p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a> | <a href="https://coding-pages-bucket-3558162-8706000-16642-587704-1252757332.cos-website.ap-shanghai.myqcloud.com/">备用访问</a></p>
+<p align="center"><a href="https://coding-pages-bucket-3558162-8706000-17639-608061-1252757332.cos-website.ap-shanghai.myqcloud.com">使用文档</a>
+<!--  | <a href="https://coding-pages-bucket-3558162-8706000-16642-587704-1252757332.cos-website.ap-shanghai.myqcloud.com/">备用访问</a> -->
+ </p>
 
 <p align="center"><img src="https://i.imgur.com/X06J6fK.jpg" width="400"/></p>
 
@@ -18,68 +20,58 @@
 
 <br>
 
-Android上不是最强网络任务库, 创新式的网络请求库(基于Kalle), 支持协程高并发网络请求
+Android上不是最强网络任务库, 基于OkHttp且完美支持其所有函数组件, 支持协程高并发网络请求
 
 <br>
 
 Net 1.x 版本为RxJava实现 <br>
 Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用)
 
-<br>
-
-正在进行的任务
-
-- OkHttp4.8 重构
+Net 3.x 版本为OkHttp4.x实现
 
 <br>
+<p align="center"><strong>欢迎贡献代码/问题</strong></p>
 
-主要新增特性
+<br>
 
-- 代码简洁(最少一行代码发起请求)
-- 文档详细
+设计哲学
+
+1. 代码优雅
+2. 文档清晰
+3. 扩展性好
+4. 功能全
+
+
+
+主要功能
+
 - Kotlin
 - 协程(不懂协程也可上手)
-- 并发网络请求(马上优化网络速度!)
+- 并发网络请求
 - 串行网络请求
-- 切换线程
-- DSL编程
-- 全局日志记录器(完美解决日志过长展示不清晰数据加密问题, 比抓包更强大)
-- 支持先强制读取缓存后网络请求二次刷新
-- 并发请求返回最快请求结果(可返回不同响应数据)
-- 方便的缓存处理
-- 自动错误信息吐司
-- 详细的错误信息
+- 快速切换线程
+- DSL作用域编程
+- 日志记录器(完美解决日志过长展示不清晰数据加密问题, 比抓包更强大)
+- 并发请求返回最快请求结果
 - 自动异常捕获
-- 自动日志打印异常(任何网络错误可追踪到具体请求接口)
-- 自动JSON解析(可解析List)
+- 自动错误信息吐司
+- 自动JSON解析
 - 自动处理下拉刷新和上拉加载
 - 自动处理分页加载
 - 自动缺省页
 - 自动处理生命周期
 - 自动处理加载对话框
+- 支持配合ViewModel
+- 异常包含请求信息
+- 数据转换器
+- 请求存储键值对
+- 请求支持Id/Group分组
+- 全局手动取消请求/自动取消请求
 - 协程作用域支持错误和结束回调
+- 支持先强制读取缓存后网络请求二次刷新
 - 内置超强轮循器(计时器)
 - 解析JSON数组返回集合
-
-
-
-同时完全不影响Kalle的特性
-
-- 九种缓存模式
-- 重试次数拦截器
-- 数据库缓存加密
-- 上传进度监听
-- 下载进度监听
-- 断点续传
-- 下载文件策略
-- 网络连接判断
-- 自定义数据转换器
-- 网络拦截器
-- 重定向
-- 自定义请求体
-- 全局配置
-- Cookie
-- SSH证书
+- 监听上传/下载进度
 
 
 
@@ -102,11 +94,11 @@ allprojects {
 // 协程库(版本自定)
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+implementation "com.squareup.okhttp3:okhttp:4.9.1"
+implementation 'com.github.liangjingkanji:Net:3.0.0'
 
 // 支持自动下拉刷新和缺省页的(可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.19'
-
-implementation 'com.github.liangjingkanji:Net:2.3.16'
 ```
 
 <br>

@@ -102,11 +102,6 @@
         android:label="下载文件"
         tools:layout="@layout/fragment_download_file" />
     <fragment
-        android:id="@+id/download_img"
-        android:name="com.drake.net.sample.ui.fragment.DownloadImageFragment"
-        android:label="下载图片"
-        tools:layout="@layout/fragment_download_image" />
-    <fragment
         android:id="@+id/upload_file"
         android:name="com.drake.net.sample.ui.fragment.UploadFileFragment"
         android:label="上传文件"
@@ -126,5 +121,24 @@
         android:name="com.drake.net.sample.ui.fragment.EditDebounceFragment"
         android:label="节流阀"
         tools:layout="@layout/fragment_edit_debounce" />
+    <fragment
+        android:id="@+id/request_enqueue"
+        android:name="com.drake.net.sample.ui.fragment.EnqueueRequestFragment"
+        android:label="队列请求"
+        tools:layout="@layout/fragment_enqueue_request" />
+    <fragment
+        android:id="@+id/request_sync"
+        android:name="com.drake.net.sample.ui.fragment.SyncRequestFragment"
+        android:label="同步请求"
+        tools:layout="@layout/fragment_sync_request" />
+    <fragment
+        android:id="@+id/https"
+        android:name="com.drake.net.sample.ui.fragment.HttpsCertificateFragment"
+        android:label="Https证书"
+        tools:layout="@layout/fragment_https_certificate" />
+    <fragment
+        android:id="@+id/view_model"
+        android:name="com.drake.net.sample.ui.fragment.ViewModelRequestFragment"
+        android:label="ViewModel" />
 
 </navigation>

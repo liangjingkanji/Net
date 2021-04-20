@@ -16,9 +16,9 @@
 
 package com.drake.net.utils
 
+import com.drake.net.Net
 import com.drake.net.NetConfig
 import com.drake.net.transform.DeferredTransform
-import com.yanzhenjie.kalle.NetCancel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -29,14 +29,14 @@ import java.util.concurrent.CancellationException
  * 该函数将选择[listDeferred]中的Deferred执行[Deferred.await], 然后将返回最快的结果
  * 执行过程中的异常将被忽略, 如果全部抛出异常则将抛出最后一个Deferred的异常
  *
- * @param uid 指定该值将在成功返回结果后取消掉对应uid的网络请求
+ * @param group 指定该值将在成功返回结果后取消掉对应uid的网络请求
  * @param listDeferred 一系列并发任务
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 @Suppress("SuspendFunctionOnCoroutineScope")
 suspend fun <T> CoroutineScope.fastest(
     listDeferred: List<Deferred<T>>,
-    uid: Any? = null
+    group: Any? = null
 ): T {
     val deferred = CompletableDeferred<T>()
     if (listDeferred.isNullOrEmpty()) {
@@ -48,7 +48,7 @@ suspend fun <T> CoroutineScope.fastest(
             try {
                 val result = it.await()
                 mutex.withLock {
-                    NetCancel.cancel(uid)
+                    Net.cancelGroup(group)
                     deferred.complete(result)
                 }
             } catch (e: Exception) {
@@ -72,7 +72,7 @@ suspend fun <T> CoroutineScope.fastest(
  *
  * @see DeferredTransform 允许监听[Deferred]返回数据回调
  *
- * @param uid 指定该值将在成功返回结果后取消掉对应uid的网络请求
+ * @param group 指定该值将在成功返回结果后取消掉对应uid的网络请求
  * @param listDeferred 一系列并发任务
  */
 @JvmName("fastestTransform")
@@ -80,7 +80,7 @@ suspend fun <T> CoroutineScope.fastest(
 @Suppress("SuspendFunctionOnCoroutineScope")
 suspend fun <T, R> CoroutineScope.fastest(
     listDeferred: List<DeferredTransform<T, R>>?,
-    uid: Any? = null
+    group: Any? = null
 ): R {
     val deferred = CompletableDeferred<R>()
     if (listDeferred.isNullOrEmpty()) {
@@ -92,7 +92,7 @@ suspend fun <T, R> CoroutineScope.fastest(
             try {
                 val result = it.deferred.await()
                 mutex.withLock {
-                    NetCancel.cancel(uid)
+                    Net.cancelGroup(group)
                     if (!deferred.isCompleted) {
                         val transformResult = it.block(result)
                         deferred.complete(transformResult)
