@@ -26,7 +26,7 @@ scopeDialog {
 
 === "初始化"
     ```kotlin
-    initNet("http://182.92.97.186/") {
+    initNet("http://github.com/") {
         onDialog { // lambda返回一个Dialog对象
             ProgressDialog(it).apply { // it 为 FragmentActivity
                 setMessage("正在努力请求中")

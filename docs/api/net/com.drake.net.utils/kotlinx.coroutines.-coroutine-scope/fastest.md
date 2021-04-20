@@ -2,35 +2,25 @@
 
 # fastest
 
-`suspend fun <T> CoroutineScope.fastest(vararg deferredArray: Deferred<T>): T`
-`suspend fun <T> CoroutineScope.fastest(deferredArray: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Deferred<T>>): T`
+`suspend fun <T> CoroutineScope.fastest(listDeferred: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Deferred<T>>, group: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`? = null): T`
 
-该函数将选择[deferredArray](fastest.md#com.drake.net.utils$fastest(kotlinx.coroutines.CoroutineScope, kotlin.Array((kotlinx.coroutines.Deferred((com.drake.net.utils.fastest.T)))))/deferredArray)中的Deferred执行[Deferred.await](#), 然后将返回最快的结果
+该函数将选择[listDeferred](fastest.md#com.drake.net.utils$fastest(kotlinx.coroutines.CoroutineScope, kotlin.collections.List((kotlinx.coroutines.Deferred((com.drake.net.utils.fastest.T)))), kotlin.Any)/listDeferred)中的Deferred执行[Deferred.await](#), 然后将返回最快的结果
 执行过程中的异常将被忽略, 如果全部抛出异常则将抛出最后一个Deferred的异常
 
 ### Parameters
 
-`deferredArray` - 一系列并发任务`suspend fun <T, R> CoroutineScope.fastest(vararg deferredArray: `[`DeferredTransform`](../../com.drake.net.transform/-deferred-transform/index.md)`<T, R>): R`
+`group` - 指定该值将在成功返回结果后取消掉对应uid的网络请求
 
-该函数将选择[deferredArray](fastest.md#com.drake.net.utils$fastest(kotlinx.coroutines.CoroutineScope, kotlin.Array((com.drake.net.transform.DeferredTransform((com.drake.net.utils.fastest.T, com.drake.net.utils.fastest.R)))))/deferredArray)中的Deferred执行[Deferred.await](#), 然后将返回最快的结果
+`listDeferred` - 一系列并发任务`@JvmName("fastestTransform") suspend fun <T, R> CoroutineScope.fastest(listDeferred: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`DeferredTransform`](../../com.drake.net.transform/-deferred-transform/index.md)`<T, R>>?, group: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`? = null): R`
+
+该函数将选择[listDeferred](fastest.md#com.drake.net.utils$fastest(kotlinx.coroutines.CoroutineScope, kotlin.collections.List((com.drake.net.transform.DeferredTransform((com.drake.net.utils.fastest.T, com.drake.net.utils.fastest.R)))), kotlin.Any)/listDeferred)中的Deferred执行[Deferred.await](#), 然后将返回最快的结果
 执行过程中的异常将被忽略, 如果全部抛出异常则将抛出最后一个Deferred的异常
 
 ### Parameters
 
-`deferredArray` - 一系列并发任务
+`group` - 指定该值将在成功返回结果后取消掉对应uid的网络请求
 
-**See Also**
-
-[DeferredTransform](../../com.drake.net.transform/-deferred-transform/index.md)
-
-`@JvmName("fastestTransform") suspend fun <T, R> CoroutineScope.fastest(deferredList: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`DeferredTransform`](../../com.drake.net.transform/-deferred-transform/index.md)`<T, R>>): R`
-
-该函数将选择[deferredList](fastest.md#com.drake.net.utils$fastest(kotlinx.coroutines.CoroutineScope, kotlin.collections.List((com.drake.net.transform.DeferredTransform((com.drake.net.utils.fastest.T, com.drake.net.utils.fastest.R)))))/deferredList)中的Deferred执行[Deferred.await](#), 然后将返回最快的结果
-执行过程中的异常将被忽略, 如果全部抛出异常则将抛出最后一个Deferred的异常
-
-### Parameters
-
-`deferredList` - 一系列并发任务
+`listDeferred` - 一系列并发任务
 
 **See Also**
 

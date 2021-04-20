@@ -49,7 +49,7 @@ open class AndroidScope(
         catch(throwable)
     }
 
-    val uid = exceptionHandler
+    val scopeGroup = exceptionHandler
 
     override val coroutineContext: CoroutineContext =
             dispatcher + exceptionHandler + SupervisorJob()

@@ -16,15 +16,14 @@
 
 package com.drake.net.sample.convert
 
-import com.drake.net.convert.DefaultConvert
+import com.drake.net.convert.JSONConvert
 import com.squareup.moshi.Moshi
 import java.lang.reflect.Type
 
-class MoshiConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
-    val moshi = Moshi.Builder().build()
+class MoshiConvert : JSONConvert(code = "code", message = "msg", success = "200") {
+    private val moshi = Moshi.Builder().build()
 
     override fun <S> String.parseBody(succeed: Type): S? {
-
         return moshi.adapter<S>(succeed).fromJson(this)
     }
 }

@@ -19,6 +19,11 @@ package com.drake.net.utils
 import android.view.View
 import java.util.concurrent.TimeUnit
 
+/**
+ * 点击事件防抖动
+ * @param interval 间隔时间, 如果为500表示500毫秒内只允许触发一次点击事件
+ * @param unit 时间单位
+ */
 internal fun View.throttleClick(
     interval: Long = 500,
     unit: TimeUnit = TimeUnit.MILLISECONDS,

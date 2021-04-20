@@ -11,19 +11,36 @@
 异步协程作用域
 
 
-| (extensions in package com.drake.net)
+|
 
-##### [android.app.Application](../com.drake.net/android.app.-application/index.md)
-
-
-| (extensions in package com.drake.net)
-
-##### [com.yanzhenjie.kalle.KalleConfig.Builder](../com.drake.net/com.yanzhenjie.kalle.-kalle-config.-builder/index.md)
+##### [com.drake.net.request.BaseRequest](../com.drake.net.request/-base-request/index.md)
 
 
-| (extensions in package com.drake.net)
+|
 
-##### [android.content.Context](../com.drake.net/android.content.-context/index.md)
+##### [com.drake.net.request.BodyRequest](../com.drake.net.request/-body-request/index.md)
+
+
+| (extensions in package com.drake.net.request)
+
+##### [okhttp3.Request.Builder](../com.drake.net.request/okhttp3.-request.-builder/index.md)
+
+
+| (extensions in package com.drake.net.utils)
+
+##### [okhttp3.OkHttpClient.Builder](../com.drake.net.utils/okhttp3.-ok-http-client.-builder/index.md)
+
+
+|
+
+##### [com.drake.net.cache.Cache](../com.drake.net.cache/-cache/index.md)
+
+
+|
+
+##### [com.drake.net.exception.ConvertException](../com.drake.net.exception/-convert-exception/index.md)
+
+转换数据异常
 
 
 | (extensions in package com.drake.net)
@@ -31,26 +48,14 @@
 ##### [kotlinx.coroutines.CoroutineScope](../com.drake.net/kotlinx.coroutines.-coroutine-scope/index.md)
 
 
-| (extensions in package com.drake.net.error)
+| (extensions in package com.drake.net.exception)
 
-##### [kotlinx.coroutines.CoroutineScope](../com.drake.net.error/kotlinx.coroutines.-coroutine-scope/index.md)
+##### [kotlinx.coroutines.CoroutineScope](../com.drake.net.exception/kotlinx.coroutines.-coroutine-scope/index.md)
 
 
 | (extensions in package com.drake.net.utils)
 
 ##### [kotlinx.coroutines.CoroutineScope](../com.drake.net.utils/kotlinx.coroutines.-coroutine-scope/index.md)
-
-
-| (extensions in package com.drake.net.utils)
-
-##### [android.database.Cursor](../com.drake.net.utils/android.database.-cursor/index.md)
-
-
-|
-
-##### [com.drake.net.convert.DefaultConvert](../com.drake.net.convert/-default-convert/index.md)
-
-默认的转换器实现, 如果不满足需求建议将该文件复制到项目中修改
 
 
 | (extensions in package com.drake.net.transform)
@@ -70,6 +75,23 @@
 自动加载对话框网络请求
 
 
+|
+
+##### [com.drake.net.exception.DownloadFileException](../com.drake.net.exception/-download-file-exception/index.md)
+
+下载文件异常
+
+
+| (extensions in package com.drake.net.utils)
+
+##### [android.widget.EditText](../com.drake.net.utils/android.widget.-edit-text/index.md)
+
+
+| (extensions in package com.drake.net.utils)
+
+##### [java.io.File](../com.drake.net.utils/java.io.-file/index.md)
+
+
 | (extensions in package com.drake.net.utils)
 
 ##### [kotlinx.coroutines.flow.Flow](../com.drake.net.utils/kotlinx.coroutines.flow.-flow/index.md)
@@ -87,6 +109,13 @@
 
 |
 
+##### [com.drake.net.component.InitContentProvider](../com.drake.net.component/-init-content-provider/index.md)
+
+用于初始化[NetConfig.app](../com.drake.net/-net-config/app.md)
+
+
+|
+
 ##### [com.drake.net.time.Interval](../com.drake.net.time/-interval/index.md)
 
 轮循器
@@ -99,14 +128,61 @@
 计时器的状态
 
 
-| (extensions in package com.drake.net.utils)
+|
 
-##### [androidx.lifecycle.LifecycleOwner](../com.drake.net.utils/androidx.lifecycle.-lifecycle-owner/index.md)
+##### [com.drake.net.convert.JSONConvert](../com.drake.net.convert/-j-s-o-n-convert/index.md)
+
+默认的转换器实现, 如果不满足需求建议将该文件复制到项目中修改
 
 
 |
 
-##### [com.drake.net.error.NetCancellationException](../com.drake.net.error/-net-cancellation-exception/index.md)
+##### [com.drake.net.tag.Label](../com.drake.net.tag/-label/index.md)
+
+
+|
+
+##### [com.drake.net.log.LogRecorder](../com.drake.net.log/-log-recorder/index.md)
+
+日志记录器
+
+
+|
+
+##### [com.drake.net.interceptor.LogRecordInterceptor](../com.drake.net.interceptor/-log-record-interceptor/index.md)
+
+网络日志记录器
+可以参考此拦截器为项目中其他网络请求库配置. 本拦截器属于标准的OkHttp拦截器适用于所有OkHttp拦截器内核的网络请求库
+
+
+| (extensions in package com.drake.net.request)
+
+##### [okhttp3.MediaType](../com.drake.net.request/okhttp3.-media-type/index.md)
+
+
+|
+
+##### [com.drake.net.log.MessageType](../com.drake.net.log/-message-type/index.md)
+
+
+|
+
+##### [com.drake.net.request.Method](../com.drake.net.request/-method/index.md)
+
+
+|
+
+##### [com.drake.net.Net](../com.drake.net/-net/index.md)
+
+
+|
+
+##### [com.drake.net.interfaces.NetCallback](../com.drake.net.interfaces/-net-callback/index.md)
+
+
+|
+
+##### [com.drake.net.exception.NetCancellationException](../com.drake.net.exception/-net-cancellation-exception/index.md)
 
 取消网络任务的异常
 
@@ -120,9 +196,51 @@ Net的全局配置
 
 |
 
+##### [com.drake.net.convert.NetConverter](../com.drake.net.convert/-net-converter/index.md)
+
+
+|
+
 ##### [com.drake.net.scope.NetCoroutineScope](../com.drake.net.scope/-net-coroutine-scope/index.md)
 
 自动显示网络错误信息协程作用域
+
+
+|
+
+##### [com.drake.net.exception.NetException](../com.drake.net.exception/-net-exception/index.md)
+
+Net网络异常
+
+
+|
+
+##### [com.drake.net.body.NetRequestBody](../com.drake.net.body/-net-request-body/index.md)
+
+
+|
+
+##### [com.drake.net.body.NetResponseBody](../com.drake.net.body/-net-response-body/index.md)
+
+
+|
+
+##### [com.drake.net.exception.NetSocketTimeoutException](../com.drake.net.exception/-net-socket-timeout-exception/index.md)
+
+
+|
+
+##### [com.drake.net.exception.NetConnectException](../com.drake.net.exception/-networking-exception/index.md)
+
+
+|
+
+##### [com.drake.net.exception.NoCacheException](../com.drake.net.exception/-no-cache-exception/index.md)
+
+
+| (extensions in package com.drake.net.utils)
+
+##### [okhttp3.OkHttpClient](../com.drake.net.utils/okhttp3.-ok-http-client/index.md)
 
 
 |
@@ -137,42 +255,58 @@ Net的全局配置
 
 |
 
-##### [com.drake.net.tag.REQUEST](../com.drake.net.tag/-r-e-q-u-e-s-t.md)
-
-请求参数打印标签
+##### [com.drake.net.request.Progress](../com.drake.net.request/-progress/index.md)
 
 
 |
 
-##### [com.drake.net.error.RequestParamsException](../com.drake.net.error/-request-params-exception/index.md)
+##### [com.drake.net.request.ProgressListener](../com.drake.net.request/-progress-listener/index.md)
+
+进度监听器, 为下载和上传两者
+
+
+| (extensions in package com.drake.net.request)
+
+##### [okhttp3.Request](../com.drake.net.request/okhttp3.-request/index.md)
+
+
+| (extensions in package com.drake.net.body)
+
+##### [okhttp3.RequestBody](../com.drake.net.body/okhttp3.-request-body/index.md)
+
+
+|
+
+##### [com.drake.net.interceptor.RequestInterceptor](../com.drake.net.interceptor/-request-interceptor/index.md)
+
+
+|
+
+##### [com.drake.net.exception.RequestParamsException](../com.drake.net.exception/-request-params-exception/index.md)
 
 404
 
 
+| (extensions in package com.drake.net.response)
+
+##### [okhttp3.Response](../com.drake.net.response/okhttp3.-response/index.md)
+
+
+| (extensions in package com.drake.net.body)
+
+##### [okhttp3.ResponseBody](../com.drake.net.body/okhttp3.-response-body/index.md)
+
+
 |
 
-##### [com.drake.net.tag.RESPONSE](../com.drake.net.tag/-r-e-s-p-o-n-s-e.md)
-
-响应体打印标签
-
-
-|
-
-##### [com.drake.net.error.ResponseException](../com.drake.net.error/-response-exception/index.md)
+##### [com.drake.net.exception.ResponseException](../com.drake.net.exception/-response-exception/index.md)
 
 对应网络请求后台定义的错误信息
 
 
 |
 
-##### [com.drake.net.utils.SavedViewModel](../com.drake.net.utils/-saved-view-model/index.md)
-
-继承这个类可以快速创建具备saveInstance的ViewModel
-
-
-|
-
-##### [com.drake.net.error.ServerResponseException](../com.drake.net.error/-server-response-exception/index.md)
+##### [com.drake.net.exception.ServerResponseException](../com.drake.net.exception/-server-response-exception/index.md)
 
 500
 
@@ -189,13 +323,20 @@ Net的全局配置
 ##### [com.drake.statelayout.StateLayout](../com.drake.net.utils/com.drake.statelayout.-state-layout/index.md)
 
 
-|
-
-##### [com.drake.net.tag.TAG](../com.drake.net.tag/-t-a-g/index.md)
-
-
 | (extensions in package com.drake.net.utils)
 
-##### [androidx.lifecycle.ViewModelStoreOwner](../com.drake.net.utils/androidx.lifecycle.-view-model-store-owner/index.md)
+##### [kotlin.String](../com.drake.net.utils/kotlin.-string/index.md)
+
+
+|
+
+##### [com.drake.net.exception.URLParseException](../com.drake.net.exception/-u-r-l-parse-exception/index.md)
+
+URL地址错误
+
+
+|
+
+##### [com.drake.net.request.UrlRequest](../com.drake.net.request/-url-request/index.md)
 
 

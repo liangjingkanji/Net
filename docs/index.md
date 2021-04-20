@@ -1,4 +1,10 @@
-Net使用协程发起网络, 但是即使不会协程也可以使用该框架
+本框架使用OkHttp作为请求内核, 使用Kotlin语言扩展OkHttp的函数设计
+
+<br>
+<p align="center"><strong>非常欢迎共同贡献代码</strong></p>
+<br>
+
+Net支持使用协程发起网络, 当然即使不会协程也可以使用该框架.
 
 <br>
 这里演示发起网络`请求百度网站`内容的三个步骤
@@ -70,14 +76,9 @@ scopeNetLife { // 创建作用域
 
 |请求函数|描述|
 |-|-|
-|`param`|请求体参数|
-|`path`|路径|
-|`urlParam`|Url参数|
-|`file`|上传文件|
-|`binary`|二进制|
-|`binaries`|多个二进制|
-|`body`|自定义请求体|
+|`param`|支持基础类型/文件/RequestBody/Part|
 |`json`|请求参数为JSONObject/JsonArray/String|
+|`setQuery`|Url参数, 如果当前请求的Url请求则该函数等效于`param`函数|
 
 
 
@@ -128,9 +129,10 @@ scopeNetLife { // 创建作用域
     }
     ```
 
-对于某些可能JSON请求参数存在固定值, 可以考虑继承JsonBody来扩展出自己的新的Body(), 然后使用`body`函数传入请求中.
+对于某些可能JSON请求参数存在固定值:
 
-> JsonBody实际上也是继承自StringBody
+1. 可以考虑继承RequestBody来扩展出自己的新的Body(), 然后使用`param`函数传入请求中.
+2. 定义拦截器
 
 
 ## RESTFUL
@@ -188,37 +190,15 @@ private fun OPTIONS() {
 
 ## 函数
 
-### 异步请求
-即会在IO线程执行网络请求, 要求在作用域内执行
+即会在IO线程执行网络请求, 要求在协程作用域内执行
 
-|异步请求函数|描述|
+|请求函数|描述|
 |-|-|
-| [Get](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-get.md)|标准REST FUL|
-| [Post](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-post.md)|标准REST FUL|
-| [Head](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-head.md)|标准REST FUL|
-| [Options](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-options.md)|标准REST FUL|
-| [Trace](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-trace.md)|标准REST FUL|
-| [Delete](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-delete.md)|标准REST FUL|
-| [Put](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-put.md)|标准REST FUL|
-| [Patch](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-patch.md)|标准REST FUL|
-| [Download](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-download.md)|下载文件(默认Get)|
-| [DownloadBody](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-download-body.md)|下载文件(默认Post, 附带请求体)|
-| [DownloadImage](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-download-image.md)|下载图片(可指定图片大小), 如果使用要求依赖Glide|
-
-### 同步请求
-
-即在当前线程执行, 会阻塞当前线程
-
-|同步请求函数|描述|
-|-|-|
-|syncGet|标准REST FUL|
-|syncPost|标准REST FUL|
-|syncHead|标准REST FUL|
-|syncOptions|标准REST FUL|
-|syncTrace|标准REST FUL|
-|syncDelete|标准REST FUL|
-|syncPut|标准REST FUL|
-|syncPatch|标准REST FUL|
-|syncDownload|下载文件(默认Get)|
-|syncDownloadBody|下载文件(默认Post, 附带请求体)|
-|syncDownloadImage|下载图片(可指定图片大小), 如果使用要求依赖Glide|
+| [Get](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-get.md)|标准Http请求方法|
+| [Post](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-post.md)|标准Http请求方法|
+| [Head](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-head.md)|标准Http请求方法|
+| [Options](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-options.md)|标准Http请求方法|
+| [Trace](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-trace.md)|标准Http请求方法|
+| [Delete](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-delete.md)|标准Http请求方法|
+| [Put](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-put.md)|标准Http请求方法|
+| [Patch](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-patch.md)|标准Http请求方法|

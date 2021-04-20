@@ -17,13 +17,12 @@
 package com.drake.net.sample.convert
 
 import com.alibaba.fastjson.JSON
-import com.drake.net.convert.DefaultConvert
+import com.drake.net.convert.JSONConvert
 import java.lang.reflect.Type
 
-class FastJsonConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
+class FastJsonConvert : JSONConvert(code = "code", message = "msg", success = "200") {
 
     override fun <S> String.parseBody(succeed: Type): S? {
-
         return JSON.parseObject(this, succeed)
     }
 }

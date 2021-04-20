@@ -34,6 +34,8 @@ class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
+
+        GET()
     }
 
     private fun GET() {
@@ -64,6 +66,8 @@ class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
         scopeNetLife {
             tv_fragment.text = Patch<String>("api").await()
         }
+
+        arrayOf(1).toMutableList()
     }
 
     private fun DELETE() {
@@ -121,11 +125,11 @@ class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
             R.id.get -> GET()
             R.id.post -> POST()
             R.id.head -> HEAD()
-            R.id.put -> PUT()
-            R.id.patch -> PATCH()
-            R.id.delete -> DELETE()
             R.id.trace -> TRACE()
             R.id.options -> OPTIONS()
+            R.id.delete -> DELETE()
+            R.id.put -> PUT()
+            R.id.patch -> PATCH()
             R.id.json -> JSON()
         }
         return super.onOptionsItemSelected(item)
