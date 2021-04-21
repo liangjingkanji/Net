@@ -201,7 +201,7 @@ public class Url {
         URI newUri = URI.create(location);
         if (location.startsWith("/")) {
             return builder().setPath(newUri.getPath())
-                    .setQuery(newUri.getRawQuery())
+                    .setQuery(newUri.getQuery())
                     .setFragment(newUri.getFragment())
                     .build();
         } else if (location.contains("../")) {
@@ -216,15 +216,15 @@ public class Url {
                 oldPathList = oldPathList.subList(0, oldPathList.size() - start - 2);
                 oldPathList.addAll(newPathList);
                 String path = TextUtils.join("/", oldPathList);
-                return builder().setPath(path).setQuery(newUri.getRawQuery()).setFragment(newUri.getFragment()).build();
+                return builder().setPath(path).setQuery(newUri.getQuery()).setFragment(newUri.getFragment()).build();
             }
 
             String path = TextUtils.join("/", newPathList);
 
-            return builder().setPath(path).setQuery(newUri.getRawQuery()).setFragment(newUri.getFragment()).build();
+            return builder().setPath(path).setQuery(newUri.getQuery()).setFragment(newUri.getFragment()).build();
         } else {
             String path = (getPath() + newUri.getPath()).replace("//", "/");
-            return builder().setPath(path).setQuery(newUri.getRawQuery()).setFragment(newUri.getFragment()).build();
+            return builder().setPath(path).setQuery(newUri.getQuery()).setFragment(newUri.getFragment()).build();
         }
     }
 
@@ -244,7 +244,7 @@ public class Url {
             this.mHost = uri.getHost();
             this.mPort = convertPort(uri.getPort());
             this.mPath = uri.getPath();
-            this.mQuery = convertQuery(uri.getRawQuery()).builder();
+            this.mQuery = convertQuery(uri.getQuery()).builder();
             this.mFragment = uri.getFragment();
         }
 
