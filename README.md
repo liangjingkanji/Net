@@ -4,7 +4,7 @@
 
 <p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a></p>
 
-<p align="center"><img src="https://i.imgur.com/LJDHRYV.jpg" width="350"/></p>
+<p align="center"><img src="https://i.imgur.com/X06J6fK.jpg" width="400"/></p>
 
 <p align="center">
 <a href="https://jitpack.io/#liangjingkanji/Net"><img src="https://jitpack.io/v/liangjingkanji/Net.svg"/></a>
