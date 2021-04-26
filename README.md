@@ -2,7 +2,7 @@
 
 <p align="center"><strong>不仅仅是网络请求的异步任务库</strong></p>
 
-<p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a></p>
+<p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a> | <a href="https://coding-pages-bucket-3558162-8706000-16642-587704-1252757332.cos-website.ap-shanghai.myqcloud.com/">备用访问</a></p>
 
 <p align="center"><img src="https://i.imgur.com/X06J6fK.jpg" width="400"/></p>
 
