@@ -27,9 +27,7 @@ Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用)
 
 <br>
 
-正在进行的任务
-
-- OkHttp4.8 重构
+Net 3.x 版本为最新的OkHttp [3.x beta](https://github.com/liangjingkanji/Net/tree/3.x)
 
 <br>
 
