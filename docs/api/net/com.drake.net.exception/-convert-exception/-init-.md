@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`ConvertException(response: Response, message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = "An exception occurred while converting the data", cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`? = null)`
+`ConvertException(response: Response, info: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = "An exception occurred while converting the data", cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`? = null)`
 
 转换数据异常
 

@@ -4,4 +4,5 @@
 
 | Name | Summary |
 |---|---|
-| [addListener](add-listener.md) | `fun RequestBody.addListener(progressListener: `[`ConcurrentLinkedQueue`](https://docs.oracle.com/javase/6/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html)`<`[`ProgressListener`](../../com.drake.net.request/-progress-listener/index.md)`>?): <ERROR CLASS>` |
+| [peekString](peek-string.md) | 复制一段指定长度的字符串内容`fun RequestBody?.peekString(byteCount: `[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)` = 1024 * 1024, discard: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = false): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?` |
+| [toNetRequestBody](to-net-request-body.md) | `fun RequestBody.toNetRequestBody(request: Request): <ERROR CLASS>` |

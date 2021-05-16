@@ -2,5 +2,5 @@
 
 # contentLength
 
-`var contentLength: `[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)
+`val contentLength: <ERROR CLASS>`
 `fun contentLength(): `[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)

@@ -8,3 +8,4 @@
 | [setGroup](set-group.md) | `fun Builder.setGroup(group: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?): <ERROR CLASS>` |
 | [setId](set-id.md) | `fun Builder.setId(id: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?): <ERROR CLASS>` |
 | [setLabel](set-label.md) | `fun <T> Builder.setLabel(any: T): <ERROR CLASS>` |
+| [setLogRecord](set-log-record.md) | 设置是否记录日志`fun Builder.setLogRecord(enabled: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): <ERROR CLASS>` |

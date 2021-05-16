@@ -2,4 +2,4 @@
 
 # body
 
-`var body: RequestBody?`
+`open var body: RequestBody?`

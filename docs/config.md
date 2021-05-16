@@ -10,7 +10,7 @@
             // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
 
             initNet("http://github.com/") {
-                setLog(BuildConfig.DEBUG) // 日志记录器
+                setLog(BuildConfig.DEBUG) // 作用域发生异常是否打印
                 setConverter(GsonConvert()) // 转换器
             }
         }

@@ -2,4 +2,4 @@
 
 # enqueue
 
-`fun enqueue(block: Callback): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
+`fun enqueue(block: Callback): Call`

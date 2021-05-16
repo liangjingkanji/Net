@@ -2,7 +2,7 @@
 
 # addDownloadListener
 
-`fun addDownloadListener(progressListener: `[`ProgressListener`](../-progress-listener/index.md)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
+`fun addDownloadListener(progressListener: `[`ProgressListener`](../../com.drake.net.interfaces/-progress-listener/index.md)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 下载监听器
 

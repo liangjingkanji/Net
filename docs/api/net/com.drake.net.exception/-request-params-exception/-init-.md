@@ -4,5 +4,5 @@
 
 `RequestParamsException(response: Response)`
 
-404
+400 - 499 客户端请求异常
 

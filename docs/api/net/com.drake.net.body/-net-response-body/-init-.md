@@ -2,4 +2,4 @@
 
 # &lt;init&gt;
 
-`NetResponseBody(request: Request, responseBody: ResponseBody)`
+`NetResponseBody(responseBody: ResponseBody, progressListeners: `[`ConcurrentLinkedQueue`](https://docs.oracle.com/javase/6/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html)`<`[`ProgressListener`](../../com.drake.net.interfaces/-progress-listener/index.md)`>? = null, complete: (() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`)? = null)`

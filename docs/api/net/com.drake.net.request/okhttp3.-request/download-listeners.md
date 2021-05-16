@@ -2,7 +2,7 @@
 
 # downloadListeners
 
-`fun Request.downloadListeners(): `[`ConcurrentLinkedQueue`](https://docs.oracle.com/javase/6/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html)`<`[`ProgressListener`](../-progress-listener/index.md)`>?`
+`fun Request.downloadListeners(): `[`ConcurrentLinkedQueue`](https://docs.oracle.com/javase/6/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html)`<`[`ProgressListener`](../../com.drake.net.interfaces/-progress-listener/index.md)`>?`
 
 下载监听器
 

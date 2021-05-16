@@ -4,7 +4,7 @@
 
 `abstract class JSONConvert : `[`NetConverter`](../-net-converter/index.md)
 
-默认的转换器实现, 如果不满足需求建议将该文件复制到项目中修改
+常见的JSON转换器实现, 如果不满意继承实现自定义的业务逻辑
 
 ### Parameters
 
@@ -18,7 +18,7 @@
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | 默认的转换器实现, 如果不满足需求建议将该文件复制到项目中修改`JSONConvert(success: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = "0", code: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = "code", message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = "msg")` |
+| [&lt;init&gt;](-init-.md) | 常见的JSON转换器实现, 如果不满意继承实现自定义的业务逻辑`JSONConvert(success: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = "0", code: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = "code", message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = "msg")` |
 
 ### Properties
 

@@ -8,4 +8,4 @@
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `NoCacheException(request: Request, message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`? = "", cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`? = null)` |
+| [&lt;init&gt;](-init-.md) | `NoCacheException(request: Request, info: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`? = null, cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`? = null)` |

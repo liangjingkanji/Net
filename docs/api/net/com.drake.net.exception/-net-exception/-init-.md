@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`NetException(request: Request, message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`? = "", cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`? = null)`
+`NetException(request: Request, info: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`? = null, cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`? = null)`
 
 Net网络异常
 
@@ -10,4 +10,4 @@ Net网络异常
 
 `request` - 请求信息
 
-`message` - 异常信息
+`info` - 异常信息

@@ -4,7 +4,10 @@ Net支持在当前线程执行, 会阻塞当前线程的同步请求 -- `execute
 
 ```kotlin
 thread {
-    tv_fragment?.text = Net.post("api").execute<String>()
+    val result = Net.post("api").execute<String>() // 网络请求不允许在主线程
+    tv_fragment?.post {
+        tv_fragment?.text = result  // view要求在主线程更新
+    }
 }
 ```
 

@@ -14,7 +14,7 @@ Net的全局配置
 | [converter](converter.md) | `var converter: `[`NetConverter`](../../com.drake.net.convert/-net-converter/index.md) |
 | [host](host.md) | 全局的域名或者ip(baseUrl)`var host: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
 | [logEnabled](log-enabled.md) | `var logEnabled: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
-| [netCalls](net-calls.md) | `var netCalls: `[`ConcurrentLinkedQueue`](https://docs.oracle.com/javase/6/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html)`<Call>` |
+| [netCalls](net-calls.md) | `var netCalls: `[`ConcurrentLinkedQueue`](https://docs.oracle.com/javase/6/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html)`<`[`WeakReference`](https://docs.oracle.com/javase/6/docs/api/java/lang/ref/WeakReference.html)`<Call>>` |
 | [okHttpClient](ok-http-client.md) | `lateinit var okHttpClient: OkHttpClient` |
 | [onDialog](on-dialog.md) | 全局加载框`var onDialog: `[`DialogCoroutineScope`](../../com.drake.net.scope/-dialog-coroutine-scope/index.md)`.(FragmentActivity) -> `[`Dialog`](https://developer.android.com/reference/android/app/Dialog.html) |
 | [onError](on-error.md) | 全局错误处理`var onError: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |

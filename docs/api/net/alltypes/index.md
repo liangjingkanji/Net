@@ -21,19 +21,19 @@
 ##### [com.drake.net.request.BodyRequest](../com.drake.net.request/-body-request/index.md)
 
 
+| (extensions in package com.drake.net.okhttp)
+
+##### [okhttp3.OkHttpClient.Builder](../com.drake.net.okhttp/okhttp3.-ok-http-client.-builder/index.md)
+
+
 | (extensions in package com.drake.net.request)
 
 ##### [okhttp3.Request.Builder](../com.drake.net.request/okhttp3.-request.-builder/index.md)
 
 
-| (extensions in package com.drake.net.utils)
+| (extensions in package com.drake.net.okhttp)
 
-##### [okhttp3.OkHttpClient.Builder](../com.drake.net.utils/okhttp3.-ok-http-client.-builder/index.md)
-
-
-|
-
-##### [com.drake.net.cache.Cache](../com.drake.net.cache/-cache/index.md)
+##### [okhttp3.Call](../com.drake.net.okhttp/okhttp3.-call/index.md)
 
 
 |
@@ -109,6 +109,11 @@
 
 |
 
+##### [com.drake.net.utils.Https](../com.drake.net.utils/-https/index.md)
+
+
+|
+
 ##### [com.drake.net.component.InitContentProvider](../com.drake.net.component/-init-content-provider/index.md)
 
 用于初始化[NetConfig.app](../com.drake.net/-net-config/app.md)
@@ -132,12 +137,7 @@
 
 ##### [com.drake.net.convert.JSONConvert](../com.drake.net.convert/-j-s-o-n-convert/index.md)
 
-默认的转换器实现, 如果不满足需求建议将该文件复制到项目中修改
-
-
-|
-
-##### [com.drake.net.tag.Label](../com.drake.net.tag/-label/index.md)
+常见的JSON转换器实现, 如果不满意继承实现自定义的业务逻辑
 
 
 |
@@ -179,6 +179,10 @@
 
 ##### [com.drake.net.interfaces.NetCallback](../com.drake.net.interfaces/-net-callback/index.md)
 
+提供泛型转换特性
+相对于OkHttp的Callback新增三个回调函数: [onSuccess](../com.drake.net.interfaces/-net-callback/on-error.md) [onComplete](../com.drake.net.interfaces/-net-callback/on-complete.md)
+这三个函数都运行在主线程上
+
 
 |
 
@@ -192,6 +196,11 @@
 ##### [com.drake.net.NetConfig](../com.drake.net/-net-config/index.md)
 
 Net的全局配置
+
+
+|
+
+##### [com.drake.net.exception.NetConnectException](../com.drake.net.exception/-net-connect-exception/index.md)
 
 
 |
@@ -215,6 +224,18 @@ Net网络异常
 
 |
 
+##### [com.drake.net.tag.NetLabel](../com.drake.net.tag/-net-label/index.md)
+
+
+|
+
+##### [com.drake.net.interceptor.NetOkHttpInterceptor](../com.drake.net.interceptor/-net-ok-http-interceptor/index.md)
+
+Net代理OkHttp的拦截器
+
+
+|
+
 ##### [com.drake.net.body.NetRequestBody](../com.drake.net.body/-net-request-body/index.md)
 
 
@@ -230,7 +251,7 @@ Net网络异常
 
 |
 
-##### [com.drake.net.exception.NetConnectException](../com.drake.net.exception/-networking-exception/index.md)
+##### [com.drake.net.exception.NetUnknownHostException](../com.drake.net.exception/-net-unknown-host-exception/index.md)
 
 
 |
@@ -238,9 +259,9 @@ Net网络异常
 ##### [com.drake.net.exception.NoCacheException](../com.drake.net.exception/-no-cache-exception/index.md)
 
 
-| (extensions in package com.drake.net.utils)
+| (extensions in package com.drake.net.okhttp)
 
-##### [okhttp3.OkHttpClient](../com.drake.net.utils/okhttp3.-ok-http-client/index.md)
+##### [okhttp3.OkHttpClient](../com.drake.net.okhttp/okhttp3.-ok-http-client/index.md)
 
 
 |
@@ -255,12 +276,12 @@ Net网络异常
 
 |
 
-##### [com.drake.net.request.Progress](../com.drake.net.request/-progress/index.md)
+##### [com.drake.net.component.Progress](../com.drake.net.component/-progress/index.md)
 
 
 |
 
-##### [com.drake.net.request.ProgressListener](../com.drake.net.request/-progress-listener/index.md)
+##### [com.drake.net.interfaces.ProgressListener](../com.drake.net.interfaces/-progress-listener/index.md)
 
 进度监听器, 为下载和上传两者
 
@@ -284,7 +305,7 @@ Net网络异常
 
 ##### [com.drake.net.exception.RequestParamsException](../com.drake.net.exception/-request-params-exception/index.md)
 
-404
+400 - 499 客户端请求异常
 
 
 | (extensions in package com.drake.net.response)
@@ -301,14 +322,21 @@ Net网络异常
 
 ##### [com.drake.net.exception.ResponseException](../com.drake.net.exception/-response-exception/index.md)
 
-对应网络请求后台定义的错误信息
+如果返回200但是返回数据不符合业务要求可以抛出该异常
+
+
+|
+
+##### [com.drake.net.interceptor.RetryInterceptor](../com.drake.net.interceptor/-retry-interceptor/index.md)
+
+重试次数拦截器
 
 
 |
 
 ##### [com.drake.net.exception.ServerResponseException](../com.drake.net.exception/-server-response-exception/index.md)
 
-500
+= 500 服务器异常
 
 
 |

@@ -2,7 +2,7 @@
 
 # addUploadListener
 
-`fun addUploadListener(progressListener: `[`ProgressListener`](../-progress-listener/index.md)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
+`fun addUploadListener(progressListener: `[`ProgressListener`](../../com.drake.net.interfaces/-progress-listener/index.md)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 上传进度监听器
 

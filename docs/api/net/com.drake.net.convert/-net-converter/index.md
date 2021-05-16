@@ -20,4 +20,4 @@
 
 | Name | Summary |
 |---|---|
-| [JSONConvert](../-j-s-o-n-convert/index.md) | 默认的转换器实现, 如果不满足需求建议将该文件复制到项目中修改`abstract class JSONConvert : `[`NetConverter`](./index.md) |
+| [JSONConvert](../-j-s-o-n-convert/index.md) | 常见的JSON转换器实现, 如果不满意继承实现自定义的业务逻辑`abstract class JSONConvert : `[`NetConverter`](./index.md) |

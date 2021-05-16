@@ -4,5 +4,5 @@
 
 `ServerResponseException(response: Response)`
 
-500
+= 500 服务器异常
 

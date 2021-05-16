@@ -18,22 +18,22 @@
 | [downloadListeners](download-listeners.md) | `val downloadListeners: DownloadListeners` |
 | [httpUrl](http-url.md) | `open var httpUrl: Builder` |
 | [method](method.md) | `open var method: `[`Method`](../-method/index.md) |
-| [okHttpClient](ok-http-client.md) | `var okHttpClient: OkHttpClient` |
+| [okHttpClient](ok-http-client.md) | `open var okHttpClient: OkHttpClient` |
 | [okHttpRequest](ok-http-request.md) | `open var okHttpRequest: Builder` |
+| [tags](tags.md) | `open var tags: TagHashMap` |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [addDownloadListener](add-download-listener.md) | 下载监听器`fun addDownloadListener(progressListener: `[`ProgressListener`](../-progress-listener/index.md)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [addDownloadListener](add-download-listener.md) | 下载监听器`fun addDownloadListener(progressListener: `[`ProgressListener`](../../com.drake.net.interfaces/-progress-listener/index.md)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [addHeader](add-header.md) | 添加请求头 如果已存在相同`name`的请求头会添加而不会覆盖, 因为请求头本身存在多个值`fun addHeader(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [buildRequest](build-request.md) | `open fun buildRequest(): <ERROR CLASS>` |
-| [enqueue](enqueue.md) | `fun enqueue(block: Callback): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [buildRequest](build-request.md) | `open fun buildRequest(): Request` |
+| [enqueue](enqueue.md) | `fun enqueue(block: Callback): Call` |
+| [execute](execute.md) | 执行请求`fun <R> execute(): R` |
 | [param](param.md) | `abstract fun param(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?, encoded: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = false): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)<br>`abstract fun param(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, value: `[`Number`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-number/index.html)`?): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)<br>`abstract fun param(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, value: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`?): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [removeHeader](remove-header.md) | 删除请求头`fun removeHeader(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [setCache](set-cache.md) | 设置缓存策略`fun setCache(cache: `[`Cache`](../../com.drake.net.cache/-cache/index.md)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [setCacheControl](set-cache-control.md) | 设置请求头的缓存控制`fun setCacheControl(cacheControl: CacheControl): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [setCacheKey](set-cache-key.md) | `fun setCacheKey(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [setClient](set-client.md) | 修改当前Request的OkHttpClient配置, 不会影响全局默认的OkHttpClient`fun setClient(block: Builder.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [setDownloadDir](set-download-dir.md) | 下载文件的保存目录`fun setDownloadDir(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`fun setDownloadDir(name: `[`File`](https://docs.oracle.com/javase/6/docs/api/java/io/File.html)`?): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [setDownloadFileName](set-download-file-name.md) | 下载文件名`fun setDownloadFileName(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
@@ -45,6 +45,7 @@
 | [setHeader](set-header.md) | 设置请求头, 会覆盖请求头而不像[addHeader](add-header.md)是添加`fun setHeader(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [setHeaders](set-headers.md) | 批量设置请求头`fun setHeaders(headers: Headers): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [setId](set-id.md) | 唯一的Id`fun setId(id: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [setLogRecord](set-log-record.md) | 是否启用日志记录器`fun setLogRecord(enabled: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [setPath](set-path.md) | `fun setPath(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, encoded: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = false): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [setQuery](set-query.md) | `fun setQuery(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?, encoded: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = false): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 | [setTag](set-tag.md) | 将一个任意对象添加到Request对象中, 一般用于在拦截器或者转换器中被获取到标签, 针对某个请求的特殊业务逻辑 使用`Request.tag()`获取标签`fun setTag(tag: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)<br>添加标签 使用`Request.tag(name)`得到指定标签`fun setTag(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, tag: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
@@ -54,5 +55,5 @@
 
 | Name | Summary |
 |---|---|
-| [BodyRequest](../-body-request/index.md) | `class BodyRequest : `[`BaseRequest`](./index.md) |
-| [UrlRequest](../-url-request/index.md) | `class UrlRequest : `[`BaseRequest`](./index.md) |
+| [BodyRequest](../-body-request/index.md) | `open class BodyRequest : `[`BaseRequest`](./index.md) |
+| [UrlRequest](../-url-request/index.md) | `open class UrlRequest : `[`BaseRequest`](./index.md) |

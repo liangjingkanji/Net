@@ -26,20 +26,20 @@ scopeNetLife {
 ```kotlin
 scopeNetLife {
     // 同时发起四个网络请求
-    val deferred2 = Get<String>("api", uid = "最快")
-    val deferred3 = Post<String>("api", uid = "最快")
-    val deferred = Get<String>("api0", uid = "最快") // 错误接口
-    val deferred1 = Get<String>("api1", uid = "最快") // 错误接口
+    val deferred2 = Get<String>("api") { setGroup("最快") }
+    val deferred3 = Post<String>("api") { setGroup("最快") }
+    val deferred = Get<String>("api0") { setGroup("最快") } // 错误接口
+    val deferred1 = Get<String>("api1") { setGroup("最快") } // 错误接口
 
     // 只返回最快的请求结果
     tv_fragment.text = fastest(listOf(deferred, deferred1, deferred2, deferred3), "最快")
 }
 ```
 
-网络请求的取消本质上依靠uid来辨别,如果设置[uid]参数就可以在返回最快结果后取消掉其他网络请求, 反之不会取消其他网络请求
+网络请求的取消本质上依靠uid来辨别,如果使用`setGroup`函数设置分组名称就可以在返回最快结果后取消掉其他网络请求, 反之不会取消其他网络请求
 <br>
 
-> uid可以是任何类型任何值, 只有请求的`uid`和`fastest`函数的uid参数等于即可
+> uid可以是任何类型任何值, 只有请求的`setGroup`参数和`fastest`函数的group参数等于即可
 
 <br>
 

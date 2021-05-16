@@ -4,11 +4,15 @@
 
 `abstract class NetCallback<T> : Callback`
 
+提供泛型转换特性
+相对于OkHttp的Callback新增三个回调函数: [onSuccess](on-error.md) [onComplete](on-complete.md)
+这三个函数都运行在主线程上
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `NetCallback()` |
+| [&lt;init&gt;](-init-.md) | 提供泛型转换特性 相对于OkHttp的Callback新增三个回调函数: [onSuccess](on-error.md) [onComplete](on-complete.md) 这三个函数都运行在主线程上`NetCallback()` |
 
 ### Functions
 

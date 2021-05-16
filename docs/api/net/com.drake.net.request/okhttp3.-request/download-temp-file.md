@@ -2,7 +2,7 @@
 
 # downloadTempFile
 
-`fun Request.downloadTempFile(): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`?`
+`fun Request.downloadTempFile(): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 下载是否使用临时文件
 避免下载失败后覆盖同名文件或者无法判别是否已下载完整, 仅在下载完整以后才会显示为原有文件名

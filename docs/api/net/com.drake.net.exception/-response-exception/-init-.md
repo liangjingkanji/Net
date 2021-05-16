@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`ResponseException(response: Response, message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = "")`
+`ResponseException(response: Response, info: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?)`
 
-对应网络请求后台定义的错误信息
+如果返回200但是返回数据不符合业务要求可以抛出该异常
 

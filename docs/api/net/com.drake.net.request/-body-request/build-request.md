@@ -2,4 +2,4 @@
 
 # buildRequest
 
-`fun buildRequest(): Request`
+`open fun buildRequest(): Request`

@@ -21,13 +21,11 @@ class UserViewModel : ViewModel() {
 ```
 
 
-1. 建议ViewModel+LiveData使用
-2. 如果你不想写很多监听LiveData的冗余代码建议使用ViewModel+LiveData+DataBinding
-3. 如果你业务和UI本身就是分离. 实际上非重量级数据请求可以直接在Activity/Fragment中进行请求更加方便
-4. ViewModel这个类本质是属于防止数据意外销毁, 但是我们编写应用常常固定竖屏或者页面重新加载网络也是没有问题的.
-我不认为每个页面都应当编写一个ViewModel.
-5. DataBinding双向数据绑定才是MVVM的核心
-6. 具体使用期请查看Demo中的示例代码
+1. 不建议手动监听LiveData, 全是冗余代码
+2. 建议 ViewModel + LiveData + DataBinding
+3. 简化的可以直接在Activity/Fragment中进行请求会更加方便
+4. DataBinding双向数据绑定才是MVVM的核心, LiveData
+5. 我不认为每个页面都应当编写一个ViewModel, ViewModel这个类本质是属于防止数据意外销毁, 但是我们编写应用常常固定竖屏或者页面重新加载网络也是没有问题的.
 
 <br>
 

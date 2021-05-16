@@ -6,4 +6,4 @@
 
 | Name | Summary |
 |---|---|
-| [Label](-label/index.md) | `sealed class Label` |
+| [NetLabel](-net-label/index.md) | `sealed class NetLabel` |

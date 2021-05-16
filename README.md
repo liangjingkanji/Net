@@ -2,9 +2,10 @@
 
 <p align="center"><strong>不仅仅是网络请求的异步任务库</strong></p>
 
-<p align="center"><a href="https://coding-pages-bucket-3558162-8706000-17639-608061-1252757332.cos-website.ap-shanghai.myqcloud.com">使用文档</a>
-<!--  | <a href="https://coding-pages-bucket-3558162-8706000-16642-587704-1252757332.cos-website.ap-shanghai.myqcloud.com/">备用访问</a> -->
- </p>
+<p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a>
+ | <a href="https://coding-pages-bucket-3558162-8706000-16642-587704-1252757332.cos-website.ap-shanghai.myqcloud.com/">备用访问</a>
+ | <a href="https://coding-pages-bucket-3558162-8706000-17639-608061-1252757332.cos-website.ap-shanghai.myqcloud.com">Net2-文档</a>
+</p>
 
 <p align="center"><img src="https://i.imgur.com/X06J6fK.jpg" width="400"/></p>
 
@@ -25,23 +26,13 @@ Android上不是最强网络任务库, 基于OkHttp且完美支持其所有函�
 <br>
 
 Net 1.x 版本为RxJava实现 <br>
-Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用)
-
+[Net 2.x](https://github.com/liangjingkanji/Net/tree/2.x) 版本为协程实现(开发者无需掌握协程也可以使用) <br>
 Net 3.x 版本为OkHttp4.x实现
 
 <br>
 <p align="center"><strong>欢迎贡献代码/问题</strong></p>
 
 <br>
-
-设计哲学
-
-1. 代码优雅
-2. 文档清晰
-3. 扩展性好
-4. 功能全
-
-
 
 主要功能
 
@@ -91,10 +82,14 @@ allprojects {
 在 module 的 build.gradle 添加依赖
 
 ```groovy
-// 协程库(版本自定)
+// 协程库(版本可自定)
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+
+// OkHttp(版本可自定)
 implementation "com.squareup.okhttp3:okhttp:4.9.1"
+
+// Net
 implementation 'com.github.liangjingkanji:Net:3.0.0'
 
 // 支持自动下拉刷新和缺省页的(可选)

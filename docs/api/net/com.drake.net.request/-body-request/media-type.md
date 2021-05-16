@@ -2,4 +2,4 @@
 
 # mediaType
 
-`var mediaType: MediaType`
+`open var mediaType: MediaType`

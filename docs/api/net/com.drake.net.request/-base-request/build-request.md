@@ -2,4 +2,4 @@
 
 # buildRequest
 
-`open fun buildRequest(): <ERROR CLASS>`
+`open fun buildRequest(): Request`

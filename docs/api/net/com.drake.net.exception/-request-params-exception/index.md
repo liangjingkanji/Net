@@ -4,13 +4,13 @@
 
 `class RequestParamsException : `[`NetException`](../-net-exception/index.md)
 
-404
+400 - 499 客户端请求异常
 
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | 404`RequestParamsException(response: Response)` |
+| [&lt;init&gt;](-init-.md) | 400 - 499 客户端请求异常`RequestParamsException(response: Response)` |
 
 ### Properties
 

@@ -2,4 +2,4 @@
 
 # method
 
-`var method: `[`Method`](../-method/index.md)
+`open var method: `[`Method`](../-method/index.md)

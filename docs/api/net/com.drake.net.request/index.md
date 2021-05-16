@@ -7,11 +7,9 @@
 | Name | Summary |
 |---|---|
 | [BaseRequest](-base-request/index.md) | `abstract class BaseRequest` |
-| [BodyRequest](-body-request/index.md) | `class BodyRequest : `[`BaseRequest`](-base-request/index.md) |
+| [BodyRequest](-body-request/index.md) | `open class BodyRequest : `[`BaseRequest`](-base-request/index.md) |
 | [Method](-method/index.md) | `enum class Method` |
-| [Progress](-progress/index.md) | `data class Progress` |
-| [ProgressListener](-progress-listener/index.md) | 进度监听器, 为下载和上传两者`abstract class ProgressListener` |
-| [UrlRequest](-url-request/index.md) | `class UrlRequest : `[`BaseRequest`](-base-request/index.md) |
+| [UrlRequest](-url-request/index.md) | `open class UrlRequest : `[`BaseRequest`](-base-request/index.md) |
 
 ### Extensions for External Classes
 

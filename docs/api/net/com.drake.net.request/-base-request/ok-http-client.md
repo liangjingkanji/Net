@@ -2,4 +2,4 @@
 
 # okHttpClient
 
-`var okHttpClient: OkHttpClient`
+`open var okHttpClient: OkHttpClient`

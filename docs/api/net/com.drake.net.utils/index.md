@@ -2,6 +2,12 @@
 
 ## Package com.drake.net.utils
 
+### Types
+
+| Name | Summary |
+|---|---|
+| [Https](-https/index.md) | `object Https` |
+
 ### Extensions for External Classes
 
 | Name | Summary |
@@ -15,8 +21,6 @@
 | [kotlin.String](kotlin.-string/index.md) |  |
 | [kotlinx.coroutines.CoroutineScope](kotlinx.coroutines.-coroutine-scope/index.md) |  |
 | [kotlinx.coroutines.flow.Flow](kotlinx.coroutines.flow.-flow/index.md) |  |
-| [okhttp3.OkHttpClient](okhttp3.-ok-http-client/index.md) |  |
-| [okhttp3.OkHttpClient.Builder](okhttp3.-ok-http-client.-builder/index.md) |  |
 
 ### Functions
 
