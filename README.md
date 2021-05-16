@@ -2,7 +2,7 @@
 
 <p align="center"><strong>不仅仅是网络请求的异步任务库</strong></p>
 
-<p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a> | <a href="https://coding-pages-bucket-3558162-8706000-16642-587704-1252757332.cos-website.ap-shanghai.myqcloud.com/">备用访问</a></p>
+<p align="center"><a href="https://coding-pages-bucket-3558162-8706000-17639-608061-1252757332.cos-website.ap-shanghai.myqcloud.com">使用文档</a></p>
 
 <p align="center"><img src="https://i.imgur.com/X06J6fK.jpg" width="400"/></p>
 
@@ -23,11 +23,8 @@ Android上不是最强网络任务库, 创新式的网络请求库(基于Kalle),
 <br>
 
 Net 1.x 版本为RxJava实现 <br>
-Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用)
-
-<br>
-
-Net 3.x 版本为最新的OkHttp [3.x beta](https://github.com/liangjingkanji/Net/tree/3.x)
+Net 2.x 版本为协程实现(开发者无需掌握协程也可以使用) <br>
+[Net 3.x](https://github.com/liangjingkanji/Net/) 版本为OkHttp4.9实现
 
 <br>
 
