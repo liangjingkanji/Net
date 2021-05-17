@@ -28,6 +28,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.File
 import java.net.URL
+import kotlin.reflect.typeOf
 
 abstract class BaseRequest {
 
@@ -272,8 +273,10 @@ abstract class BaseRequest {
     /**
      * 执行请求
      */
+    @OptIn(ExperimentalStdlibApi::class)
     inline fun <reified R> execute(): R {
         NetConfig.requestInterceptor?.interceptor(this)
+        okHttpRequest.setKType(typeOf<R>())
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
         return newCall.execute().use {

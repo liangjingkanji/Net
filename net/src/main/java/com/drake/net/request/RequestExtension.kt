@@ -24,6 +24,7 @@ import com.drake.net.tag.NetLabel
 import okhttp3.FormBody
 import okhttp3.Request
 import java.util.concurrent.ConcurrentLinkedQueue
+import kotlin.reflect.KType
 
 //<editor-fold desc="请求属性">
 /**
@@ -74,6 +75,14 @@ fun Request.Builder.setLogRecord(enabled: Boolean) = apply {
  */
 fun Request.isLogRecord() = run {
     label<NetLabel.RecordLog>()?.enabled
+}
+
+fun Request.Builder.setKType(type: KType) = apply {
+    setLabel(type)
+}
+
+fun Request.kType(): KType? = run {
+    label<KType>()
 }
 
 inline fun <reified T> Request.Builder.setLabel(any: T) = apply {
