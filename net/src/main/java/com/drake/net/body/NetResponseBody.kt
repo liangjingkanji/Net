@@ -30,7 +30,7 @@ class NetResponseBody(
     private val complete: (() -> Unit)? = null
 ) : ResponseBody() {
 
-    private val progress: Progress by lazy { Progress() }
+    private val progress = Progress()
     private val bufferedSource by lazy { responseBody.source().progress().buffer() }
     private val contentLength by lazy { responseBody.contentLength() }
 

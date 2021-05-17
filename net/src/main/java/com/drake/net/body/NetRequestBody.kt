@@ -29,7 +29,7 @@ class NetRequestBody(
     private val progressListeners: ConcurrentLinkedQueue<ProgressListener>? = null
 ) : RequestBody() {
 
-    private val progress: Progress by lazy { Progress() }
+    private val progress = Progress()
     private var bufferedSink: BufferedSink? = null
     val contentLength by lazy { requestBody.contentLength() }
 
