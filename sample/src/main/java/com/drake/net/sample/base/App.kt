@@ -46,7 +46,7 @@ class App : Application() {
 
             setRequestInterceptor(object : RequestInterceptor { // 添加请求拦截器
                 override fun interceptor(request: BaseRequest) {
-                    request.param("client", "Net")
+                    request.addHeader("client", "Net")
                     request.setHeader("token", "123456")
                 }
             })

@@ -16,6 +16,10 @@
 
 package com.drake.net.sample.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Model(var code: Int, var msg: String, var data: Data) {
+    @Serializable
     data class Data(var request_method: String)
 }

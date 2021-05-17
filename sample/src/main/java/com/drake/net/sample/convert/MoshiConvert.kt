@@ -20,7 +20,7 @@ import com.drake.net.convert.JSONConvert
 import com.squareup.moshi.Moshi
 import java.lang.reflect.Type
 
-class MoshiConvert : JSONConvert(code = "code", message = "msg", success = "200") {
+class MoshiConvert : JSONConvert(code = "code", message = "msg", success = "0") {
     private val moshi = Moshi.Builder().build()
 
     override fun <S> String.parseBody(succeed: Type): S? {

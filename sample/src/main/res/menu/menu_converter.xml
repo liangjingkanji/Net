@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/serializationConvertFragment"
+        android:title="SerializationConverter(★★★★★)" />
+    <item
+        android:id="@+id/gsonConvertFragment"
+        android:title="GsonConverter(★★★)" />
+    <item
+        android:id="@+id/fastJsonConvertFragment"
+        android:title="FastJsonConverter(★★★)" />
+    <item
+        android:id="@+id/moshiConvertFragment"
+        android:title="MoshiConverter(★★)" />
+</menu>

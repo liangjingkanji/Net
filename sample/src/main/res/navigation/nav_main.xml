@@ -37,11 +37,6 @@
         android:label="协程作用域"
         tools:layout="@layout/fragment_coroutine_scope" />
     <fragment
-        android:id="@+id/custom_convert"
-        android:name="com.drake.net.sample.ui.fragment.CustomConvertFragment"
-        android:label="自定义转换器"
-        tools:layout="@layout/fragment_custom_convert" />
-    <fragment
         android:id="@+id/error_handler"
         android:name="com.drake.net.sample.ui.fragment.ErrorHandlerFragment"
         android:label="错误处理"
@@ -140,5 +135,6 @@
         android:id="@+id/view_model"
         android:name="com.drake.net.sample.ui.fragment.ViewModelRequestFragment"
         android:label="ViewModel" />
+    <include app:graph="@navigation/nav_converter" />
 
 </navigation>

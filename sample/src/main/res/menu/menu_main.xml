@@ -44,7 +44,7 @@
         android:icon="@drawable/ic_scope"
         android:title="协程作用域" />
     <item
-        android:id="@+id/custom_convert"
+        android:id="@+id/nav_converter"
         android:icon="@drawable/ic_convert"
         android:title="自定义转换器" />
     <item

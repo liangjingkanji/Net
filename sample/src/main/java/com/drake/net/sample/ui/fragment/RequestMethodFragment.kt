@@ -34,8 +34,6 @@ class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
-
-        GET()
     }
 
     private fun GET() {
