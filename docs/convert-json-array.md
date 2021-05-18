@@ -1,3 +1,5 @@
+如果你使用[kotlin-serialization](kotlin-serialization.md)解析数据, 那就不存在以下问题(泛型擦除)可以不用继续读了
+
 首先我们知道Net可以通过泛型指定返回的数据类型
 
 ```kotlin
@@ -6,7 +8,7 @@ scopeNetLife {
 }
 ```
 
-如果是你解析的JSON对象中包含集合, 这种情况完全无需考虑. 直接解析JSON数组字段-data 才会存在以上的问题
+如果是你解析的JSON对象中包含集合, 这种情况完全无需考虑. 直接解析JSON数组字段-data 才会存在以下的问题
 
 ```json
 {

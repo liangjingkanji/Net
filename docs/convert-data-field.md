@@ -91,3 +91,5 @@ scopeNetLife {
 }
 ```
 
+> 但这种方式比较愚钝冗余, 推荐使用[kotlin-serialization 解析任何泛型](kotlin-serialization.md)
+

@@ -10,6 +10,12 @@
 
 <br>
 
+自定义转换器Demo截图
+
+<img src="https://i.imgur.com/x4P47UI.png" width="300"/>
+
+<br>
+
 ## 创建转换器
 
 一般情况我们可以直接继承JSONConvert(因为一般接口使用的是JSON返回)
