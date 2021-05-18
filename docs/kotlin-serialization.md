@@ -46,6 +46,13 @@ scopeNetLife {
 }
 ```
 
+注意被KS转换器解析的数据模型都要求使用注解`@Serializable`
+
+```kotlin
+@Serializable
+data class UserModel(var name: String, var age: Int, var height: Int)
+```
+
 > 具体解析返回的JSON中的某个字段请在转换器里面自定
 
 
