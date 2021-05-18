@@ -30,12 +30,13 @@ interface NetConverter {
     fun <R> onConvert(succeed: Type, response: Response): R?
 
     companion object {
-        /**
-         * 返回数据为字符串内容
-         */
+
         @JvmField
         val DEFAULT = object : NetConverter {
 
+            /**
+             * 返回结果应当等于泛型对象, 可空
+             */
             override fun <R> onConvert(
                 succeed: Type,
                 response: Response
