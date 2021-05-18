@@ -90,27 +90,23 @@ open class BodyRequest : BaseRequest() {
 
     //<editor-fold desc="JSON">
     fun json(body: JSONObject?) {
-        body?.let { partBody.addPart(it.toString().toRequestBody(MediaType.Companion.JSON)) }
+        this.body = body?.toString()?.toRequestBody(MediaType.JSON)
     }
 
     fun json(body: JSONArray?) {
-        body?.let { partBody.addPart(it.toString().toRequestBody(MediaType.Companion.JSON)) }
+        this.body = body?.toString()?.toRequestBody(MediaType.JSON)
     }
 
     fun json(body: String?) {
-        body?.let { partBody.addPart(it.toRequestBody(MediaType.Companion.JSON)) }
+        this.body = body?.toRequestBody(MediaType.JSON)
     }
 
     fun json(body: Map<String, Any?>?) {
-        body?.let {
-            partBody.addPart(JSONObject(it).toString().toRequestBody(MediaType.Companion.JSON))
-        }
+        this.body = JSONObject(body ?: return).toString().toRequestBody(MediaType.JSON)
     }
 
     fun json(vararg body: Pair<String, Any?>) {
-        body.toMap().let {
-            partBody.addPart(JSONObject(it).toString().toRequestBody(MediaType.Companion.JSON))
-        }
+        this.body = JSONObject(body.toMap()).toString().toRequestBody(MediaType.JSON)
     }
     //</editor-fold>
 
