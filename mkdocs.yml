@@ -47,17 +47,17 @@ nav:
   - 全局错误处理: error-handle.md
   - 拦截器: interceptor.md
   - Https证书: https.md
-  - 转换器: converter.md
+  - 自定义转换器:
+      - 创建转换器: converter.md
+      - 任何泛型: kotlin-serialization.md
+      - 转换Data字段: convert-data-field.md
+      - 转换JSON数组: convert-json-array.md
   - 异常追踪: exception-track.md
   - 自动化:
       - 自动加载框: auto-dialog.md
       - 自动缺省页: auto-state.md
       - 自动下拉刷新: auto-refresh.md
       - 自动分页加载: auto-page.md
-  - 转换数据:
-      - 任何泛型: kotlin-serialization.md
-      - 转换Data字段: convert-data-field.md
-      - 转换JSON数组: convert-json-array.md
   - 切换线程: switch-dispatcher.md
   - 标签: tag.md
   - 上传文件: upload-file.md

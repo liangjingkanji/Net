@@ -1,28 +1,59 @@
-如果你想要网络请求直接返回对应的Bean或者说POJO类你就要创建自定义的转换器, 来使用JSON解析框架处理你的数据(当然你可能是使用的protocol等其他数据格式)
+网络请求响应被封装到Response对象中, 普通接口我们需要读取映射到数据模型对象中
 
-在Net中转换器NetConverter负责数据解析的工作, 自定义转换器即实现NetConverter接口即可
+Net使用泛型指定返回数据类型
 
-> 你的业务可能需要请求参数加密或者拼接一串特殊含义的参数, 或者响应信息需要解密. 请不要尝试封装Post或者Get等请求函数(这是蠢材做法), 自定义拦截器和转换器可以应对任何项目需求.
+```kotlin
 
-- 数据解密
-- 解析JSON
-- 判断请求是否成功
+```
+
+## 默认支持类型
+
+默认使用的是: [NetConverter.DEFAULT](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/NetConverter.kt)
+
+| 函数 | 描述 |
+|-|-|
+| String | 字符串 |
+| ByteArray | 字节数组 |
+| ByteString | 内部定义的一种字符串对象 |
+| Response | 最基础的响应 |
+| File | 文件对象, 这种情况其实应当称为`下载文件` |
+
+
+> 你的业务可能需要参数加密解密或者拼接参数, 请不要尝试封装Post或者Get等请求函数(这不是一个好主意), 自定义拦截器和转换器可以应对任何项目需求
+
 
 <br>
 
-自定义转换器Demo截图
+Demo截图预览
 
-<img src="https://i.imgur.com/x4P47UI.png" width="300"/>
+<img src="https://i.loli.net/2021/05/18/yUBmka6AjKsVleP.png" width="300"/>
 
 <br>
 
 ## 创建转换器
 
-一般情况我们可以直接继承JSONConvert(因为一般接口使用的是JSON返回)
+一般业务我们可以直接继承[JSONConverter](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/JSONConvert.kt)
+使用自己的JSON解析器解析数据, 自定义需求可以直接实现[NetConverter](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/NetConverter.kt)
+
+添加依赖
+
+```kotlin
+
+```
+
+=== "Kotlin-Serialization"
+
+    [Kotlin-Serialization GitHub](https://github.com/Kotlin/kotlinx.serialization)
+
+    由于代码量比较重可以查看源码或者Demo: [SerializationConverter](https://github.com/liangjingkanji/Net/blob/master/sample/src/main/java/com/drake/net/sample/converter/SerializationConverter.kt)
+
+    SerializationConverter和JSONConverter代码差不多
 
 === "Gson"
+
+    [GSON  GitHub](https://github.com/google/gson)
     ```kotlin
-    class GsonConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
+    class GsonConvert : JSONConvert(code = "code", message = "msg", success = "200") {
         val gson = GsonBuilder().serializeNulls().create()
 
         override fun <S> String.parseBody(succeed: Type): S? {
@@ -31,19 +62,23 @@
     }
     ```
 === "Moshi"
+
+    [Moshi GitHub](https://github.com/square/moshi)
     ```kotlin
-    class MoshiConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
+    class MoshiConvert : JSONConvert(code = "code", message = "msg", success = "200") {
         val moshi = Moshi.Builder().build()
 
         override fun <S> String.parseBody(succeed: Type): S? {
-
             return moshi.adapter<S>(succeed).fromJson(this)
         }
     }
     ```
 === "FastJson"
+
+    [FastJson GitHub](https://github.com/alibaba/fastjson)
+
     ```kotlin
-    class FastJsonConvert : DefaultConvert(code = "code", message = "msg", success = "200") {
+    class FastJsonConvert : JSONConvert(code = "code", message = "msg", success = "200") {
 
         override fun <S> String.parseBody(succeed: Type): S? {
             return JSON.parseObject(this, succeed)
@@ -51,9 +86,9 @@
     }
     ```
 
-- 请自己手动添加[Moshi](https://github.com/square/moshi)或者[Gson](https://github.com/google/gson)的依赖
-- Moshi支持Kotlin构造参数默认值, 但是如果Json中字段为null依然会覆盖默认值为null
-- 推荐使用官方的序列化框架: `kotlinx.Serialization`, 可以解析返回List, 支持Kotlin构造参数默认值, 可以非空覆盖
+1. 使用对应转换器添加对应依赖
+2. 推荐使用 `kotlinx.Serialization`, 其可解析[任何泛型](kotlin-serialization.md)
+3. 请阅读Demo源码
 
 | 转换器参数 | 描述 |
 |-|-|
@@ -72,14 +107,14 @@
 === "全局"
     ```kotlin hl_lines="2"
     initNet("http://github.com/") {
-        setConverter(GsonConvert())
+        setConverter(SerializationConverter())
     }
     ```
 === "单例"
     ```kotlin hl_lines="3"
     scopeNetLife {
         tv_fragment.text = Get<String>("api"){
-            converter = JsonConvert()
+            converter = SerializationConverter()
         }.await()
     }
     ```
