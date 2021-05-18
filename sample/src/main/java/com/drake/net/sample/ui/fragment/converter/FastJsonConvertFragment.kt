@@ -20,7 +20,7 @@ import android.os.Bundle
 import android.view.View
 import com.drake.net.Get
 import com.drake.net.sample.R
-import com.drake.net.sample.convert.FastJsonConvert
+import com.drake.net.sample.converter.FastJsonConverter
 import com.drake.net.sample.model.Model
 import com.drake.net.utils.scopeNetLife
 import kotlinx.android.synthetic.main.fragment_custom_convert.*
@@ -36,7 +36,7 @@ class FastJsonConvertFragment : BaseConvertFragment(R.layout.fragment_custom_con
 
         scopeNetLife {
             tv_fragment.text = Get<Model>("api") {
-                converter = FastJsonConvert() // 单例转换器, 此时会忽略全局转换器
+                converter = FastJsonConverter() // 单例转换器, 此时会忽略全局转换器
             }.await().data.request_method
         }
     }

@@ -20,7 +20,7 @@ import android.os.Bundle
 import android.view.View
 import com.drake.net.Get
 import com.drake.net.sample.R
-import com.drake.net.sample.convert.GsonConvert
+import com.drake.net.sample.converter.GsonConverter
 import com.drake.net.sample.model.Model
 import com.drake.net.utils.scopeNetLife
 import kotlinx.android.synthetic.main.fragment_custom_convert.*
@@ -38,7 +38,7 @@ class GsonConvertFragment : BaseConvertFragment(R.layout.fragment_custom_convert
 
         scopeNetLife {
             tv_fragment.text = Get<Model>("api") {
-                converter = GsonConvert() // 单例转换器, 此时会忽略全局转换器
+                converter = GsonConverter() // 单例转换器, 此时会忽略全局转换器
             }.await().data.request_method
         }
     }

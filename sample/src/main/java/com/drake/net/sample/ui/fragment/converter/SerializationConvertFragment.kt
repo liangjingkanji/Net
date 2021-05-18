@@ -20,7 +20,7 @@ import android.os.Bundle
 import android.view.View
 import com.drake.net.Get
 import com.drake.net.sample.R
-import com.drake.net.sample.convert.SerializationConvert
+import com.drake.net.sample.converter.SerializationConverter
 import com.drake.net.sample.model.UserModel
 import com.drake.net.utils.scopeNetLife
 import kotlinx.android.synthetic.main.fragment_custom_convert.*
@@ -41,7 +41,7 @@ class SerializationConvertFragment : BaseConvertFragment(R.layout.fragment_custo
         scopeNetLife {
             val userList = Get<List<UserModel>>("list-data") {
                 // 该转换器直接解析JSON中的data字段, 而非返回的整个JSON字符串
-                converter = SerializationConvert() // 单例转换器, 此时会忽略全局转换器
+                converter = SerializationConverter() // 单例转换器, 此时会忽略全局转换器
             }.await()
 
             tv_fragment.text = userList[0].name

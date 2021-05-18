@@ -1,6 +1,6 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package com.drake.net.sample.convert
+package com.drake.net.sample.converter
 
 import com.drake.net.NetConfig
 import com.drake.net.convert.NetConverter
@@ -16,7 +16,7 @@ import okhttp3.Response
 import org.json.JSONObject
 import java.lang.reflect.Type
 
-class SerializationConvert(
+class SerializationConverter(
     val success: String = "0",
     val code: String = "code",
     val message: String = "msg"

@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.drake.net.sample.convert
+package com.drake.net.sample.converter
 
+import com.alibaba.fastjson.JSON
 import com.drake.net.convert.JSONConvert
-import com.google.gson.GsonBuilder
 import java.lang.reflect.Type
 
-class GsonConvert : JSONConvert(code = "code", message = "msg", success = "0") {
-    private val gson = GsonBuilder().serializeNulls().create()
+class FastJsonConverter : JSONConvert(code = "code", message = "msg", success = "0") {
 
     override fun <S> String.parseBody(succeed: Type): S? {
-        return gson.fromJson(this, succeed)
+        return JSON.parseObject(this, succeed)
     }
 }

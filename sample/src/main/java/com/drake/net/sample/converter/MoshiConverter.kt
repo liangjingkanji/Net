@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.drake.net.sample.convert
+package com.drake.net.sample.converter
 
 import com.drake.net.convert.JSONConvert
 import com.squareup.moshi.Moshi
 import java.lang.reflect.Type
 
-class MoshiConvert : JSONConvert(code = "code", message = "msg", success = "0") {
+class MoshiConverter : JSONConvert(code = "code", message = "msg", success = "0") {
     private val moshi = Moshi.Builder().build()
 
     override fun <S> String.parseBody(succeed: Type): S? {
