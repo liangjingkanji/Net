@@ -16,6 +16,13 @@ class App : Application() {
 }
 ```
 
+在拦截器中可以使用以下函数复制请求/响应体
+
+| 函数 | 描述 |
+|-|-|
+| peekString | 可以复制截取RequestBody/ResponseBody, 且返回String |
+| logString | 等效于上面函数, 但是Response仅支持文本/JSON, Request仅支持FormBody |
+
 ## 请求拦截器
 
 RequestInterceptor属于轻量级的请求拦截器, 在每次请求的时候该拦截器都会被触发. 一般用于添加全局的参数和请求头

@@ -3,7 +3,11 @@
 Net使用泛型指定返回数据类型
 
 ```kotlin
-
+scopeNetLife {
+    val userList = Get<List<UserModel>>("list-data") {
+        converter = SerializationConverter()
+    }.await()
+}
 ```
 
 ## 默认支持类型
@@ -34,12 +38,6 @@ Demo截图预览
 
 一般业务我们可以直接继承[JSONConverter](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/JSONConvert.kt)
 使用自己的JSON解析器解析数据, 自定义需求可以直接实现[NetConverter](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/NetConverter.kt)
-
-添加依赖
-
-```kotlin
-
-```
 
 === "Kotlin-Serialization"
 
