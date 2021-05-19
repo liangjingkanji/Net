@@ -14,7 +14,7 @@
         tools:targetApi="n">
         <provider
             android:name=".component.InitContentProvider"
-            android:authorities="com.drake.net.init"
+            android:authorities="${applicationId}.drake.netInit"
             android:enabled="true"
             android:exported="false"
             android:multiprocess="true" />
