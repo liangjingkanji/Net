@@ -23,6 +23,7 @@ import com.drake.net.exception.URLParseException
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.okhttp.toNetOkhttp
 import com.drake.net.tag.NetLabel
+import com.drake.net.utils.runMain
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -280,7 +281,7 @@ abstract class BaseRequest {
     }
 
     /**
-     * 执行请求
+     * 执行同步请求
      */
     @OptIn(ExperimentalStdlibApi::class)
     inline fun <reified R> execute(): R {
@@ -290,6 +291,25 @@ abstract class BaseRequest {
         val newCall = okHttpClient.newCall(request)
         return newCall.execute().use {
             converter.onConvert<R>(R::class.java, it) as R
+        }
+    }
+
+    /**
+     * 执行同步请求
+     * @return 一个包含请求成功和错误的Result
+     */
+    inline fun <reified R> toResult(): Result<R> {
+        NetConfig.requestInterceptor?.interceptor(this)
+        setKType<R>()
+        val request = buildRequest()
+        val newCall = okHttpClient.newCall(request)
+        return try {
+            val value = newCall.execute().use {
+                converter.onConvert<R>(R::class.java, it) as R
+            }
+            Result.success(value)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 
@@ -312,12 +332,12 @@ abstract class BaseRequest {
         setKType<R>()
         newCall.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                block(Result.failure(e))
+                runMain { block(Result.failure(e)) }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 val result = converter.onConvert<R>(R::class.java, response) as R
-                block(Result.success(result))
+                runMain { block(Result.success(result)) }
             }
         })
         return newCall

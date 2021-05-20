@@ -42,7 +42,7 @@ android {
     }
 
     kotlinOptions {
-        freeCompilerArgs = ["-Xinline-classes"]
+        freeCompilerArgs = ["-Xinline-classes", "-Xallow-result-return-type"]
     }
 
     dokka {
