@@ -35,7 +35,7 @@ abstract class NetCallback<T> : Callback {
     /**
      * 请求成功
      */
-    abstract fun onSuccess(call: Call, data: T)
+    abstract fun onSuccess(call: Call, result: T)
 
     /**
      * 请求错误

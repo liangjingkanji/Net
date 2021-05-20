@@ -27,6 +27,7 @@ import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.File
+import java.io.IOException
 import java.net.URL
 import kotlin.reflect.typeOf
 
@@ -131,6 +132,14 @@ abstract class BaseRequest {
      */
     fun setTag(name: String, tag: Any?) {
         tags[name] = tag
+    }
+
+    /**
+     * 为请求附着针对Kotlin的Type信息
+     */
+    @OptIn(ExperimentalStdlibApi::class)
+    inline fun <reified T> setKType() {
+        okHttpRequest.setKType(typeOf<T>())
     }
 
     //</editor-fold>
@@ -276,7 +285,7 @@ abstract class BaseRequest {
     @OptIn(ExperimentalStdlibApi::class)
     inline fun <reified R> execute(): R {
         NetConfig.requestInterceptor?.interceptor(this)
-        okHttpRequest.setKType(typeOf<R>())
+        setKType<R>()
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
         return newCall.execute().use {
@@ -284,10 +293,33 @@ abstract class BaseRequest {
         }
     }
 
+    /**
+     * 队列请求. 支持OkHttp的Callback函数组件
+     */
     fun enqueue(block: Callback): Call {
         NetConfig.requestInterceptor?.interceptor(this)
         val newCall = okHttpClient.newCall(buildRequest())
         newCall.enqueue(block)
+        return newCall
+    }
+
+    /**
+     * 队列请求. 支持Result作为请求结果
+     */
+    inline fun <reified R> onResult(crossinline block: Result<R>.() -> Unit): Call {
+        NetConfig.requestInterceptor?.interceptor(this)
+        val newCall = okHttpClient.newCall(buildRequest())
+        setKType<R>()
+        newCall.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                block(Result.failure(e))
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val result = converter.onConvert<R>(R::class.java, response) as R
+                block(Result.success(result))
+            }
+        })
         return newCall
     }
 }
