@@ -2,16 +2,25 @@
 
 Net扩展`Okhttp Profiler`插件支持更好的网络日志输出, 支持加密的请求和响应信息
 
+## 日志记录拦截器
+
+```kotlin hl_lines="2"
+initNet("http://github.com/") {
+    addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
+}
+```
+
+这样会可以在LogCat看到日志输出, 但是我们要使用插件预览就需要第 2 步
+
 ## 安装插件
 
-
-### 1) 安装插件
+### 1. 安装插件
 在插件市场搜索: "`Okhttp Profiler`"
 
 <img src="https://i.imgur.com/Pvncs1W.png" width="100%"/>
 
 
-### 2) 打开窗口
+### 2. 打开窗口
 安装以后在AndroidStudio右下角打开窗口
 
 <img src="https://i.imgur.com/lZ0RvN4.png" width="80%"/>
@@ -19,12 +28,7 @@ Net扩展`Okhttp Profiler`插件支持更好的网络日志输出, 支持加密�
 > 请在每次使用前都先打开插件窗口, 如果有延迟或者不显示就反复打开下窗口
 
 
-### 3) 初始化
-```kotlin hl_lines="2"
-initNet("http://github.com/") {
-    addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
-}
-```
+
 
 使用效果
 

@@ -3,7 +3,7 @@
 
 一般的解析过程是以下
 
-1) 后端返回的JSON数据
+1. 后端返回的JSON数据
 
 ```json
 {
@@ -15,7 +15,7 @@
 }
 ```
 
-2) 创建数据模型
+2. 创建数据模型
 
 ```kotlin
 data class UserInfo (
@@ -27,7 +27,7 @@ data class UserInfo (
 }
 ```
 
-3) 发起网络请求
+3. 发起网络请求
 
 ```kotlin
 scopeNetLife {
