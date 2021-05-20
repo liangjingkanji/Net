@@ -14,6 +14,7 @@ class SyncRequestFragment : Fragment(R.layout.fragment_sync_request) {
 
         thread {
             val result = Net.post("api").execute<String>() // 网络请求不允许在主线程
+            // val result = Net.post("api").toResult<String>().getOrDefault("请求发生错误, 我这是默认值")
             tv_fragment?.post {
                 tv_fragment?.text = result  // view要求在主线程更新
             }

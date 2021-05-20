@@ -4,7 +4,7 @@
 
 ```kotlin
 scopeNetLife {
-    tv_fragment.text = Post<Model>("api").await()
+    tv_fragment.text = Post<UserModel>("api").await()
 }
 ```
 
@@ -52,7 +52,7 @@ scopeNetLife {
 
 ```kotlin
 scopeNetLife {
-    val arr = Post<Array<Model>>("api").await()
+    val arr = Post<Array<UserModel>>("api").await()
     arr.toMutableList() // 如果你就是要求集合, 可以使用函数将数组转换成集合
 }
 ```
@@ -60,6 +60,12 @@ scopeNetLife {
 ## 使用扩展函数
 
 我们可以直接使用String创建一个扩展函数
+
+```kotlin
+scopeNetLife {
+    tv_fragment.text = Post<String>("api").await().toJsonArray<List<UserModel>>()
+}
+```
 
 
 ### 1. 定义解析函数
