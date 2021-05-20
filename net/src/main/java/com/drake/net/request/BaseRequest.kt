@@ -117,6 +117,20 @@ abstract class BaseRequest {
     //<editor-fold desc="Tag">
 
     /**
+     * 唯一的Id
+     */
+    fun setId(id: Any?) {
+        okHttpRequest.setId(id)
+    }
+
+    /**
+     * 分组
+     */
+    fun setGroup(group: Any?) {
+        okHttpRequest.setGroup(group)
+    }
+
+    /**
      * 将一个任意对象添加到Request对象中, 一般用于在拦截器或者转换器中被获取到标签, 针对某个请求的特殊业务逻辑
      * 使用`Request.tag()`获取标签
      */
@@ -250,19 +264,6 @@ abstract class BaseRequest {
     protected val downloadListeners = NetLabel.DownloadListeners()
 
     //</editor-fold>
-    /**
-     * 唯一的Id
-     */
-    fun setId(id: Any?) {
-        okHttpRequest.setId(id)
-    }
-
-    /**
-     * 分组
-     */
-    fun setGroup(group: Any?) {
-        okHttpRequest.setGroup(group)
-    }
 
     /**
      * 是否启用日志记录器
@@ -280,6 +281,7 @@ abstract class BaseRequest {
             .build()
     }
 
+    //<editor-fold desc="SyncRequest">
     /**
      * 执行同步请求
      */
@@ -312,7 +314,9 @@ abstract class BaseRequest {
             Result.failure(e)
         }
     }
+    //</editor-fold>
 
+    //<editor-fold desc="EnqueueRequest">
     /**
      * 队列请求. 支持OkHttp的Callback函数组件
      */
@@ -342,5 +346,6 @@ abstract class BaseRequest {
         })
         return newCall
     }
+    //</editor-fold>
 }
 
