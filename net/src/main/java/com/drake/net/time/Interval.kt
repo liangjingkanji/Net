@@ -15,6 +15,7 @@
  */
 
 @file:OptIn(ObsoleteCoroutinesApi::class)
+@file:Suppress("MemberVisibilityCanBePrivate")
 
 package com.drake.net.time
 
@@ -55,7 +56,7 @@ import java.util.concurrent.TimeUnit
  * @property count 轮循器的计数
  * @property state 轮循器当前状态
  */
-class Interval(
+open class Interval(
     var end: Long, // -1 表示永远不结束
     private val period: Long,
     private val unit: TimeUnit,

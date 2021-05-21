@@ -1,4 +1,4 @@
-@file:Suppress("UNCHECKED_CAST")
+@file:Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate")
 
 package com.drake.net.sample.converter
 
@@ -22,7 +22,7 @@ class SerializationConverter(
     val message: String = "msg"
 ) : NetConverter {
 
-    val jsonDecoder = Json {
+    private val jsonDecoder = Json {
         ignoreUnknownKeys = true // JSON和数据模型字段可以不匹配
         coerceInputValues = true // 如果JSON字段是Null则使用默认值
     }
