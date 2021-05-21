@@ -1,14 +1,20 @@
-一般网络请求都会选择在LogCat打印网络日志信息, 但LogCat日志可读性差, 甚至不完整
+一般网络请求都会选择在LogCat打印网络日志信息, 但LogCat日志可读性差, 且不完整
 
-Net扩展`Okhttp Profiler`插件支持更好的网络日志输出, 支持加密的请求和响应信息
+Net扩展[Okhttp Profiler](https://github.com/itkacher/OkHttpProfiler)插件以支持更好的网络日志输出
 
-## 日志记录拦截器
+## 添加日志拦截器
 
 ```kotlin hl_lines="2"
 initNet("http://github.com/") {
     addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
 }
 ```
+
+| 构造参数 | 描述 |
+|-|-|
+| enabled | 是否启用日志 |
+| requestByteCount | 请求日志信息最大字节数, 默认1MB |
+| responseByteCount | 响应日志信息最大字节数, 默认4MB |
 
 这样会可以在LogCat看到日志输出, 但是我们要使用插件预览就需要第 2 步
 
@@ -44,7 +50,7 @@ initNet("http://github.com/") {
 
 <br>
 
-## 单例禁用
+## 单例禁用日志
 
 ```kotlin
 scopeNetLife {
@@ -54,7 +60,22 @@ scopeNetLife {
 }
 ```
 
-## LogCat冗余日志过滤
+## 自定义日志(解密)
+
+通过继承`LogRecordInterceptor`可以覆写函数自定义自己的日志输出逻辑
+
+1. 如果你的请求体是被加密的内容, 你可以通过覆写`requestString`函数返回解密后的请求信息
+2. 如果你的响应体是被加密的内容, 你可以通过覆写`responseString`函数返回解密后的响应信息
+
+然后初始化时添加自己实现拦截器即可
+
+```kotlin
+initNet("http://github.com/") {
+    addInterceptor(MyLogRecordInterceptor(BuildConfig.DEBUG))
+}
+```
+
+## LogCat过滤
 实际上Net的网络日志还是会被打印到LogCat, 然后通过插件捕捉显示.
 
 <img src="https://i.imgur.com/0BZAg4M.png" width="350"/>
@@ -63,7 +84,7 @@ scopeNetLife {
 <img src="https://i.imgur.com/F6DoICr.png" width="100%"/>
 
 
-## 扩展至其他请求框架
+## 其他网络框架
 
 可能你项目中还残留其他网络框架, 也可以使用Net的日志记录器`LogRecorder`来为其他框架打印日志信息
 

@@ -69,7 +69,7 @@ nav:
   - 重复请求: unique.md
   - 节流阀: debounce.md
   - 取消请求: cancel.md
-  - 日志记录器: log-recorder.md
+  - 日志拦截器: log-recorder.md
   - 轮循器: interval.md
   - 更新日志: updates.md
   - 3.x文档: api/net/index.md

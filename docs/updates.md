@@ -1,7 +1,9 @@
 ## 3.0.3
-添加`onResult`函数来执行队列请求: [队列请求](../enqueue-request/#-result)
+1. 添加`onResult`函数来执行队列请求: [队列请求](../enqueue-request/#-result)
+2. 添加`toResult`函数来执行同步请求: [同步请求](../sync-request/)
+3. 请求体日志支持JSON/文本类型
+4. LogRecordInterceptor暴露`requestString/responseString`实现函数用于继承实现自定义需求
 
-添加`toResult`函数来执行同步请求: [同步请求](../sync-request/)
 
 ## 3.0.2
 修复多渠道无法安装问题
