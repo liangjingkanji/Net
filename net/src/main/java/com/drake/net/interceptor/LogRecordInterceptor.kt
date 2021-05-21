@@ -20,8 +20,8 @@ import okhttp3.Response
  * 在正式环境下请禁用此日志记录器. 因为他会消耗少量网络速度
  *
  * @property enabled 是否启用日志输出
- * @property requestByteCount 请求日志输出字节数
- * @property responseByteCount 响应日志输出字节数
+ * @property requestByteCount 请求日志输出字节数, -1 则为全部
+ * @property responseByteCount 响应日志输出字节数, -1 则为全部
  */
 open class LogRecordInterceptor(
     private val enabled: Boolean,

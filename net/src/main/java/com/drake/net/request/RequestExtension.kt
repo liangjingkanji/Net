@@ -179,11 +179,11 @@ fun Request.Builder.setConverter(converter: NetConverter) = apply {
 
 /**
  * 请求日志信息
- * 只会输出纯表单(form)的请求参数
+ * 只会输出 application/x-www-form-urlencoded, application/json, text/`*` 的请求体类型日志
  */
 fun Request.logString(byteCount: Long = 1024 * 1024): String? {
     val mediaType = body?.contentType() ?: return null
-    return if (body is FormBody) {
+    return if (body is FormBody || mediaType.type == "text" || mediaType.subtype == "json") {
         body?.peekString(byteCount)
     } else {
         "LogRecordInterceptor not support this type $mediaType"

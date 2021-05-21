@@ -114,7 +114,7 @@ fun Response.file(): File? {
 
 /**
  * 响应日志信息
- * 只会输出JSON(application/json)和文本(text/\*)字符串日志
+ * 只会输出 application/json, text/`*` 响应体类型日志
  */
 fun Response.logString(byteCount: Long = 1024 * 1024 * 4): String? {
     val mediaType = body?.contentType() ?: return null
