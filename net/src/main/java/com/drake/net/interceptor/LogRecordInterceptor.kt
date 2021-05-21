@@ -8,11 +8,14 @@ import com.drake.net.request.logString
 import com.drake.net.response.logString
 import com.drake.net.tag.NetLabel
 import okhttp3.Interceptor
+import okhttp3.Request
 import okhttp3.Response
 
 /**
  * 网络日志记录器
  * 可以参考此拦截器为项目中其他网络请求库配置. 本拦截器属于标准的OkHttp拦截器适用于所有OkHttp拦截器内核的网络请求库
+ * 如果项目中的日志需要特殊情况, 例如请求体加密, 响应体解密, 请继承本拦截器进行自定义
+ * 使用Request/Response的peekString函数可以复制请求和响应字符串
  *
  * 在正式环境下请禁用此日志记录器. 因为他会消耗少量网络速度
  *
@@ -20,10 +23,10 @@ import okhttp3.Response
  * @property requestByteCount 请求日志输出字节数
  * @property responseByteCount 响应日志输出字节数
  */
-class LogRecordInterceptor(
-    val enabled: Boolean,
-    val requestByteCount: Long = 1024 * 1024,
-    val responseByteCount: Long = 1024 * 1024 * 4
+open class LogRecordInterceptor(
+    private val enabled: Boolean,
+    private val requestByteCount: Long = 1024 * 1024,
+    private val responseByteCount: Long = 1024 * 1024 * 4
 ) : Interceptor {
 
     init {
@@ -44,7 +47,7 @@ class LogRecordInterceptor(
             request.url.toString(),
             request.method,
             request.headers.toMultimap(),
-            request.logString(requestByteCount)
+            requestString(request)
         )
         try {
             val response = chain.proceed(request)
@@ -53,7 +56,7 @@ class LogRecordInterceptor(
                 System.currentTimeMillis(),
                 response.code,
                 response.headers.toMultimap(),
-                response.logString(responseByteCount)
+                responseString(response)
             )
             return response
         } catch (e: Exception) {
@@ -67,4 +70,14 @@ class LogRecordInterceptor(
             throw e
         }
     }
+
+    /**
+     * 请求字符串
+     */
+    protected open fun requestString(request: Request) = request.logString(requestByteCount)
+
+    /**
+     * 响应字符串
+     */
+    protected open fun responseString(response: Response) = response.logString(responseByteCount)
 }
