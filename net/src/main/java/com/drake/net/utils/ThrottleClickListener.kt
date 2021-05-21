@@ -16,6 +16,7 @@
 
 package com.drake.net.utils
 
+import android.os.SystemClock
 import android.view.View
 import java.util.concurrent.TimeUnit
 
@@ -41,7 +42,7 @@ internal class ThrottleClickListener(
     private var lastTime: Long = 0
 
     override fun onClick(v: View) {
-        val currentTime = System.currentTimeMillis()
+        val currentTime = SystemClock.elapsedRealtime()
         if (currentTime - lastTime > unit.toMillis(interval)) {
             lastTime = currentTime
             block(v)
