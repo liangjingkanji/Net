@@ -1,6 +1,6 @@
 从Net3开始支持使用[kotlin-serialization](https://github.com/Kotlin/kotlinx.serialization)(简称KS). 可以指定任何类泛型解析成任何数据结构返回,
 比如直接返回List/Map/Pair...
-
+<br>
 
 **Net是目前唯一支持kotlin-serialization转换器的网络请求库**
 
@@ -53,6 +53,7 @@ scopeNetLife {
 data class UserModel(var name: String, var age: Int, var height: Int)
 ```
 
-> 具体解析返回的JSON中的某个字段请在转换器里面自定
+> 具体解析返回的JSON中的某个字段请在转换器里面自定 <br>
+如果想详细了解KS, 请阅读文章: [Kotlin最强解析库 - kotlin-serialization](https://juejin.cn/post/6963676982651387935)
 
 
