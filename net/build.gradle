@@ -46,7 +46,7 @@ android {
     }
 
     dokkaHtml {
-        outputDirectory.set(file("${rootDir}/docs/api"))
+        outputDirectory.set(file("$rootDir/docs/api"))
         moduleName.set("Net")
     }
 }
