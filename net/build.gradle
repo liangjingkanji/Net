@@ -45,11 +45,10 @@ android {
         freeCompilerArgs = ["-Xinline-classes", "-Xallow-result-return-type"]
     }
 
-    dokka {
-        outputFormat = 'gfm'
-        outputDirectory = "$rootDir/docs/api"
+    dokkaHtml {
+        outputDirectory.set(file("${rootDir}/docs/api"))
+        moduleName.set("Net")
     }
-
 }
 
 

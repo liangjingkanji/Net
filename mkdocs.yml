@@ -63,7 +63,6 @@ nav:
   - 上传文件: upload-file.md
   - 下载文件: download-file.md
   - 进度监听: progress.md
-  #  - 读取缓存: read-cache.md
   - 嵌套作用域: nested-scope.md
   - 最快请求结果: fastest.md
   - 重复请求: unique.md
@@ -72,4 +71,4 @@ nav:
   - 日志拦截器: log-recorder.md
   - 轮循器: interval.md
   - 更新日志: updates.md
-  - 3.x文档: api/net/index.md
+  - 3.x文档: api/index.html
