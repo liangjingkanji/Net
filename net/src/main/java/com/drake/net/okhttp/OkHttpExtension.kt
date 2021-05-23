@@ -23,6 +23,7 @@ import com.drake.net.NetConfig
 import com.drake.net.convert.NetConverter
 import com.drake.net.interceptor.NetOkHttpInterceptor
 import com.drake.net.interceptor.RequestInterceptor
+import com.drake.net.interfaces.NetErrorHandler
 import com.drake.net.request.label
 import com.drake.net.scope.DialogCoroutineScope
 import com.drake.net.tag.NetLabel
@@ -137,6 +138,7 @@ fun OkHttpClient.Builder.setRequestInterceptor(interceptor: RequestInterceptor) 
 /**
  * 全局网络请求错误捕获
  */
+@Deprecated(message = "使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("setErrorHandler(NetErrorHandler())"), DeprecationLevel.WARNING)
 fun OkHttpClient.Builder.onError(block: Throwable.() -> Unit) = apply {
     NetConfig.onError = block
 }
@@ -144,8 +146,18 @@ fun OkHttpClient.Builder.onError(block: Throwable.() -> Unit) = apply {
 /**
  * 全局缺省页错误捕获
  */
+@Deprecated(message = "使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("setErrorHandler(NetErrorHandler())"), DeprecationLevel.WARNING)
 fun OkHttpClient.Builder.onStateError(block: Throwable.(view: View) -> Unit) = apply {
     NetConfig.onStateError = block
+}
+
+/**
+ * 全局错误处理器
+ *
+ * 会覆盖[onError]和[onStateError]
+ */
+fun OkHttpClient.Builder.setErrorHandler(handler: NetErrorHandler) = apply {
+    NetConfig.errorHandler = handler
 }
 
 /**

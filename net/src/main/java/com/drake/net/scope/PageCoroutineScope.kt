@@ -70,9 +70,9 @@ class PageCoroutineScope(
 
     override fun handleError(e: Throwable) {
         if (page.loaded || !page.stateEnabled) {
-            NetConfig.onError(e)
+            NetConfig.errorHandler.onError(e)
         } else {
-            NetConfig.onStateError(e, page)
+            NetConfig.errorHandler.onStateError(e, page)
         }
     }
 

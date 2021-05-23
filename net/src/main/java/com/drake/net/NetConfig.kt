@@ -30,6 +30,7 @@ import com.drake.net.NetConfig.onStateError
 import com.drake.net.convert.NetConverter
 import com.drake.net.exception.*
 import com.drake.net.interceptor.RequestInterceptor
+import com.drake.net.interfaces.NetErrorHandler
 import com.drake.net.scope.DialogCoroutineScope
 import com.drake.tooltip.toast
 import okhttp3.Call
@@ -42,11 +43,15 @@ import java.util.concurrent.*
 /**
  * Net的全局配置
  *
- * @property host 全局的域名或者ip(baseUrl)
  * @property app 全局上下文, 一般执行[initNet]即可, 无需手动赋值
+ * @property host 全局的域名或者ip(baseUrl)
+ * @property runningCalls Net中正在运行的请求Call
+ * @property requestInterceptor 请求拦截器
+ * @property logEnabled 是否启用日志
  * @property onDialog 全局加载框
  * @property onError 全局错误处理
  * @property onStateError 全局缺省页错误处理
+ * @property errorHandler 全局错误处理器, 会覆盖onError/onStateError
  */
 @SuppressLint("StaticFieldLeak")
 object NetConfig {
@@ -59,6 +64,7 @@ object NetConfig {
     var runningCalls: ConcurrentLinkedQueue<WeakReference<Call>> = ConcurrentLinkedQueue()
     var converter: NetConverter = NetConverter.DEFAULT
     var requestInterceptor: RequestInterceptor? = null
+    var errorHandler = NetErrorHandler()
 
     var onDialog: DialogCoroutineScope.(FragmentActivity) -> Dialog = {
         val progress = ProgressDialog(activity)
@@ -93,7 +99,7 @@ object NetConfig {
             is ConvertException,
             is RequestParamsException,
             is ResponseException,
-            is NullPointerException -> onError(this)
+            is NullPointerException -> errorHandler.onError(this)
             else -> if (logEnabled) printStackTrace()
         }
     }

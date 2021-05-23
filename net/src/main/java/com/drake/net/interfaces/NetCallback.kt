@@ -40,14 +40,12 @@ abstract class NetCallback<T> : Callback {
     /**
      * 请求错误
      */
-    fun onError(call: Call, e: IOException) {
-        NetConfig.onError.invoke(e)
-    }
+    open fun onError(call: Call, e: IOException) = NetConfig.errorHandler.onError(e)
 
     /**
      * 请求完成
      *
      * @param e 正常结束则为NULL, 发生异常结束则为异常对象
      */
-    fun onComplete(call: Call, e: IOException?) {}
+    open fun onComplete(call: Call, e: IOException?) {}
 }

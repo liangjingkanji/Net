@@ -59,7 +59,7 @@ class StateCoroutineScope(
     }
 
     override fun handleError(e: Throwable) {
-        NetConfig.onStateError(e, state)
+        NetConfig.errorHandler.onStateError(e, state)
     }
 
     override fun finally(e: Throwable?) {

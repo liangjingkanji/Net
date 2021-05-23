@@ -79,7 +79,7 @@ open class NetCoroutineScope(
 
 
     override fun handleError(e: Throwable) {
-        NetConfig.onError(e)
+        NetConfig.errorHandler.onError(e)
     }
 
     override fun catch(e: Throwable) {
