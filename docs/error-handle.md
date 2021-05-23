@@ -1,8 +1,10 @@
 Net具备完善的全局错误处理机制 <br>
 
-默认情况下不需要去定义错误处理, 因为`NetConfig`默认实现适用于大部分情况的错误处理.
+默认情况下不需要去定义错误处理, 因为`NetErrorHandler`默认实现适用于大部分情况的错误处理.
 
-但是如果你想要自定义或者监听错误, 你可以覆盖默认的错误处理.  在`initNet`回调函数里面自定义全局错误处理
+但是如果你想要自定义或者监听错误, 你可以覆盖默认的错误处理.  在`initNet`或者`NetConfig.errorHandler`函数里面自定义全局错误处理
+
+## NetErrorHandler
 
 |场景|处理函数|处理方式|
 |-|-|-|
@@ -14,13 +16,15 @@ Net具备完善的全局错误处理机制 <br>
 ```kotlin
 initNet("http://localhost:80/") {
 
-    onError {
-        // this 即异常对象
-    }
+    setErrorHandler(object : NetErrorHandler() {
+        override fun onError(e: Throwable) {
+            super.onError(e)
+        }
 
-    onStateError {
-        // this 即异常对象
-    }
+        override fun onStateError(e: Throwable, view: View) {
+            super.onStateError(e, view)
+        }
+    })
 }
 ```
 
@@ -45,7 +49,7 @@ scopeNetLife {
 
 catch里面的`it`属于异常对象, 这里列举可能存在的异常
 
-`scope/scopeLife`不会触发任何全局错误`onError/onStateError`, 请使用单例错误处理方式`catch`, 因为`scope`用于处理异步任务,不应当用于网络请求
+`scope/scopeLife`不会触发任何全局错误NetErrorHandler, 请使用单例错误处理方式`catch`, 因为`scope`用于处理异步任务,不应当用于网络请求
 
 
 

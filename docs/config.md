@@ -45,8 +45,7 @@
 | setHost | 全局域名, 和initNet("Host")函数中的第一个参数等效 |
 | setConverter | [转换器](converter.md), 将网络返回的数据转换成你想要的数据结构 |
 | setRequestInterceptor | [请求拦截器](interceptor.md), 用于添加全局请求头/参数 |
-| onError | [全局错误处理](error-handle.md) |
-| onStateError | [全局缺省页错误处理](error-handle.md) |
+| setErrorHandler | [全局错误处理](error-handle.md) |
 | onDialog | [全局对话框](auto-dialog.md) |
 
 ## 动态配置
