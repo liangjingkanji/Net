@@ -20,7 +20,7 @@ apply plugin: "kotlin-kapt"
 apply plugin: 'org.jetbrains.dokka'
 
 apply plugin: "com.github.dcendents.android-maven"
-group = "com.gitlab.liangjingkanji"
+group = "com.github.liangjingkanji"
 
 android {
     compileSdkVersion 30
