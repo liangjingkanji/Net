@@ -16,38 +16,29 @@
 
 package com.drake.net.request
 
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 
+object MediaConst {
 
-val MediaType.Companion.IMG: MediaType
-    get() = "image/*".toMediaType()
+    val IMG = "image/*".toMediaType()
 
-val MediaType.Companion.GIF: MediaType
-    get() = "image/gif".toMediaType()
+    val GIF = "image/gif".toMediaType()
 
-val MediaType.Companion.JPEG: MediaType
-    get() = "image/jpeg".toMediaType()
+    val JPEG = "image/jpeg".toMediaType()
 
-val MediaType.Companion.PNG: MediaType
-    get() = "image/png".toMediaType()
+    val PNG = "image/png".toMediaType()
 
-val MediaType.Companion.MP4: MediaType
-    get() = "video/mpeg".toMediaType()
+    val MP4 = "video/mpeg".toMediaType()
 
-val MediaType.Companion.TXT: MediaType
-    get() = "text/plain".toMediaType()
+    val TXT = "text/plain".toMediaType()
 
-val MediaType.Companion.JSON: MediaType
-    get() = "application/json; charset=utf-8".toMediaType()
+    val JSON = "application/json; charset=utf-8".toMediaType()
 
-val MediaType.Companion.XML: MediaType
-    get() = "application/xml".toMediaType()
+    val XML = "application/xml".toMediaType()
 
-val MediaType.Companion.HTML: MediaType
-    get() = "text/html".toMediaType()
+    val HTML = "text/html".toMediaType()
 
-val MediaType.Companion.FORM: MediaType
-    get() = "multipart/form-data".toMediaType()
+    val FORM = "multipart/form-data".toMediaType()
 
-val MediaType.Companion.URLENCODED: MediaType
-    get() = "application/x-www-form-urlencoded".toMediaType()
+    val URLENCODED = "application/x-www-form-urlencoded".toMediaType()
+}

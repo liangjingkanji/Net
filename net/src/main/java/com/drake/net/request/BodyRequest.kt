@@ -34,7 +34,7 @@ open class BodyRequest : BaseRequest() {
     open var body: RequestBody? = null
     open var partBody: MultipartBody.Builder by lazyField { MultipartBody.Builder() }
     open var formBody: FormBody.Builder by lazyField { FormBody.Builder() }
-    open var mediaType: MediaType = MediaType.FORM
+    open var mediaType: MediaType = MediaConst.FORM
     override var method = Method.POST
 
     //<editor-fold desc="Param">
@@ -90,23 +90,23 @@ open class BodyRequest : BaseRequest() {
 
     //<editor-fold desc="JSON">
     fun json(body: JSONObject?) {
-        this.body = body?.toString()?.toRequestBody(MediaType.JSON)
+        this.body = body?.toString()?.toRequestBody(MediaConst.JSON)
     }
 
     fun json(body: JSONArray?) {
-        this.body = body?.toString()?.toRequestBody(MediaType.JSON)
+        this.body = body?.toString()?.toRequestBody(MediaConst.JSON)
     }
 
     fun json(body: String?) {
-        this.body = body?.toRequestBody(MediaType.JSON)
+        this.body = body?.toRequestBody(MediaConst.JSON)
     }
 
     fun json(body: Map<String, Any?>?) {
-        this.body = JSONObject(body ?: return).toString().toRequestBody(MediaType.JSON)
+        this.body = JSONObject(body ?: return).toString().toRequestBody(MediaConst.JSON)
     }
 
     fun json(vararg body: Pair<String, Any?>) {
-        this.body = JSONObject(body.toMap()).toString().toRequestBody(MediaType.JSON)
+        this.body = JSONObject(body.toMap()).toString().toRequestBody(MediaConst.JSON)
     }
     //</editor-fold>
 
