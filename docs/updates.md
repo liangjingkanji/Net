@@ -1,3 +1,7 @@
+## 3.0.4
+1. 添加MediaConst表示常用MediaType
+2. OkHttpBuilder添加`setErrorHandler`取代onError/onStateError: [全局错误处理](error-handle.md)
+
 ## 3.0.3
 1. 添加`onResult`函数来执行队列请求: [队列请求](../enqueue-request/#-result)
 2. 添加`toResult`函数来执行同步请求: [同步请求](../sync-request/)
