@@ -1,7 +1,6 @@
-从Net3开始支持使用[kotlin-serialization](https://github.com/Kotlin/kotlinx.serialization)(简称KS). 可以指定任何类泛型解析成任何数据结构返回,
-比如直接返回List/Map/Pair...
-<br>
+从Net3开始支持使用[kotlin-serialization](https://github.com/Kotlin/kotlinx.serialization)(简称KS). 我愿称他为最强序列化库
 
+<br>
 **Net是目前唯一支持kotlin-serialization转换器的网络请求库**
 
 ## kotlin-serialization 特点
@@ -9,9 +8,12 @@
 1. kotlin官方出品, 推荐使用
 2. kotlinx.serialization 是Kotlin上是最完美的序列化工具
 3. 相对其他解析库他解决泛型擦除机制, 支持任何泛型, 可直接返回Map/List/Pair...
-4. 多配置选项
+4. 配置选项多
 5. 支持动态解析
-6. 支持ProtoBuf/CBOR/JSON等数据序列化
+6. 自定义序列化器
+7. 支持ProtoBuf/CBOR/JSON等其他数据结构序列化
+8. 可以配置成后端如果返回null则使用数据模型字段的默认值(非空覆盖)
+9. 启用宽松模式, 允许配置成后端和前端数据模型字段是否严苛匹配对应
 
 
 ## 配置转换器

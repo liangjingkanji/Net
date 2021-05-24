@@ -41,15 +41,56 @@ Demo截图预览
 
 === "Kotlin-Serialization"
 
-    [Kotlin-Serialization GitHub](https://github.com/Kotlin/kotlinx.serialization)
+    ```kotlin
+    class SerializationConverter(
+        val success: String = "0",
+        val code: String = "code",
+        val message: String = "msg"
+    ) : NetConverter {
 
-    由于代码量比较重可以查看源码或者Demo: [SerializationConverter](https://github.com/liangjingkanji/Net/blob/master/sample/src/main/java/com/drake/net/sample/converter/SerializationConverter.kt)
+        private val jsonDecoder = Json {
+            ignoreUnknownKeys = true // JSON和数据模型字段可以不匹配
+            coerceInputValues = true // 如果JSON字段是Null则使用默认值
+        }
+
+        override fun <R> onConvert(succeed: Type, response: Response): R? {
+            try {
+                return NetConverter.DEFAULT.onConvert<R>(succeed, response)
+            } catch (e: ConvertException) {
+
+                val code = response.code
+                when {
+                    code in 200..299 -> { // 请求成功
+                        val body = response.body?.string() ?: return null
+                        if (succeed === String::class.java) return body as R
+                        val jsonObject = JSONObject(body) // 获取JSON中后端定义的错误码和错误信息
+                        if (jsonObject.getString(this.code) == success) { // 对比后端自定义错误码
+                            return run {
+                                val kType = response.request.kType() ?: return null
+                                try {
+                                    jsonDecoder.decodeFromString(Json.serializersModule.serializer(kType), jsonObject.getString("data")) as R
+                                } catch (e: SerializationException) {
+                                    throw ConvertException(response, cause = e)
+                                }
+                            }
+                        } else { // 错误码匹配失败, 开始写入错误异常
+                            throw ResponseException(response, jsonObject.optString(message, NetConfig.app.getString(com.drake.net.R.string.no_error_message)))
+                        }
+                    }
+                    code in 400..499 -> throw RequestParamsException(response) // 请求参数错误
+                    code >= 500 -> throw ServerResponseException(response) // 服务器异常错误
+                    else -> throw ConvertException(response)
+                }
+            }
+        }
+    }
+    ```
 
     SerializationConverter和JSONConverter代码差不多
+    [Kotlin-Serialization](https://github.com/Kotlin/kotlinx.serialization)
 
 === "Gson"
 
-    [GSON  GitHub](https://github.com/google/gson)
     ```kotlin
     class GsonConvert : JSONConvert(code = "code", message = "msg", success = "200") {
         val gson = GsonBuilder().serializeNulls().create()
@@ -59,9 +100,10 @@ Demo截图预览
         }
     }
     ```
+    [GSON](https://github.com/google/gson)
+
 === "Moshi"
 
-    [Moshi GitHub](https://github.com/square/moshi)
     ```kotlin
     class MoshiConvert : JSONConvert(code = "code", message = "msg", success = "200") {
         val moshi = Moshi.Builder().build()
@@ -71,9 +113,9 @@ Demo截图预览
         }
     }
     ```
-=== "FastJson"
+    [Moshi](https://github.com/square/moshi)
 
-    [FastJson GitHub](https://github.com/alibaba/fastjson)
+=== "FastJson"
 
     ```kotlin
     class FastJsonConvert : JSONConvert(code = "code", message = "msg", success = "200") {
@@ -83,10 +125,11 @@ Demo截图预览
         }
     }
     ```
+    [FastJson](https://github.com/alibaba/fastjson)
 
-1. 使用对应转换器添加对应依赖
+1. 使用转换器时请添加其依赖
 2. 推荐使用 `kotlinx.Serialization`, 其可解析[任何泛型](kotlin-serialization.md)
-3. 请阅读Demo源码
+3. 推荐阅读Demo
 
 | 转换器参数 | 描述 |
 |-|-|
@@ -94,9 +137,7 @@ Demo截图预览
 | message | 即后端定义的`错误消息`字段名 |
 | success | 即`成功码`的值等于指定时才算网络请求成功 |
 
-<br>
-> 注意解析器(Gson或者Moshi)的对象记得定义为类成员, 这样可以不会导致每次解析都要创建一个新的对象, 减少内存消耗
-
+> 注意解析器(Gson或者Moshi)的解析对象记得定义为类成员, 这样可以不会导致每次解析都要创建一个新的解析对象, 减少内存消耗
 <br>
 
 ## 设置转换器
@@ -189,12 +230,14 @@ abstract class JSONConvert(
 
 JSONConvert的核心逻辑
 
-1. 判断服务器错误码
-1. 判断后端自定义错误码
-1. 如果判断错误则创建一个包含错误信息的异常
-1. 如果都判断成功则开始解析数据
+1. 判断服务器的错误码
+1. 判断后端自定义的错误码
+1. 如果判断发生错误则抛出一个包含错误信息的异常
+1. 如果都判断成功则开始解析数据并return数据对象
 
-根据需要你可以在这里加上常见的日志打印, 解密数据, 跳转登录界面等逻辑
+在转换器中根据需要你可以在这里加上常见的解密数据, token失效跳转登录, 限制多端登录等逻辑. 日志信息输出请阅读: [日志记录器](log-recorder.md)
+
+如果是错误信息建议抛出异常, 就可以在全局异常处理器中统一处理, 请阅读:[全局错误处理](error-handle.md)
 
 <br>
 
