@@ -92,7 +92,7 @@ implementation "com.squareup.okhttp3:okhttp:4.9.1"
 implementation 'com.github.liangjingkanji:Net:3.0.4'
 
 // 支持自动下拉刷新和缺省页的(可选)
-implementation 'com.github.liangjingkanji:BRV:1.3.19'
+implementation 'com.github.liangjingkanji:BRV:1.3.20'
 ```
 如果你是在 Android 4.4 (API level 19)上开发请使用: [Net-okhttp3](https://github.com/liangjingkanji/Net-okhttp3)
 <br>
