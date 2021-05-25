@@ -1,6 +1,14 @@
 Net属于低耦合框架, 自动下拉刷新需要依赖第三方组件: [BRV](https://github.com/liangjingkanji/BRV)(点击链接按文档依赖)
 <br>
 
+<a href="https://jitpack.io/#liangjingkanji/BRV"><img src="https://jitpack.io/v/liangjingkanji/BRV.svg"/></a>
+
+使用固定版本号替换+符号
+
+```groovy
+implementation 'com.github.liangjingkanji:BRV:+'
+```
+
 > 当然如果自己处理下拉刷新也是可以的, Net可以仅仅作为网络框架存在
 
 创建PageRefreshLayout

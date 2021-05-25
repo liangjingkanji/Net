@@ -1,7 +1,19 @@
 考虑到低耦合, 所以自定义缺省页需要导入第三方组件依赖(点击链接按照文档依赖), 当然如果你使用其他方式处理缺省页可以跳过本章.
 
-1. 依赖 [StateLayout](https://github.com/liangjingkanji/StateLayout)
-1. 依赖 [BRV](https://github.com/liangjingkanji/BRV) (因为BRV包含StateLayout, 同时BRV支持Net自动下拉刷新/分页加载)
+依赖以下两种库其中之一即可支持自动显示缺省页
+
+1. 依赖 [StateLayout](https://github.com/liangjingkanji/StateLayout) <br>
+    <a href="https://jitpack.io/#liangjingkanji/StateLayout"><img src="https://jitpack.io/v/liangjingkanji/StateLayout.svg"/></a><br>
+    使用固定版本号替换+符号
+    ```groovy
+    implementation 'com.github.liangjingkanji:StateLayout:+'
+    ```
+1. 依赖 [BRV](https://github.com/liangjingkanji/BRV) (因为BRV包含StateLayout) <br>
+    <a href="https://jitpack.io/#liangjingkanji/BRV"><img src="https://jitpack.io/v/liangjingkanji/BRV.svg"/></a><br>
+    使用固定版本号替换+符号
+    ```groovy
+    implementation 'com.github.liangjingkanji:BRV:+'
+    ```
 
 
 <br>
