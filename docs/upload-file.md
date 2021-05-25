@@ -2,7 +2,7 @@
 
 ```kotlin
 scopeNetLife {
-    Post<String>("upload", requireContext().cacheDir.path) {
+    Post<String>("upload") {
         file("fileName", assetsFile())
     }.await()
 }
