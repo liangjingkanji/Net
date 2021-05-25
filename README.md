@@ -27,7 +27,7 @@ Android上不是最强网络任务库, 基于OkHttp且完美支持其所有函�
 
 Net 1.x 版本为RxJava实现 <br>
 [Net 2.x](https://github.com/liangjingkanji/Net/tree/2.x) 版本为协程实现(开发者无需掌握协程也可以使用) <br>
-Net 3.x 版本为OkHttp4.x实现
+Net 3.x 版本为OkHttp实现, 不限定OkHttp版本
 
 <br>
 <p align="center"><strong>欢迎贡献代码/问题</strong></p>
@@ -88,14 +88,13 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 
 // OkHttp(版本可自定)
 implementation "com.squareup.okhttp3:okhttp:4.9.1"
-
 // Net
 implementation 'com.github.liangjingkanji:Net:3.0.4'
 
 // 支持自动下拉刷新和缺省页的(可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.19'
 ```
-
+如果你是在 Android 4.4 (API level 19)上开发请使用: [Net-okhttp3](https://github.com/liangjingkanji/Net-okhttp3)
 <br>
 
 ## Contribute

@@ -1,6 +1,7 @@
 ## 3.0.4
 1. 添加MediaConst表示常用MediaType
 2. OkHttpBuilder添加`setErrorHandler`取代onError/onStateError: [全局错误处理](error-handle.md)
+3. 提供兼容Android4.4(API level 19)的版本: [Net-okhttp3](https://github.com/liangjingkanji/Net-okhttp3)
 
 ## 3.0.3
 1. 添加`onResult`函数来执行队列请求: [队列请求](../enqueue-request/#-result)
