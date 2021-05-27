@@ -3,7 +3,7 @@
 ```kotlin
 scopeNetLife {
     Post<String>("upload") {
-        file("fileName", assetsFile())
+        param("fileName", assetsFile())
     }.await()
 }
 ```
