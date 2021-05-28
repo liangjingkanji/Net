@@ -1,3 +1,7 @@
+## 3.0.5
+1. 修复Path编码问
+2. 上传File自动识别MediaType
+
 ## 3.0.4
 1. 添加MediaConst表示常用MediaType
 2. OkHttpBuilder添加`setErrorHandler`取代onError/onStateError: [全局错误处理](error-handle.md)
