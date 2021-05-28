@@ -77,22 +77,19 @@ abstract class BaseRequest {
     }
 
     /**
+     * 解析配置Path, 支持识别query参数和绝对路径
      * @param path 如果其不包含http/https则会自动拼接[NetConfig.host]
-     * @param encoded 是否已经进行过URLEncoder编码
      */
-    fun setPath(path: String, encoded: Boolean = false) {
-        val httpUrlTemp = path.toHttpUrlOrNull()
-        if (httpUrlTemp == null) {
+    fun setPath(path: String?) {
+        val url = path?.toHttpUrlOrNull()
+        if (url == null) {
             try {
-                httpUrl = NetConfig.host.toHttpUrl().newBuilder()
+                httpUrl = (NetConfig.host + path).toHttpUrl().newBuilder()
             } catch (e: Throwable) {
                 throw URLParseException(NetConfig.host.ifEmpty { "NetConfig.host is empty" }, e)
             }
-            if (encoded) {
-                httpUrl.addEncodedPathSegments(path)
-            } else httpUrl.addPathSegments(path)
         } else {
-            this.httpUrl = httpUrlTemp.newBuilder()
+            this.httpUrl = url.newBuilder()
         }
     }
 
