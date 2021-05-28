@@ -47,6 +47,7 @@ android {
 
     dokkaHtml {
         outputDirectory.set(file("$rootDir/docs/api"))
+        suppressInheritedMembers.set(true)
         moduleName.set("Net")
     }
 }
