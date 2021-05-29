@@ -75,52 +75,15 @@ scopeNetLife {
 Net支持RestFul设计风格
 
 ```kotlin
-private fun GET() {
-    scopeNetLife {
-        tv_fragment.text = Get<String>("http://www.baidu.com/").await()
-    }
-}
-
-private fun POST() {
-    scopeNetLife {
-        tv_fragment.text = Post<String>("http://www.baidu.com/").await()
-    }
-}
-
-private fun HEAD() {
-    scopeNetLife {
-        tv_fragment.text = Head<String>("http://www.baidu.com/").await()
-    }
-}
-
-private fun PUT() {
-    scopeNetLife {
-        tv_fragment.text = Put<String>("http://www.baidu.com/").await()
-    }
-}
-
-private fun PATCH() {
-    scopeNetLife {
-        tv_fragment.text = Patch<String>("http://www.baidu.com/").await()
-    }
-}
-
-private fun DELETE() {
-    scopeNetLife {
-        tv_fragment.text = Delete<String>("http://www.baidu.com/").await()
-    }
-}
-
-private fun TRACE() {
-    scopeNetLife {
-        tv_fragment.text = Trace<String>("http://www.baidu.com/").await()
-    }
-}
-
-private fun OPTIONS() {
-    scopeNetLife {
-        tv_fragment.text = Options<String>("http://www.baidu.com/").await()
-    }
+scopeNetLife {
+    tv_fragment.text = Get<String>("http://www.baidu.com/").await()
+    tv_fragment.text = Post<String>("http://www.baidu.com/").await()
+    tv_fragment.text = Head<String>("http://www.baidu.com/").await()
+    tv_fragment.text = Put<String>("http://www.baidu.com/").await()
+    tv_fragment.text = Patch<String>("http://www.baidu.com/").await()
+    tv_fragment.text = Delete<String>("http://www.baidu.com/").await()
+    tv_fragment.text = Trace<String>("http://www.baidu.com/").await()
+    tv_fragment.text = Options<String>("http://www.baidu.com/").await()
 }
 ```
 
