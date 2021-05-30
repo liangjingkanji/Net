@@ -187,7 +187,7 @@ val DEFAULT = object : NetConverter {
 
 框架中自带一个`JSONConverter`可以作为参考或者直接使用. 其可以转换JSON数据.
 
-??? quote "JSONConverter 源码"
+??? summary "JSONConverter 源码"
     ```kotlin
     abstract class JSONConvert(
         val success: String = "0",

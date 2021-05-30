@@ -251,3 +251,31 @@ h2:after {
 .md-ellipsis {
     font-weight: bolder;
 }
+
+/*折叠块*/
+/*标题展开状态*/
+.md-typeset .admonition-title, .md-typeset summary {
+    border-left: none;
+    margin: 0;
+}
+/*标题背景*/
+.md-typeset .abstract>.admonition-title, .md-typeset .abstract>summary, .md-typeset .summary>.admonition-title, .md-typeset .summary>summary, .md-typeset .tldr>.admonition-title, .md-typeset .tldr>summary {
+    background-color: #f2f2f2;
+    border: 1px solid #dfe2e5;
+    font-weight: bold;
+}
+/*内容展开状态*/
+.md-typeset .admonition, .md-typeset details {
+    border-left: none;
+    box-shadow: none;
+    padding: 0;
+}
+/*标题栏左侧图标*/
+.md-typeset .abstract>.admonition-title:before, .md-typeset .abstract>summary:before, .md-typeset .summary>.admonition-title:before, .md-typeset .summary>summary:before, .md-typeset .tldr>.admonition-title:before, .md-typeset .tldr>summary:before {
+    background-color: var(--md-admonition-fg-color);
+    top: .5rem;
+}
+/*箭头图标*/
+.md-typeset summary:after {
+    top: .5rem;
+}
