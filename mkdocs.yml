@@ -49,7 +49,7 @@ nav:
   - Https证书: https.md
   - 自定义转换器:
       - 创建转换器: converter.md
-      - 任何泛型: kotlin-serialization.md
+      - 解析任何泛型: kotlin-serialization.md
       - 转换Data字段: convert-data-field.md
       - 转换JSON数组: convert-json-array.md
   - 异常追踪: exception-track.md
