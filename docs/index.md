@@ -93,11 +93,11 @@ scopeNetLife {
 
 |请求函数|描述|
 |-|-|
-| [Get](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-get.md)|标准Http请求方法|
-| [Post](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-post.md)|标准Http请求方法|
-| [Head](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-head.md)|标准Http请求方法|
-| [Options](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-options.md)|标准Http请求方法|
-| [Trace](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-trace.md)|标准Http请求方法|
-| [Delete](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-delete.md)|标准Http请求方法|
-| [Put](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-put.md)|标准Http请求方法|
-| [Patch](api/net/com.drake.net/kotlinx.coroutines.-coroutine-scope/-patch.md)|标准Http请求方法|
+| [Get](api/-net/com.drake.net/-get.html)|标准Http请求方法|
+| [Post](api/-net/com.drake.net/-post.html)|标准Http请求方法|
+| [Head](api/-net/com.drake.net/-head.html)|标准Http请求方法|
+| [Options](api/-net/com.drake.net/-options.html)|标准Http请求方法|
+| [Trace](api/-net/com.drake.net/-trace.html)|标准Http请求方法|
+| [Delete](api/-net/com.drake.net/-delete.html)|标准Http请求方法|
+| [Put](api/-net/com.drake.net/-put.html)|标准Http请求方法|
+| [Patch](api/-net/com.drake.net/-patch.html)|标准Http请求方法|

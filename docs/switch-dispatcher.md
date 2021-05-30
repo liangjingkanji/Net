@@ -8,9 +8,9 @@
 
 |函数|描述|
 |-|-|
-|[withMain](api/net/com.drake.net.utils/with-main.md)|切换到主线程调度器|
-|[withIO](api/net/com.drake.net.utils/with-i-o.md)|切换到IO线程调度器|
-|[withDefault](api/net/com.drake.net.utils/with-default.md)|切换到默认线程调度器|
-|[withUnconfined](api/net/com.drake.net.utils/with-unconfined.md)|切换到无限制调度器|
+|[withMain](api/-net/com.drake.net/with-main.html)|切换到主线程调度器|
+|[withIO](api/-net/com.drake.net/with-i-o.html)|切换到IO线程调度器|
+|[withDefault](api/-net/com.drake.net/with-default.html)|切换到默认线程调度器|
+|[withUnconfined](api/-net/com.drake.net/with-unconfined.html)|切换到无限制调度器|
 |launch|无返回值的协程挂起函数|
 |async|有返回值的协程挂起函数, 通过`await()`返回值|

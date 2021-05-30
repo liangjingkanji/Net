@@ -50,7 +50,7 @@
 
 ## 动态配置
 
-单例[NetConfig](api/net/com.drake.net/-net-config/index.md)存储了初始化时的配置, 可以后期动态读写.
+单例[NetConfig](api/-net/com.drake.net/-net-config/index.html)存储了初始化时的配置, 可以后期动态读写.
 
 例如Retrofit的动态`BaseURL`功能就可以直接修改`NetConfig.host`
 

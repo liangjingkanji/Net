@@ -45,7 +45,7 @@ scopeNetLife {
 
 ## 类型不一致
 
-假设并发的接口返回的数据类型不同  或者 想要监听最快请求返回的结果回调请使用[transform](api/net/com.drake.net.utils/kotlinx.coroutines.-coroutine-scope/fastest.md)函数
+假设并发的接口返回的数据类型不同  或者想要监听最快请求返回的结果回调请使用`transform`函数
 
 ```kotlin
 scopeNetLife {
