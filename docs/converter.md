@@ -187,46 +187,46 @@ val DEFAULT = object : NetConverter {
 
 框架中自带一个`JSONConverter`可以作为参考或者直接使用. 其可以转换JSON数据.
 
-源码如下
-```kotlin
-abstract class JSONConvert(
-    val success: String = "0",
-    val code: String = "code",
-    val message: String = "msg"
-) : NetConverter {
+??? quote "JSONConverter 源码"
+    ```kotlin
+    abstract class JSONConvert(
+        val success: String = "0",
+        val code: String = "code",
+        val message: String = "msg"
+    ) : NetConverter {
 
-    override fun <R> onConvert(succeed: Type, response: Response): R? {
-        try {
-            return NetConverter.DEFAULT.onConvert<R>(succeed, response)
-        } catch (e: ConvertException) {
-            val body = response.body?.string() ?: return null
-            val code = response.code
-            when {
-                code in 200..299 -> { // 请求成功
-                    if (succeed === String::class.java) return body as R
-                    val jsonObject = JSONObject(body) // 获取JSON中后端定义的错误码和错误信息
-                    if (jsonObject.getString(this.code) == success) { // 对比后端自定义错误码
-                        return body.parseBody(succeed)
-                    } else { // 错误码匹配失败, 开始写入错误异常
-                        throw ResponseException(response, jsonObject.getString(message))
+        override fun <R> onConvert(succeed: Type, response: Response): R? {
+            try {
+                return NetConverter.DEFAULT.onConvert<R>(succeed, response)
+            } catch (e: ConvertException) {
+                val body = response.body?.string() ?: return null
+                val code = response.code
+                when {
+                    code in 200..299 -> { // 请求成功
+                        if (succeed === String::class.java) return body as R
+                        val jsonObject = JSONObject(body) // 获取JSON中后端定义的错误码和错误信息
+                        if (jsonObject.getString(this.code) == success) { // 对比后端自定义错误码
+                            return body.parseBody(succeed)
+                        } else { // 错误码匹配失败, 开始写入错误异常
+                            throw ResponseException(response, jsonObject.getString(message))
+                        }
                     }
+                    code in 400..499 -> throw RequestParamsException(response) // 请求参数错误
+                    code >= 500 -> throw ServerResponseException(response) // 服务器异常错误
+                    else -> throw ConvertException(response)
                 }
-                code in 400..499 -> throw RequestParamsException(response) // 请求参数错误
-                code >= 500 -> throw ServerResponseException(response) // 服务器异常错误
-                else -> throw ConvertException(response)
             }
         }
-    }
 
-    /**
-     * 反序列化JSON
-     *
-     * @param succeed JSON对象的类型
-     * @receiver 原始字符串
-     */
-    abstract fun <S> String.parseBody(succeed: Type): S?
-}
-```
+        /**
+         * 反序列化JSON
+         *
+         * @param succeed JSON对象的类型
+         * @receiver 原始字符串
+         */
+        abstract fun <S> String.parseBody(succeed: Type): S?
+    }
+    ```
 
 JSONConvert的核心逻辑
 
