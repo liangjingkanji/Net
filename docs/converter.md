@@ -1,11 +1,11 @@
 网络请求响应被封装到Response对象中, 普通接口我们需要读取映射到数据模型对象中
 
-Net使用泛型指定返回数据类型
+Net使用泛型指定返回数据类型, 支持List等嵌套泛型对象
 
 ```kotlin
 scopeNetLife {
-    val userList = Get<List<UserModel>>("list-data") {
-        converter = SerializationConverter()
+    val userList = Get<List<UserModel>>("list") {
+        converter = GsonConverter()
     }.await()
 }
 ```
@@ -130,6 +130,8 @@ Demo截图预览
 1. 使用转换器时请添加其依赖
 2. 推荐使用 `kotlinx.Serialization`, 其可解析[任何泛型](kotlin-serialization.md)
 3. 推荐阅读Demo
+
+以上转换器示例是建立在数据结构为以下表格的固定格式下, 如果有特殊的业务可能需要自行修改
 
 | 转换器参数 | 描述 |
 |-|-|

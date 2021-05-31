@@ -1,7 +1,7 @@
 从Net3开始支持使用[kotlin-serialization](https://github.com/Kotlin/kotlinx.serialization)(简称KS). 我愿称他为最强序列化库
 
 <br>
-**Net是目前唯一支持kotlin-serialization转换器的网络请求库**
+**Net完美支持kotlin-serialization创建转换器**
 
 ## kotlin-serialization 特点
 

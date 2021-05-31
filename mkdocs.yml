@@ -49,9 +49,8 @@ nav:
   - Https证书: https.md
   - 自定义转换器:
       - 创建转换器: converter.md
-      - 解析任何泛型: kotlin-serialization.md
-      - 转换Data字段: convert-data-field.md
-      - 转换JSON数组: convert-json-array.md
+      - 特殊结构解析: convert-special.md
+      - kotlin-serialization: kotlin-serialization.md
   - 异常追踪: exception-track.md
   - 自动化:
       - 自动加载框: auto-dialog.md

@@ -1,5 +1,5 @@
 
-## 具备状态码的JSON
+## 解析完整Json
 
 一般的解析过程是以下
 
@@ -37,7 +37,7 @@ scopeNetLife {
 }
 ```
 
-## 摘取Data字段
+## 仅解析数据字段
 
 这样每次都要`await().data`才是你要的`data`对象. 有些人就想省略直接不写code和msg, 希望直接返回data. 那么在转换器里面就只解析data字段即可
 
@@ -68,7 +68,19 @@ scopeNetLife {
 }
 ```
 
-## 使用泛型数据对象
+## 解析Json数组
+
+在Net中可以直接解析List等嵌套泛型数据, 解析List和普通对象没有区别
+
+```kotlin
+scopeNetLife {
+    tv_fragment.text = Get<List<UserModel>>("list") {
+        converter = GsonConverter() // 单例转换器, 一般情况下是定义一个全局转换器
+    }.await()[0].name
+}
+```
+
+## 解析泛型数据模型
 
 这种方式在Retrofit中经常被使用到, 可能某些人比较习惯
 
@@ -92,6 +104,3 @@ scopeNetLife {
     val data = Get<Result>("api").await().request_method
 }
 ```
-
-> 但这种方式比较愚钝冗余, 推荐使用[kotlin-serialization 解析任何泛型](kotlin-serialization.md)
-
