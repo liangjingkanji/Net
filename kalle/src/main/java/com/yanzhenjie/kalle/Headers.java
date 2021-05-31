@@ -109,7 +109,7 @@ public class Headers extends ListMap<String, String> {
         for (String word : words) {
             String first = word.substring(0, 1);
             String end = word.substring(1);
-            builder.append(first.toUpperCase(Locale.ENGLISH)).append(end).append("-");
+            builder.append(first).append(end).append("-");
         }
         if (builder.length() > 0) {
             builder.deleteCharAt(builder.lastIndexOf("-"));
