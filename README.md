@@ -25,13 +25,12 @@ Android上不是最强网络任务库, 基于OkHttp且完美支持其所有函�
 
 <br>
 
-Net 1.x 版本为RxJava实现 <br>
+[Net 1.x](https://github.com/liangjingkanji/Net/tree/1.x) 版本为RxJava实现 <br>
 [Net 2.x](https://github.com/liangjingkanji/Net/tree/2.x) 版本为协程实现(开发者无需掌握协程也可以使用) <br>
 Net 3.x 版本为OkHttp实现, 不限定OkHttp版本
 
 <br>
 <p align="center"><strong>欢迎贡献代码/问题</strong></p>
-
 <br>
 
 主要功能
