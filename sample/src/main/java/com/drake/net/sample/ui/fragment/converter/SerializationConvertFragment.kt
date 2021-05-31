@@ -32,7 +32,7 @@ class SerializationConvertFragment : BaseConvertFragment(R.layout.fragment_custo
         tv_convert_tip.text = """
             1. kotlin官方出品, 推荐使用 
             2. kotlinx.serialization 是Kotlin上是最完美的序列化工具 
-            3. 相对其他解析库他解决泛型擦除机制, 支持任何泛型, 可直接返回Map/List/Pair...
+            3. 支持多种反序列化数据类型Pair/枚举/Map...
             4. 多配置选项
             5. 支持动态解析
             6. 支持ProtoBuf/CBOR/JSON等数据
