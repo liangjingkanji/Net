@@ -1,5 +1,8 @@
+## 3.0.6
+1. 所有Json解析框架都可以解析`List<UserModel>`等嵌套泛型数据结构: [特殊结构解析](convert-special.md)
+
 ## 3.0.5
-1. 修复Path编码问
+1. 修复Path编码问题
 2. 上传File自动识别MediaType
 
 ## 3.0.4
