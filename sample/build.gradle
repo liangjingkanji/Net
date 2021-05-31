@@ -31,10 +31,19 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        signed {
+            storeFile file("../signed")
+            storePassword "s73dfyUxkjuq"
+            keyAlias "key0"
+            keyPassword "s73dfyUxkjuq"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.signed
         }
     }
 
