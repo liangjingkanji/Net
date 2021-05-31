@@ -92,14 +92,14 @@ scopeNetLife { // 创建作用域
 
     scopeNetLife {
         tv_fragment.text = Post<String>("api") {
-            body(MyJsonBody(name, age, measurements))
+            body = MyJsonBody(name, age, measurements)
         }.await()
     }
     ```
 
 对于某些可能JSON请求参数存在固定值:
 
-1. 可以考虑继承RequestBody来扩展出自己的新的Body(), 然后使用`param`函数传入请求中.
+1. 可以考虑继承RequestBody来扩展出自己的新的Body对象, 然后赋值给`body`字段
 2. 添加请求拦截器[RequestInterceptor](/interceptor/#_1)
 
 
