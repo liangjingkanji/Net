@@ -22,6 +22,7 @@ import com.drake.net.convert.NetConverter
 import com.drake.net.exception.URLParseException
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.okhttp.toNetOkhttp
+import com.drake.net.reflect.typeTokenOf
 import com.drake.net.tag.NetLabel
 import com.drake.net.utils.runMain
 import okhttp3.*
@@ -289,7 +290,7 @@ abstract class BaseRequest {
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
         return newCall.execute().use {
-            converter.onConvert<R>(R::class.java, it) as R
+            converter.onConvert<R>(typeTokenOf<R>(), it) as R
         }
     }
 
@@ -304,7 +305,7 @@ abstract class BaseRequest {
         val newCall = okHttpClient.newCall(request)
         return try {
             val value = newCall.execute().use {
-                converter.onConvert<R>(R::class.java, it) as R
+                converter.onConvert<R>(typeTokenOf<R>(), it) as R
             }
             Result.success(value)
         } catch (e: Exception) {
@@ -337,7 +338,7 @@ abstract class BaseRequest {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val result = converter.onConvert<R>(R::class.java, response) as R
+                val result = converter.onConvert<R>(typeTokenOf<R>(), response) as R
                 runMain { block(Result.success(result)) }
             }
         })
