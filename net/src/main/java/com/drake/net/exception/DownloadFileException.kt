@@ -7,6 +7,6 @@ import okhttp3.Response
  */
 class DownloadFileException(
     response: Response,
-    info: String? = null,
+    message: String? = null,
     cause: Throwable? = null
-) : NetException(response.request, info, cause)
+) : NetException(response.request, message, cause)

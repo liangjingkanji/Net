@@ -24,15 +24,15 @@ import java.io.IOException
  * Net网络异常
  *
  * @param request 请求信息
- * @param info 异常信息
+ * @param message 异常信息
  */
 open class NetException(
     val request: Request,
-    val info: String? = null,
+    message: String? = null,
     cause: Throwable? = null
-) : IOException(cause) {
+) : IOException(message, cause) {
 
     override fun getLocalizedMessage(): String? {
-        return info?.let { "$it [${request.url}]" } ?: "[${request.url}]"
+        return if (message == null) "$message (${request.url})" else "(${request.url})"
     }
 }

@@ -4,6 +4,6 @@ import okhttp3.Request
 
 class NetSocketTimeoutException(
     request: Request,
-    info: String? = null,
+    message: String? = null,
     cause: Throwable? = null
-) : NetException(request, info, cause)
+) : NetException(request, message, cause)

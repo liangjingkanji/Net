@@ -24,8 +24,10 @@ import java.util.concurrent.CancellationException
 /**
  * 取消网络任务的异常
  */
-class NetCancellationException(coroutineScope: CoroutineScope, message: String? = null) :
-    CancellationException(message) {
+class NetCancellationException(
+    coroutineScope: CoroutineScope,
+    message: String? = null,
+) : CancellationException(message) {
     init {
         Net.cancelGroup(coroutineScope.coroutineContext[CoroutineExceptionHandler])
     }

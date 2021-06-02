@@ -186,6 +186,6 @@ fun Request.logString(byteCount: Long = 1024 * 1024): String? {
     return if (body is FormBody || mediaType.type == "text" || mediaType.subtype == "json") {
         body?.peekString(byteCount)
     } else {
-        "LogRecordInterceptor not support this type $mediaType"
+        "Not support this type $mediaType"
     }
 }

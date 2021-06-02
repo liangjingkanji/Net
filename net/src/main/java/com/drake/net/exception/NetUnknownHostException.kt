@@ -4,5 +4,6 @@ import okhttp3.Request
 
 class NetUnknownHostException(
     request: Request,
+    message: String? = null,
     cause: Throwable? = null
-) : NetException(request, cause = cause)
+) : NetException(request, message, cause)

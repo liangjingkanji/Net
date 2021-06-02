@@ -108,7 +108,7 @@ fun Response.file(): File? {
         if (request.downloadTempFile()) file.delete()
         throw CancellationException(e)
     } catch (e: Exception) {
-        throw DownloadFileException(this, "An exception occurred while download file", e)
+        throw DownloadFileException(this, cause = e)
     }
 }
 
@@ -121,6 +121,6 @@ fun Response.logString(byteCount: Long = 1024 * 1024 * 4): String? {
     return if (mediaType.subtype == "json" || mediaType.type == "text") {
         body?.peekString(byteCount)
     } else {
-        "LogRecordInterceptor not support this type $mediaType"
+        "Not support this type $mediaType"
     }
 }

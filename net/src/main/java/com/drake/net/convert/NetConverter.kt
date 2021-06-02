@@ -47,7 +47,7 @@ interface NetConverter {
                     ByteArray::class.java -> response.body?.bytes() as R
                     Response::class.java -> response as R
                     File::class.java -> response.file() as R
-                    else -> throw ConvertException(response, "The default converter does not support this type")
+                    else -> throw ConvertException(response, "An exception occurred while converting the NetConverter.DEFAULT")
                 }
             }
         }
