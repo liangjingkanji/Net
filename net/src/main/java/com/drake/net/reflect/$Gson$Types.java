@@ -41,7 +41,7 @@ import java.util.Properties;
  * @author Bob Lee
  * @author Jesse Wilson
  */
-final class $Gson$Types {
+public final class $Gson$Types {
     static final Type[] EMPTY_TYPE_ARRAY = new Type[]{};
 
     private $Gson$Types() {

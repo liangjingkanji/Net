@@ -44,9 +44,9 @@ import java.util.Map;
  * @author Jesse Wilson
  */
 public class TypeToken<T> {
-  final Class<? super T> rawType;
-  final Type type;
-  final int hashCode;
+  public final Class<? super T> rawType;
+  public final Type type;
+  public final int hashCode;
 
   /**
    * Constructs a new type literal. Derives represented class from type

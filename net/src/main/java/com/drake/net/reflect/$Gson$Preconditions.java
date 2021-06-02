@@ -29,7 +29,7 @@ package com.drake.net.reflect;
  * @author Inderjeet Singh
  * @author Joel Leitch
  */
-final class $Gson$Preconditions {
+public final class $Gson$Preconditions {
     private $Gson$Preconditions() {
         throw new UnsupportedOperationException();
     }
