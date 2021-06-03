@@ -19,10 +19,11 @@ package com.drake.net.request
 
 import com.drake.net.NetConfig
 import com.drake.net.convert.NetConverter
+import com.drake.net.exception.ConvertException
 import com.drake.net.exception.URLParseException
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.okhttp.toNetOkhttp
-import com.drake.net.reflect.typeTokenOf
+import com.drake.net.response.convert
 import com.drake.net.tag.NetLabel
 import com.drake.net.utils.runMain
 import okhttp3.*
@@ -289,9 +290,7 @@ abstract class BaseRequest {
         setKType<R>()
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
-        return newCall.execute().use {
-            converter.onConvert<R>(typeTokenOf<R>(), it) as R
-        }
+        return newCall.execute().convert(converter)
     }
 
     /**
@@ -304,9 +303,7 @@ abstract class BaseRequest {
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
         return try {
-            val value = newCall.execute().use {
-                converter.onConvert<R>(typeTokenOf<R>(), it) as R
-            }
+            val value = newCall.execute().convert<R>(converter)
             Result.success(value)
         } catch (e: Exception) {
             Result.failure(e)
@@ -338,8 +335,12 @@ abstract class BaseRequest {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val result = converter.onConvert<R>(typeTokenOf<R>(), response) as R
-                runMain { block(Result.success(result)) }
+                try {
+                    val success = response.convert<R>(converter)
+                    runMain { block(Result.success(success)) }
+                } catch (e: ConvertException) {
+                    onFailure(call, e)
+                }
             }
         })
         return newCall

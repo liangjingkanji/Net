@@ -33,6 +33,6 @@ open class NetException(
 ) : IOException(message, cause) {
 
     override fun getLocalizedMessage(): String? {
-        return if (message == null) "$message (${request.url})" else "(${request.url})"
+        return if (message != null) "$message (${request.url})" else "(${request.url})"
     }
 }

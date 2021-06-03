@@ -17,7 +17,10 @@
 package com.drake.net.response
 
 import com.drake.net.body.peekString
+import com.drake.net.convert.NetConverter
+import com.drake.net.exception.ConvertException
 import com.drake.net.exception.DownloadFileException
+import com.drake.net.reflect.typeTokenOf
 import com.drake.net.request.*
 import com.drake.net.utils.isValid
 import com.drake.net.utils.md5
@@ -122,5 +125,19 @@ fun Response.logString(byteCount: Long = 1024 * 1024 * 4): String? {
         body?.peekString(byteCount)
     } else {
         "Not support this type $mediaType"
+    }
+}
+
+/**
+ * 响应体使用转换器处理数据
+ */
+@Throws(ConvertException::class)
+inline fun <reified R> Response.convert(converter: NetConverter): R = use {
+    try {
+        converter.onConvert<R>(typeTokenOf<R>(), it) as R
+    } catch (e: ConvertException) {
+        throw e
+    } catch (e: Throwable) {
+        throw ConvertException(it, cause = e)
     }
 }

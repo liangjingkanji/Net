@@ -24,6 +24,7 @@ import com.drake.net.exception.RequestParamsException
 import com.drake.net.exception.ResponseException
 import com.drake.net.exception.ServerResponseException
 import okhttp3.Response
+import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Type
 
@@ -48,13 +49,20 @@ abstract class JSONConvert(
             val code = response.code
             when {
                 code in 200..299 -> { // 请求成功
-                    val body = response.body?.string() ?: return null
-                    if (succeed === String::class.java) return body as R
-                    val jsonObject = JSONObject(body) // 获取JSON中后端定义的错误码和错误信息
-                    if (jsonObject.getString(this.code) == success) { // 对比后端自定义错误码
-                        return body.parseBody(succeed)
-                    } else { // 错误码匹配失败, 开始写入错误异常
-                        throw ResponseException(response, jsonObject.optString(message, NetConfig.app.getString(com.drake.net.R.string.no_error_message)))
+                    val bodyString = response.body?.string() ?: return null
+                    return try {
+                        val json = JSONObject(bodyString) // 获取JSON中后端定义的错误码和错误信息
+                        if (json.getString(this.code) == success) { // 对比后端自定义错误码
+                            bodyString.parseBody<R>(succeed)
+                        } else { // 错误码匹配失败, 开始写入错误异常
+                            val errorMessage = json.optString(
+                                message,
+                                NetConfig.app.getString(com.drake.net.R.string.no_error_message)
+                            )
+                            throw ResponseException(response, errorMessage)
+                        }
+                    } catch (e: JSONException) { // 固定格式JSON分析失败直接解析JSON
+                        bodyString.parseBody<R>(succeed)
                     }
                 }
                 code in 400..499 -> throw RequestParamsException(response) // 请求参数错误
@@ -70,5 +78,5 @@ abstract class JSONConvert(
      * @param succeed JSON对象的类型
      * @receiver 原始字符串
      */
-    abstract fun <S> String.parseBody(succeed: Type): S?
+    abstract fun <R> String.parseBody(succeed: Type): R?
 }
