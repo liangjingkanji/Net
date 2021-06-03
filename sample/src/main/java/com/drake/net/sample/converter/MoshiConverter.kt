@@ -23,7 +23,7 @@ import java.lang.reflect.Type
 class MoshiConverter : JSONConvert(code = "code", message = "msg", success = "0") {
     private val moshi = Moshi.Builder().build()
 
-    override fun <S> String.parseBody(succeed: Type): S? {
-        return moshi.adapter<S>(succeed).fromJson(this)
+    override fun <R> String.parseBody(succeed: Type): R? {
+        return moshi.adapter<R>(succeed).fromJson(this)
     }
 }

@@ -9,12 +9,13 @@ import com.drake.net.exception.RequestParamsException
 import com.drake.net.exception.ResponseException
 import com.drake.net.exception.ServerResponseException
 import com.drake.net.request.kType
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import okhttp3.Response
+import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Type
+import kotlin.reflect.KType
 
 class SerializationConverter(
     val success: String = "0",
@@ -31,24 +32,24 @@ class SerializationConverter(
         try {
             return NetConverter.DEFAULT.onConvert<R>(succeed, response)
         } catch (e: ConvertException) {
-
             val code = response.code
             when {
                 code in 200..299 -> { // 请求成功
-                    val body = response.body?.string() ?: return null
-                    if (succeed === String::class.java) return body as R
-                    val jsonObject = JSONObject(body) // 获取JSON中后端定义的错误码和错误信息
-                    if (jsonObject.getString(this.code) == success) { // 对比后端自定义错误码
-                        return run {
-                            val kType = response.request.kType() ?: return null
-                            try {
-                                jsonDecoder.decodeFromString(Json.serializersModule.serializer(kType), jsonObject.getString("data")) as R
-                            } catch (e: SerializationException) {
-                                throw ConvertException(response, cause = e)
-                            }
+                    val bodyString = response.body?.string() ?: return null
+                    val kType = response.request.kType() ?: return null
+                    return try {
+                        val json = JSONObject(bodyString) // 获取JSON中后端定义的错误码和错误信息
+                        if (json.getString(this.code) == success) { // 对比后端自定义错误码
+                            bodyString.parseBody<R>(kType)
+                        } else { // 错误码匹配失败, 开始写入错误异常
+                            val errorMessage = json.optString(
+                                message,
+                                NetConfig.app.getString(com.drake.net.R.string.no_error_message)
+                            )
+                            throw ResponseException(response, errorMessage)
                         }
-                    } else { // 错误码匹配失败, 开始写入错误异常
-                        throw ResponseException(response, jsonObject.optString(message, NetConfig.app.getString(com.drake.net.R.string.no_error_message)))
+                    } catch (e: JSONException) { // 固定格式JSON分析失败直接解析JSON
+                        bodyString.parseBody<R>(kType)
                     }
                 }
                 code in 400..499 -> throw RequestParamsException(response) // 请求参数错误
@@ -56,5 +57,9 @@ class SerializationConverter(
                 else -> throw ConvertException(response)
             }
         }
+    }
+
+    fun <R> String.parseBody(succeed: KType): R? {
+        return jsonDecoder.decodeFromString(Json.serializersModule.serializer(succeed), this) as R
     }
 }

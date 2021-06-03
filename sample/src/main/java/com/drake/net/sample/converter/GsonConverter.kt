@@ -16,19 +16,16 @@
 
 package com.drake.net.sample.converter
 
+import com.drake.net.convert.JSONConvert
 import com.drake.net.convert.NetConverter
 import com.google.gson.GsonBuilder
 import okhttp3.Response
 import java.lang.reflect.Type
 
-class GsonConverter : NetConverter {
+class GsonConverter : JSONConvert() {
     private val gson = GsonBuilder().serializeNulls().create()
 
-    override fun <R> onConvert(succeed: Type, response: Response): R? {
-        return try {
-            NetConverter.DEFAULT.onConvert<R>(succeed, response)
-        } catch (e: Exception) {
-            gson.fromJson(response.body?.string(), succeed)
-        }
+    override fun <R> String.parseBody(succeed: Type): R? {
+        return gson.fromJson(this, succeed)
     }
 }

@@ -22,7 +22,7 @@ import java.lang.reflect.Type
 
 class FastJsonConverter : JSONConvert(code = "code", message = "msg", success = "0") {
 
-    override fun <S> String.parseBody(succeed: Type): S? {
+    override fun <R> String.parseBody(succeed: Type): R? {
         return JSON.parseObject(this, succeed)
     }
 }

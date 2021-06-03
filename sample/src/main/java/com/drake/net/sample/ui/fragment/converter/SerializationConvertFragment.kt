@@ -39,7 +39,7 @@ class SerializationConvertFragment : BaseConvertFragment(R.layout.fragment_custo
         """.trimIndent()
 
         scopeNetLife {
-            val userList = Get<List<UserModel>>("list-data") {
+            val userList = Get<List<UserModel>>("list") {
                 // 该转换器直接解析JSON中的data字段, 而非返回的整个JSON字符串
                 converter = SerializationConverter() // 单例转换器, 此时会忽略全局转换器
             }.await()
