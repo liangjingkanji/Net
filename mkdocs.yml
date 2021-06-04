@@ -51,6 +51,7 @@ nav:
       - 创建转换器: converter.md
       - 特殊结构解析: convert-special.md
       - kotlin-serialization: kotlin-serialization.md
+      - 数据模型生成插件: model-generate.md
   - 异常追踪: exception-track.md
   - 自动化:
       - 自动加载框: auto-dialog.md

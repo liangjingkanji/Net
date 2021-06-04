@@ -15,6 +15,8 @@
 8. 可以配置成后端如果返回null则使用数据模型字段的默认值(非空覆盖)
 9. 启用宽松模式, 允许配置成后端和前端数据模型字段是否严苛匹配对应
 
+> 注意Ks的数据模型类都要求使用注解`@Serializable`. <br>
+> 一般开发中都是使用[插件生成数据模型](model-generate.md), 所以这并不会增加工作量. 即使手写也只是一个注解, 但是可以带来默认值支持和更安全的数据解析
 
 ## 配置转换器
 
@@ -47,8 +49,6 @@ scopeNetLife {
     tv_fragment.text = userList[0].name
 }
 ```
-
-注意被KS转换器解析的数据模型都要求使用注解`@Serializable`
 
 ```kotlin
 @Serializable
