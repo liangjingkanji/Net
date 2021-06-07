@@ -91,7 +91,7 @@ object NetConfig {
         }
 
         if (logEnabled) printStackTrace()
-        app.toast(message)
+        toast(message)
     }
 
     var onStateError: Throwable.(view: View) -> Unit = {
