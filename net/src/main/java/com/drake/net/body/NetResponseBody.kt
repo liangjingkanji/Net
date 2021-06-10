@@ -31,7 +31,7 @@ class NetResponseBody(
 ) : ResponseBody() {
 
     private val progress = Progress()
-    private val bufferedSource by lazy { responseBody.source().progress().buffer() }
+    private val bufferedSource by lazy { responseBody.source().toProgress().buffer() }
     private val contentLength by lazy { responseBody.contentLength() }
 
     override fun contentType(): MediaType? {
@@ -62,7 +62,7 @@ class NetResponseBody(
         return buffer.readUtf8(byteCountFinal)
     }
 
-    private fun Source.progress() = object : ForwardingSource(this) {
+    private fun Source.toProgress() = object : ForwardingSource(this) {
         var readByteCount: Long = 0
 
         @Throws(IOException::class)

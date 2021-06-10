@@ -64,8 +64,6 @@ class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
         scopeNetLife {
             tv_fragment.text = Patch<String>("api").await()
         }
-
-        arrayOf(1).toMutableList()
     }
 
     private fun DELETE() {

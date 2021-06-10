@@ -25,7 +25,7 @@ object NetOkHttpInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        val netRequestBody = request.body?.toNetRequestBody(request)
+        val netRequestBody = request.body?.toNetRequestBody(request.uploadListeners())
         request = request.newBuilder().method(request.method, netRequestBody).apply {
             if (request.uploadListeners() == null) setLabel(NetLabel.UploadListeners())
             if (request.downloadListeners() == null) setLabel(NetLabel.DownloadListeners())
@@ -42,7 +42,7 @@ object NetOkHttpInterceptor : Interceptor {
         } catch (e: Throwable) {
             throw NetException(request, cause = e)
         }
-        val netResponseBody = response.body?.toNetResponseBody(request) {
+        val netResponseBody = response.body?.toNetResponseBody(request.downloadListeners()) {
             chain.call().detachFromNet()
         }
         return response.newBuilder().body(netResponseBody).build()

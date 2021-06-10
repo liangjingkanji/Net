@@ -44,7 +44,7 @@ class NetRequestBody(
 
     @Throws(IOException::class)
     override fun writeTo(sink: BufferedSink) {
-        if (bufferedSink == null) bufferedSink = sink.progress().buffer()
+        if (bufferedSink == null) bufferedSink = sink.toProgress().buffer()
         bufferedSink?.let {
             requestBody.writeTo(it)
             it.flush()
@@ -64,7 +64,7 @@ class NetRequestBody(
         return buffer.readUtf8(byteCountFinal)
     }
 
-    private fun Sink.progress() = object : ForwardingSink(this) {
+    private fun Sink.toProgress() = object : ForwardingSink(this) {
         var writeByteCount = 0L
 
         @Throws(IOException::class)
