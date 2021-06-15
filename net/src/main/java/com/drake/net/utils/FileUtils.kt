@@ -6,7 +6,6 @@ import android.os.Build
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import com.drake.net.NetConfig
-import com.drake.net.exception.InstallException
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
@@ -69,7 +68,7 @@ fun File.toRequestBody(contentType: MediaType? = null): RequestBody {
  */
 fun File.install() {
     if (name.substringAfterLast(".").lowercase() != "apk") {
-        throw InstallException("The file is not an apk file")
+        throw IllegalArgumentException("The file is not an apk file")
     }
 
     val intent = Intent(Intent.ACTION_VIEW)
@@ -91,8 +90,10 @@ fun File.install() {
     intent.setDataAndType(uri, "application/vnd.android.package-archive")
 
     try {
-        NetConfig.app.startActivity(intent)
+        if (NetConfig.app.packageManager.resolveActivity(intent, 0) != null) {
+            NetConfig.app.startActivity(intent)
+        }
     } catch (e: Exception) {
-        throw InstallException(cause = e)
+        throw UnsupportedOperationException(cause = e)
     }
 }

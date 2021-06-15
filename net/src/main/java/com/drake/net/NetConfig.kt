@@ -90,7 +90,6 @@ object NetConfig {
             is NullPointerException -> app.getString(R.string.net_null_error)
             is NoCacheException -> app.getString(R.string.net_no_cache_error)
             is ResponseException -> message
-            is InstallException -> app.getString(R.string.install_error)
             is NetException -> app.getString(R.string.net_error)
             else -> app.getString(R.string.net_other_error)
         }
