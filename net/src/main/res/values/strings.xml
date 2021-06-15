@@ -41,4 +41,7 @@
     <!--对话框-->
     <string name="net_dialog_msg">加载中</string>
 
+    <!--安装-->
+    <string name="install_error">安装过程发生错误</string>
+
 </resources>

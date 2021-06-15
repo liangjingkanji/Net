@@ -23,10 +23,14 @@ import android.app.ProgressDialog
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.drake.net.NetConfig.app
+import com.drake.net.NetConfig.errorHandler
 import com.drake.net.NetConfig.host
+import com.drake.net.NetConfig.logEnabled
 import com.drake.net.NetConfig.onDialog
 import com.drake.net.NetConfig.onError
 import com.drake.net.NetConfig.onStateError
+import com.drake.net.NetConfig.requestInterceptor
+import com.drake.net.NetConfig.runningCalls
 import com.drake.net.convert.NetConverter
 import com.drake.net.exception.*
 import com.drake.net.interceptor.RequestInterceptor
@@ -86,6 +90,7 @@ object NetConfig {
             is NullPointerException -> app.getString(R.string.net_null_error)
             is NoCacheException -> app.getString(R.string.net_no_cache_error)
             is ResponseException -> message
+            is InstallException -> app.getString(R.string.install_error)
             is NetException -> app.getString(R.string.net_error)
             else -> app.getString(R.string.net_other_error)
         }
