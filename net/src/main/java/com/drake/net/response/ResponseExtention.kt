@@ -87,9 +87,8 @@ fun Response.file(): File? {
                         rename(index + 1)
                     } else file
                 }
-                return rename(1)
+                file = rename(1)
             }
-            request.downloadFileNameDecode()
         }
 
         // 临时文件
@@ -103,7 +102,9 @@ fun Response.file(): File? {
         }
         // 下载完毕删除临时文件
         if (request.downloadTempFile()) {
-            file.renameTo(File(downloadDir, fileName))
+            val fileFinal = File(downloadDir, fileName)
+            file.renameTo(fileFinal)
+            return fileFinal
         }
         return file
     } catch (e: SocketException) {

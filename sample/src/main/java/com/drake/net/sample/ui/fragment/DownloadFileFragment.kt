@@ -52,7 +52,6 @@ class DownloadFileFragment : Fragment(R.layout.fragment_download_file) {
                     setDownloadTempFile()
                     addDownloadListener(object : ProgressListener() {
                         override fun onProgress(p: Progress) {
-                            Log.d("日志", "(DownloadFileFragment.kt:52)    p = ${p}")
                             seek?.post {
                                 val progress = p.progress()
                                 seek.progress = progress
