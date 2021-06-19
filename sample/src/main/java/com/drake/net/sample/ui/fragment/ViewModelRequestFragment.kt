@@ -12,8 +12,7 @@ import kotlinx.android.synthetic.main.fragment_view_model_request.*
 
 class ViewModelRequestFragment : Fragment(R.layout.fragment_view_model_request) {
 
-
-    val userViewModel: UserViewModel by viewModels() // 创建ViewModel
+    private val userViewModel: UserViewModel by viewModels() // 创建ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
