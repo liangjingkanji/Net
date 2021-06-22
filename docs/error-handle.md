@@ -66,9 +66,10 @@ catch里面的`it`属于异常对象, 这里列举可能存在的异常
 | ResponseException | 响应异常, 这里属于后端返回的错误码和其定义的成功码不匹配 |
 | NullPointerException | 空指针, 一般是在作用域内操作一个空的对象 |
 | NoCacheException | 没有缓存 |
-| NetException | 未知的网络异常, 一般情况应当继承他来创建自定义的网络异常 |
+| NetException | 未知的网络异常, 一般情况应当继承他来创建自定义的网络异常  |
 
-假设你重写`NetConverter`可以改变异常发生的条件, 当然你在转换器或者拦截器中抛出任何异常都会被捕获或者全局处理, 这里你可以自定义你的异常
+假设你重写`NetConverter`可以改变异常发生的条件, 当然你在转换器或者拦截器中抛出任何异常都会被捕获或者全局处理 <br>
+转换器中发生的所有异常除非是NetException的子类否则都将被ConvertException包裹(即捕获的是ConvertException).
 
 
 ## 覆盖默认错误处理
