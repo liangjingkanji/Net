@@ -1,3 +1,8 @@
+## 3.0.12
+修复转换器抛出的异常全部被`ConvertException`包裹的问题.
+
+NetException子类不会被ConvertException包裹, 所以要捕获转换器中的自定义异常请其继承NetException
+
 ## 3.0.11
 1. 修复临时下载文件错误问题
 2. 修复ViewModel作用域复用问题
