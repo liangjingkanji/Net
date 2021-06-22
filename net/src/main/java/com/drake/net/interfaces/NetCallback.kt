@@ -1,7 +1,7 @@
 package com.drake.net.interfaces
 
 import com.drake.net.NetConfig
-import com.drake.net.request.converter
+import com.drake.net.response.convert
 import com.drake.net.utils.runMain
 import okhttp3.Call
 import okhttp3.Callback
@@ -18,7 +18,12 @@ abstract class NetCallback<T> : Callback {
 
     override fun onResponse(call: Call, response: Response) {
         val succeed = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0]
-        val data = response.request.converter()?.onConvert<T>(succeed, response) ?: return
+        val data = try {
+            response.convert<T>(succeed)
+        } catch (e: IOException) {
+            onFailure(call, e)
+            return
+        }
         runMain {
             onSuccess(call, data)
             onComplete(call, null)

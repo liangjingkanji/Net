@@ -20,6 +20,7 @@ import com.drake.net.body.peekString
 import com.drake.net.convert.NetConverter
 import com.drake.net.exception.ConvertException
 import com.drake.net.exception.DownloadFileException
+import com.drake.net.exception.NetException
 import com.drake.net.reflect.typeTokenOf
 import com.drake.net.request.*
 import com.drake.net.utils.isValid
@@ -28,6 +29,8 @@ import okhttp3.Response
 import okio.buffer
 import okio.sink
 import java.io.File
+import java.io.IOException
+import java.lang.reflect.Type
 import java.net.SocketException
 import java.net.URLDecoder
 import kotlin.coroutines.cancellation.CancellationException
@@ -132,11 +135,26 @@ fun Response.logString(byteCount: Long = 1024 * 1024 * 4): String? {
 /**
  * 响应体使用转换器处理数据
  */
-@Throws(ConvertException::class)
+@Throws(IOException::class)
 inline fun <reified R> Response.convert(converter: NetConverter): R = use {
     try {
         converter.onConvert<R>(typeTokenOf<R>(), it) as R
-    } catch (e: ConvertException) {
+    } catch (e: NetException) {
+        throw e
+    } catch (e: Throwable) {
+        throw ConvertException(it, cause = e)
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+@Throws(IOException::class)
+fun <R> Response.convert(type: Type): R = use {
+    try {
+        val converter = request.converter() ?: throw ConvertException(
+            it, message = "No converter for current request"
+        )
+        converter.onConvert<R>(type, this) as R
+    } catch (e: NetException) {
         throw e
     } catch (e: Throwable) {
         throw ConvertException(it, cause = e)
