@@ -150,9 +150,7 @@ inline fun <reified R> Response.convert(converter: NetConverter): R = use {
 @Throws(IOException::class)
 fun <R> Response.convert(type: Type): R = use {
     try {
-        val converter = request.converter() ?: throw ConvertException(
-            it, message = "No converter for current request"
-        )
+        val converter = request.converter()
         converter.onConvert<R>(type, this) as R
     } catch (e: NetException) {
         throw e

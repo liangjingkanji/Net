@@ -81,7 +81,7 @@ object NetConfig {
         progress
     }
 
-    @Deprecated("废弃", replaceWith = ReplaceWith("NetConfig.errorHandler"))
+    @Deprecated("使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("NetConfig.errorHandler"))
     var onError: Throwable.() -> Unit = onError@{
 
         val message = when (this) {
@@ -107,7 +107,7 @@ object NetConfig {
         toast(message)
     }
 
-    @Deprecated("废弃", replaceWith = ReplaceWith("NetConfig.errorHandler"))
+    @Deprecated("使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("NetConfig.errorHandler"))
     var onStateError: Throwable.(view: View) -> Unit = {
         when (this) {
             is ConvertException,

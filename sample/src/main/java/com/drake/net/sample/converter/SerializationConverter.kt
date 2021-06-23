@@ -36,7 +36,7 @@ class SerializationConverter(
             when {
                 code in 200..299 -> { // 请求成功
                     val bodyString = response.body?.string() ?: return null
-                    val kType = response.request.kType() ?: return null
+                    val kType = response.request.kType ?: return null
                     return try {
                         val json = JSONObject(bodyString) // 获取JSON中后端定义的错误码和错误信息
                         if (json.getString(this.code) == success) { // 对比后端自定义错误码

@@ -47,10 +47,10 @@ abstract class NetCallback<T> constructor(
     }
 
     open fun onStart(request: Request) {
-        request.group()
+        request.group = this
         lifecycle?.lifecycle?.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                if (lifeEvent == event) Net.cancelGroup(request.group())
+                if (lifeEvent == event) Net.cancelGroup(request.group)
             }
         })
     }

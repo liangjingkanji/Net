@@ -11,6 +11,11 @@ import okhttp3.Request
 import java.io.IOException
 import java.util.concurrent.CancellationException
 
+/**
+ * 配合SateLayout布局使用
+ * 会在加载成功/错误时显示对应的缺省页
+ * 会在页面被销毁时自动取消网络请求
+ */
 abstract class StateCallback<T>(val state: StateLayout) : NetCallback<T>() {
 
     override fun onStart(request: Request) {
@@ -20,7 +25,7 @@ abstract class StateCallback<T>(val state: StateLayout) : NetCallback<T>() {
             }
 
             override fun onViewDetachedFromWindow(v: View) {
-                Net.cancelGroup(request.group())
+                Net.cancelGroup(request.group)
             }
         })
     }

@@ -19,7 +19,6 @@
 package com.drake.net.request
 
 import com.drake.net.interfaces.ProgressListener
-import com.drake.net.tag.NetLabel
 import com.drake.net.utils.lazyField
 import com.drake.net.utils.toRequestBody
 import okhttp3.*
@@ -116,10 +115,8 @@ open class BodyRequest : BaseRequest() {
      * 上传进度监听器
      */
     fun addUploadListener(progressListener: ProgressListener) {
-        uploadListeners.add(progressListener)
+        okHttpRequest.uploadListeners().add(progressListener)
     }
-
-    private val uploadListeners = NetLabel.UploadListeners()
 
     override fun buildRequest(): Request {
         val body = if (body != null) body else {
@@ -139,10 +136,7 @@ open class BodyRequest : BaseRequest() {
 
         return okHttpRequest.method(method.name, body)
             .url(httpUrl.build())
-            .setLabel(tags)
             .setConverter(converter)
-            .setLabel(downloadListeners)
-            .setLabel(uploadListeners)
             .build()
     }
 }

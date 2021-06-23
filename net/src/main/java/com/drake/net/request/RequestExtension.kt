@@ -21,77 +21,165 @@ import com.drake.net.body.peekString
 import com.drake.net.convert.NetConverter
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.tag.NetLabel
+import okhttp.OkHttpUtils
 import okhttp3.FormBody
 import okhttp3.Request
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.reflect.KType
 
 //<editor-fold desc="请求属性">
+
 /**
  * 请求的Id
  */
+var Request.id: Any?
+    get() = label<NetLabel.RequestId>()
+    set(value) {
+        setLabel(NetLabel.RequestId(value))
+    }
+
+/**
+ * 请求的分组名
+ * Group和Id本质上都是任意对象Any. 但是Net网络请求中自动取消的操作都是通过Group分组. 如果你覆盖可能会导致自动取消无效
+ * 在设计理念上分组可以重复. Id不行
+ */
+var Request.group: Any?
+    get() = label<NetLabel.RequestGroup>()
+    set(value) {
+        setLabel(NetLabel.RequestGroup(value))
+    }
+
+/**
+ * 是否输出网络请求日志
+ * 该属性和[NetConfig.logEnabled]有所区别
+ * @see [com.drake.net.interceptor.LogRecordInterceptor]
+ */
+var Request.logRecord: Boolean?
+    get() = label<NetLabel.LogRecord>()?.enabled
+    set(value) {
+        setLabel(value?.let { NetLabel.LogRecord(it) })
+    }
+
+/**
+ * KType属于Kotlin特有的Type, 某些kotlin独占框架可能会使用到. 例如 kotlin.serialization
+ */
+var Request.kType: KType?
+    get() = label<NetLabel.RequestKType>()?.value
+    set(value) {
+        setLabel(NetLabel.RequestKType(value))
+    }
+
+@Deprecated("建议使用属性", ReplaceWith("id"))
 fun Request.id(): Any? {
-    return label<NetLabel.RequestId>()?.value
+    return id
 }
 
+@Deprecated("建议使用属性", ReplaceWith("group"))
+fun Request.group(): Any? {
+    return group
+}
+
+@Deprecated("建议使用属性", ReplaceWith("logRecord"))
+fun Request.isLogRecord(): Boolean? {
+    return logRecord
+}
+
+@Deprecated("建议使用属性", ReplaceWith("kType"))
+fun Request.kType(): KType? {
+    return kType
+}
+
+//</editor-fold>
+
+//<editor-fold desc="Request.Builder">
+
+/**
+ * 设置请求Id
+ */
 fun Request.Builder.setId(id: Any?) = apply {
     setLabel(NetLabel.RequestId(id))
 }
 
 /**
- * 请求的分组名
+ * 设置请求分组
  */
-fun Request.group(): Any? {
-    return label<NetLabel.RequestGroup>()?.value
-}
-
 fun Request.Builder.setGroup(group: Any?) = apply {
     setLabel(NetLabel.RequestGroup(group))
-}
-
-/**
- * 请求标签
- */
-fun Request.tag(name: String): Any? {
-    return label<NetLabel.TagHashMap>()?.get(name)
-}
-
-/**
- * 请求标签
- */
-fun Request.setTag(name: String, value: Any?) = apply {
-    label<NetLabel.TagHashMap>()?.put(name, value)
 }
 
 /**
  * 设置是否记录日志
  */
 fun Request.Builder.setLogRecord(enabled: Boolean) = apply {
-    setLabel(NetLabel.RecordLog(enabled))
+    setLabel(NetLabel.LogRecord(enabled))
 }
 
 /**
- * 是否记录日志
+ * 设置KType
  */
-fun Request.isLogRecord() = run {
-    label<NetLabel.RecordLog>()?.enabled
-}
-
 fun Request.Builder.setKType(type: KType) = apply {
     setLabel(type)
 }
+//</editor-fold>
 
-fun Request.kType(): KType? = run {
-    label<KType>()
+//<editor-fold desc="标签">
+
+/**
+ * 返回键值对的tag
+ */
+fun Request.tag(name: String): Any? {
+    return label<NetLabel.Tags>()?.get(name)
 }
 
+/**
+ * 设置键值对的tag
+ */
+fun Request.setTag(name: String, value: Any?) {
+    var tags = label<NetLabel.Tags>()
+    if (tags == null) {
+        tags = NetLabel.Tags()
+        setLabel(tags)
+    }
+    tags[name] = value
+}
+
+fun Request.Builder.setTag(name: String, value: Any?) = apply {
+    var tags = label<NetLabel.Tags>()
+    if (tags == null) {
+        tags = NetLabel.Tags()
+        setLabel(tags)
+    }
+    tags[name] = value
+}
+
+/**
+ * 返回OkHttp的tag(通过Class区分的tag)
+ */
+inline fun <reified T> Request.label(): T? {
+    return tag(T::class.java)
+}
+
+/**
+ * 返回OkHttp的tag(通过Class区分的tag)
+ */
+inline fun <reified T> Request.Builder.label(): T? {
+    return OkHttpUtils.tags(this)[T::class.java] as? T
+}
+
+/**
+ * 设置OkHttp的tag(通过Class区分的tag)
+ */
+inline fun <reified T> Request.setLabel(any: T) = apply {
+    OkHttpUtils.tags(this)[T::class.java] = any
+}
+
+/**
+ * 设置OkHttp的tag(通过Class区分的tag)
+ */
 inline fun <reified T> Request.Builder.setLabel(any: T) = apply {
     tag(T::class.java, any)
 }
 
-inline fun <reified T> Request.label(): T? {
-    return tag(T::class.java)
-}
 //</editor-fold>
 
 //<editor-fold desc="下载">
@@ -144,35 +232,78 @@ fun Request.downloadTempFile(): Boolean {
 
 //<editor-fold desc="进度监听">
 /**
- * 上传监听器
+ * 全部的上传监听器
  */
-fun Request.uploadListeners(): ConcurrentLinkedQueue<ProgressListener>? {
-    return label<NetLabel.UploadListeners>()
+fun Request.uploadListeners(): ConcurrentLinkedQueue<ProgressListener> {
+    var uploadListeners = label<NetLabel.UploadListeners>()
+    if (uploadListeners == null) {
+        uploadListeners = NetLabel.UploadListeners()
+        setLabel(uploadListeners)
+    }
+    return uploadListeners
 }
 
 /**
- * 下载监听器
+ * 全部的上传监听器
  */
-fun Request.downloadListeners(): ConcurrentLinkedQueue<ProgressListener>? {
-    return label<NetLabel.DownloadListeners>()
+fun Request.Builder.uploadListeners(): ConcurrentLinkedQueue<ProgressListener> {
+    var uploadListeners = label<NetLabel.UploadListeners>()
+    if (uploadListeners == null) {
+        uploadListeners = NetLabel.UploadListeners()
+        setLabel(uploadListeners)
+    }
+    return uploadListeners
 }
 
+/**
+ * 全部的下载监听器
+ */
+fun Request.downloadListeners(): ConcurrentLinkedQueue<ProgressListener> {
+    var downloadListeners = label<NetLabel.DownloadListeners>()
+    if (downloadListeners == null) {
+        downloadListeners = NetLabel.DownloadListeners()
+        setLabel(downloadListeners)
+    }
+    return downloadListeners
+}
+
+/**
+ * 全部的下载监听器
+ */
+fun Request.Builder.downloadListeners(): ConcurrentLinkedQueue<ProgressListener> {
+    var downloadListeners = label<NetLabel.DownloadListeners>()
+    if (downloadListeners == null) {
+        downloadListeners = NetLabel.DownloadListeners()
+        setLabel(downloadListeners)
+    }
+    return downloadListeners
+}
+
+/**
+ * 添加上传监听器
+ */
 fun Request.addUploadListener(progressListener: ProgressListener) {
-    uploadListeners()?.add(progressListener)
+    uploadListeners().add(progressListener)
 }
 
+/**
+ * 添加下载监听器
+ */
 fun Request.addDownloadListener(progressListener: ProgressListener) {
-    downloadListeners()?.add(progressListener)
+    downloadListeners().add(progressListener)
 }
 //</editor-fold>
 
 /**
  * 转换器
  */
-fun Request.converter(): NetConverter? {
-    return label<NetConverter>()
+fun Request.converter(): NetConverter {
+    return label<NetConverter>() ?: NetConfig.converter
 }
 
+/**
+ * 设置转换器
+ */
 fun Request.Builder.setConverter(converter: NetConverter) = apply {
     setLabel(converter)
 }
