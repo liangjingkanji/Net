@@ -19,7 +19,7 @@ scopeNetLife {
 === "全局配置"
 
     ```kotlin
-    initNet("https://www.google.com/"){
+    NetConfig.init("https://www.google.com/"){
         trustSSLCertificate() // 信任所有证书
     }
     ```
@@ -42,7 +42,7 @@ scopeNetLife {
 === "全局配置"
 
     ```kotlin
-    initNet("http://github.com/") {
+    NetConfig.init("http://github.com/") {
         val privateCertificate = resources.assets.open("https.certificate")
         setSSLCertificate(privateCertificate)
     }

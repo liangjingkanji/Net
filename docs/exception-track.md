@@ -23,7 +23,7 @@ scopeNetLife {
 在初始化时候可以关闭日志打印
 
 ```kotlin
-initNet("http://github.com/") {
+NetConfig.init("http://github.com/") {
     setLog(false) // 关闭日志
 }
 ```

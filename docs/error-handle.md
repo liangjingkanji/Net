@@ -14,7 +14,7 @@ Net具备完善的全局错误处理机制 <br>
 示例
 
 ```kotlin
-initNet("http://localhost:80/") {
+NetConfig.init("http://localhost:80/") {
 
     setErrorHandler(object : NetErrorHandler() {
         override fun onError(e: Throwable) {

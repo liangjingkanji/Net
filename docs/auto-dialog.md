@@ -26,19 +26,19 @@ scopeDialog {
 
 === "初始化"
     ```kotlin
-    initNet("http://github.com/") {
-        onDialog { // lambda返回一个Dialog对象
-            ProgressDialog(it).apply { // it 为 FragmentActivity
-                setMessage("正在努力请求中")
+    NetConfig.init("http://github.com/") {
+            setDialogFactory { // 全局加载对话框
+                ProgressDialog(it).apply {
+                    setMessage("我是全局自定义的加载对话框...")
+                }
             }
-        }
     }
     ```
 === "设置全局"
     ```kotlin
-    NetConfig.onDialog = { //
+    NetConfig.dialogFactory = NetDialogFactory {
         ProgressDialog(it).apply {
-            setMessage("请稍等")
+            setMessage("我是全局自定义的加载对话框...")
         }
     }
     ```

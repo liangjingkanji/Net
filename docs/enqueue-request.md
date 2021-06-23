@@ -36,6 +36,15 @@ NetCallback相较于Callback的特性
 2. 新增三个回调函数: onSuccess/onFailure/onComplete
 3. 以上三个回调函数都运行在主线程
 
+<br>
+基本特性也被扩展在Callback中. 除开库本身自带的Callback你也可以仿照实现自己的特殊Callback
+
+| 函数 | 描述 |
+|-|-|
+| DialogCallback | 自动显示隐藏加载对话框 |
+| StateCallback | 自动显示缺省页 |
+| PageCallback | 自动下拉刷新/上拉加载 |
+
 ## onResult
 
 使用`onResult`可以更加灵活方便的处理队列请求. 使用Kotlin的空安全函数可以区分处理请求结果

@@ -9,7 +9,7 @@
 
             // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
 
-            initNet("http://github.com/") {
+            NetConfig.init("http://github.com/") {
                 setLog(BuildConfig.DEBUG) // 作用域发生异常是否打印
                 setConverter(GsonConvert()) // 转换器
             }
@@ -30,7 +30,7 @@
                 .setConverter(GsonConvert())
                 .addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
 
-            initNet("http://github.com/", okHttpClientBuilder)
+            NetConfig.init("http://github.com/", okHttpClientBuilder)
         }
     }
     ```
@@ -42,11 +42,11 @@
 | 函数 | 描述 |
 |-|-|
 | setLog | 输出网络异常日志 |
-| setHost | 全局域名, 和initNet("Host")函数中的第一个参数等效 |
+| setHost | 全局域名, 和NetConfig.init("Host")函数中的第一个参数等效 |
 | setConverter | [转换器](converter.md), 将网络返回的数据转换成你想要的数据结构 |
 | setRequestInterceptor | [请求拦截器](interceptor.md), 用于添加全局请求头/参数 |
 | setErrorHandler | [全局错误处理](error-handle.md) |
-| onDialog | [全局对话框](auto-dialog.md) |
+| dialogFactory | [全局对话框](auto-dialog.md) |
 
 ## 动态配置
 
