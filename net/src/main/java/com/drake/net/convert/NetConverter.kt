@@ -26,31 +26,28 @@ import java.lang.reflect.Type
 @Suppress("UNCHECKED_CAST")
 interface NetConverter {
 
-    @Throws(Exception::class)
+    @Throws(Throwable::class)
     fun <R> onConvert(succeed: Type, response: Response): R?
 
-    companion object {
-
-        @JvmField
-        val DEFAULT = object : NetConverter {
-
-            /**
-             * 返回结果应当等于泛型对象, 可空
-             */
-            override fun <R> onConvert(
-                succeed: Type,
-                response: Response
-            ): R? {
-                return when (succeed) {
-                    String::class.java -> response.body?.string() as R
-                    ByteString::class.java -> response.body?.byteString() as R
-                    ByteArray::class.java -> response.body?.bytes() as R
-                    Response::class.java -> response as R
-                    File::class.java -> response.file() as R
-                    else -> throw ConvertException(response, "An exception occurred while converting the NetConverter.DEFAULT")
-                }
+    companion object DEFAULT : NetConverter {
+        /**
+         * 返回结果应当等于泛型对象, 可空
+         */
+        override fun <R> onConvert(
+            succeed: Type,
+            response: Response
+        ): R? {
+            return when (succeed) {
+                String::class.java -> response.body?.string() as R
+                ByteString::class.java -> response.body?.byteString() as R
+                ByteArray::class.java -> response.body?.bytes() as R
+                Response::class.java -> response as R
+                File::class.java -> response.file() as R
+                else -> throw ConvertException(
+                    response,
+                    "An exception occurred while converting the NetConverter.DEFAULT"
+                )
             }
         }
-
     }
 }

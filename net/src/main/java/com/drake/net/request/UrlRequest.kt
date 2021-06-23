@@ -18,10 +18,12 @@ package com.drake.net.request
 
 open class UrlRequest : BaseRequest() {
 
+    override fun param(name: String, value: String?) {
+        httpUrl.setEncodedQueryParameter(name, value)
+    }
+
     override fun param(name: String, value: String?, encoded: Boolean) {
-        if (encoded) {
-            httpUrl.setQueryParameter(name, value)
-        } else httpUrl.setEncodedQueryParameter(name, value)
+        httpUrl.setQueryParameter(name, value)
     }
 
     override fun param(name: String, value: Number?) {

@@ -23,9 +23,9 @@ import com.drake.net.NetConfig
 import com.drake.net.convert.NetConverter
 import com.drake.net.interceptor.NetOkHttpInterceptor
 import com.drake.net.interceptor.RequestInterceptor
+import com.drake.net.interfaces.NetDialogFactory
 import com.drake.net.interfaces.NetErrorHandler
 import com.drake.net.request.label
-import com.drake.net.scope.DialogCoroutineScope
 import com.drake.net.tag.NetLabel
 import com.drake.net.utils.Https
 import com.drake.net.utils.chooseTrustManager
@@ -138,7 +138,10 @@ fun OkHttpClient.Builder.setRequestInterceptor(interceptor: RequestInterceptor) 
 /**
  * 全局网络请求错误捕获
  */
-@Deprecated(message = "使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("setErrorHandler(NetErrorHandler())"), DeprecationLevel.WARNING)
+@Deprecated(
+    message = "使用NetErrorHandler统一处理错误",
+    replaceWith = ReplaceWith("setErrorHandler(NetErrorHandler())")
+)
 fun OkHttpClient.Builder.onError(block: Throwable.() -> Unit) = apply {
     NetConfig.onError = block
 }
@@ -146,10 +149,26 @@ fun OkHttpClient.Builder.onError(block: Throwable.() -> Unit) = apply {
 /**
  * 全局缺省页错误捕获
  */
-@Deprecated(message = "使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("setErrorHandler(NetErrorHandler())"), DeprecationLevel.WARNING)
+@Deprecated(
+    message = "使用NetErrorHandler统一处理错误",
+    replaceWith = ReplaceWith("setErrorHandler(NetErrorHandler())")
+)
 fun OkHttpClient.Builder.onStateError(block: Throwable.(view: View) -> Unit) = apply {
     NetConfig.onStateError = block
 }
+
+/**
+ * 全局加载对话框设置
+ * 设置在使用scopeDialog自动弹出的加载对话框
+ */
+@Deprecated(
+    message = "使用NetDialogFactory创建",
+    replaceWith = ReplaceWith("setDialogFactory(NetDialogFactory())")
+)
+fun OkHttpClient.Builder.onDialog(block: (FragmentActivity) -> Dialog) =
+    apply {
+        NetConfig.onDialog = block
+    }
 
 /**
  * 全局错误处理器
@@ -161,13 +180,13 @@ fun OkHttpClient.Builder.setErrorHandler(handler: NetErrorHandler) = apply {
 }
 
 /**
- * 全局加载对话框设置
- * 设置在使用scopeDialog自动弹出的加载对话框
+ * 全局请求自动弹出的对话框
+ *
+ * 会覆盖[onDialog]
  */
-fun OkHttpClient.Builder.onDialog(block: DialogCoroutineScope.(FragmentActivity) -> Dialog) =
-    apply {
-        NetConfig.onDialog = block
-    }
+fun OkHttpClient.Builder.setDialogFactory(dialogFactory: NetDialogFactory) = apply {
+    NetConfig.dialogFactory = dialogFactory
+}
 
 /**
  * 取消OkHttp客户端中指定Id的请求

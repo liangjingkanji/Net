@@ -23,15 +23,20 @@ import android.app.ProgressDialog
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.drake.net.NetConfig.app
+import com.drake.net.NetConfig.converter
+import com.drake.net.NetConfig.dialogFactory
+import com.drake.net.NetConfig.errorHandler
 import com.drake.net.NetConfig.host
-import com.drake.net.NetConfig.onDialog
+import com.drake.net.NetConfig.logEnabled
 import com.drake.net.NetConfig.onError
-import com.drake.net.NetConfig.onStateError
+import com.drake.net.NetConfig.requestInterceptor
+import com.drake.net.NetConfig.runningCalls
 import com.drake.net.convert.NetConverter
 import com.drake.net.exception.*
 import com.drake.net.interceptor.RequestInterceptor
+import com.drake.net.interfaces.NetDialogFactory
 import com.drake.net.interfaces.NetErrorHandler
-import com.drake.net.scope.DialogCoroutineScope
+import com.drake.net.okhttp.toNetOkhttp
 import com.drake.tooltip.toast
 import okhttp3.Call
 import okhttp3.OkHttpClient
@@ -48,37 +53,45 @@ import java.util.concurrent.*
  * @property runningCalls Net中正在运行的请求Call
  * @property requestInterceptor 请求拦截器
  * @property logEnabled 是否启用日志
- * @property onDialog 全局加载框
- * @property onError 全局错误处理
- * @property onStateError 全局缺省页错误处理
+ * @property dialogFactory 全局加载框
  * @property errorHandler 全局错误处理器, 会覆盖onError/onStateError
+ * @property converter 全局数据转换器
  */
 @SuppressLint("StaticFieldLeak")
 object NetConfig {
 
     lateinit var app: Application
-    lateinit var okHttpClient: OkHttpClient
-
+    var okHttpClient: OkHttpClient = OkHttpClient.Builder().toNetOkhttp().build()
+        set(value) {
+            field = value.toNetOkhttp()
+        }
     var host: String = ""
     var logEnabled = true
     var runningCalls: ConcurrentLinkedQueue<WeakReference<Call>> = ConcurrentLinkedQueue()
-    var converter: NetConverter = NetConverter.DEFAULT
+        private set
     var requestInterceptor: RequestInterceptor? = null
-    var errorHandler = NetErrorHandler()
+    var converter: NetConverter = NetConverter
+    var errorHandler: NetErrorHandler = NetErrorHandler
+    var dialogFactory: NetDialogFactory = NetDialogFactory
 
-    var onDialog: DialogCoroutineScope.(FragmentActivity) -> Dialog = {
+    @Deprecated("废弃", replaceWith = ReplaceWith("NetConfig.dialogFactory"))
+    var onDialog: (FragmentActivity) -> Dialog = { activity ->
         val progress = ProgressDialog(activity)
         progress.setMessage(activity.getString(R.string.net_dialog_msg))
         progress
     }
 
+    @Deprecated("废弃", replaceWith = ReplaceWith("NetConfig.errorHandler"))
     var onError: Throwable.() -> Unit = onError@{
 
         val message = when (this) {
             is UnknownHostException -> app.getString(R.string.net_host_error)
             is URLParseException -> app.getString(R.string.net_url_error)
             is NetConnectException -> app.getString(R.string.net_network_error)
-            is NetSocketTimeoutException -> app.getString(R.string.net_connect_timeout_error, message)
+            is NetSocketTimeoutException -> app.getString(
+                R.string.net_connect_timeout_error,
+                message
+            )
             is DownloadFileException -> app.getString(R.string.net_download_error)
             is ConvertException -> app.getString(R.string.net_parse_error)
             is RequestParamsException -> app.getString(R.string.net_request_error)
@@ -94,6 +107,7 @@ object NetConfig {
         toast(message)
     }
 
+    @Deprecated("废弃", replaceWith = ReplaceWith("NetConfig.errorHandler"))
     var onStateError: Throwable.(view: View) -> Unit = {
         when (this) {
             is ConvertException,
@@ -103,5 +117,25 @@ object NetConfig {
             else -> if (logEnabled) printStackTrace()
         }
     }
+
+    //<editor-fold desc="初始化">
+    /**
+     * 初始化框架, 该函数仅在Kotlin下有效
+     *
+     * @param host 请求url的主机名
+     * @param config 进行配置网络请求
+     */
+    fun init(host: String = "", config: OkHttpClient.Builder.() -> Unit = {}) {
+        NetConfig.host = host
+        val builder = OkHttpClient.Builder()
+        builder.config()
+        okHttpClient = builder.toNetOkhttp().build()
+    }
+
+    fun init(host: String = "", config: OkHttpClient.Builder) {
+        NetConfig.host = host
+        okHttpClient = config.toNetOkhttp().build()
+    }
+    //</editor-fold>
 }
 

@@ -39,7 +39,7 @@ import kotlinx.coroutines.Dispatchers
 
 /**
  * 作用域开始时自动显示加载对话框, 结束时自动关闭加载对话框
- * 可以设置全局对话框 [com.drake.net.NetConfig.onDialog]
+ * 可以设置全局对话框 [com.drake.net.NetConfig.dialogFactory]
  * @param dialog 仅该作用域使用的对话框
  *
  * 对话框被取消或者界面关闭作用域被取消

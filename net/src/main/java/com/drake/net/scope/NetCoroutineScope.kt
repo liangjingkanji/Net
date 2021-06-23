@@ -77,7 +77,6 @@ open class NetCoroutineScope(
      */
     protected open fun readCache(succeed: Boolean) {}
 
-
     override fun handleError(e: Throwable) {
         NetConfig.errorHandler.onError(e)
     }

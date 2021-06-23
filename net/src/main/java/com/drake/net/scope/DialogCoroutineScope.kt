@@ -22,7 +22,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.drake.net.NetConfig
-import com.drake.net.NetConfig.onDialog
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -54,7 +53,7 @@ class DialogCoroutineScope(
         activity.runOnUiThread {
             dialog = when {
                 dialog != null -> dialog
-                else -> onDialog.invoke(this, activity)
+                else -> NetConfig.dialogFactory.onCreate(activity)
             }
             dialog?.setOnDismissListener { cancel() }
             dialog?.setCancelable(cancelable)
@@ -66,10 +65,6 @@ class DialogCoroutineScope(
         if (succeed) {
             dismiss()
         }
-    }
-
-    override fun handleError(e: Throwable) {
-        NetConfig.errorHandler.onError(e)
     }
 
     override fun finally(e: Throwable?) {

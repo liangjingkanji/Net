@@ -38,10 +38,12 @@ open class BodyRequest : BaseRequest() {
     override var method = Method.POST
 
     //<editor-fold desc="Param">
+    override fun param(name: String, value: String?) {
+        formBody.add(name, value ?: return)
+    }
+
     override fun param(name: String, value: String?, encoded: Boolean) {
-        if (encoded) {
-            formBody.addEncoded(name, value ?: return)
-        } else formBody.add(name, value ?: return)
+        formBody.addEncoded(name, value ?: return)
     }
 
     override fun param(name: String, value: Number?) {

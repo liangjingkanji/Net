@@ -70,8 +70,8 @@ open class Interval(
         initialDelay: Long = 0
     ) : this(-1, period, unit, 0, initialDelay)
 
-    private val listReceive: MutableList<(Long) -> Unit> = mutableListOf()
-    private val listFinish: MutableList<(Long) -> Unit> = mutableListOf()
+    private val receiveList: MutableList<(Long) -> Unit> = mutableListOf()
+    private val finishList: MutableList<(Long) -> Unit> = mutableListOf()
     private var countTime = 0L
     private var delay = 0L
     private var scope: AndroidScope? = null
@@ -89,7 +89,7 @@ open class Interval(
      * 轮循器完成时会同时触发回调[block]和[finish]
      */
     fun subscribe(block: (Long) -> Unit): Interval {
-        listReceive.add(block)
+        receiveList.add(block)
         return this
     }
 
@@ -97,7 +97,7 @@ open class Interval(
      * 轮循器完成时回调该函数
      */
     fun finish(block: (Long) -> Unit): Interval {
-        listFinish.add(block)
+        finishList.add(block)
         return this
     }
 
@@ -124,7 +124,7 @@ open class Interval(
         if (state == IntervalStatus.STATE_IDLE) return
         state = IntervalStatus.STATE_IDLE
         scope?.cancel()
-        listFinish.forEach {
+        finishList.forEach {
             it.invoke(count)
         }
         count = start
@@ -202,13 +202,13 @@ open class Interval(
 
             for (unit in ticker) {
 
-                listReceive.forEach {
+                receiveList.forEach {
                     it.invoke(count)
                 }
 
                 if (end != -1L && count == end) {
                     scope?.cancel()
-                    listFinish.forEach {
+                    finishList.forEach {
                         it.invoke(count)
                     }
                 }

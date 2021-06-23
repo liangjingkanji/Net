@@ -22,9 +22,7 @@ import com.drake.net.component.Progress
  *
  * @param interval 进度监听器刷新的间隔时间, 单位为毫秒, 默认值为500ms
  */
-abstract class ProgressListener(
-    var interval: Long = 500,
-) {
+abstract class ProgressListener(var interval: Long = 500) {
     // 上次触发监听器时的开机时间
     var elapsedTime = 0L
 

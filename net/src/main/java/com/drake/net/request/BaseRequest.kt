@@ -21,6 +21,7 @@ import com.drake.net.NetConfig
 import com.drake.net.convert.NetConverter
 import com.drake.net.exception.ConvertException
 import com.drake.net.exception.URLParseException
+import com.drake.net.interfaces.NetCallback
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.okhttp.toNetOkhttp
 import com.drake.net.response.convert
@@ -105,7 +106,9 @@ abstract class BaseRequest {
 
     //<editor-fold desc="Param">
 
-    abstract fun param(name: String, value: String?, encoded: Boolean = false)
+    abstract fun param(name: String, value: String?)
+
+    abstract fun param(name: String, value: String?, encoded: Boolean)
 
     abstract fun param(name: String, value: Number?)
 
@@ -317,7 +320,9 @@ abstract class BaseRequest {
      */
     fun enqueue(block: Callback): Call {
         NetConfig.requestInterceptor?.interceptor(this)
-        val newCall = okHttpClient.newCall(buildRequest())
+        val request = buildRequest()
+        val newCall = okHttpClient.newCall(request)
+        if (block is NetCallback<*>) block.onStart(request)
         newCall.enqueue(block)
         return newCall
     }

@@ -1,10 +1,16 @@
 package com.drake.net.interfaces
 
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import com.drake.net.Net
 import com.drake.net.NetConfig
+import com.drake.net.request.group
 import com.drake.net.response.convert
 import com.drake.net.utils.runMain
 import okhttp3.Call
 import okhttp3.Callback
+import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 import java.lang.reflect.ParameterizedType
@@ -14,7 +20,10 @@ import java.lang.reflect.ParameterizedType
  * 相对于OkHttp的Callback新增三个回调函数: [onSuccess] [onError] [onComplete]
  * 这三个函数都运行在主线程上
  */
-abstract class NetCallback<T> : Callback {
+abstract class NetCallback<T> constructor(
+    val lifecycle: LifecycleOwner? = null,
+    val lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
+) : Callback {
 
     override fun onResponse(call: Call, response: Response) {
         val succeed = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0]
@@ -37,19 +46,20 @@ abstract class NetCallback<T> : Callback {
         }
     }
 
-    /**
-     * 请求成功
-     */
+    open fun onStart(request: Request) {
+        request.group()
+        lifecycle?.lifecycle?.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (lifeEvent == event) Net.cancelGroup(request.group())
+            }
+        })
+    }
+
     abstract fun onSuccess(call: Call, result: T)
 
-    /**
-     * 请求错误
-     */
     open fun onError(call: Call, e: IOException) = NetConfig.errorHandler.onError(e)
 
     /**
-     * 请求完成
-     *
      * @param e 正常结束则为NULL, 发生异常结束则为异常对象
      */
     open fun onComplete(call: Call, e: IOException?) {}

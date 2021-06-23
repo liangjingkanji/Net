@@ -29,6 +29,7 @@ import okhttp3.OkHttpClient
  *
  * @see com.drake.net.convert.JSONConvert
  */
+@Deprecated("函数迁移", replaceWith = ReplaceWith("NetConfig.init(host, config)"))
 fun initNet(host: String = "", config: OkHttpClient.Builder.() -> Unit = {}) {
     NetConfig.host = host
     val builder = OkHttpClient.Builder()
@@ -36,6 +37,7 @@ fun initNet(host: String = "", config: OkHttpClient.Builder.() -> Unit = {}) {
     NetConfig.okHttpClient = builder.toNetOkhttp().build()
 }
 
+@Deprecated("函数迁移", replaceWith = ReplaceWith("NetConfig.init(host, config)"))
 fun initNet(host: String = "", config: OkHttpClient.Builder) {
     NetConfig.host = host
     NetConfig.okHttpClient = config.toNetOkhttp().build()

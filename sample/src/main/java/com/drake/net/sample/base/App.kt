@@ -19,10 +19,10 @@ package com.drake.net.sample.base
 import android.app.Application
 import android.app.ProgressDialog
 import com.drake.brv.BindingAdapter
-import com.drake.net.initNet
+import com.drake.net.NetConfig
 import com.drake.net.interceptor.LogRecordInterceptor
 import com.drake.net.interceptor.RequestInterceptor
-import com.drake.net.okhttp.onDialog
+import com.drake.net.okhttp.setDialogFactory
 import com.drake.net.okhttp.setLog
 import com.drake.net.okhttp.setRequestInterceptor
 import com.drake.net.request.BaseRequest
@@ -39,11 +39,9 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        initNet("http://43.128.31.195/") {
-
+        NetConfig.init("http://43.128.31.195/") {
             setLog(BuildConfig.DEBUG) // LogCat异常日志
             addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG)) // 添加日志记录器
-
             setRequestInterceptor(object : RequestInterceptor { // 添加请求拦截器
                 override fun interceptor(request: BaseRequest) {
                     request.addHeader("client", "Net")
@@ -51,12 +49,13 @@ class App : Application() {
                 }
             })
 
-            onDialog { // 全局加载对话框
+            setDialogFactory { // 全局加载对话框
                 ProgressDialog(it).apply {
                     setMessage("我是全局自定义的加载对话框...")
                 }
             }
         }
+
         initDependent()
     }
 
