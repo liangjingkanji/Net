@@ -52,8 +52,11 @@ class SerializationConverter(
                         bodyString.parseBody<R>(kType)
                     }
                 }
-                code in 400..499 -> throw RequestParamsException(response) // 请求参数错误
-                code >= 500 -> throw ServerResponseException(response) // 服务器异常错误
+                code in 400..499 -> throw RequestParamsException(
+                    response,
+                    code.toString()
+                ) // 请求参数错误
+                code >= 500 -> throw ServerResponseException(response, code.toString()) // 服务器异常错误
                 else -> throw ConvertException(response)
             }
         }
