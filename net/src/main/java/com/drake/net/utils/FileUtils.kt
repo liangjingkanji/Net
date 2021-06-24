@@ -1,10 +1,14 @@
 package com.drake.net.utils
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.webkit.MimeTypeMap
+import androidx.core.content.FileProvider
+import com.drake.net.NetConfig
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import okio.BufferedSink
 import okio.source
 import java.io.File
@@ -56,5 +60,41 @@ fun File.toRequestBody(contentType: MediaType? = null): RequestBody {
         override fun writeTo(sink: BufferedSink) {
             source().use { source -> sink.writeAll(source) }
         }
+    }
+}
+
+/**
+ * 安装APK
+ */
+fun File.install() {
+    val context = NetConfig.app
+
+    if (!this.exists()) {
+        throw IllegalArgumentException("The file does not exist ($absolutePath)")
+    }
+    if (name.substringAfterLast(".").lowercase() != "apk") {
+        throw IllegalArgumentException("The file is not an apk file ($absolutePath)")
+    }
+
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+    val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fileProvider",
+            this
+        )
+    } else {
+        Uri.fromFile(this)
+    }
+    intent.setDataAndType(uri, "application/vnd.android.package-archive")
+
+    if (context.packageManager.resolveActivity(intent, 0) != null) {
+        context.startActivity(intent)
+    } else {
+        throw UnsupportedOperationException("Unable to find installation activity")
     }
 }
