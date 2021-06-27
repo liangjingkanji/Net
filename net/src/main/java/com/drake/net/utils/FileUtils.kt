@@ -65,7 +65,10 @@ fun File.toRequestBody(contentType: MediaType? = null): RequestBody {
 
 /**
  * 安装APK
+ * @throws IllegalArgumentException 文件不存在或非apk后缀
+ * @throws UnsupportedOperationException 系统不存在包管理器
  */
+@Throws(IllegalArgumentException::class, UnsupportedOperationException::class)
 fun File.install() {
     val context = NetConfig.app
 
