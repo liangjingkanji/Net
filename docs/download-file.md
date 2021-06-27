@@ -1,4 +1,6 @@
-请求下载文件和普通接口请求就有所区别
+## 简单下载
+
+下载文件和普通的接口请求唯一区别就是泛型不同
 
 ```kotlin
 scopeNetLife {
@@ -8,18 +10,33 @@ scopeNetLife {
 
 Download函数一调用就会开始执行下载文件请求, 然后`await`则会等待下载文件完成然后返回一个File对象
 
-下载文件的配置选项
+## 下载选项
 
-```kotlin
-scopeNetLife {
-    val file =
-        Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
-            setDownloadFileName("net.apk")
-            setDownloadDir(requireContext().filesDir)
-            setDownloadMd5Verify()
-        }.await()
-}
-```
+支持丰富的下载定制方案, 并且会不断地更新完善
+
+=== "下载文件"
+    ```kotlin
+    scopeNetLife {
+        val file =
+            Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
+                setDownloadFileName("net.apk")
+                setDownloadDir(requireContext().filesDir)
+                setDownloadMd5Verify()
+            }.await()
+    }
+    ```
+
+=== "下载并安装"
+    ```kotlin hl_lines="7"
+    scopeNetLife {
+        val file =
+            Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
+                setDownloadFileName("net.apk")
+                setDownloadDir(requireContext().filesDir)
+                setDownloadMd5Verify()
+            }.await().install()
+    }
+    ```
 
 配置选项
 
