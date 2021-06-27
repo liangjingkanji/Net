@@ -25,7 +25,9 @@ import okhttp.OkHttpUtils
 import okhttp3.FormBody
 import okhttp3.Request
 import java.util.concurrent.ConcurrentLinkedQueue
+import kotlin.jvm.Throws
 import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 
 //<editor-fold desc="请求属性">
 
@@ -118,7 +120,12 @@ fun Request.Builder.setLogRecord(enabled: Boolean) = apply {
  * 设置KType
  */
 fun Request.Builder.setKType(type: KType) = apply {
-    setLabel(type)
+    setLabel(NetLabel.RequestKType(type))
+}
+
+@OptIn(ExperimentalStdlibApi::class)
+inline fun <reified T> Request.Builder.setKType() = apply {
+    setLabel(NetLabel.RequestKType(typeOf<T>()))
 }
 //</editor-fold>
 

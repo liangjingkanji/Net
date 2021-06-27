@@ -153,9 +153,8 @@ abstract class BaseRequest {
     /**
      * 为请求附着针对Kotlin的Type信息
      */
-    @OptIn(ExperimentalStdlibApi::class)
     inline fun <reified T> setKType() {
-        okHttpRequest.setKType(typeOf<T>())
+        okHttpRequest.setKType<T>()
     }
 
     //</editor-fold>
