@@ -22,15 +22,6 @@ apply plugin: 'kotlinx-serialization'
 
 android {
     compileSdkVersion 30
-    defaultConfig {
-        applicationId "com.drake.net.sample"
-        minSdkVersion 19
-        targetSdkVersion 30
-        versionCode 1
-        multiDexEnabled true
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
     signingConfigs {
         signed {
             storeFile file("../signed")
@@ -39,11 +30,20 @@ android {
             keyPassword "s73dfyUxkjuq"
         }
     }
+    defaultConfig {
+        applicationId "com.drake.net.sample"
+        minSdkVersion 19
+        targetSdkVersion 30
+        versionCode 1
+        multiDexEnabled true
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.signed
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.signed
         }
     }
 
