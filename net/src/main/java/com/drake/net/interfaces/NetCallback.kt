@@ -25,6 +25,9 @@ abstract class NetCallback<T> constructor(
     val lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
 ) : Callback {
 
+    lateinit var request: Request
+        internal set
+
     override fun onResponse(call: Call, response: Response) {
         val succeed = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0]
         val data = try {

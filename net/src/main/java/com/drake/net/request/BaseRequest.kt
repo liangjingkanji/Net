@@ -384,7 +384,10 @@ abstract class BaseRequest {
         NetConfig.requestInterceptor?.interceptor(this)
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
-        if (block is NetCallback<*>) block.onStart(request)
+        if (block is NetCallback<*>) {
+            block.request = request
+            block.onStart(request)
+        }
         newCall.enqueue(block)
         return newCall
     }
