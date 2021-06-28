@@ -23,11 +23,10 @@ import com.drake.net.interfaces.ProgressListener
 import com.drake.net.tag.NetLabel
 import okhttp.OkHttpUtils
 import okhttp3.FormBody
+import okhttp3.Headers
 import okhttp3.Request
 import java.util.concurrent.ConcurrentLinkedQueue
-import kotlin.jvm.Throws
 import kotlin.reflect.KType
-import kotlin.reflect.typeOf
 
 //<editor-fold desc="请求属性">
 
@@ -123,40 +122,70 @@ fun Request.Builder.setKType(type: KType) = apply {
     setLabel(NetLabel.RequestKType(type))
 }
 
-@OptIn(ExperimentalStdlibApi::class)
-inline fun <reified T> Request.Builder.setKType() = apply {
-    setLabel(NetLabel.RequestKType(typeOf<T>()))
+/**
+ * 全部的请求头
+ */
+fun Request.Builder.headers(): Headers.Builder {
+    return OkHttpUtils.headers(this)
 }
 //</editor-fold>
 
 //<editor-fold desc="标签">
 
 /**
- * 返回键值对的tag
+ * 返回键值对的标签
+ * 键值对标签即OkHttp中的实际tag(在Net中叫label)中的一个Map集合
  */
 fun Request.tag(name: String): Any? {
     return label<NetLabel.Tags>()?.get(name)
 }
 
 /**
- * 设置键值对的tag
+ * 设置键值对的标签
  */
 fun Request.setTag(name: String, value: Any?) {
-    var tags = label<NetLabel.Tags>()
-    if (tags == null) {
-        tags = NetLabel.Tags()
-        setLabel(tags)
+    val tags = tags()
+    if (value == null) {
+        tags.remove(name)
+    } else {
+        tags[name] = value
     }
-    tags[name] = value
 }
 
+/**
+ * 设置键值对的tag
+ */
 fun Request.Builder.setTag(name: String, value: Any?) = apply {
+    val tags = tags()
+    if (value == null) {
+        tags.remove(name)
+    } else {
+        tags[name] = value
+    }
+}
+
+/**
+ * 全部键值对标签
+ */
+fun Request.tags(): HashMap<String, Any?> {
     var tags = label<NetLabel.Tags>()
     if (tags == null) {
         tags = NetLabel.Tags()
         setLabel(tags)
     }
-    tags[name] = value
+    return tags
+}
+
+/**
+ * 全部键值对标签
+ */
+fun Request.Builder.tags(): HashMap<String, Any?> {
+    var tags = label<NetLabel.Tags>()
+    if (tags == null) {
+        tags = NetLabel.Tags()
+        setLabel(tags)
+    }
+    return tags
 }
 
 /**
@@ -170,21 +199,40 @@ inline fun <reified T> Request.label(): T? {
  * 返回OkHttp的tag(通过Class区分的tag)
  */
 inline fun <reified T> Request.Builder.label(): T? {
-    return OkHttpUtils.tags(this)[T::class.java] as? T
+    return labels()[T::class.java] as? T
 }
 
 /**
  * 设置OkHttp的tag(通过Class区分的tag)
  */
-inline fun <reified T> Request.setLabel(any: T) = apply {
-    OkHttpUtils.tags(this)[T::class.java] = any
+inline fun <reified T> Request.setLabel(value: T) = apply {
+    val labels = labels()
+    if (value == null) {
+        labels.remove(T::class.java)
+    } else {
+        labels[T::class.java] = value
+    }
 }
 
 /**
  * 设置OkHttp的tag(通过Class区分的tag)
  */
-inline fun <reified T> Request.Builder.setLabel(any: T) = apply {
-    tag(T::class.java, any)
+inline fun <reified T> Request.Builder.setLabel(value: T) = apply {
+    tag(T::class.java, value)
+}
+
+/**
+ * 标签集合
+ */
+fun Request.labels(): MutableMap<Class<*>, Any?> {
+    return OkHttpUtils.tags(this)
+}
+
+/**
+ * 标签集合
+ */
+fun Request.Builder.labels(): MutableMap<Class<*>, Any?> {
+    return OkHttpUtils.tags(this)
 }
 
 //</editor-fold>
@@ -302,7 +350,7 @@ fun Request.addDownloadListener(progressListener: ProgressListener) {
 //</editor-fold>
 
 /**
- * 转换器
+ * 返回请求包含的转换器
  */
 fun Request.converter(): NetConverter {
     return label<NetConverter>() ?: NetConfig.converter

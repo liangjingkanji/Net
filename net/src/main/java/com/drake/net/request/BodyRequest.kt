@@ -30,10 +30,31 @@ import java.io.File
 
 open class BodyRequest : BaseRequest() {
 
+    /**
+     * 请求体
+     */
     open var body: RequestBody? = null
+
+    /**
+     * multipart请求体
+     * 主要存放文件/IO流
+     */
     open var partBody: MultipartBody.Builder by lazyField { MultipartBody.Builder() }
+
+    /**
+     * 表单请求体
+     * 当你设置`partBody`后当前表单请求体中的所有参数都会被存放到partBody中
+     */
     open var formBody: FormBody.Builder by lazyField { FormBody.Builder() }
+
+    /**
+     * multipart请求体的媒体类型
+     */
     open var mediaType: MediaType = MediaConst.FORM
+
+    /**
+     * 请求方法
+     */
     override var method = Method.POST
 
     //<editor-fold desc="Param">
@@ -90,29 +111,45 @@ open class BodyRequest : BaseRequest() {
     //</editor-fold>
 
     //<editor-fold desc="JSON">
+
+    /**
+     * 添加Json为请求体
+     */
     fun json(body: JSONObject?) {
         this.body = body?.toString()?.toRequestBody(MediaConst.JSON)
     }
 
+    /**
+     * 添加Json为请求体
+     */
     fun json(body: JSONArray?) {
         this.body = body?.toString()?.toRequestBody(MediaConst.JSON)
     }
 
+    /**
+     * 添加Json为请求体
+     */
     fun json(body: String?) {
         this.body = body?.toRequestBody(MediaConst.JSON)
     }
 
+    /**
+     * 添加Json为请求体
+     */
     fun json(body: Map<String, Any?>?) {
         this.body = JSONObject(body ?: return).toString().toRequestBody(MediaConst.JSON)
     }
 
+    /**
+     * 添加Json对象为请求体
+     */
     fun json(vararg body: Pair<String, Any?>) {
         this.body = JSONObject(body.toMap()).toString().toRequestBody(MediaConst.JSON)
     }
     //</editor-fold>
 
     /**
-     * 上传进度监听器
+     * 添加上传进度监听器
      */
     fun addUploadListener(progressListener: ProgressListener) {
         okHttpRequest.uploadListeners().add(progressListener)

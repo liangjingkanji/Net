@@ -37,12 +37,21 @@ import kotlin.reflect.typeOf
 
 abstract class BaseRequest {
 
+    /** 请求的Url构造器 */
     open var httpUrl: HttpUrl.Builder = HttpUrl.Builder()
+
+    /** 当前请求的数据转换器 */
     open var converter: NetConverter = NetConfig.converter
+
+    /** 请求的方法 */
     open var method = Method.GET
 
     //<editor-fold desc="OkHttpClient" >
+
+    /** 请求对象构造器 */
     open var okHttpRequest: Request.Builder = Request.Builder()
+
+    /** 请求客户端 */
     open var okHttpClient = NetConfig.okHttpClient
         set(value) {
             field = value.toNetOkhttp()
@@ -70,10 +79,16 @@ abstract class BaseRequest {
         }
     }
 
+    /**
+     * 设置Url
+     */
     open fun setUrl(url: HttpUrl) {
         httpUrl = url.newBuilder()
     }
 
+    /**
+     * 设置Url
+     */
     open fun setUrl(url: URL) {
         setUrl(url.toString())
     }
@@ -95,6 +110,9 @@ abstract class BaseRequest {
         }
     }
 
+    /**
+     * 设置Url上的Query参数
+     */
     fun setQuery(name: String, value: String?, encoded: Boolean = false) {
         if (encoded) {
             httpUrl.setEncodedQueryParameter(name, value)
@@ -105,12 +123,42 @@ abstract class BaseRequest {
 
     //<editor-fold desc="Param">
 
+    /**
+     * 基础类型表单参数
+     *
+     * 如果当前请求为Url请求则为Query参数
+     * 如果当前请求为表单请求则为表单参数
+     * 如果当前为Multipart包含流/文件的请求则为multipart参数
+     */
     abstract fun param(name: String, value: String?)
 
+    /**
+     * 基础类型表单参数
+     *
+     * 如果当前请求为Url请求则为Query参数
+     * 如果当前请求为表单请求则为表单参数
+     * 如果当前为Multipart包含流/文件的请求则为multipart参数
+     *
+     * @param encoded 对应OkHttp参数函数中的encoded表示当前字段参数已经编码过. 不会再被自动编码
+     */
     abstract fun param(name: String, value: String?, encoded: Boolean)
 
+    /**
+     * 基础类型表单参数
+     *
+     * 如果当前请求为Url请求则为Query参数
+     * 如果当前请求为表单请求则为表单参数
+     * 如果当前为Multipart包含流/文件的请求则为multipart参数
+     */
     abstract fun param(name: String, value: Number?)
 
+    /**
+     * 基础类型表单参数
+     *
+     * 如果当前请求为Url请求则为Query参数
+     * 如果当前请求为表单请求则为表单参数
+     * 如果当前为Multipart包含流/文件的请求则为multipart参数
+     */
     abstract fun param(name: String, value: Boolean?)
 
     //</editor-fold>
@@ -132,11 +180,27 @@ abstract class BaseRequest {
     }
 
     /**
-     * 将一个任意对象添加到Request对象中, 一般用于在拦截器或者转换器中被获取到标签, 针对某个请求的特殊业务逻辑
-     * 使用`Request.tag()`获取标签
+     * 使用Any::class作为键名添加标签
+     * 使用Request.tag()返回标签
      */
     fun setTag(tag: Any?) {
         okHttpRequest.tag(tag)
+    }
+
+    /**
+     * 使用[type]作为键名添加标签
+     * 使用Request.label<T>()或者Request.tag(type)返回标签
+     */
+    fun <T> setTag(type: Class<in T>, tag: T?) {
+        okHttpRequest.tag(type, tag)
+    }
+
+    /**
+     * 使用[T]作为键名添加标签
+     * 使用Request.label<T>()或者Request.tag(type)返回标签
+     */
+    inline fun <reified T> setLabel(tag: T?) {
+        okHttpRequest.setLabel(tag)
     }
 
     /**
@@ -153,8 +217,9 @@ abstract class BaseRequest {
     /**
      * 为请求附着针对Kotlin的Type信息
      */
+    @OptIn(ExperimentalStdlibApi::class)
     inline fun <reified T> setKType() {
-        okHttpRequest.setKType<T>()
+        okHttpRequest.setKType(typeOf<T>())
     }
 
     //</editor-fold>
@@ -270,6 +335,9 @@ abstract class BaseRequest {
         okHttpRequest.setLogRecord(enabled)
     }
 
+    /**
+     * 构建请求对象Request
+     */
     open fun buildRequest(): Request {
         return okHttpRequest.method(method.name, null)
             .url(httpUrl.build())
