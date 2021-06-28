@@ -1,15 +1,20 @@
-Net的标签完美的扩展的OkHttp的标签功能
+
+Q: 什么是标签?
+
+A: 标签就是一个存储在Request对象中的Map集合, 便于Request请求对象携带指定的数据. 该数据可以通过Request在拦截器/转换器/响应体中被获取到, 用于构建区分请求的业务逻辑
 
 <br>
-在拦截器(Interceptor)或者转换器(NetConvert)中都可以通过`request.tag(name)`获取到标签对象
-
+Net中的标签同时支持使用字符串或者Class字节码作为标签的键名. 根据传入类型决定
 
 ## 标签使用
 
 ### 1) 设置标签
+
 ```kotlin hl_lines="2"
 scopeNetLife {
-    tv_fragment.text = Get<String>("api", "我是一个标签").await()
+    tv_fragment.text = Get<String>("api", "标签A"){ // 使用Any::class.java作为键名
+        setTag("tagName", "标签B") // 使用字符串作为键名
+    }.await()
 }
 ```
 
@@ -20,6 +25,9 @@ class MyInterceptor : Interceptor {
         val request = chain.request()
         request.tag()?.let {
             // 获取标签做任何事
+        }
+        request.tag("tagName")?.let {
+           // 获取标签做任何事
         }
         return chain.proceed(request)
     }

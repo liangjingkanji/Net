@@ -40,7 +40,7 @@ nav:
   - 同步请求: sync-request.md
   - 队列请求: enqueue-request.md
   - ViewModel: view-model.md
-  - 请求参数: request-params.md
+  - 请求对象: request.md
   - 创建作用域: scope.md
   - 全局配置: config.md
   - OkHttpClient: okhttp-client.md

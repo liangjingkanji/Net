@@ -54,5 +54,5 @@
 
 例如Retrofit的动态`BaseURL`功能就可以直接修改`NetConfig.host`
 
-<img src="https://i.imgur.com/ueqcNYw.png" width="500"/>
+<img src="https://i.imgur.com/gOhMDUZ.png" width="480"/>
 

@@ -1,6 +1,4 @@
-在Net中都是使用的其框架内部创建的`Request`创建请求
-
-涉及到请求参数的类只有两个类和一个抽象父类
+Net中关于请求的类只有两个类和他们共同的抽象父类
 
 ```kotlin
 BaseRequest
@@ -30,8 +28,8 @@ scopeNetLife {
 }
 ```
 
-## 表单请求
-关于请求参数参数
+## 请求参数
+
 ```kotlin
 scopeNetLife { // 创建作用域
     // 这个大括号内就属于作用域内部
@@ -46,8 +44,11 @@ scopeNetLife { // 创建作用域
 |-|-|
 |`param`|支持基础类型/文件/RequestBody/Part|
 |`json`|请求参数为JSONObject/JsonArray/String|
-|`setQuery`|Url参数, 如果当前请求的Url请求则该函数等效于`param`函数|
+|`setQuery`|Url参数, 如果当前请求为Url请求则该函数等效于`param`函数|
 
+如果没有添加文件/流那么就是通过BodyRequest内部的`FormBody`发起请求. 反之就是通过`MultipartBody`发起请求.
+
+> 当然你可以完全自定义Body来请求, 譬如以下的Json请求
 
 
 ## JSON请求
@@ -105,7 +106,7 @@ scopeNetLife { // 创建作用域
 
 ## 请求函数
 
-关于具体函数希望阅读源码. Net源码全部有文档注释, 以及函数结构分组
+关于全部的请求配置选项推荐阅读函数文档或者阅读源码. Net提供清晰的函数结构浏览方便直接阅读源码
 
-<img src="https://i.imgur.com/oZp9WYZ.png" width="420"/>
+<img src="https://i.imgur.com/j9H4c1y.png" width="400"/>
 

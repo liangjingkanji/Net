@@ -80,7 +80,7 @@ catch里面的`it`属于异常对象, 这里列举可能存在的异常
 
 源码位于: `NetConfig`
 
-<img src="https://i.imgur.com/3Zf9CwT.png" width="550"/>
+<img src="https://i.imgur.com/NZFlRoN.png" width="400"/>
 
 缺省页的错误处理是单独的: `onStateError`
 
