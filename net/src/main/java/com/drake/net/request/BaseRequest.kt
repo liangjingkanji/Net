@@ -19,7 +19,6 @@ package com.drake.net.request
 
 import com.drake.net.NetConfig
 import com.drake.net.convert.NetConverter
-import com.drake.net.exception.ConvertException
 import com.drake.net.exception.URLParseException
 import com.drake.net.interfaces.NetCallback
 import com.drake.net.interfaces.ProgressListener
@@ -33,6 +32,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.File
 import java.io.IOException
 import java.net.URL
+import java.util.concurrent.CancellationException
 import kotlin.reflect.typeOf
 
 abstract class BaseRequest {
@@ -401,16 +401,21 @@ abstract class BaseRequest {
         setKType<R>()
         newCall.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                runMain { block(Result.failure(e)) }
+                val message = e.cause?.message
+                val exception = if (message == "Socket closed") {
+                    CancellationException(message)
+                } else e
+                runMain { block(Result.failure(exception)) }
             }
 
             override fun onResponse(call: Call, response: Response) {
-                try {
-                    val success = response.convert<R>(converter)
-                    runMain { block(Result.success(success)) }
-                } catch (e: ConvertException) {
+                val success = try {
+                    response.convert<R>(converter)
+                } catch (e: IOException) {
                     onFailure(call, e)
+                    return
                 }
+                runMain { block(Result.success(success)) }
             }
         })
         return newCall

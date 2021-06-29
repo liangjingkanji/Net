@@ -40,7 +40,7 @@ abstract class StateCallback<T>(val state: StateLayout) : NetCallback<T>() {
         super.onError(call, e)
     }
 
-    override fun onComplete(call: Call, e: IOException?) {
+    override fun onComplete(call: Call, e: Throwable?) {
         super.onComplete(call, e)
         if (e == null || e is CancellationException) state.showContent()
     }

@@ -13,7 +13,6 @@ import com.drake.net.interfaces.NetCallback
 import com.drake.net.request.group
 import okhttp3.Call
 import okhttp3.Request
-import java.io.IOException
 
 /**
  * 会自动在网络请求开始显示加载对话框, 在网络请求时关闭对话框.
@@ -49,7 +48,7 @@ abstract class DialogCallback<T> constructor(
         }
     }
 
-    override fun onComplete(call: Call, e: IOException?) {
+    override fun onComplete(call: Call, e: Throwable?) {
         dismiss()
         super.onComplete(call, e)
     }

@@ -44,7 +44,7 @@ abstract class PageCallback<T>(val page: PageRefreshLayout) : NetCallback<T>() {
         super.onError(call, e)
     }
 
-    override fun onComplete(call: Call, e: IOException?) {
+    override fun onComplete(call: Call, e: Throwable?) {
         if (e == null || e is CancellationException) {
             page.showContent()
         }
