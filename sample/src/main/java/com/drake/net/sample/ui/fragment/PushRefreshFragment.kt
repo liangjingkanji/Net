@@ -16,28 +16,30 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.setup
+import com.drake.engine.base.EngineFragment
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentPushRefreshBinding
 import com.drake.net.utils.scope
-import kotlinx.android.synthetic.main.fragment_push_refresh.*
 
 
-class PushRefreshFragment : Fragment(R.layout.fragment_push_refresh) {
+class PushRefreshFragment :
+    EngineFragment<FragmentPushRefreshBinding>(R.layout.fragment_push_refresh) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        rv_push.linear().setup {
+    override fun initView() {
+        binding.rv.linear().setup {
             addType<String>(R.layout.item_list)
         }
 
-        page.onRefresh {
+        binding.page.onRefresh {
             scope {
                 // rv_push.models = Get<ListModel>("list").await().data.list
             }
         }.autoRefresh()
+    }
+
+    override fun initData() {
     }
 
 }

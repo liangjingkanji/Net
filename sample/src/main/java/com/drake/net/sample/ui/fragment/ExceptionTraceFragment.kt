@@ -16,22 +16,25 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentExceptionTraceBinding
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_exception_trace.*
 
 
-class ExceptionTraceFragment : Fragment(R.layout.fragment_exception_trace) {
+class ExceptionTraceFragment :
+    EngineFragment<FragmentExceptionTraceBinding>(R.layout.fragment_exception_trace) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun initView() {
         scopeNetLife {
             // 这是一个错误的地址, 请查看LogCat的错误信息, 在[initNet]函数中的[onError]回调中你也可以进行自定义错误信息打印
-            tv_fragment.text = Get<String>("https://githuberror.com/liangjingkanji/Net/").await()
+            binding.tvFragment.text =
+                Get<String>("https://githuberror.com/liangjingkanji/Net/").await()
         }
+    }
+
+    override fun initData() {
     }
 
 }

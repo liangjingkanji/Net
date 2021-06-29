@@ -17,9 +17,9 @@
 监听轮循器
 ```kotlin
 interval.subscribe {
-    tv_fragment.text = it.toString()
+    tvFragment.text = it.toString()
 }.finish {
-    tv_fragment.text = "计时完成" // 最后一位数时同时回调 subscribe/finish
+    tvFragment.text = "计时完成" // 最后一位数时同时回调 subscribe/finish
 }.start()
 ```
 
@@ -37,7 +37,7 @@ interval.stop() // 停止
 
 ```kotlin
 interval.life(this).subscribe { // 添加一个life函数即可
-    tv_fragment.text = it.toString()
+    tvFragment.text = it.toString()
 }
 ```
 

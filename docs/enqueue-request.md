@@ -25,7 +25,7 @@ Net.post("api") {
     param("password", "Net123")
 }.enqueue(object : NetCallback<String>() {
     override fun onSuccess(call: Call, data: String) {
-        tv_fragment.text = data
+        tvFragment.text = data
     }
 })
 ```
@@ -54,7 +54,7 @@ Net.post("api").onResult<String> {
 
     getOrNull()?.let { // 如果成功就不为Null
         Log.d("日志", "请求成功")
-        tv_fragment.text = it
+        tvFragment.text = it
     }
 
     exceptionOrNull()?.apply {

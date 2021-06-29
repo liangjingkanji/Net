@@ -7,7 +7,7 @@ Net中网络请求导致的异常都会在LogCat中打印, 同时被全局的Net
 ```kotlin
 scopeNetLife {
     // 这是一个错误的地址, 请查看LogCat的错误信息, 在[Convert]中你也可以进行自定义错误信息打印
-    tv_fragment.text = Get<String>("error").await()
+    tvFragment.text = Get<String>("error").await()
 }
 ```
 

@@ -14,19 +14,23 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragment.SuperIntervalFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_fragment"
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="32dp"
-        tools:text="0"
-        android:textStyle="bold" />
+        tools:context=".ui.fragment.SuperIntervalFragment">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tvFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="32dp"
+            tools:text="0"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+</layout>

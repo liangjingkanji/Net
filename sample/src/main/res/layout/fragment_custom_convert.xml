@@ -14,28 +14,32 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragment.converter.GsonConvertFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_convert_tip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="50dp"
-        android:paddingHorizontal="20dp"
-        android:textSize="12dp"
-        tools:text="推荐, kotlinx.serialization支持任何泛型, 可直接返回Map/List/Pair..." />
 
-    <TextView
-        android:id="@+id/tv_fragment"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="等待请求完成"
-        android:textStyle="bold" />
+        tools:context=".ui.fragment.converter.GsonConvertFragment">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tvConvertTip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="50dp"
+            android:paddingHorizontal="20dp"
+            android:textSize="12dp"
+            tools:text="推荐, kotlinx.serialization支持任何泛型, 可直接返回Map/List/Pair..." />
+
+        <TextView
+            android:id="@+id/tvFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="等待请求完成"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+</layout>

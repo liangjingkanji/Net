@@ -16,19 +16,19 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentSwitchDispatcherBinding
 import com.drake.net.utils.scopeLife
 import com.drake.net.utils.withIO
 import com.drake.net.utils.withMain
 import kotlinx.coroutines.launch
 
 
-class SwitchDispatcherFragment : Fragment(R.layout.fragment_switch_dispatcher) {
+class SwitchDispatcherFragment :
+    EngineFragment<FragmentSwitchDispatcherBinding>(R.layout.fragment_switch_dispatcher) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun initView() {
         scopeLife {
 
             // 点击函数名查看更多相关函数
@@ -42,6 +42,9 @@ class SwitchDispatcherFragment : Fragment(R.layout.fragment_switch_dispatcher) {
                 "主线程切换到IO调度器"
             }
         }
+    }
+
+    override fun initData() {
     }
 
 }

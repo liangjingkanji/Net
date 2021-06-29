@@ -16,20 +16,18 @@
 
 package com.drake.net.sample.ui.fragment.converter
 
-import android.os.Bundle
-import android.view.View
 import com.drake.net.Get
 import com.drake.net.sample.R
 import com.drake.net.sample.converter.SerializationConverter
+import com.drake.net.sample.databinding.FragmentCustomConvertBinding
 import com.drake.net.sample.model.UserModel
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_custom_convert.*
 
+class SerializationConvertFragment :
+    BaseConvertFragment<FragmentCustomConvertBinding>(R.layout.fragment_custom_convert) {
 
-class SerializationConvertFragment : BaseConvertFragment(R.layout.fragment_custom_convert) {
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        tv_convert_tip.text = """
+    override fun initView() {
+        binding.tvConvertTip.text = """
             1. kotlin官方出品, 推荐使用 
             2. kotlinx.serialization 是Kotlin上是最完美的序列化工具 
             3. 支持多种反序列化数据类型Pair/枚举/Map...
@@ -44,8 +42,11 @@ class SerializationConvertFragment : BaseConvertFragment(R.layout.fragment_custo
                 converter = SerializationConverter() // 单例转换器, 此时会忽略全局转换器
             }.await()
 
-            tv_fragment.text = userList[0].name
+            binding.tvFragment.text = userList[0].name
         }
+    }
+
+    override fun initData() {
     }
 
 }

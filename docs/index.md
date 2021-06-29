@@ -76,14 +76,14 @@ Net支持RestFul设计风格
 
 ```kotlin
 scopeNetLife {
-    tv_fragment.text = Get<String>("http://www.baidu.com/").await()
-    tv_fragment.text = Post<String>("http://www.baidu.com/").await()
-    tv_fragment.text = Head<String>("http://www.baidu.com/").await()
-    tv_fragment.text = Put<String>("http://www.baidu.com/").await()
-    tv_fragment.text = Patch<String>("http://www.baidu.com/").await()
-    tv_fragment.text = Delete<String>("http://www.baidu.com/").await()
-    tv_fragment.text = Trace<String>("http://www.baidu.com/").await()
-    tv_fragment.text = Options<String>("http://www.baidu.com/").await()
+    tvFragment.text = Get<String>("http://www.baidu.com/").await()
+    tvFragment.text = Post<String>("http://www.baidu.com/").await()
+    tvFragment.text = Head<String>("http://www.baidu.com/").await()
+    tvFragment.text = Put<String>("http://www.baidu.com/").await()
+    tvFragment.text = Patch<String>("http://www.baidu.com/").await()
+    tvFragment.text = Delete<String>("http://www.baidu.com/").await()
+    tvFragment.text = Trace<String>("http://www.baidu.com/").await()
+    tvFragment.text = Options<String>("http://www.baidu.com/").await()
 }
 ```
 

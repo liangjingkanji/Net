@@ -14,19 +14,23 @@
   ~ limitations under the License.
   -->
 
-<com.drake.statelayout.StateLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:id="@+id/state"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragment.StateLayoutFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_fragment"
-        android:padding="32dp"
-        android:textStyle="bold"
+
+    <com.drake.statelayout.StateLayout
         android:layout_width="match_parent"
+        android:id="@+id/state"
         android:layout_height="match_parent"
-        android:text="内容" />
+        tools:context=".ui.fragment.StateLayoutFragment">
 
-</com.drake.statelayout.StateLayout>
+        <TextView
+            android:id="@+id/tvFragment"
+            android:padding="32dp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="内容" />
+
+    </com.drake.statelayout.StateLayout>
+</layout>

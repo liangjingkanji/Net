@@ -5,12 +5,14 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
+import androidx.databinding.ViewDataBinding
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
+import com.drake.engine.base.EngineFragment
 import com.drake.net.sample.R
 
-open class BaseConvertFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(contentLayoutId) {
+abstract class BaseConvertFragment<T : ViewDataBinding>(@LayoutRes contentLayoutId: Int = 0) :
+    EngineFragment<T>(contentLayoutId) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

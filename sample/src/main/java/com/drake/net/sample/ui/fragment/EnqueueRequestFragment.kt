@@ -1,16 +1,18 @@
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
 import android.util.Log
-import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.Net
 import com.drake.net.sample.R
-import kotlinx.android.synthetic.main.fragment_fastest.*
+import com.drake.net.sample.databinding.FragmentEnqueueRequestBinding
 
-class EnqueueRequestFragment : Fragment(R.layout.fragment_enqueue_request) {
+class EnqueueRequestFragment :
+    EngineFragment<FragmentEnqueueRequestBinding>(R.layout.fragment_enqueue_request) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun initData() {
+    }
+
+    override fun initView() {
 
         // Net同样支持OkHttp的队列任务
 
@@ -27,7 +29,7 @@ class EnqueueRequestFragment : Fragment(R.layout.fragment_enqueue_request) {
         //     param("password", "Net123")
         // }.enqueue(object : NetCallback<String>() {
         //     override fun onSuccess(call: Call, result: String) {
-        //         tv_fragment.text = result // onSuccess 属于主线程
+        //         binding.tvFragment.text = result // onSuccess 属于主线程
         //     }
         // })
 
@@ -36,7 +38,7 @@ class EnqueueRequestFragment : Fragment(R.layout.fragment_enqueue_request) {
 
             getOrNull()?.let { // 如果成功就不为Null
                 Log.d("日志", "请求成功")
-                tv_fragment.text = it
+                binding.tvFragment.text = it
             }
 
             exceptionOrNull()?.apply {

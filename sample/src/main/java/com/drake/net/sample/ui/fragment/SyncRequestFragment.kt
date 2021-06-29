@@ -1,23 +1,24 @@
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.Net
 import com.drake.net.sample.R
-import kotlinx.android.synthetic.main.fragment_sync_request.*
+import com.drake.net.sample.databinding.FragmentSyncRequestBinding
 import kotlin.concurrent.thread
 
-class SyncRequestFragment : Fragment(R.layout.fragment_sync_request) {
+class SyncRequestFragment :
+    EngineFragment<FragmentSyncRequestBinding>(R.layout.fragment_sync_request) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+    override fun initView() {
         thread {
             val result = Net.post("api").execute<String>() // 网络请求不允许在主线程
             // val result = Net.post("api").toResult<String>().getOrDefault("请求发生错误, 我这是默认值")
-            tv_fragment?.post {
-                tv_fragment?.text = result  // view要求在主线程更新
+            binding.tvFragment?.post {
+                binding.tvFragment?.text = result  // view要求在主线程更新
             }
         }
+    }
+
+    override fun initData() {
     }
 }

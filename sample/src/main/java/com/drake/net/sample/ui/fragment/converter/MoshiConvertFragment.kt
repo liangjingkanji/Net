@@ -16,20 +16,19 @@
 
 package com.drake.net.sample.ui.fragment.converter
 
-import android.os.Bundle
-import android.view.View
 import com.drake.net.Get
 import com.drake.net.sample.R
 import com.drake.net.sample.converter.MoshiConverter
+import com.drake.net.sample.databinding.FragmentCustomConvertBinding
 import com.drake.net.sample.model.Model
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_custom_convert.*
 
 
-class MoshiConvertFragment : BaseConvertFragment(R.layout.fragment_custom_convert) {
+class MoshiConvertFragment :
+    BaseConvertFragment<FragmentCustomConvertBinding>(R.layout.fragment_custom_convert) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        tv_convert_tip.text = """
+    override fun initView() {
+        binding.tvConvertTip.text = """
             1. Square出品的JSON解析库
             2. 支持Kotlin构造默认值
             3. 具备注解和反射两种使用方式
@@ -38,9 +37,12 @@ class MoshiConvertFragment : BaseConvertFragment(R.layout.fragment_custom_conver
         """.trimIndent()
 
         scopeNetLife {
-            tv_fragment.text = Get<Model>("api") {
+            binding.tvFragment.text = Get<Model>("api") {
                 converter = MoshiConverter() // 单例转换器, 此时会忽略全局转换器
             }.await().data.request_method
         }
+    }
+
+    override fun initData() {
     }
 }

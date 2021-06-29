@@ -12,7 +12,7 @@ Net中的标签同时支持使用字符串或者Class字节码作为标签的键
 
 ```kotlin hl_lines="2"
 scopeNetLife {
-    tv_fragment.text = Get<String>("api", "标签A"){ // 使用Any::class.java作为键名
+    tvFragment.text = Get<String>("api", "标签A"){ // 使用Any::class.java作为键名
         setTag("tagName", "标签B") // 使用字符串作为键名
     }.await()
 }

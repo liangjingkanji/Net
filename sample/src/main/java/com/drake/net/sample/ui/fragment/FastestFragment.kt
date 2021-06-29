@@ -16,19 +16,17 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.Post
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentFastestBinding
 import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_request_method.*
 
-class FastestFragment : Fragment(R.layout.fragment_fastest) {
+class FastestFragment : EngineFragment<FragmentFastestBinding>(R.layout.fragment_fastest) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun initView() {
         scopeNetLife {
             /*
             网络请求的取消本质上依靠uid来辨别,如果设置[uid]参数可以在返回最快结果后取消掉其他网络请求, 反之不会取消其他网络请求
@@ -42,7 +40,8 @@ class FastestFragment : Fragment(R.layout.fragment_fastest) {
             val deferred1 = Get<String>("api1") { setGroup("最快") } // 错误接口
 
             // 只返回最快的请求结果
-            tv_fragment.text = fastest(listOf(deferred, deferred1, deferred2, deferred3), "最快")
+            binding.tvFragment.text =
+                fastest(listOf(deferred, deferred1, deferred2, deferred3), "最快")
         }
 
         /*
@@ -63,7 +62,10 @@ class FastestFragment : Fragment(R.layout.fragment_fastest) {
         //     }
         //
         //     // 只返回最快的请求结果
-        //     tv_fragment.text = fastest(requestList).toString()
+        //     binding.tvFragment.text = fastest(requestList).toString()
         // }
+    }
+
+    override fun initData() {
     }
 }

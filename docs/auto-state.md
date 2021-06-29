@@ -28,7 +28,7 @@
     tools:context=".ui.fragment.StateLayoutFragment">
 
     <TextView
-        android:id="@+id/tv_fragment"
+        android:id="@+id/tvFragment"
         android:padding="32dp"
         android:textStyle="bold"
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
 ```kotlin
 state.onRefresh {
     scope {
-        tv_fragment.text = Get<String>("api").await()
+        tvFragment.text = Get<String>("api").await()
     }
 }.showLoading()
 ```

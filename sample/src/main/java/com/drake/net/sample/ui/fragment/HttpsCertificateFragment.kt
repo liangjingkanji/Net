@@ -1,29 +1,32 @@
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.okhttp.setSSLCertificate
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentHttpsCertificateBinding
 import com.drake.net.utils.scopeNetLife
 import com.drake.tooltip.toast
-import kotlinx.android.synthetic.main.fragment_https_certificate.*
 import okhttp3.OkHttpClient
 
-class HttpsCertificateFragment : Fragment(R.layout.fragment_https_certificate) {
+class HttpsCertificateFragment :
+    EngineFragment<FragmentHttpsCertificateBinding>(R.layout.fragment_https_certificate) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        btn_trust_certificate.setOnClickListener(this::trustAllCertificate)
-        btn_import_certificate.setOnClickListener(this::importCertificate)
+    override fun initView() {
+        binding.btnTrustCertificate.setOnClickListener(this::trustAllCertificate)
+        binding.btnImportCertificate.setOnClickListener(this::importCertificate)
+    }
+
+    override fun initData() {
     }
 
     /**
      * 信任全部证书
      */
-    fun trustAllCertificate(view: View) {
+    private fun trustAllCertificate(view: View) {
         scopeNetLife {
-            tv_response.text = Get<String>("https://github.com/") {
+            binding.tvResponse.text = Get<String>("https://github.com/") {
                 okHttpClient = OkHttpClient.Builder().build()
             }.await()
         }
@@ -32,7 +35,7 @@ class HttpsCertificateFragment : Fragment(R.layout.fragment_https_certificate) {
     /**
      * 导入私有证书
      */
-    fun importCertificate(view: View) {
+    private fun importCertificate(view: View) {
         scopeNetLife {
             Get<String>("https://github.com/") {
                 setClient {

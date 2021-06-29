@@ -18,69 +18,71 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.*
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentRequestMethodBinding
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_async_task.*
 
 
-class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
+class RequestMethodFragment :
+    EngineFragment<FragmentRequestMethodBinding>(R.layout.fragment_request_method) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun initView() {
         setHasOptionsMenu(true)
+    }
+
+    override fun initData() {
     }
 
     private fun GET() {
         scopeNetLife {
-            tv_fragment.text = Get<String>("api").await()
+            binding.tvFragment.text = Get<String>("api").await()
         }
     }
 
     private fun POST() {
         scopeNetLife {
-            tv_fragment.text = Post<String>("api").await()
+            binding.tvFragment.text = Post<String>("api").await()
         }
     }
 
     private fun HEAD() {
         scopeNetLife {
-            tv_fragment.text = Head<String>("api").await()
+            binding.tvFragment.text = Head<String>("api").await()
         }
     }
 
     private fun PUT() {
         scopeNetLife {
-            tv_fragment.text = Put<String>("api").await()
+            binding.tvFragment.text = Put<String>("api").await()
         }
     }
 
     private fun PATCH() {
         scopeNetLife {
-            tv_fragment.text = Patch<String>("api").await()
+            binding.tvFragment.text = Patch<String>("api").await()
         }
     }
 
     private fun DELETE() {
         scopeNetLife {
-            tv_fragment.text = Delete<String>("api").await()
+            binding.tvFragment.text = Delete<String>("api").await()
         }
     }
 
     private fun TRACE() {
         scopeNetLife {
-            tv_fragment.text = Trace<String>("api").await()
+            binding.tvFragment.text = Trace<String>("api").await()
         }
     }
 
     private fun OPTIONS() {
         scopeNetLife {
-            tv_fragment.text = Options<String>("api").await()
+            binding.tvFragment.text = Options<String>("api").await()
         }
     }
 
@@ -96,7 +98,7 @@ class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
         scopeNetLife {
 
             // 创建JSONObject对象
-            // tv_fragment.text = Post<String>("api") {
+            // binding.tvFragment.text = Post<String>("api") {
             //     json(JSONObject().run {
             //         put("name", name)
             //         put("age", age)
@@ -105,7 +107,7 @@ class RequestMethodFragment : Fragment(R.layout.fragment_request_method) {
             // }.await()
 
             // 创建JSON
-            tv_fragment.text = Post<String>("api") {
+            binding.tvFragment.text = Post<String>("api") {
                 json("name" to name, "age" to age, "measurements" to measurements) // 同时支持Map集合
             }.await()
         }

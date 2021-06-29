@@ -16,19 +16,19 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.Post
 import com.drake.net.Trace
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentParallelNetworkBinding
 import com.drake.net.utils.scopeNetLife
 
 
-class ParallelNetworkFragment : Fragment(R.layout.fragment_parallel_network) {
+class ParallelNetworkFragment :
+    EngineFragment<FragmentParallelNetworkBinding>(R.layout.fragment_parallel_network) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun initView() {
         scopeNetLife {
 
             // 同时发起三个请求
@@ -41,6 +41,9 @@ class ParallelNetworkFragment : Fragment(R.layout.fragment_parallel_network) {
             deferred1.await()
             deferred2.await()
         }
+    }
+
+    override fun initData() {
     }
 
 }

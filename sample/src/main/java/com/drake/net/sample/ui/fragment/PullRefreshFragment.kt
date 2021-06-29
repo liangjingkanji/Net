@@ -16,19 +16,18 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.setup
+import com.drake.engine.base.EngineFragment
 import com.drake.net.sample.R
-import kotlinx.android.synthetic.main.fragment_pull_refresh.*
+import com.drake.net.sample.databinding.FragmentPullRefreshBinding
 
 
-class PullRefreshFragment : Fragment(R.layout.fragment_pull_refresh) {
+class PullRefreshFragment :
+    EngineFragment<FragmentPullRefreshBinding>(R.layout.fragment_pull_refresh) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        rv_pull.linear().setup {
+    override fun initView() {
+        binding.rv.linear().setup {
             addType<String>(R.layout.item_list)
         }
 
@@ -42,6 +41,9 @@ class PullRefreshFragment : Fragment(R.layout.fragment_pull_refresh) {
         //         }
         //     }
         // }.autoRefresh()
+    }
+
+    override fun initData() {
     }
 
 }

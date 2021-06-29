@@ -14,7 +14,7 @@ scopeNetLife {
     val deferred3 = Post<String>("api")
 
     // 只返回最快的请求结果
-    tv_fragment.text = fastSelect(deferred, deferred1, deferred2, deferred3)
+    tvFragment.text = fastSelect(deferred, deferred1, deferred2, deferred3)
 }
 ```
 
@@ -32,7 +32,7 @@ scopeNetLife {
     val deferred1 = Get<String>("api1") { setGroup("最快") } // 错误接口
 
     // 只返回最快的请求结果
-    tv_fragment.text = fastest(listOf(deferred, deferred1, deferred2, deferred3), "最快")
+    tvFragment.text = fastest(listOf(deferred, deferred1, deferred2, deferred3), "最快")
 }
 ```
 
@@ -60,7 +60,7 @@ scopeNetLife {
         it
     }
 
-    tv_fragment.text = fastest(fastest, fastest2)
+    tvFragment.text = fastest(fastest, fastest2)
 }
 ```
 

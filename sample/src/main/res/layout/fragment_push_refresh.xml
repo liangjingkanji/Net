@@ -14,18 +14,22 @@
   ~ limitations under the License.
   -->
 
-<com.drake.brv.PageRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/page"
-    android:layout_width="match_parent"
-    app:srlEnableLoadMore="false"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragment.PushRefreshFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_push"
+
+    <com.drake.brv.PageRefreshLayout
+        android:id="@+id/page"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        app:srlEnableLoadMore="false"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragment.PushRefreshFragment">
 
-</com.drake.brv.PageRefreshLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.drake.brv.PageRefreshLayout>
+</layout>

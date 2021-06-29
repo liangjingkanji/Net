@@ -16,21 +16,19 @@
 
 package com.drake.net.sample.ui.fragment.converter
 
-import android.os.Bundle
-import android.view.View
 import com.drake.net.Get
 import com.drake.net.sample.R
 import com.drake.net.sample.converter.GsonConverter
-import com.drake.net.sample.model.Model
+import com.drake.net.sample.databinding.FragmentCustomConvertBinding
 import com.drake.net.sample.model.UserModel
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_custom_convert.*
 
 
-class GsonConvertFragment : BaseConvertFragment(R.layout.fragment_custom_convert) {
+class GsonConvertFragment :
+    BaseConvertFragment<FragmentCustomConvertBinding>(R.layout.fragment_custom_convert) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        tv_convert_tip.text = """
+    override fun initView() {
+        binding.tvConvertTip.text = """
             1. Google官方出品
             2. Json解析库Java上的老牌解析库
             3. 不支持Kotlin构造参数默认值
@@ -38,10 +36,13 @@ class GsonConvertFragment : BaseConvertFragment(R.layout.fragment_custom_convert
         """.trimIndent()
 
         scopeNetLife {
-            tv_fragment.text = Get<List<UserModel>>("list") {
+            binding.tvFragment.text = Get<List<UserModel>>("list") {
                 converter = GsonConverter() // 单例转换器, 此时会忽略全局转换器, 在Net中可以直接解析List等嵌套泛型数据
             }.await()[0].name
         }
+    }
+
+    override fun initData() {
     }
 
 }

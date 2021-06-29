@@ -46,7 +46,7 @@ scopeNetLife {
         converter = SerializationConvert() // 单例转换器, 此时会忽略全局转换器
     }.await()
 
-    tv_fragment.text = userList[0].name
+    tvFragment.text = userList[0].name
 }
 ```
 

@@ -11,7 +11,7 @@ scopeNetLife {
             override fun onProgress(p: Progress) {
                 seek.post {
                     seek.progress = p.progress()
-                    tv_progress.text =
+                    tvProgress.text =
                         "上传进度: ${p.progress()}% 上传速度: ${p.speedSize()}     " +
                                 "\n\n文件大小: ${p.totalSize()}  已上传: ${p.currentSize()}  剩余大小: ${p.remainSize()}" +
                                 "\n\n已使用时间: ${p.useTime()}  剩余时间: ${p.remainTime()}"
@@ -38,7 +38,7 @@ scopeNetLife {
                     seek?.post {
                         val progress = p.progress()
                         seek.progress = progress
-                        tv_progress.text =
+                        tvProgress.text =
                             "下载进度: $progress% 下载速度: ${p.speedSize()}     " +
                                     "\n\n文件大小: ${p.totalSize()}  已下载: ${p.currentSize()}  剩余大小: ${p.remainSize()}" +
                                     "\n\n已使用时间: ${p.useTime()}  剩余时间: ${p.remainTime()}"

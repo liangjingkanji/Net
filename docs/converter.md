@@ -31,7 +31,7 @@ scopeNetLife {
 === "单例"
     ```kotlin hl_lines="3"
     scopeNetLife {
-        tv_fragment.text = Get<String>("api"){
+        tvFragment.text = Get<String>("api"){
             converter = SerializationConverter()
         }.await()
     }

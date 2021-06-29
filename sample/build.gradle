@@ -16,7 +16,6 @@
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
-apply plugin: "kotlin-android-extensions"
 apply plugin: "kotlin-kapt"
 apply plugin: 'kotlinx-serialization'
 
@@ -98,6 +97,7 @@ dependencies {
     implementation 'com.github.liangjingkanji:StatusBar:1.1.1' // 透明状态栏
     implementation 'com.github.liangjingkanji:debugkit:1.2.11' // 开发调试窗口工具
     implementation "com.github.liangjingkanji:Tooltip:1.1.2" // 吐司工具
+    implementation 'com.github.liangjingkanji:Engine:0.0.25'
 
     // ------------------------------Google数据库-------------------------------------
     implementation "androidx.room:room-runtime:$room_version"

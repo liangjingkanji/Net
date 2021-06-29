@@ -16,22 +16,20 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import com.drake.engine.base.EngineFragment
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentCoroutineScopeBinding
 import com.drake.net.utils.scope
 import com.drake.net.utils.scopeLife
 import com.drake.net.utils.scopeNet
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_coroutine_scope.*
 import kotlinx.coroutines.delay
 
 
-class CoroutineScopeFragment : Fragment(R.layout.fragment_coroutine_scope) {
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+class CoroutineScopeFragment :
+    EngineFragment<FragmentCoroutineScopeBinding>(R.layout.fragment_coroutine_scope) {
+    override fun initData() {
         // 其作用域在应用进程销毁时才会被动取消
         scope {
 
@@ -40,7 +38,7 @@ class CoroutineScopeFragment : Fragment(R.layout.fragment_coroutine_scope) {
         // 其作用域在Activity或者Fragment销毁(onDestroy)时被动取消 [scopeNetLife]
         scopeLife {
             delay(2000)
-            tv_fragment.text = "任务结束"
+            binding.tvFragment.text = "任务结束"
         }
 
         // 自定义取消跟随的生命周期, 失去焦点时立即取消作用域
@@ -59,4 +57,6 @@ class CoroutineScopeFragment : Fragment(R.layout.fragment_coroutine_scope) {
         }
     }
 
+    override fun initView() {
+    }
 }

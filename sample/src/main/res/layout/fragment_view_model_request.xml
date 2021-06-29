@@ -18,22 +18,22 @@
         tools:context=".ui.fragment.ViewModelRequestFragment">
 
         <Button
-            android:id="@+id/btn_fetch_userinfo"
+            android:id="@+id/btnFetchUserinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="拉取用户信息" />
 
         <TextView
-            android:id="@+id/tv_response"
+            android:id="@+id/tvResponse"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:text="@{m.userInfo}"
             android:background="@color/divider"
             android:maxLines="300"
             android:padding="8dp"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:text="@{m.userInfo}" />
 
     </LinearLayout>
 </layout>

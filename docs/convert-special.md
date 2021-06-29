@@ -74,7 +74,7 @@ scopeNetLife {
 
 ```kotlin
 scopeNetLife {
-    tv_fragment.text = Get<List<UserModel>>("list") {
+    tvFragment.text = Get<List<UserModel>>("list") {
         converter = GsonConverter() // 单例转换器, 一般情况下是定义一个全局转换器
     }.await()[0].name
 }

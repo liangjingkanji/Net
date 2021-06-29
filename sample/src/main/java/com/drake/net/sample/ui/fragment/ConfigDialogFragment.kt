@@ -16,22 +16,21 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.Post
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentConfigDialogBinding
 import com.drake.net.utils.scopeDialog
 import com.drake.tooltip.toast
-import kotlinx.android.synthetic.main.fragment_config_dialog.*
 import kotlinx.coroutines.CancellationException
 
 
-class ConfigDialogFragment : Fragment(R.layout.fragment_config_dialog) {
+class ConfigDialogFragment :
+    EngineFragment<FragmentConfigDialogBinding>(R.layout.fragment_config_dialog) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun initView() {
         scopeDialog {
-            tv_fragment.text = Post<String>("dialog") {
+            binding.tvFragment.text = Post<String>("dialog") {
                 param("u_name", "drake")
                 param("pwd", "123456")
             }.await()
@@ -41,5 +40,8 @@ class ConfigDialogFragment : Fragment(R.layout.fragment_config_dialog) {
                 toast("对话框被关闭, 网络请求自动取消") // 这里存在Handler吐司崩溃, 如果不想处理就直接使用我的吐司库 https://github.com/liangjingkanji/Tooltip
             }
         }
+    }
+
+    override fun initData() {
     }
 }

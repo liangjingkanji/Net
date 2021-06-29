@@ -54,7 +54,7 @@ NetConfig.init("http://github.com/") {
 
 ```kotlin
 scopeNetLife {
-    tv_fragment.text = Get<String>("api") {
+    tvFragment.text = Get<String>("api") {
         setLogRecord(false) // 为当前请求禁用日志记录
     }.await()
 }

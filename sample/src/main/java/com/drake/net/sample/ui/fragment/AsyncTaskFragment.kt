@@ -16,23 +16,24 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentAsyncTaskBinding
 import com.drake.net.utils.scope
-import kotlinx.android.synthetic.main.fragment_async_task.*
 import kotlinx.coroutines.*
 
-class AsyncTaskFragment : Fragment(R.layout.fragment_async_task) {
+class AsyncTaskFragment : EngineFragment<FragmentAsyncTaskBinding>(R.layout.fragment_async_task) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun initView() {
         scope {
-            tv_fragment.text = withContext(Dispatchers.IO) {
+            binding.tvFragment.text = withContext(Dispatchers.IO) {
                 delay(2000)
                 "结果"
             }
         }
+    }
+
+    override fun initData() {
     }
 
     /**

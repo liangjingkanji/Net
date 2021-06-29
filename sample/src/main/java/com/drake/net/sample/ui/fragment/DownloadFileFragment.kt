@@ -16,33 +16,27 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.component.Progress
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentDownloadFileBinding
 import com.drake.net.scope.NetCoroutineScope
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_download_file.*
 import java.io.File
-import kotlin.time.ExperimentalTime
 
 
-class DownloadFileFragment : Fragment(R.layout.fragment_download_file) {
+class DownloadFileFragment :
+    EngineFragment<FragmentDownloadFileBinding>(R.layout.fragment_download_file) {
 
     private lateinit var downloadScope: NetCoroutineScope
 
-    @ExperimentalTime
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun initView() {
         setHasOptionsMenu(true)
-
-
         downloadScope = scopeNetLife {
             val file =
                 Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
@@ -52,10 +46,10 @@ class DownloadFileFragment : Fragment(R.layout.fragment_download_file) {
                     setDownloadTempFile()
                     addDownloadListener(object : ProgressListener() {
                         override fun onProgress(p: Progress) {
-                            seek?.post {
+                            binding.seek?.post {
                                 val progress = p.progress()
-                                seek.progress = progress
-                                tv_progress.text =
+                                binding.seek.progress = progress
+                                binding.tvProgress.text =
                                     "下载进度: $progress% 下载速度: ${p.speedSize()}     " +
                                             "\n\n文件大小: ${p.totalSize()}  已下载: ${p.currentSize()}  剩余大小: ${p.remainSize()}" +
                                             "\n\n已使用时间: ${p.useTime()}  剩余时间: ${p.remainTime()}"
@@ -76,5 +70,8 @@ class DownloadFileFragment : Fragment(R.layout.fragment_download_file) {
             R.id.cancel -> downloadScope.cancel() // 取消下载
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun initData() {
     }
 }

@@ -14,19 +14,23 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragment.ReadCacheFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_fragment"
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:padding="16dp"
         android:layout_height="match_parent"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:text="仅请求成功一次后才会存在缓存" />
+        tools:context=".ui.fragment.ReadCacheFragment">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tvFragment"
+            android:layout_width="match_parent"
+            android:padding="16dp"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="仅请求成功一次后才会存在缓存" />
+
+    </FrameLayout>
+</layout>

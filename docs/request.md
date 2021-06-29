@@ -62,7 +62,7 @@ scopeNetLife { // 创建作用域
     val measurements = listOf(100, 100, 100)
 
     scopeNetLife {
-        tv_fragment.text = Post<String>("api") {
+        tvFragment.text = Post<String>("api") {
             json("name" to name, "age" to age, "measurements" to measurements) // 同时也支持Map集合
         }.await()
     }
@@ -75,7 +75,7 @@ scopeNetLife { // 创建作用域
     val measurements = listOf(100, 100, 100)
 
     scopeNetLife {
-        tv_fragment.text = Post<String>("api") {
+        tvFragment.text = Post<String>("api") {
             json(JSONObject().run {
                 put("name", name)
                 put("age", age)
@@ -92,7 +92,7 @@ scopeNetLife { // 创建作用域
     val measurements = listOf(100, 100, 100)
 
     scopeNetLife {
-        tv_fragment.text = Post<String>("api") {
+        tvFragment.text = Post<String>("api") {
             body = MyJsonBody(name, age, measurements)
         }.await()
     }

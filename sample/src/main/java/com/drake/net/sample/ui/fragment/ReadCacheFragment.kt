@@ -16,30 +16,31 @@
 
 package com.drake.net.sample.ui.fragment
 
-import android.os.Bundle
 import android.util.Log
-import android.view.View
-import androidx.fragment.app.Fragment
+import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.Post
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.FragmentReadCacheBinding
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_read_cache.*
 
 
-class ReadCacheFragment : Fragment(R.layout.fragment_read_cache) {
+class ReadCacheFragment : EngineFragment<FragmentReadCacheBinding>(R.layout.fragment_read_cache) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun initView() {
         scopeNetLife {
             // 然后执行这里(网络请求)
-            tv_fragment.text =
-                    Post<String>("api").await()
+            binding.tvFragment.text =
+                Post<String>("api").await()
             Log.d("日志", "网络请求")
         }.preview {
             // 先执行这里(仅读缓存), 任何异常都视为读取缓存失败
-            tv_fragment.text = Get<String>("api").await()
+            binding.tvFragment.text = Get<String>("api").await()
             Log.d("日志", "读取缓存")
         }
+    }
+
+    override fun initData() {
     }
 
 }

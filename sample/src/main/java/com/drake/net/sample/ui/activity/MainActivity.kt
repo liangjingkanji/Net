@@ -16,31 +16,45 @@
 
 package com.drake.net.sample.ui.activity
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.drake.engine.base.EngineActivity
 import com.drake.net.sample.R
+import com.drake.net.sample.databinding.ActivityMainBinding
 import com.drake.statusbar.immersive
-import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * 以下代码设置导航, 和框架本身无关无需关心, 请查看[com.drake.net.sample.ui.fragment]内的Fragment
  */
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : EngineActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        immersive(toolbar, true)
-        setSupportActionBar(toolbar)
-        toolbar.setupWithNavController(nav.findNavController(), AppBarConfiguration(nav_view.menu, drawer))
-        nav_view.setupWithNavController(nav.findNavController())
+    override fun initView() {
+        immersive(binding.toolbar, true)
+        setSupportActionBar(binding.toolbar)
+        // val actionBarDrawerToggle = ActionBarDrawerToggle(
+        //     this,
+        //     binding.drawer,
+        //     binding.toolbar,
+        //     R.string.app_name,
+        //     R.string.app_name
+        // )
+        // binding.drawer.addDrawerListener(actionBarDrawerToggle)
+        // actionBarDrawerToggle.syncState()
+        val navController = findNavController(R.id.nav)
+        binding.toolbar.setupWithNavController(
+            navController,
+            AppBarConfiguration(binding.drawerNav.menu, binding.drawer)
+        )
+        binding.drawerNav.setupWithNavController(navController)
+    }
+
+    override fun initData() {
     }
 
     override fun onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawers() else super.onBackPressed()
+        if (binding.drawer.isDrawerOpen(GravityCompat.START)) binding.drawer.closeDrawers() else super.onBackPressed()
     }
 }
 

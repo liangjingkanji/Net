@@ -16,29 +16,31 @@
 
 package com.drake.net.sample.ui.fragment.converter
 
-import android.os.Bundle
-import android.view.View
 import com.drake.net.Get
 import com.drake.net.sample.R
 import com.drake.net.sample.converter.FastJsonConverter
+import com.drake.net.sample.databinding.FragmentCustomConvertBinding
 import com.drake.net.sample.model.Model
 import com.drake.net.utils.scopeNetLife
-import kotlinx.android.synthetic.main.fragment_custom_convert.*
 
 
-class FastJsonConvertFragment : BaseConvertFragment(R.layout.fragment_custom_convert) {
+class FastJsonConvertFragment :
+    BaseConvertFragment<FragmentCustomConvertBinding>(R.layout.fragment_custom_convert) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        tv_convert_tip.text = """
+    override fun initView() {
+        binding.tvConvertTip.text = """
             1. 阿里巴巴出品的Json解析库
             2. 引入kotlin-reflect库可以支持kotlin默认值
         """.trimIndent()
 
         scopeNetLife {
-            tv_fragment.text = Get<Model>("api") {
+            binding.tvFragment.text = Get<Model>("api") {
                 converter = FastJsonConverter() // 单例转换器, 此时会忽略全局转换器
             }.await().data.request_method
         }
+    }
+
+    override fun initData() {
     }
 
 }

@@ -5,7 +5,7 @@ Net支持发起请求的时候自动弹出和关闭对话框(Loading Dialog)
 只需要使用`scopeDialog`作用域即可.
 ```kotlin
 scopeDialog {
-    tv_fragment.text = Post<String>("dialog") {
+    tvFragment.text = Post<String>("dialog") {
         param("u_name", "drake") // 请求参数
         param("pwd", "123456")
     }.await()

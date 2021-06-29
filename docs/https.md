@@ -8,7 +8,7 @@ Https如果是使用的CA颁发的证书, 不需要任何配置Net可以直接�
 
 ```kotlin
 scopeNetLife {
-    tv_fragment.text = Get<String>("https://github.com/").await()
+    tvFragment.text = Get<String>("https://github.com/").await()
 }
 ```
 
