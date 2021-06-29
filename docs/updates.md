@@ -19,7 +19,7 @@ NetException子类不会被ConvertException包裹, 所以要捕获转换器中�
 1. 修复临时下载文件错误问题
 2. 修复ViewModel作用域复用问题
 
-## 3.0.9
+## 3.0.10
 升级Tooltip依赖, 解决使用Tooltip_V1.1.1依赖时Net存在崩溃问题
 
 ## 3.0.9

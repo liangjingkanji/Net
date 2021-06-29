@@ -20,11 +20,11 @@ POST, DELETE, PUT, PATCH // Body request
 scopeNetLife {
     Get<String>("api") {
         // this 即为 UrlRequest
-    }.await
+    }.await()
 
     Post<String>("api") {
         // this 即为 BodyRequest
-    }.await
+    }.await()
 }
 ```
 

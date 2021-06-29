@@ -44,7 +44,7 @@ abstract class JSONConvert(
 
     override fun <R> onConvert(succeed: Type, response: Response): R? {
         try {
-            return NetConverter.DEFAULT.onConvert<R>(succeed, response)
+            return NetConverter.onConvert<R>(succeed, response)
         } catch (e: ConvertException) {
             val code = response.code
             when {
