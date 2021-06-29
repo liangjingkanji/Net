@@ -25,8 +25,12 @@
             <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">abstract class <a href="index.html">NetCallback</a>&lt;<a href="index.html">T</a>&gt;(lifecycle: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/LifecycleOwner.html">LifecycleOwner</a>?, lifeEvent: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/Lifecycle.Event.html">Lifecycle.Event</a>) : <span data-unresolved-link="okhttp3/Callback///PointingToDeclaration/">Callback</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">提供泛型转换特性 相对于OkHttp的Callback新增三个回调函数: <a href="on-error.html">onSuccess</a><a href="on-complete.html">onComplete</a> 这三个函数都运行在主线程上</p></div></div>
           </div>
           <div class="tabbedcontent">
-            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Inheritors">Inheritors</button></div>
+            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Parameters">Parameters</button><button class="section-tab" data-togglable="Inheritors">Inheritors</button></div>
             <div class="tabs-section-body">
+              <h2 class="">Parameters</h2>
+              <div data-togglable="Parameters">
+                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">lifecycle</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">将Activity/Fragment/LifecycleOwner等作为参数传递会在其生命周期结束时自动取消网络请求. 避免内存泄漏</p></div></div></div></div></div><div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">lifeEvent</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">指定自动取消的生命周期. 默认为<a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/Lifecycle.Event.ON_DESTROY.html">Lifecycle.Event.ON_DESTROY</a></p></div></div></div></div></div></div></div></div></div>
+              </div>
               <h2 class="tabbedcontent">Constructors</h2>
               <div class="table" data-togglable="Constructors"><a data-name="1226779553%2FConstructors%2F1281733757" anchor-label="NetCallback" id="1226779553%2FConstructors%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
@@ -36,26 +40,26 @@
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="-net-callback.html">NetCallback</a>(lifecycle: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/LifecycleOwner.html">LifecycleOwner</a>? = null, lifeEvent: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/Lifecycle.Event.html">Lifecycle.Event</a> = Lifecycle.Event.ON_DESTROY)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="-net-callback.html">NetCallback</a>(lifecycle: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/LifecycleOwner.html">LifecycleOwner</a>? = null, lifeEvent: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/Lifecycle.Event.html">Lifecycle.Event</a> = Lifecycle.Event.ON_DESTROY)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">将Activity/Fragment/LifecycleOwner等作为参数传递会在其生命周期结束时自动取消网络请求.</div></div></div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <h2 class="">Functions</h2>
-              <div class="table" data-togglable="Functions"><a data-name="-1803402648%2FFunctions%2F1281733757" anchor-label="onComplete" id="-1803402648%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+              <div class="table" data-togglable="Functions"><a data-name="-376528164%2FFunctions%2F1281733757" anchor-label="onComplete" id="-376528164%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="on-complete.html">onComplete</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1803402648%2FFunctions%2F1281733757"></span>
+                    <div class=""><span class="inline-flex"><a href="on-complete.html">onComplete</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-376528164%2FFunctions%2F1281733757"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">open fun <a href="on-complete.html">onComplete</a>(call: <span data-unresolved-link="okhttp3/Call///PointingToDeclaration/">Call</span>, e: <a href="https://developer.android.com/reference/kotlin/java/io/IOException.html">IOException</a>?)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/MainThread.html">MainThread</a>()</div></div>open fun <a href="on-complete.html">onComplete</a>(call: <span data-unresolved-link="okhttp3/Call///PointingToDeclaration/">Call</span>, e: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a>?)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</div>
+<a data-name="-376528164%2FFunctions%2F1281733757" anchor-label="onComplete" id="-376528164%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="-376528164%2FFunctions%2F1281733757" anchor-label="onComplete" id="-376528164%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>网络请求完成, 无论错误还是正常结束</div></div>
 </div>
                     </div>
                   </div>
@@ -70,9 +74,9 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">open fun <a href="on-error.html">onError</a>(call: <span data-unresolved-link="okhttp3/Call///PointingToDeclaration/">Call</span>, e: <a href="https://developer.android.com/reference/kotlin/java/io/IOException.html">IOException</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/MainThread.html">MainThread</a>()</div></div>open fun <a href="on-error.html">onError</a>(call: <span data-unresolved-link="okhttp3/Call///PointingToDeclaration/">Call</span>, e: <a href="https://developer.android.com/reference/kotlin/java/io/IOException.html">IOException</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</div>
+<a data-name="-1062322832%2FFunctions%2F1281733757" anchor-label="onError" id="-1062322832%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="-1062322832%2FFunctions%2F1281733757" anchor-label="onError" id="-1062322832%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>网络请求错误</div></div>
 </div>
                     </div>
                   </div>
@@ -121,9 +125,9 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">open fun <a href="on-start.html">onStart</a>(request: <span data-unresolved-link="okhttp3/Request///PointingToDeclaration/">Request</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/MainThread.html">MainThread</a>()</div></div>open fun <a href="on-start.html">onStart</a>(request: <span data-unresolved-link="okhttp3/Request///PointingToDeclaration/">Request</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</div>
+<a data-name="1655559957%2FFunctions%2F1281733757" anchor-label="onStart" id="1655559957%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="1655559957%2FFunctions%2F1281733757" anchor-label="onStart" id="1655559957%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>网络请求开始</div></div>
 </div>
                     </div>
                   </div>
@@ -138,9 +142,9 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">abstract fun <a href="on-success.html">onSuccess</a>(call: <span data-unresolved-link="okhttp3/Call///PointingToDeclaration/">Call</span>, result: <a href="index.html">T</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/MainThread.html">MainThread</a>()</div></div>abstract fun <a href="on-success.html">onSuccess</a>(call: <span data-unresolved-link="okhttp3/Call///PointingToDeclaration/">Call</span>, result: <a href="index.html">T</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</div>
+<a data-name="-619364738%2FFunctions%2F1281733757" anchor-label="onSuccess" id="-619364738%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="-619364738%2FFunctions%2F1281733757" anchor-label="onSuccess" id="-619364738%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>网络请求成功</div></div>
 </div>
                     </div>
                   </div>
@@ -155,7 +159,7 @@
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><a data-name="629973302%2FProperties%2F1281733757" anchor-label="lifecycle" id="629973302%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="symbol monospace">val <a href="lifecycle.html">lifecycle</a>: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/LifecycleOwner.html">LifecycleOwner</a>? = null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><a data-name="629973302%2FProperties%2F1281733757" anchor-label="lifecycle" id="629973302%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="symbol monospace">val <a href="lifecycle.html">lifecycle</a>: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/LifecycleOwner.html">LifecycleOwner</a>? = null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="629973302%2FProperties%2F1281733757" anchor-label="lifecycle" id="629973302%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>将Activity/Fragment/LifecycleOwner等作为参数传递会在其生命周期结束时自动取消网络请求.</div></div></div>
                       </div>
                     </div>
                   </div>
@@ -168,7 +172,20 @@
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><a data-name="90236450%2FProperties%2F1281733757" anchor-label="lifeEvent" id="90236450%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="symbol monospace">val <a href="life-event.html">lifeEvent</a>: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/Lifecycle.Event.html">Lifecycle.Event</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><a data-name="90236450%2FProperties%2F1281733757" anchor-label="lifeEvent" id="90236450%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="symbol monospace">val <a href="life-event.html">lifeEvent</a>: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/Lifecycle.Event.html">Lifecycle.Event</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="90236450%2FProperties%2F1281733757" anchor-label="lifeEvent" id="90236450%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>指定自动取消的生命周期.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="495191665%2FProperties%2F1281733757" anchor-label="request" id="495191665%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="request.html">request</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="495191665%2FProperties%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><a data-name="495191665%2FProperties%2F1281733757" anchor-label="request" id="495191665%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="symbol monospace">lateinit var <a href="request.html">request</a>: <span data-unresolved-link="okhttp3/Request///PointingToDeclaration/">Request</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
                       </div>
                     </div>
                   </div>

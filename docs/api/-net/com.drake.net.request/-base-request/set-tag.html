@@ -28,7 +28,13 @@
   <div>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="set-tag.html">setTag</a>(tag: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>?)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-<p class="paragraph">将一个任意对象添加到Request对象中, 一般用于在拦截器或者转换器中被获取到标签, 针对某个请求的特殊业务逻辑 使用<code>Request.tag()</code>获取标签</p></div>
+<p class="paragraph">使用Any::class作为键名添加标签 使用Request.tag()返回标签</p></div>
+<div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun &lt;<a href="set-tag.html">T</a>&gt; <a href="set-tag.html">setTag</a>(type: <a href="https://developer.android.com/reference/kotlin/java/lang/Class.html">Class</a>&lt;in <a href="set-tag.html">T</a>&gt;, tag: <a href="set-tag.html">T</a>?)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<p class="paragraph">使用<a href="set-tag.html">type</a>作为键名添加标签 使用Request.label<T>()或者Request.tag(type)返回标签</p></div>
 <div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
