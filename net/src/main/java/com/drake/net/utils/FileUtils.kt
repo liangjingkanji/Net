@@ -87,7 +87,7 @@ fun File.install() {
     val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         FileProvider.getUriForFile(
             context,
-            "${context.packageName}.fileProvider",
+            "${context.packageName}.drake.netFileProvider",
             this
         )
     } else {
