@@ -1,3 +1,11 @@
+## 3.0.15
+1. 修复FileProvider冲突
+2. 上传文件时默认生成filename(当你未指定文件名情况下)
+3. NetCallback网络请求被取消不会回调onError
+4. 为NetCallback添加Request对象
+5. 删除内部Tooltip依赖
+
+
 ## 3.0.14
 1. 修复KType类型问题
 2. 支持`File.install`函数安装应用
