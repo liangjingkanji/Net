@@ -34,7 +34,7 @@ class UploadFileFragment :
 
     override fun initView() {
         scopeNetLife {
-            Post<String>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
+            Post<String>("upload") {
                 param("file", assetsFile())
                 addUploadListener(object : ProgressListener() {
                     override fun onProgress(p: Progress) {
