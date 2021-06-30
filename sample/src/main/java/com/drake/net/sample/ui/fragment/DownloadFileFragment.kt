@@ -16,6 +16,7 @@
 
 package com.drake.net.sample.ui.fragment
 
+import android.annotation.SuppressLint
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -35,11 +36,12 @@ class DownloadFileFragment :
 
     private lateinit var downloadScope: NetCoroutineScope
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
         setHasOptionsMenu(true)
         downloadScope = scopeNetLife {
             val file =
-                Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
+                Get<File>("https://dl.coolapk.com/down?pn=com.coolapk.market&id=NDU5OQ&h=46bb9d98&from=from-web") {
                     setDownloadFileName("net.apk")
                     setDownloadDir(requireContext().filesDir)
                     setDownloadMd5Verify()
