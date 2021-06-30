@@ -87,12 +87,13 @@ open class BodyRequest : BaseRequest() {
     }
 
     fun param(name: String, value: File?) {
-        partBody.addFormDataPart(name, null, value?.toRequestBody() ?: return)
+        value ?: return
+        partBody.addFormDataPart(name, value.name, value.toRequestBody())
     }
 
-    fun param(name: String, values: List<File?>?) {
-        values?.forEach { value ->
-            value?.toRequestBody()?.let { partBody.addFormDataPart(name, null, it) }
+    fun param(name: String, value: List<File?>?) {
+        value?.forEach { file ->
+            param(name, file)
         }
     }
 
