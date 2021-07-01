@@ -37,7 +37,7 @@ import com.drake.net.interceptor.RequestInterceptor
 import com.drake.net.interfaces.NetDialogFactory
 import com.drake.net.interfaces.NetErrorHandler
 import com.drake.net.okhttp.toNetOkhttp
-import com.drake.tooltip.toast
+import com.drake.net.utils.TipUtils
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import java.lang.ref.WeakReference
@@ -104,8 +104,9 @@ object NetConfig {
         }
 
         if (logEnabled) printStackTrace()
-        toast(message)
+        TipUtils.toast(message)
     }
+
 
     @Deprecated("使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("NetConfig.errorHandler"))
     var onStateError: Throwable.(view: View) -> Unit = {
