@@ -1,4 +1,4 @@
-全局配置建议在Application中设置
+全局配置建议在Application的onCreate函数中配置
 
 === "普通初始化"
 
