@@ -18,7 +18,7 @@ scopeDialog {
 
 <img src="https://i.imgur.com/egUM3V1.png" width="300"/>
 
-> 想直接使用iOS风格的加载框可以使用: [BubbleDialog](https://liangjingkanji.github.io/Tooltip/bubble/)
+> 想直接使用iOS风格的加载框可以使用: [BubbleDialog](https://liangjingkanji.github.io/Tooltip/bubble.html)
 
 ## 自定义加载框
 

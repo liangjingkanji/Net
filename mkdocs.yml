@@ -36,7 +36,7 @@ markdown_extensions:
 
 nav:
   - 使用: index.md
-  - 协程请求: parallel.md
+  - 协程请求: coroutine-request.md
   - 同步请求: sync-request.md
   - 队列请求: enqueue-request.md
   - ViewModel: view-model.md
@@ -58,7 +58,7 @@ nav:
       - 自动缺省页: auto-state.md
       - 自动下拉刷新: auto-refresh.md
       - 自动分页加载: auto-page.md
-  - 切换线程: switch-dispatcher.md
+  - 切换线程: switch-thread.md
   - 标签: tag.md
   - 上传文件: upload-file.md
   - 下载文件: download-file.md
