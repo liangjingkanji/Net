@@ -1,7 +1,7 @@
 Net支持发起请求的时候自动弹出和关闭对话框(Loading Dialog)
 
+## 自动显示加载框
 
-<br>
 只需要使用`scopeDialog`作用域即可.
 ```kotlin
 scopeDialog {
@@ -16,15 +16,33 @@ scopeDialog {
 
 加载框默认使用的是Android原生加载框(MaterialDesign Dialog), 当然也提供参数传入指定每个请求的对话框
 
-<img src="https://i.imgur.com/egUM3V1.png" width="300"/>
+<img src="https://i.imgur.com/egUM3V1.png" width="250"/>
 
-> 想直接使用iOS风格的加载框可以使用: [BubbleDialog](https://liangjingkanji.github.io/Tooltip/bubble.html)
 
-## 自定义加载框
+## 指定单例加载框
+
+就是仅针对当前网络请求指定加载框
+
+```kotlin
+val dialog = BubbleDialog(requireActivity(), "加载中")
+
+scopeDialog(dialog) {
+    binding.tvFragment.text = Post<String>("dialog") {
+        param("u_name", "drake")
+        param("pwd", "123456")
+    }.await()
+}
+```
+
+<img src="https://i.imgur.com/YDvw8Ks.gif" width="250"/>
+
+> 这里使用的iOS风格对话框: [BubbleDialog](https://liangjingkanji.github.io/Tooltip/bubble.html)
+
+## 指定全局加载框
 
 在Application中配置Net时就可以设置默认的Dialog
 
-=== "初始化"
+=== "初始配置全局加载框"
     ```kotlin
     NetConfig.init("http://github.com/") {
             setDialogFactory { // 全局加载对话框
@@ -34,7 +52,7 @@ scopeDialog {
             }
     }
     ```
-=== "设置全局"
+=== "修改全局加载框"
     ```kotlin
     NetConfig.dialogFactory = NetDialogFactory {
         ProgressDialog(it).apply {
@@ -45,7 +63,10 @@ scopeDialog {
 
 <br>
 
-如果仅修改加载框文本, 可以覆盖`strings.xml`中定义的文本
+如果不想修改全局加载框样式只是修改加载框文本, 可以覆盖文本(国际化同理)
+
+在当前项目下的values目录下的strings.xml添加以下一行可以修改文本
+
 ```xml
 <!--对话框-->
 <string name="net_dialog_msg">加载中</string>

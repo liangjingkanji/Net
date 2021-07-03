@@ -19,14 +19,15 @@ package com.drake.net.sample.ui.fragment
 import com.drake.engine.base.EngineFragment
 import com.drake.net.Post
 import com.drake.net.sample.R
-import com.drake.net.sample.databinding.FragmentConfigDialogBinding
+import com.drake.net.sample.databinding.FragmentAutoDialogBinding
 import com.drake.net.utils.scopeDialog
+import com.drake.tooltip.dialog.BubbleDialog
 import com.drake.tooltip.toast
 import kotlinx.coroutines.CancellationException
 
 
-class ConfigDialogFragment :
-    EngineFragment<FragmentConfigDialogBinding>(R.layout.fragment_config_dialog) {
+class AutoDialogFragment :
+    EngineFragment<FragmentAutoDialogBinding>(R.layout.fragment_auto_dialog) {
 
     override fun initView() {
         scopeDialog {

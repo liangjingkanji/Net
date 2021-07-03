@@ -36,7 +36,7 @@
         android:icon="@drawable/ic_async_task"
         android:title="异步任务" />
     <item
-        android:id="@+id/config_dialog"
+        android:id="@+id/auto_dialog"
         android:icon="@drawable/ic_config_dialog"
         android:title="自动加载框" />
     <item

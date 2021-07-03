@@ -27,10 +27,10 @@
         tools:layout="@layout/fragment_async_task" />
 
     <fragment
-        android:id="@+id/config_dialog"
-        android:name="com.drake.net.sample.ui.fragment.ConfigDialogFragment"
+        android:id="@+id/auto_dialog"
+        android:name="com.drake.net.sample.ui.fragment.AutoDialogFragment"
         android:label="自动加载框"
-        tools:layout="@layout/fragment_config_dialog" />
+        tools:layout="@layout/fragment_auto_dialog" />
     <fragment
         android:id="@+id/coroutine_scope"
         android:name="com.drake.net.sample.ui.fragment.CoroutineScopeFragment"

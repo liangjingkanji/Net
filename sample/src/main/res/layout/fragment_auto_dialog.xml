@@ -21,7 +21,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.fragment.ConfigDialogFragment">
+        tools:context=".ui.fragment.AutoDialogFragment">
 
         <TextView
             android:id="@+id/tvFragment"
