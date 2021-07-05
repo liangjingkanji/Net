@@ -1,4 +1,9 @@
-轮循器属于项目中常见需求, 网络请求也存在定时网络请求
+轮循器属于项目中常见需求, 本工具支持以下特性
+
+1. 正计时
+1. 倒计时
+1. 计数器
+1. 支持开始/停止/暂停/继续/重置/切换开关
 
 === "指定轮循次数/间隔"
     ```kotlin
@@ -23,15 +28,16 @@ interval.subscribe {
 }.start()
 ```
 
-操作轮循器
-```kotlin
-interval.start() // 开始轮循器
-interval.pause() // 暂停轮循器
-interval.resume() // 继续轮循器
-interval.reset() // 重置轮循器
-interval.switch() // 切换开关
-interval.stop() // 停止
-```
+| Interval函数 | 描述 |
+|-|-|
+| start | 开始轮循器 |
+| stop | 停止 |
+| pause | 暂停轮循器 |
+| resume | 继续轮循器 |
+| reset | 重置轮循器 |
+| switch | 切换开关 |
+| subscribe | 每次计时都会执行该回调 |
+| finish | 当计时器完成时执行该回调 |
 
 自动取消(感知生命周期)
 
