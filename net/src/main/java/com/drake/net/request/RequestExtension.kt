@@ -25,6 +25,7 @@ import okhttp.OkHttpUtils
 import okhttp3.FormBody
 import okhttp3.Headers
 import okhttp3.Request
+import java.net.URLDecoder
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.reflect.KType
 
@@ -366,12 +367,19 @@ fun Request.Builder.setConverter(converter: NetConverter) = apply {
 /**
  * 请求日志信息
  * 只会输出 application/x-www-form-urlencoded, application/json, text/`*` 的请求体类型日志
+ * @param urlDecode 是否进行 UTF-8 URLDecode
  */
-fun Request.logString(byteCount: Long = 1024 * 1024): String? {
+fun Request.logString(byteCount: Long = 1024 * 1024, urlDecode: Boolean = true): String? {
     val mediaType = body?.contentType() ?: return null
-    return if (body is FormBody || mediaType.type == "text" || mediaType.subtype == "json") {
-        body?.peekString(byteCount)
-    } else {
-        "Not support this type $mediaType"
-    }
+    val bodyString =
+        if (body is FormBody || mediaType.type == "text" || mediaType.subtype == "json") {
+            body?.peekString(byteCount)
+        } else "Not support this type $mediaType"
+    return if (urlDecode) {
+        try {
+            URLDecoder.decode(bodyString, "UTF-8")
+        } catch (e: Exception) {
+            bodyString
+        }
+    } else bodyString
 }
