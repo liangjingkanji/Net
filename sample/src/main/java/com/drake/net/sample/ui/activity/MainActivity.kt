@@ -18,6 +18,7 @@ package com.drake.net.sample.ui.activity
 
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.drake.engine.base.EngineActivity
@@ -33,20 +34,15 @@ class MainActivity : EngineActivity<ActivityMainBinding>(R.layout.activity_main)
     override fun initView() {
         immersive(binding.toolbar, true)
         setSupportActionBar(binding.toolbar)
-        // val actionBarDrawerToggle = ActionBarDrawerToggle(
-        //     this,
-        //     binding.drawer,
-        //     binding.toolbar,
-        //     R.string.app_name,
-        //     R.string.app_name
-        // )
-        // binding.drawer.addDrawerListener(actionBarDrawerToggle)
-        // actionBarDrawerToggle.syncState()
         val navController = findNavController(R.id.nav)
         binding.toolbar.setupWithNavController(
             navController,
             AppBarConfiguration(binding.drawerNav.menu, binding.drawer)
         )
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.toolbar.subtitle =
+                (destination as FragmentNavigator.Destination).className.substringAfterLast('.')
+        }
         binding.drawerNav.setupWithNavController(navController)
     }
 

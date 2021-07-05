@@ -24,4 +24,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ToolbarSubtitle" parent="AppTheme">
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">@color/textSecond</item>
+    </style>
+
 </resources>
