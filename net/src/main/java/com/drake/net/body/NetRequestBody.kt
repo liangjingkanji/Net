@@ -30,7 +30,6 @@ class NetRequestBody(
 ) : RequestBody() {
 
     private val progress = Progress()
-    private var bufferedSink: BufferedSink? = null
     val contentLength by lazy { requestBody.contentLength() }
 
     override fun contentType(): MediaType? {
@@ -44,10 +43,12 @@ class NetRequestBody(
 
     @Throws(IOException::class)
     override fun writeTo(sink: BufferedSink) {
-        if (bufferedSink == null) bufferedSink = sink.toProgress().buffer()
-        bufferedSink?.let {
-            requestBody.writeTo(it)
-            it.flush()
+        if (sink is Buffer || sink.toString()
+                .contains("com.android.tools.profiler.support.network.HttpTracker\$OutputStreamTracker")
+        ) requestBody.writeTo(sink) else {
+            val bufferedSink: BufferedSink = sink.toProgress().buffer()
+            requestBody.writeTo(bufferedSink)
+            bufferedSink.close()
         }
     }
 
