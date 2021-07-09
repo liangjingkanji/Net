@@ -20,7 +20,7 @@
 
 ## 配置转换器
 
-这里使用Demo中的[SerializationConvert](https://github.com/liangjingkanji/Net/blob/master/sample/src/main/java/com/drake/net/sample/converter/SerializationConvert.kt)作演示.
+这里使用Demo中的[SerializationConvert](https://github.com/liangjingkanji/Net/blob/master/sample/src/main/java/com/drake/net/sample/converter/SerializationConverter.kt)作演示.
 如果你业务有特殊需要可以复制Demo中的转换器代码稍加修改
 
 === "全局配置"

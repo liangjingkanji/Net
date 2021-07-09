@@ -1,4 +1,4 @@
-每个请求都会存在一个客户端对象(OkHttpClient)
+每个请求都会存在一个客户端对象, 既OkHttpClient
 
 Net在全局维护了一个OkHttpClient对象, 在NetConfig.okHttpClient的字段
 
@@ -8,7 +8,7 @@ object NetConfig {
 }
 ```
 
-同时每次可以创建一个新的客户端来发起请求区别于全局配置
+> 当然也支持创建一个新的客户端来发起请求(配置区别于全局客户端)
 
 ## 全局OkHttpClient
 

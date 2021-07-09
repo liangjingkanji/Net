@@ -1,10 +1,29 @@
-Net具备完善的全局错误处理机制 <br>
+Net具备完善的错误处理机制
+
+## 单例处理异常
+```kotlin
+scope {
+    val data = Get<String>("http://www.thisiserror.com/").await()
+}.catch {
+    // 协程内部发生错误回调, it为异常
+    handleError(it) // 该函数会将错误再次传递给全局错误回调处理
+}.finally {
+    // 协程内全部执行完成回调(包括子协程), it为异常
+}
+```
+
+以下函数幕后字段`it`为异常对象, 如果正常完成it则为null. 如果属于请求被手动取消则it为`CancellationException`
+
+| 函数 | 描述 |
+|-|-|
+| catch | 作用域被`catch`则不会被传递到全局异常处理回调中: [全局处理异常](error-handle.md), 除非使用`handleError`再次传递给全局 |
+| finally | 同样可以获取到异常对象, 且不影响全局异常回调处理 |
+
+## 全局处理异常
+
+Net默认就会处理异常错误避免崩溃. 但是如果你想要自定义或者监听全局错误, 你可以覆盖默认的错误处理.  在`initNet`或者`NetConfig.errorHandler`函数里面自定义全局错误处理
 
 默认情况下不需要去定义错误处理, 因为`NetErrorHandler`默认实现适用于大部分情况的错误处理.
-
-但是如果你想要自定义或者监听错误, 你可以覆盖默认的错误处理.  在`initNet`或者`NetConfig.errorHandler`函数里面自定义全局错误处理
-
-## NetErrorHandler
 
 |场景|处理函数|处理方式|
 |-|-|-|
@@ -35,22 +54,11 @@ NetConfig.init("http://localhost:80/") {
 > 本章末尾有默认实现的源码, 可供参考或者理解: [默认处理](#_2)
 
 
-## 手动错误处理
+## 异常对象
 
-假设不需要全局错误处理, 我们可以`catch`作用域来自己处理异常
+以下为Net内部常见发生的异常对象. 不代表全部异常, 例如不包含开发者自己定义的异常
 
-```kotlin
-scopeNetLife {
-    val data = Get<String>("http://www.thisiserror.com/").await()
-}.catch {
-    // 这里进行错误处理, it即为错误的异常对象
-}
-```
-
-catch里面的`it`属于异常对象, 这里列举可能存在的异常
-
-`scope/scopeLife`不会触发任何全局错误NetErrorHandler, 请使用单例错误处理方式`catch`, 因为`scope`用于处理异步任务,不应当用于网络请求
-
+> `scope/scopeLife`不会触发任何全局错误NetErrorHandler, 请使用单例错误处理方式`catch`, 因为`scope`用于处理异步任务,不应当用于网络请求
 
 
 | 异常 | 描述 |

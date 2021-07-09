@@ -41,33 +41,32 @@ nav:
   - 队列请求: enqueue-request.md
   - ViewModel: view-model.md
   - 请求对象: request.md
-  - 创建作用域: scope.md
   - 全局配置: config.md
-  - OkHttpClient: okhttp-client.md
-  - 全局错误处理: error-handle.md
-  - 拦截器: interceptor.md
-  - Https证书: https.md
-  - 自定义转换器:
+  - 转换数据:
       - 创建转换器: converter.md
       - 特殊结构解析: convert-special.md
       - kotlin-serialization: kotlin-serialization.md
       - 数据模型生成插件: model-generate.md
-  - 异常追踪: exception-track.md
   - 自动化:
       - 自动加载框: auto-dialog.md
       - 自动缺省页: auto-state.md
       - 自动下拉刷新: auto-refresh.md
       - 自动分页加载: auto-page.md
+  - 创建作用域: scope.md
   - 切换线程: switch-thread.md
+  - OkHttpClient: okhttp-client.md
+  - 错误处理: error-handle.md
+  - 定位异常: exception-track.md
+  - 拦截器: interceptor.md
   - 标签: tag.md
   - 上传文件: upload-file.md
   - 下载文件: download-file.md
   - 进度监听: progress.md
-  - 嵌套作用域: nested-scope.md
-  - 最快请求结果: fastest.md
+  - 取消请求: cancel.md
+  - Https证书: https.md
   - 重复请求: unique.md
   - 节流阀: debounce.md
-  - 取消请求: cancel.md
+  - 最快请求结果: fastest.md
   - 日志拦截器: log-recorder.md
   - 轮循器/倒计时: interval.md
   - 更新日志: updates.md

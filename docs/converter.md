@@ -18,30 +18,27 @@ scopeNetLife {
 
 <img src="https://i.loli.net/2021/05/18/yUBmka6AjKsVleP.png" width="300"/>
 
+## 返回数据类型
 
-## 设置转换器
-转换器分为全局和单例, 单例可以覆盖全局的转换器. 如果不设置转换器就会采用默认的转换器
+Net支持请求返回的数据类型取决于你的转换器(也就是支持返回任何对象), 默认情况不创建转换器也支持返回以下数据类型
 
-=== "全局"
-    ```kotlin hl_lines="2"
-    NetConfig.init("http://github.com/") {
-        setConverter(SerializationConverter())
-    }
-    ```
-=== "单例"
-    ```kotlin hl_lines="3"
-    scopeNetLife {
-        tvFragment.text = Get<String>("api"){
-            converter = SerializationConverter()
-        }.await()
-    }
-    ```
+| 函数 | 描述 |
+|-|-|
+| String | 字符串 |
+| ByteArray | 字节数组 |
+| ByteString | 内部定义的一种字符串对象 |
+| Response | 最基础的响应 |
+| File | 文件对象, 这种情况其实应当称为[下载文件](download-file.md) |
 
-## 默认支持类型
+使用示例
 
-默认使用的是: [NetConverter.DEFAULT](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/NetConverter.kt)
+```kotlin
+scopeNetLife {
+    Get<Response>("api").await().headers("响应头名称") // 返回响应头
+}
+```
 
-??? summary "默认转换器源码"
+??? summary "默认使用的是: [NetConverter.DEFAULT](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/NetConverter.kt)"
     ```kotlin
     val DEFAULT = object : NetConverter {
 
@@ -64,17 +61,25 @@ scopeNetLife {
     }
     ```
 
-| 函数 | 描述 |
-|-|-|
-| String | 字符串 |
-| ByteArray | 字节数组 |
-| ByteString | 内部定义的一种字符串对象 |
-| Response | 最基础的响应 |
-| File | 文件对象, 这种情况其实应当称为`下载文件` |
+假设这里没有你需要的数据类型请[自定义转换器](#_3)(例如返回Json或Protocol)
 
+## 设置转换器
+转换器分为全局和单例, 单例可以覆盖全局的转换器. 如果不设置转换器就会采用默认的转换器
 
-> 你的业务可能需要参数加密解密或者拼接参数, 请不要尝试封装Post或者Get等请求函数(这不是一个好主意), 自定义拦截器和转换器可以应对任何项目需求
-
+=== "全局"
+    ```kotlin hl_lines="2"
+    NetConfig.init("http://github.com/") {
+        setConverter(SerializationConverter())
+    }
+    ```
+=== "单例"
+    ```kotlin hl_lines="3"
+    scopeNetLife {
+        tvFragment.text = Get<String>("api"){
+            converter = SerializationConverter()
+        }.await()
+    }
+    ```
 
 ## 自定义转换器
 

@@ -1,4 +1,4 @@
-Net中网络请求导致的异常都会在LogCat中打印, 同时被全局的NetConfig的onError拦截到
+Net中网络请求导致的异常都会在LogCat中打印, 同时被全局的NetErrorHandler的onError拦截到
 
 > Net的异常对象通常会携带Request或者Response对象. 可以精准定位到请求信息
 
