@@ -20,10 +20,6 @@
         android:icon="@drawable/ic_request_method"
         android:title="请求方式" />
     <item
-        android:id="@+id/request_enqueue"
-        android:icon="@drawable/ic_enqueue_request"
-        android:title="队列请求" />
-    <item
         android:id="@+id/request_sync"
         android:icon="@drawable/ic_sync_request"
         android:title="同步请求" />
@@ -108,9 +104,12 @@
         android:id="@+id/upload_file"
         android:icon="@drawable/ic_upload_file"
         android:title="上传文件" />
-
     <item
         android:id="@+id/super_interval"
         android:icon="@drawable/ic_interval"
-        android:title="超级轮循器" />
+        android:title="轮询器/计时器" />
+    <item
+        android:id="@+id/request_enqueue"
+        android:icon="@drawable/ic_enqueue_request"
+        android:title="Callback" />
 </menu>

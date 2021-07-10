@@ -1,6 +1,10 @@
-Net支持OkHttp的原有的队列请求 -- `enqueue`
+Net支持OkHttp的原有的队列请求 -- `Callback`
 
-> 队列属于接口回调请求, 由于其代码复杂, 非特殊情况下还是建议使用协程发起请求
+<p align="center">
+<strong>如果你决定使用协程可以不必阅读本章</strong>
+</p>
+
+> Callback属于接口回调请求, 属于最原始的请求方式. 其代码冗余可读性不高, 并且无法支持并发请求协作
 
 ## Callback
 

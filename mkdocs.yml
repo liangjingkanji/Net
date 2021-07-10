@@ -38,7 +38,6 @@ nav:
   - 使用: index.md
   - 协程请求: coroutine-request.md
   - 同步请求: sync-request.md
-  - 队列请求: enqueue-request.md
   - ViewModel: view-model.md
   - 请求对象: request.md
   - 全局配置: config.md
@@ -69,5 +68,6 @@ nav:
   - 最快请求结果: fastest.md
   - 日志拦截器: log-recorder.md
   - 轮循器/倒计时: interval.md
+  - Callback: callback.md
   - 更新日志: updates.md
   - 3.x文档: api/index.html
