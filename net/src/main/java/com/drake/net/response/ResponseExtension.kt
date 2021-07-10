@@ -136,25 +136,25 @@ fun Response.logString(byteCount: Long = 1024 * 1024 * 4): String? {
  * 响应体使用转换器处理数据
  */
 @Throws(IOException::class)
-inline fun <reified R> Response.convert(converter: NetConverter): R = use {
+inline fun <reified R> Response.convert(converter: NetConverter): R {
     try {
-        converter.onConvert<R>(typeTokenOf<R>(), it) as R
+        return converter.onConvert<R>(typeTokenOf<R>(), this) as R
     } catch (e: NetException) {
         throw e
     } catch (e: Throwable) {
-        throw ConvertException(it, cause = e)
+        throw ConvertException(this, cause = e)
     }
 }
 
 @Suppress("UNCHECKED_CAST")
 @Throws(IOException::class)
-fun <R> Response.convert(type: Type): R = use {
+fun <R> Response.convert(type: Type): R {
     try {
         val converter = request.converter()
-        converter.onConvert<R>(type, this) as R
+        return converter.onConvert<R>(type, this) as R
     } catch (e: NetException) {
         throw e
     } catch (e: Throwable) {
-        throw ConvertException(it, cause = e)
+        throw ConvertException(this, cause = e)
     }
 }
