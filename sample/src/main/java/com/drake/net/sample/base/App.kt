@@ -33,6 +33,7 @@ import com.drake.statelayout.StateConfig
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import java.util.concurrent.TimeUnit
 
 class App : Application() {
 
@@ -40,6 +41,12 @@ class App : Application() {
         super.onCreate()
 
         NetConfig.init("http://43.128.31.195/") {
+
+            // 超时设置
+            connectTimeout(2, TimeUnit.MINUTES)
+            readTimeout(2, TimeUnit.MINUTES)
+            writeTimeout(2, TimeUnit.MINUTES)
+
             setLog(BuildConfig.DEBUG) // LogCat异常日志
             addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG)) // 添加日志记录器
             setRequestInterceptor(object : RequestInterceptor { // 添加请求拦截器
