@@ -51,7 +51,7 @@ scopeNetLife { // 创建作用域
 > 当然你可以完全自定义Body来请求, 譬如以下的Json请求
 
 
-## JSON请求
+## Json请求
 
 这里提供三种创建Json请求的示例代码. 酌情选用
 
@@ -63,7 +63,8 @@ scopeNetLife { // 创建作用域
 
     scopeNetLife {
         tvFragment.text = Post<String>("api") {
-            json("name" to name, "age" to age, "measurements" to measurements) // 同时也支持Map集合
+            // 只支持基础类型的值, 如果值为对象或者包含对象的List会导致其值为null
+            json("name" to name, "age" to age, "measurements" to measurements)
         }.await()
     }
     ```
@@ -103,6 +104,38 @@ scopeNetLife { // 创建作用域
 1. 可以考虑继承RequestBody来扩展出自己的新的Body对象, 然后赋值给`body`字段
 2. 添加请求拦截器[RequestInterceptor](/interceptor/#_1)
 
+## 自定义请求函数
+
+前面提到`json(Pair<String, Any?>)`函数不支持对象值, 因为框架内部使用的`org.json.JSONObject`其不支持映射对象字段
+
+这里可以创建扩展函数来支持你想要的Json解析框架, 比如以下常用的Json解析框架示例
+
+=== "Gson"
+    ```kotlin
+    fun BodyRequest.gson(vararg body: Pair<String, Any?>) {
+        this.body = Gson().toJson(body.toMap()).toRequestBody(MediaConst.JSON)
+    }
+    ```
+=== "FastJson"
+    ```kotlin
+    fun BodyRequest.fastJson(vararg body: Pair<String, Any?>) {
+        this.body = JSON.toJSON(body.toMap()).toRequestBody(MediaConst.JSON)
+    }
+    ```
+
+使用
+
+```kotlin
+scopeNetLife {
+    tvFragment.text = Post<String>("api") {
+        gson("name" to name, "model" to Model() // 参数支持Gson可解析的对象
+        // fastJson("name" to name, "model" to Model() // 使用FastJson
+    }.await()
+}
+```
+
+- 举一反三可以创建其他功能自定义的请求函数
+- 扩展函数要求为顶层函数, 即直接在文件中 (kotlin基础语法)
 
 ## 请求函数
 
