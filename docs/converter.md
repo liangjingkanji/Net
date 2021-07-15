@@ -1,8 +1,8 @@
-Net的转换器支持自定义实现任何类型转换.
+Net可以通过自定义转换器支持任何数据类型转换, 甚至`List<List<UserModel>>`等嵌套泛型对象
 
-例如请求动作Post指定泛型R, 在转换器NetConverter中将数据转换成R类型返回, 即可实现自定义数据类型转换(支持List等嵌套泛型对象).
+例如请求动作Post`指定泛型为Model`, 则转换器NetConverter中的函数`onConvert返回值必须为Model`, 如果转换失败或者发生异常都算请求错误
 
-> 请注意如果你在转换器里面返回Null. 那么指定的泛型也应当是可空类型, 例如`Post<String?>("api")`
+> 注意如果你在转换器里面返回null. 那么指定的泛型也应当是可空类型, 例如`Post<String?>("api")`
 
 ```kotlin
 scopeNetLife {
