@@ -37,9 +37,9 @@ import java.lang.reflect.Type
  * @param message  错误信息在JSON中的字段名
  */
 abstract class JSONConvert(
-    val success: String = "0",
-    val code: String = "code",
-    val message: String = "msg"
+        val success: String = "0",
+        val code: String = "code",
+        val message: String = "msg"
 ) : NetConverter {
 
     override fun <R> onConvert(succeed: Type, response: Response): R? {
@@ -55,20 +55,14 @@ abstract class JSONConvert(
                         if (json.getString(this.code) == success) { // 对比后端自定义错误码
                             bodyString.parseBody<R>(succeed)
                         } else { // 错误码匹配失败, 开始写入错误异常
-                            val errorMessage = json.optString(
-                                message,
-                                NetConfig.app.getString(com.drake.net.R.string.no_error_message)
-                            )
+                            val errorMessage = json.optString(message, NetConfig.app.getString(com.drake.net.R.string.no_error_message))
                             throw ResponseException(response, errorMessage)
                         }
                     } catch (e: JSONException) { // 固定格式JSON分析失败直接解析JSON
                         bodyString.parseBody<R>(succeed)
                     }
                 }
-                code in 400..499 -> throw RequestParamsException(
-                    response,
-                    code.toString()
-                ) // 请求参数错误
+                code in 400..499 -> throw RequestParamsException(response, code.toString()) // 请求参数错误
                 code >= 500 -> throw ServerResponseException(response, code.toString()) // 服务器异常错误
                 else -> throw ConvertException(response)
             }

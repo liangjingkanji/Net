@@ -68,10 +68,24 @@ scopeNetLife {
 }
 ```
 
+## 返回结果
 
-<br>
+返回结果支持的数据类型(即Post等函数的`泛型`)由转换器决定, 默认支持以下类型
 
-## RESTFUL
+| 函数 | 描述 |
+|-|-|
+| String | 字符串 |
+| ByteArray | 字节数组 |
+| ByteString | 内部定义的一种字符串对象 |
+| Response | 最基础的响应 |
+| File | 文件对象, 这种情况其实应当称为[下载文件](download-file.md) |
+
+非以上类型要求[自定义转换器](converter.md)
+
+> 转换器的返回值决定你的网络请求的返回结果类型, 你甚至可以返回null, 前提是泛型为可空类型
+
+
+## RestFul
 Net支持RestFul设计风格
 
 ```kotlin

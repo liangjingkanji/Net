@@ -14,11 +14,13 @@ scopeNetLife {
 
 <br>
 
-具体代码可以阅读Demo
+如果你要返回映射好的数据模型对象, 那么肯定要求创建转换器的. 本框架由于低耦合原则不自带解析框架
+
+[常用的Json转换器-代码示例](https://github.com/liangjingkanji/Net/tree/master/sample/src/main/java/com/drake/net/sample/converter)
 
 <img src="https://i.loli.net/2021/05/18/yUBmka6AjKsVleP.png" width="300"/>
 
-## 返回数据类型
+## 默认返回数据类型
 
 Net支持请求返回的数据类型取决于你的转换器(也就是支持返回任何对象), 默认情况不创建转换器也支持返回以下数据类型
 
@@ -80,6 +82,121 @@ scopeNetLife {
         }.await()
     }
     ```
+
+## Json解析库转换器
+
+一般业务我们可以直接继承[JSONConverter](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/JSONConvert.kt)
+使用自己的JSON解析器解析数据, 完全自定义需求可以直接实现[NetConverter](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/NetConverter.kt)(比如直接转换IO流)
+
+=== "Gson"
+
+    ```kotlin
+    class GsonConvert : JSONConvert(code = "code", message = "msg", success = "200") {
+        val gson = GsonBuilder().serializeNulls().create()
+
+        override fun <S> String.parseBody(succeed: Type): S? {
+            return gson.fromJson(this, succeed)
+        }
+    }
+    ```
+
+=== "kotlin-serialization"
+
+    ```kotlin
+    class SerializationConverter(
+        val success: String = "0",
+        val code: String = "code",
+        val message: String = "msg"
+    ) : NetConverter {
+
+        private val jsonDecoder = Json {
+            ignoreUnknownKeys = true // JSON和数据模型字段可以不匹配
+            coerceInputValues = true // 如果JSON字段是Null则使用默认值
+        }
+
+        override fun <R> onConvert(succeed: Type, response: Response): R? {
+            try {
+                return NetConverter.onConvert<R>(succeed, response)
+            } catch (e: ConvertException) {
+                val code = response.code
+                when {
+                    code in 200..299 -> { // 请求成功
+                        val bodyString = response.body?.string() ?: return null
+                        val kType = response.request.kType() ?: return null
+                        return try {
+                            val json = JSONObject(bodyString) // 获取JSON中后端定义的错误码和错误信息
+                            if (json.getString(this.code) == success) { // 对比后端自定义错误码
+                                bodyString.parseBody<R>(kType)
+                            } else { // 错误码匹配失败, 开始写入错误异常
+                                val errorMessage = json.optString(
+                                    message,
+                                    NetConfig.app.getString(com.drake.net.R.string.no_error_message)
+                                )
+                                throw ResponseException(response, errorMessage)
+                            }
+                        } catch (e: JSONException) { // 固定格式JSON分析失败直接解析JSON
+                            bodyString.parseBody<R>(kType)
+                        }
+                    }
+                    code in 400..499 -> throw RequestParamsException(response, code.toString()) // 请求参数错误
+                    code >= 500 -> throw ServerResponseException(response, code.toString()) // 服务器异常错误
+                    else -> throw ConvertException(response)
+                }
+            }
+        }
+
+        fun <R> String.parseBody(succeed: KType): R? {
+            return jsonDecoder.decodeFromString(Json.serializersModule.serializer(succeed), this) as R
+        }
+    }
+    ```
+
+    SerializationConverter就是仿照JSONConverter代码实现
+
+=== "FastJson"
+
+    ```kotlin
+    class FastJsonConvert : JSONConvert(code = "code", message = "msg", success = "200") {
+
+        override fun <S> String.parseBody(succeed: Type): S? {
+            return JSON.parseObject(this, succeed)
+        }
+    }
+    ```
+
+=== "Moshi"
+
+    ```kotlin
+    class MoshiConvert : JSONConvert(code = "code", message = "msg", success = "200") {
+        val moshi = Moshi.Builder().build()
+
+        override fun <S> String.parseBody(succeed: Type): S? {
+            return moshi.adapter<S>(succeed).fromJson(this)
+        }
+    }
+    ```
+
+1. 使用转换器时请添加其依赖:     [GSON](https://github.com/google/gson) | [kotlin-serialization](https://github.com/Kotlin/kotlinx.serialization) | [FastJson](https://github.com/alibaba/fastjson) | [Moshi](https://github.com/square/moshi)
+2. 推荐使用 `kotlinx.Serialization`, 其可解析[任何泛型](kotlin-serialization.md)
+3. Sample有完整代码示例
+
+以上转换器示例是建立在数据结构为以下表格的固定格式下, 如果有特殊的业务可能需要自行修改
+
+| 转换器参数 | 描述 |
+|-|-|
+| code | 即后端定义的`成功码`字段名 |
+| message | 即后端定义的`错误消息`字段名 |
+| success | 即`成功码`的值等于指定时才算网络请求成功 |
+
+
+<img src="https://i.imgur.com/7mveUcv.png" width="450"/>
+
+比如截图中的意为, 当返回的Json中包含state字段且值为ok时请求才算是真正成功才会返回数据, 否则都会抛出异常. 其中message为错误信息字段名
+
+假设简单的指定名称不能满足你复杂的业务逻辑, 请复制`JSONConvert`源码到你项目中修改或者直接自己实现`NetConverter`
+
+> 注意解析器(Gson或者Moshi)的解析对象记得定义为类成员, 这样可以不会导致每次解析都要创建一个新的解析对象, 减少内存消耗
+<br>
 
 ## 自定义转换器
 
@@ -156,116 +273,4 @@ JSONConvert的核心逻辑
 
 如果是错误信息建议抛出异常, 就可以在全局异常处理器中统一处理, 请阅读:[全局错误处理](error-handle.md)
 
-<br>
-
-## Json解析库转换器
-
-一般业务我们可以直接继承[JSONConverter](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/JSONConvert.kt)
-使用自己的JSON解析器解析数据, 自定义需求可以直接实现[NetConverter](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/NetConverter.kt)
-
-=== "Kotlin-Serialization"
-
-    ```kotlin
-    class SerializationConverter(
-        val success: String = "0",
-        val code: String = "code",
-        val message: String = "msg"
-    ) : NetConverter {
-
-        private val jsonDecoder = Json {
-            ignoreUnknownKeys = true // JSON和数据模型字段可以不匹配
-            coerceInputValues = true // 如果JSON字段是Null则使用默认值
-        }
-
-        override fun <R> onConvert(succeed: Type, response: Response): R? {
-            try {
-                return NetConverter.onConvert<R>(succeed, response)
-            } catch (e: ConvertException) {
-                val code = response.code
-                when {
-                    code in 200..299 -> { // 请求成功
-                        val bodyString = response.body?.string() ?: return null
-                        val kType = response.request.kType() ?: return null
-                        return try {
-                            val json = JSONObject(bodyString) // 获取JSON中后端定义的错误码和错误信息
-                            if (json.getString(this.code) == success) { // 对比后端自定义错误码
-                                bodyString.parseBody<R>(kType)
-                            } else { // 错误码匹配失败, 开始写入错误异常
-                                val errorMessage = json.optString(
-                                    message,
-                                    NetConfig.app.getString(com.drake.net.R.string.no_error_message)
-                                )
-                                throw ResponseException(response, errorMessage)
-                            }
-                        } catch (e: JSONException) { // 固定格式JSON分析失败直接解析JSON
-                            bodyString.parseBody<R>(kType)
-                        }
-                    }
-                    code in 400..499 -> throw RequestParamsException(response, code.toString()) // 请求参数错误
-                    code >= 500 -> throw ServerResponseException(response, code.toString()) // 服务器异常错误
-                    else -> throw ConvertException(response)
-                }
-            }
-        }
-
-        fun <R> String.parseBody(succeed: KType): R? {
-            return jsonDecoder.decodeFromString(Json.serializersModule.serializer(succeed), this) as R
-        }
-    }
-    ```
-
-    SerializationConverter和JSONConverter代码差不多
-    [Kotlin-Serialization](https://github.com/Kotlin/kotlinx.serialization)
-
-=== "Gson"
-
-    ```kotlin
-    class GsonConvert : JSONConvert(code = "code", message = "msg", success = "200") {
-        val gson = GsonBuilder().serializeNulls().create()
-
-        override fun <S> String.parseBody(succeed: Type): S? {
-            return gson.fromJson(this, succeed)
-        }
-    }
-    ```
-    [GSON](https://github.com/google/gson)
-
-=== "Moshi"
-
-    ```kotlin
-    class MoshiConvert : JSONConvert(code = "code", message = "msg", success = "200") {
-        val moshi = Moshi.Builder().build()
-
-        override fun <S> String.parseBody(succeed: Type): S? {
-            return moshi.adapter<S>(succeed).fromJson(this)
-        }
-    }
-    ```
-    [Moshi](https://github.com/square/moshi)
-
-=== "FastJson"
-
-    ```kotlin
-    class FastJsonConvert : JSONConvert(code = "code", message = "msg", success = "200") {
-
-        override fun <S> String.parseBody(succeed: Type): S? {
-            return JSON.parseObject(this, succeed)
-        }
-    }
-    ```
-    [FastJson](https://github.com/alibaba/fastjson)
-
-1. 使用转换器时请添加其依赖
-2. 推荐使用 `kotlinx.Serialization`, 其可解析[任何泛型](kotlin-serialization.md)
-3. 推荐阅读Demo
-
-以上转换器示例是建立在数据结构为以下表格的固定格式下, 如果有特殊的业务可能需要自行修改
-
-| 转换器参数 | 描述 |
-|-|-|
-| code | 即后端定义的`成功码`字段名 |
-| message | 即后端定义的`错误消息`字段名 |
-| success | 即`成功码`的值等于指定时才算网络请求成功 |
-
-> 注意解析器(Gson或者Moshi)的解析对象记得定义为类成员, 这样可以不会导致每次解析都要创建一个新的解析对象, 减少内存消耗
 <br>
