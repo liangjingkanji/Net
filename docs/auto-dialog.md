@@ -74,8 +74,23 @@ scopeDialog(dialog) {
 
 ## 生命周期
 
+使用`scopeDialog`发起请求后, Dialog分为以下三个生命周期
+
 |生命周期|描述|
 |-|-|
-|开始|执行`scopeDialog`时显示加载框|
-|自动结束|作用域内任务结束时关闭加载框|
-|手动结束|加载框被手动取消时取消作用域内网络请求|
+|Dialog 显示|执行`scopeDialog`时显示加载框|
+|Dialog 自动结束|作用域内任务结束时关闭加载框|
+|Dialog 手动结束|加载框被手动取消时取消作用域内网络请求|
+
+## 自定义加载对话框
+
+我想要自定义加载框视图
+
+- Dialog属于布局容器, 你可以继承Dialog然后创建属于自己的显示内容(类似Activity/Fragment), 比如该[iOS风格对话框](https://github.com/liangjingkanji/Tooltip/blob/HEAD/tooltip/src/main/java/com/drake/tooltip/dialog/BubbleDialog.kt)
+
+<br>
+
+我的加载框不是Dialog
+
+- 虽然我们指定`scopeDialog`的加载框或者`setNetDialogFactory`时只允许传入一个Dialog对象, 但即使你使用的不是Dialog你也可以创建一个类继承Dialog, 然后在其生命周期函数中处理`自己特殊对话框`的展示和隐藏
+
