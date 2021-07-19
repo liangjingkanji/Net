@@ -29,12 +29,11 @@ Download函数一调用就会开始执行下载文件请求, 然后`await`则会
 === "下载并安装"
     ```kotlin hl_lines="7"
     scopeNetLife {
-        val file =
-            Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
-                setDownloadFileName("net.apk")
-                setDownloadDir(requireContext().filesDir)
-                setDownloadMd5Verify()
-            }.await().install()
+        Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
+            setDownloadFileName("net.apk")
+            setDownloadDir(requireContext().filesDir)
+            setDownloadMd5Verify()
+        }.await().install()
     }
     ```
 
