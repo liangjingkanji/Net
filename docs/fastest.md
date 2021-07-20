@@ -14,7 +14,7 @@ scopeNetLife {
     val deferred3 = Post<String>("api")
 
     // 只返回最快的请求结果
-    tvFragment.text = fastSelect(deferred, deferred1, deferred2, deferred3)
+    tvFragment.text = fastest(deferred, deferred1, deferred2, deferred3)
 }
 ```
 
