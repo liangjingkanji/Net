@@ -32,7 +32,7 @@
     ```
 === "单例配置"
     ```kotlin
-    val userList = Get<List<UserModel>>("list-data") {
+    val userList = Get<List<UserModel>>("list") {
         converter = SerializationConvert() // 单例转换器, 此时会忽略全局转换器
     }.await()
     ```
@@ -41,9 +41,9 @@
 
 ```kotlin
 scopeNetLife {
-    val userList = Get<List<UserModel>>("list-data") {
-        // 该转换器直接解析JSON中的data字段, 而非返回的整个JSON字符串
-        converter = SerializationConvert() // 单例转换器, 此时会忽略全局转换器
+    // 这里后端直接返回的Json数组
+    val userList = Get<List<UserModel>>("list") {
+        converter = SerializationConvert()
     }.await()
 
     tvFragment.text = userList[0].name

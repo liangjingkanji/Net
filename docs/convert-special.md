@@ -37,7 +37,7 @@ scopeNetLife {
 }
 ```
 
-## 仅解析数据字段
+## 解析Json中的字段
 
 这样每次都要`await().data`才是你要的`data`对象. 有些人就想省略直接不写code和msg, 希望直接返回data. 那么在转换器里面就只解析data字段即可
 
