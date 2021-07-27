@@ -26,9 +26,9 @@ Android上不是最强网络任务库, 基于OkHttp/协程的非侵入式框架.
 
 <br>
 
-[Net 1.x](https://github.com/liangjingkanji/Net/tree/1.x) 版本为RxJava实现 <br>
-[Net 2.x](https://github.com/liangjingkanji/Net/tree/2.x) 版本为协程实现(开发者无需掌握协程也可以使用) <br>
-Net 3.x 版本为OkHttp实现, 不限定OkHttp版本
+[Net 1.x](https://github.com/liangjingkanji/Net/tree/1.x) 版本使用RxJava实现 <br>
+[Net 2.x](https://github.com/liangjingkanji/Net/tree/2.x) 版本使用协程实现 <br>
+Net 3.x 版本使用OkHttp+协程实现, 可指定其OkHttp版本
 
 <br>
 <p align="center"><strong>欢迎贡献代码/问题</strong></p>
@@ -36,25 +36,25 @@ Net 3.x 版本为OkHttp实现, 不限定OkHttp版本
 
 主要功能
 
-- Kotlin
-- 协程(不懂协程也可上手)
+- kotlin特性
+- 可使用OkHttp所有组件
+- 协程并发(不会协程也可上手)
 - 并发/串行请求
 - 队列/同步请求
 - 快速切换线程
-- DSL作用域编程
-- 配合ViewModel
-- 数据转换器
+- DSL作用域
+- 解析JSON/Protocol
+- 支持任何数据解析的转换器
+- 网络请求返回指定泛型(String/Response/File/List/Map/Pair...)
 - 队列/同步请求返回Result
-- 自动JSON解析
 - 自动处理下拉刷新和上拉加载
 - 自动处理分页加载
 - 自动缺省页
-- 自动处理生命周期
+- 自动处理生命周期(Activity/Fragment/ViewModel)
 - 自动处理加载对话框
 - 自动错误信息吐司
 - 自动异常捕获(定位到请求)
-- 使用任意泛型(String/Response/File/List/Map/Pair...)解析数据
-- Request可存储键值对Tag
+- 请求标签(RequestTag)
 - Request支持Id/Group分组
 - 日志记录器(解决日志过长展示不清晰数据加密等问题, 比抓包更强大)
 - 并发请求返回最快请求结果
