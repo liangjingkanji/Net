@@ -22,6 +22,7 @@ import com.drake.brv.BindingAdapter
 import com.drake.net.NetConfig
 import com.drake.net.interceptor.LogRecordInterceptor
 import com.drake.net.interceptor.RequestInterceptor
+import com.drake.net.okhttp.setConverter
 import com.drake.net.okhttp.setDialogFactory
 import com.drake.net.okhttp.setLog
 import com.drake.net.okhttp.setRequestInterceptor
@@ -29,6 +30,7 @@ import com.drake.net.request.BaseRequest
 import com.drake.net.sample.BR
 import com.drake.net.sample.BuildConfig
 import com.drake.net.sample.R
+import com.drake.net.sample.converter.GsonConverter
 import com.drake.statelayout.StateConfig
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
@@ -55,6 +57,8 @@ class App : Application() {
                     request.setHeader("token", "123456")
                 }
             })
+
+            setConverter(GsonConverter()) // 数据转换器
 
             setDialogFactory { // 全局加载对话框
                 ProgressDialog(it).apply {

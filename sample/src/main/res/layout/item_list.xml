@@ -21,7 +21,7 @@
 
         <variable
             name="m"
-            type="String" />
+            type="com.drake.net.sample.model.UserModel" />
     </data>
 
     <LinearLayout
@@ -37,7 +37,7 @@
             android:foreground="?selectableItemBackgroundBorderless">
 
             <TextView
-                android:text="@{m}"
+                android:text="@{m.name}"
                 tools:text="1"
                 android:textStyle="bold"
                 android:gravity="center"
