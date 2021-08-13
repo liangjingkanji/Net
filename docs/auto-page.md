@@ -41,10 +41,15 @@ page.onRefresh {
 }.autoRefresh()
 ```
 
-`index` 属于PageRefreshLayout的字段, 每次上拉加载自动+1递增, 下拉刷新自动重置
-
-`addData` 属于PageRefreshLayout的函数
-
-1. 函数接收数据集合作为第一个参数,
-1. 第二个参数lambda为返回布尔类型是否为空页面判断(默认为集合数据`isEmpty`来判断),
-1. 第三个参数lambda为返回布尔类型判断是否存在下一页(默认返回`true`).
+- `index` 属于PageRefreshLayout的字段, 每次上拉加载自动+1递增, 下拉刷新自动重置
+- ` data.total`属于服务器返回的`列表全部数量`的字段, 最终使用什么字段或者判断条件请自己根据项目不同决定
+- `addData` 属于PageRefreshLayout的函数
+    ```kotlin
+    fun addData(
+        data: List<Any?>?,
+        adapter: BindingAdapter? = null,
+        isEmpty: () -> Boolean = { data.isNullOrEmpty() },
+        hasMore: BindingAdapter.() -> Boolean = { true }
+    )
+    ```
+    具体请查看函数注释

@@ -26,7 +26,7 @@ import com.drake.net.sample.databinding.FragmentPushRefreshBinding
 import com.drake.net.sample.model.UserModel
 import com.drake.net.utils.scope
 
-
+/** 本页面已禁用上拉加载(添加xml属性app:srlEnableLoadMore="false"), 只允许下拉刷新 */
 class PushRefreshFragment :
     EngineFragment<FragmentPushRefreshBinding>(R.layout.fragment_push_refresh) {
 
