@@ -10,7 +10,7 @@
 
 截图预览
 
-<img src="https://i.imgur.com/encjFdc.gif" width="250"/>
+<img src="https://i.loli.net/2021/08/14/DAhfwxa1NK4gbpq.gif" width="250"/>
 
 <br>
 

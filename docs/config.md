@@ -8,16 +8,16 @@
     class App : Application() {
         override fun onCreate() {
             super.onCreate()
-
+    
             // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
-
+    
             NetConfig.init("http://github.com/") {
-
+    
                 // 超时设置
                 connectTimeout(2, TimeUnit.MINUTES)
                 readTimeout(2, TimeUnit.MINUTES)
                 writeTimeout(2, TimeUnit.MINUTES
-
+    
                 setLog(BuildConfig.DEBUG) // 作用域发生异常是否打印
                 setConverter(GsonConvert()) // 转换器
             }
@@ -31,13 +31,13 @@
     class App : Application() {
         override fun onCreate() {
             super.onCreate()
-
+    
             // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
             val okHttpClientBuilder = OkHttpClient.Builder()
                 .setLog(BuildConfig.DEBUG)
                 .setConverter(GsonConvert())
                 .addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
-
+    
             NetConfig.init("http://github.com/", okHttpClientBuilder)
         }
     }
@@ -80,5 +80,5 @@ NetConfig.init("http://github.com/") {
 NetConfig.host = "https://github.com/"
 ```
 
-<img src="https://i.imgur.com/gOhMDUZ.png" width="480"/>
+<img src="https://i.loli.net/2021/08/14/jZyaU5IVhPipWEr.png" width="480"/>
 

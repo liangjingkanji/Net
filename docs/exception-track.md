@@ -13,7 +13,7 @@ scopeNetLife {
 
 查看LogCat可以看到异常堆栈信息
 
-<img src="https://i.imgur.com/Vlbnrog.png" width="650"/>
+<img src="https://i.loli.net/2021/08/14/TsEdIXkpbLFgOeS.png" width="650"/>
 
 这属于请求参数错误404, 将会打印出错误码以及请求的URL.
 

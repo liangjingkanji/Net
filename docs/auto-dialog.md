@@ -16,7 +16,7 @@ scopeDialog {
 
 加载框默认使用的是Android原生加载框(MaterialDesign Dialog), 当然也提供参数传入指定每个请求的对话框
 
-<img src="https://i.imgur.com/egUM3V1.png" width="250"/>
+<img src="https://i.loli.net/2021/08/14/JqIenA56F1cgyHs.png" width="250"/>
 
 
 ## 指定单例加载框
@@ -34,7 +34,7 @@ scopeDialog(dialog) {
 }
 ```
 
-<img src="https://i.imgur.com/YDvw8Ks.gif" width="250"/>
+<img src="https://i.loli.net/2021/08/14/8eDp7Oz2CQT9Jcq.gif" width="250"/>
 
 > 这里使用的iOS风格对话框: [BubbleDialog](https://liangjingkanji.github.io/Tooltip/bubble.html)
 

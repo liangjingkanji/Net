@@ -93,7 +93,7 @@ NetConfig.init("http://localhost:80/") {
 
 源码位于: `NetConfig`
 
-<img src="https://i.imgur.com/NZFlRoN.png" width="400"/>
+<img src="https://i.loli.net/2021/08/14/cTr57oulbhwxEaQ.png" width="400"/>
 
 缺省页的错误处理是单独的: `onStateError`
 

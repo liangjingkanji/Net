@@ -27,4 +27,4 @@ class UserViewModel : ViewModel() {
 
 <br>
 
-<img src="https://i.imgur.com/4mG6P7a.png" width="350"/>
+<img src="https://i.loli.net/2021/08/14/h56aU9iCswzqp4A.png" width="350"/>

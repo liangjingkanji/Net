@@ -23,13 +23,13 @@ NetConfig.init("http://github.com/") {
 ### 1. 安装插件
 在插件市场搜索: "`Okhttp Profiler`"
 
-<img src="https://i.imgur.com/Pvncs1W.png" width="100%"/>
+<img src="https://i.loli.net/2021/08/14/pmld3qn49Xozvbx.png" width="100%"/>
 
 
 ### 2. 打开窗口
 安装以后在AndroidStudio右下角打开窗口
 
-<img src="https://i.imgur.com/lZ0RvN4.png" width="80%"/>
+<img src="https://i.loli.net/2021/08/14/p2r7o3tqlUSnCms.png" width="80%"/>
 
 > 请在每次使用前都先打开插件窗口, 如果有延迟或者不显示就反复打开下窗口
 
@@ -38,14 +38,14 @@ NetConfig.init("http://github.com/") {
 
 使用效果
 
-<img src="https://i.imgur.com/PJsaKpx.png" width="100%"/>
+<img src="https://i.loli.net/2021/08/14/Uo9G3wXuv5VFTgn.png" width="100%"/>
 
 | 标题 | 描述 |
 |-|-|
 | Device | 选择调试设备 |
 | Process | 选择展示记录的进程 |
-| <img src="https://i.imgur.com/bLXKLrI.png" width="10%"/> 抓取 | 一般情况不需要使用, 假设没有及时更新请点击图标 |
-| <img src="https://i.imgur.com/WG2WgBy.png" width="10%"/> 清空 | 清空记录 |
+| <img src="https://i.loli.net/2021/08/14/QozLn48B12MI37E.png" width="10%"/> 抓取 | 一般情况不需要使用, 假设没有及时更新请点击图标 |
+| <img src="https://i.loli.net/2021/08/14/hy8Kkwmpc5CGxlu.png" width="10%"/> 清空 | 清空记录 |
 
 
 <br>
@@ -78,10 +78,10 @@ NetConfig.init("http://github.com/") {
 ## LogCat过滤
 实际上Net的网络日志还是会被打印到LogCat, 然后通过插件捕捉显示.
 
-<img src="https://i.imgur.com/0BZAg4M.png" width="350"/>
+<img src="https://i.loli.net/2021/08/14/EG7yZYqa86ezMTC.png" width="350"/>
 
 如果不想LogCat的冗余日志影响查看其它日志, 可以通过AndroidStudio的功能折叠隐藏, 添加一个`OKPREL_`过滤字段即可
-<img src="https://i.imgur.com/F6DoICr.png" width="100%"/>
+<img src="https://i.loli.net/2021/08/14/KH3wcgk5AFYDeXd.png" width="100%"/>
 
 
 ## 其他网络框架

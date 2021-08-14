@@ -141,5 +141,5 @@ scopeNetLife {
 
 关于全部的请求配置选项推荐阅读函数文档或者阅读源码. Net提供清晰的函数结构浏览方便直接阅读源码
 
-<img src="https://i.imgur.com/j9H4c1y.png" width="400"/>
+<img src="https://i.loli.net/2021/08/14/Dub5R27gEHnwzfW.png" width="400"/>
 

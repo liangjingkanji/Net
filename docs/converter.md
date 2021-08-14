@@ -93,7 +93,7 @@ scopeNetLife {
     ```kotlin
     class GsonConvert : JSONConvert(code = "code", message = "msg", success = "200") {
         val gson = GsonBuilder().serializeNulls().create()
-
+    
         override fun <S> String.parseBody(succeed: Type): S? {
             return gson.fromJson(this, succeed)
         }
@@ -108,12 +108,12 @@ scopeNetLife {
         val code: String = "code",
         val message: String = "msg"
     ) : NetConverter {
-
+    
         private val jsonDecoder = Json {
             ignoreUnknownKeys = true // JSON和数据模型字段可以不匹配
             coerceInputValues = true // 如果JSON字段是Null则使用默认值
         }
-
+    
         override fun <R> onConvert(succeed: Type, response: Response): R? {
             try {
                 return NetConverter.onConvert<R>(succeed, response)
@@ -144,20 +144,20 @@ scopeNetLife {
                 }
             }
         }
-
+    
         fun <R> String.parseBody(succeed: KType): R? {
             return jsonDecoder.decodeFromString(Json.serializersModule.serializer(succeed), this) as R
         }
     }
     ```
-
+    
     SerializationConverter就是仿照JSONConverter代码实现
 
 === "FastJson"
 
     ```kotlin
     class FastJsonConvert : JSONConvert(code = "code", message = "msg", success = "200") {
-
+    
         override fun <S> String.parseBody(succeed: Type): S? {
             return JSON.parseObject(this, succeed)
         }
@@ -169,7 +169,7 @@ scopeNetLife {
     ```kotlin
     class MoshiConvert : JSONConvert(code = "code", message = "msg", success = "200") {
         val moshi = Moshi.Builder().build()
-
+    
         override fun <S> String.parseBody(succeed: Type): S? {
             return moshi.adapter<S>(succeed).fromJson(this)
         }
@@ -188,8 +188,7 @@ scopeNetLife {
 | message | 即后端定义的`错误消息`字段名 |
 | success | 即`成功码`的值等于指定时才算网络请求成功 |
 
-
-<img src="https://i.imgur.com/7mveUcv.png" width="450"/>
+<img src="https://i.loli.net/2021/08/14/cLYiTVQkC4uKeGr.png" width="450"/>
 
 比如截图中的意为, 当返回的Json中包含state字段且值为ok时请求才算是真正成功才会返回数据, 否则都会抛出异常. 其中message为错误信息字段名
 
@@ -250,7 +249,7 @@ scopeNetLife {
                 }
             }
         }
-
+    
         /**
          * 反序列化JSON
          *
@@ -259,7 +258,7 @@ scopeNetLife {
          */
         abstract fun <R> String.parseBody(succeed: Type): R?
     }
-
+    
     ```
 
 JSONConvert的核心逻辑
