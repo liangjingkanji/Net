@@ -36,13 +36,16 @@ Net 3.x 版本使用OkHttp+协程实现, 可指定其OkHttp版本
 
 主要功能
 
-- kotlin特性
-- 可使用OkHttp所有组件
+- 开发速度No.1
+- 专为Android而生
+- 支持OkHttp所有功能/函数
+- 高内聚低耦合架构设计
+- DSL作用域编程
 - 协程并发(不会协程也可上手)
 - 并发/串行请求
 - 队列/同步请求
 - 快速切换线程
-- DSL作用域
+- 全局错误处理
 - 解析JSON/Protocol
 - 支持任何数据解析的转换器
 - 网络请求返回指定泛型(String/Response/File/List/Map/Pair...)
