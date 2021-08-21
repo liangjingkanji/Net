@@ -22,6 +22,8 @@ import okhttp3.Response
  * 400 - 499 客户端请求异常
  */
 class RequestParamsException(
-    val response: Response,
-    message: String? = null
-) : NetException(response.request, message)
+    response: Response,
+    message: String? = null,
+    cause: Throwable? = null,
+    var tag: Any? = null
+) : HttpResponseException(response, message, cause)

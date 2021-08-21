@@ -2,8 +2,8 @@ package com.drake.net.interceptor
 
 import com.drake.net.body.toNetRequestBody
 import com.drake.net.body.toNetResponseBody
+import com.drake.net.exception.HttpFailureException
 import com.drake.net.exception.NetConnectException
-import com.drake.net.exception.NetException
 import com.drake.net.exception.NetSocketTimeoutException
 import com.drake.net.exception.NetUnknownHostException
 import com.drake.net.okhttp.attachToNet
@@ -35,7 +35,7 @@ object NetOkHttpInterceptor : Interceptor {
         } catch (e: UnknownHostException) {
             throw NetUnknownHostException(request, cause = e)
         } catch (e: Throwable) {
-            throw NetException(request, cause = e)
+            throw HttpFailureException(request, cause = e)
         }
         val netResponseBody = response.body?.toNetResponseBody(request.downloadListeners()) {
             chain.call().detachFromNet()

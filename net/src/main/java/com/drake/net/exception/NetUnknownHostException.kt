@@ -6,4 +6,4 @@ class NetUnknownHostException(
     request: Request,
     message: String? = null,
     cause: Throwable? = null
-) : NetException(request, message, cause)
+) : HttpFailureException(request, message, cause)

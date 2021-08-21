@@ -22,7 +22,8 @@ import okhttp3.Response
  * 转换数据异常
  */
 class ConvertException(
-    val response: Response,
+    response: Response,
     message: String? = null,
-    cause: Throwable? = null
-) : NetException(response.request, message, cause)
+    cause: Throwable? = null,
+    var tag: Any? = null
+) : HttpResponseException(response, message, cause)

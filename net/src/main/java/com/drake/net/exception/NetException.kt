@@ -22,12 +22,10 @@ import java.io.IOException
 
 /**
  * Net网络异常
- *
- * @param request 请求信息
  * @param message 异常信息
  */
 open class NetException(
-    val request: Request,
+    open val request: Request,
     message: String? = null,
     cause: Throwable? = null
 ) : IOException(message, cause) {

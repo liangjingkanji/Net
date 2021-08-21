@@ -23,6 +23,8 @@ import okhttp3.Response
  * >= 500 服务器异常
  */
 class ServerResponseException(
-    val response: Response,
+    response: Response,
     message: String? = null,
-) : NetException(response.request, message)
+    cause: Throwable? = null,
+    var tag: Any? = null
+) : HttpResponseException(response, message, cause)

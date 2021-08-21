@@ -20,10 +20,10 @@ package com.drake.net.exception
 
 import okhttp3.Response
 
-/**
- * 如果返回200但是返回数据不符合业务要求可以抛出该异常
- */
+/** 状态码在200..299, 但是返回数据不符合业务要求可以抛出该异常 */
 class ResponseException(
     response: Response,
-    message: String? = null
-) : NetException(response.request, message)
+    message: String? = null,
+    cause: Throwable? = null,
+    var tag: Any? = null
+) : HttpResponseException(response, message, cause)
