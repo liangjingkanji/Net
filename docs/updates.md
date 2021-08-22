@@ -62,7 +62,7 @@ NetException子类不会被ConvertException包裹, 所以要捕获转换器中�
 3. 提供兼容Android4.4(API level 19)的版本: [Net-okhttp3](https://github.com/liangjingkanji/Net-okhttp3)
 
 ## 3.0.3
-1. 添加`onResult`函数来执行队列请求: [队列请求](enqueue-request.md#onresult)
+1. 添加`onResult`函数来执行队列请求: [队列请求](callback.md#onresult)
 2. 添加`toResult`函数来执行同步请求: [同步请求](sync-request.md)
 3. 请求体日志支持JSON/文本类型
 4. LogRecordInterceptor暴露`requestString/responseString`实现函数用于继承实现自定义需求

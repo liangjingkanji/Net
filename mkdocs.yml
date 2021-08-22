@@ -14,14 +14,13 @@ docs_dir: docs
 theme:
   name: material
   custom_dir: docs/material
-
   palette:
     scheme: drake
     primary: white
-
   font: false
-
-  language: zh
+  language: 'zh'
+  features:
+    - search.highlight
 
 markdown_extensions:
   - toc:
