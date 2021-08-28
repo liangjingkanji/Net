@@ -68,18 +68,19 @@ NetConfig.init("http://localhost:80/") {
 
 | 异常 | 描述 |
 |-|-|
-| NetworkingException | 无网络 |
+| NetException | 未知的网络异常, 一般情况应当继承他来创建自定义的网络异常  |
+| HttpFailureException | Http请求错误, Http请求失败(onFailure) |
+| HttpResponseException | Http请求成功后发生的错误, Http请求成功但发生异常(onResponse) |
 | URLParseException | 地址错误 |
-| UnknownHostException | 域名错误 |
+| NetUnknownHostException | 域名错误 |
 | NetSocketTimeoutException | 连接超时 |
+| NetConnectException | 连接服务器失败 |
 | DownloadFileException | 下载文件异常 |
 | ConvertException | 解析错误, `NetConvert`中发生的未捕获异常都算解析错误 |
 | RequestParamsException | 请求参数错误 `400 - 499` 范围内错误码 |
 | ServerResponseException | 服务器错误 `500 - 599` 范围内错误码 |
-| ResponseException | 响应异常, 这里属于后端返回的错误码和其定义的成功码不匹配 |
+| ResponseException | 错误码异常, 一般应用于后端返回的错误码和其定义的成功码不匹配 |
 | NullPointerException | 空指针, 一般是在作用域内操作一个空的对象 |
-| NoCacheException | 没有缓存 |
-| NetException | 未知的网络异常, 一般情况应当继承他来创建自定义的网络异常  |
 
 假设你重写`NetConverter`可以改变异常发生的条件, 当然你在转换器或者拦截器中抛出任何异常都会被捕获或者全局处理 <br>
 转换器中发生的所有异常除非是NetException的子类否则都将被ConvertException包裹(即捕获的是ConvertException).
