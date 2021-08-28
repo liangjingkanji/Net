@@ -1,3 +1,8 @@
+## 3.0.20
+1. 新增`HttpFailureException`及其子类表示请求失败异常
+1. 新增`HttpResponseException`及其子类表示请求成功后发生的异常
+1. 更新依赖库BRV至1.3.31
+
 ## 3.0.19
 更新依赖库BRV至1.3.30
 
