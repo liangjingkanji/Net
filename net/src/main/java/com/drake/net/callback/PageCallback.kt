@@ -41,7 +41,6 @@ abstract class PageCallback<T>(val page: PageRefreshLayout) : NetCallback<T>() {
         } else {
             NetConfig.errorHandler.onStateError(e, page)
         }
-        super.onError(call, e)
     }
 
     override fun onComplete(call: Call, e: Throwable?) {

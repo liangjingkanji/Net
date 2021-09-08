@@ -117,10 +117,10 @@
         android:label="节流阀"
         tools:layout="@layout/fragment_edit_debounce" />
     <fragment
-        android:id="@+id/request_enqueue"
-        android:name="com.drake.net.sample.ui.fragment.EnqueueRequestFragment"
-        android:label="队列请求"
-        tools:layout="@layout/fragment_enqueue_request" />
+        android:id="@+id/request_callback"
+        android:name="com.drake.net.sample.ui.fragment.CallbackRequestFragment"
+        android:label="Callback请求"
+        tools:layout="@layout/fragment_callback_request" />
     <fragment
         android:id="@+id/request_sync"
         android:name="com.drake.net.sample.ui.fragment.SyncRequestFragment"

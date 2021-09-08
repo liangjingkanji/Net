@@ -4,10 +4,10 @@ import android.util.Log
 import com.drake.engine.base.EngineFragment
 import com.drake.net.Net
 import com.drake.net.sample.R
-import com.drake.net.sample.databinding.FragmentEnqueueRequestBinding
+import com.drake.net.sample.databinding.FragmentCallbackRequestBinding
 
-class EnqueueRequestFragment :
-    EngineFragment<FragmentEnqueueRequestBinding>(R.layout.fragment_enqueue_request) {
+class CallbackRequestFragment :
+    EngineFragment<FragmentCallbackRequestBinding>(R.layout.fragment_callback_request) {
 
     override fun initData() {
     }

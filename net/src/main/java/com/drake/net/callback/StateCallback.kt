@@ -37,7 +37,6 @@ abstract class StateCallback<T>(val state: StateLayout) : NetCallback<T>() {
 
     override fun onError(call: Call, e: IOException) {
         NetConfig.errorHandler.onStateError(e, state)
-        super.onError(call, e)
     }
 
     override fun onComplete(call: Call, e: Throwable?) {
