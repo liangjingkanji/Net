@@ -1,3 +1,6 @@
+## 3.0.21
+Interval添加cancel函数用于取消计时器, 取消完成不会调用finish
+
 ## 3.0.20
 1. 新增`HttpFailureException`及其子类表示请求失败异常
 1. 新增`HttpResponseException`及其子类表示请求成功后发生的异常
