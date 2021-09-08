@@ -35,17 +35,17 @@ import java.util.concurrent.TimeUnit
  * 轮循器
  *
  * 操作
- * 1. 开启: 只有在闲置状态下才可以开始
- * 2. 停止
- * 3. 暂停
- * 4. 继续
- * 5. 重置: 重置不会导致轮循器停止
- * 6. 开关: 开启|暂停切换
- * 7. 生命周期
+ * 1. 开启 [start] 只有在闲置状态下才可以开始
+ * 2. 停止 [stop]
+ * 3. 暂停 [pause]
+ * 4. 继续 [resume]
+ * 5. 重置 [reset] 重置不会导致轮循器停止
+ * 6. 开关 [switch] 开启|暂停切换
+ * 7. 生命周期 [life]
  *
  * 回调: 允许多次订阅同一个轮循器
- * 1. 每个事件
- * 2. 停止或者结束
+ * 1. 每个事件 [subscribe]
+ * 2. 停止或者结束 [finish]
  *
  * @param end 结束值
  * @param period 计时器间隔
@@ -116,7 +116,6 @@ open class Interval(
         launch()
     }
 
-
     /**
      * 停止
      */
@@ -127,6 +126,17 @@ open class Interval(
         finishList.forEach {
             it.invoke(count)
         }
+        count = start
+    }
+
+    /**
+     * 取消
+     * 区别于[stop]并不会执行[finish]
+     */
+    fun cancel() {
+        if (state == IntervalStatus.STATE_IDLE) return
+        state = IntervalStatus.STATE_IDLE
+        scope?.cancel()
         count = start
     }
 

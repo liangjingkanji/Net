@@ -32,12 +32,13 @@ interval.subscribe {
 |-|-|
 | start | 开始轮循器 |
 | stop | 停止 |
-| pause | 暂停轮循器 |
-| resume | 继续轮循器 |
-| reset | 重置轮循器 |
+| cancel | 取消, 区别于stop, 此函数执行后并不会回调finish |
+| pause | 暂停 |
+| resume | 继续 |
+| reset | 重置 |
 | switch | 切换开关 |
 | subscribe | 每次计时都会执行该回调 |
-| finish | 当计时器完成时执行该回调 |
+| finish | 当计时器完成时执行该回调, 执行stop后也会回调 |
 
 自动取消(感知生命周期)
 

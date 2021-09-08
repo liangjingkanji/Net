@@ -62,6 +62,7 @@ class SuperIntervalFragment :
             R.id.reset -> interval.reset()
             R.id.switch_interval -> interval.switch()
             R.id.stop -> interval.stop()
+            R.id.cancel -> interval.cancel()
         }
         return super.onOptionsItemSelected(item)
     }

@@ -27,11 +27,13 @@
     <item
         android:id="@+id/reset"
         android:title="重置" />
-
     <item
         android:id="@+id/switch_interval"
-        android:title="结束" />
+        android:title="切换" />
     <item
         android:id="@+id/stop"
         android:title="结束" />
+    <item
+        android:id="@+id/cancel"
+        android:title="取消" />
 </menu>
