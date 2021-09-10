@@ -43,21 +43,18 @@ import java.util.concurrent.TimeUnit
  * 6. 开关 [switch] 开启|暂停切换
  * 7. 生命周期 [life]
  *
- * 回调: 允许多次订阅同一个轮循器
+ * 函数回调: 允许多次订阅同一个轮循器
  * 1. 每个事件 [subscribe]
  * 2. 停止或者结束 [finish]
  *
- * @param end 结束值
+ * @param end 结束值, -1 表示永远不结束
  * @param period 计时器间隔
  * @param unit 计时器单位
  * @param initialDelay 第一次事件的间隔时间, 默认0
  * @param start 开始值, 当[start]]比[end]值大, 且end不等于-1时, 即为倒计时, 反之正计时
- *
- * @property count 轮循器的计数
- * @property state 轮循器当前状态
  */
 open class Interval(
-    var end: Long, // -1 表示永远不结束
+    var end: Long,
     private val period: Long,
     private val unit: TimeUnit,
     private val start: Long = 0,
@@ -70,14 +67,17 @@ open class Interval(
         initialDelay: Long = 0
     ) : this(-1, period, unit, 0, initialDelay)
 
-    private val receiveList: MutableList<(Long) -> Unit> = mutableListOf()
+    private val subscribeList: MutableList<(Long) -> Unit> = mutableListOf()
     private val finishList: MutableList<(Long) -> Unit> = mutableListOf()
     private var countTime = 0L
     private var delay = 0L
     private var scope: AndroidScope? = null
     private lateinit var ticker: ReceiveChannel<Unit>
 
+    /** 轮循器的计数 */
     var count = start
+
+    /** 轮循器当前状态 */
     var state = IntervalStatus.STATE_IDLE
         private set
 
@@ -89,12 +89,14 @@ open class Interval(
      * 轮循器完成时会同时触发回调[block]和[finish]
      */
     fun subscribe(block: (Long) -> Unit): Interval {
-        receiveList.add(block)
+        subscribeList.add(block)
         return this
     }
 
     /**
      * 轮循器完成时回调该函数
+     * @see stop 执行该函数也会回调finish
+     * @see cancel 使用该函数取消轮询器不会回调finish
      */
     fun finish(block: (Long) -> Unit): Interval {
         finishList.add(block)
@@ -107,12 +109,12 @@ open class Interval(
 
     /**
      * 开始
+     * 如果当前为暂停状态将重新开始轮询
      */
     fun start() {
-        if (state == IntervalStatus.STATE_ACTIVE || state == IntervalStatus.STATE_PAUSE) {
-            return
-        }
+        if (state == IntervalStatus.STATE_ACTIVE) return
         state = IntervalStatus.STATE_ACTIVE
+        count = start
         launch()
     }
 
@@ -121,12 +123,11 @@ open class Interval(
      */
     fun stop() {
         if (state == IntervalStatus.STATE_IDLE) return
-        state = IntervalStatus.STATE_IDLE
         scope?.cancel()
+        state = IntervalStatus.STATE_IDLE
         finishList.forEach {
             it.invoke(count)
         }
-        count = start
     }
 
     /**
@@ -135,19 +136,19 @@ open class Interval(
      */
     fun cancel() {
         if (state == IntervalStatus.STATE_IDLE) return
-        state = IntervalStatus.STATE_IDLE
         scope?.cancel()
-        count = start
+        state = IntervalStatus.STATE_IDLE
     }
 
     /**
      * 切换轮循器开始或结束
+     * 假设轮询器为暂停[IntervalStatus.STATE_PAUSE]状态将继续运行[resume]
      */
     fun switch() {
         when (state) {
             IntervalStatus.STATE_ACTIVE -> stop()
             IntervalStatus.STATE_IDLE -> start()
-            else -> return
+            IntervalStatus.STATE_PAUSE -> resume()
         }
     }
 
@@ -166,19 +167,18 @@ open class Interval(
      */
     fun pause() {
         if (state != IntervalStatus.STATE_ACTIVE) return
+        scope?.cancel()
         state = IntervalStatus.STATE_PAUSE
         delay = System.currentTimeMillis() - countTime
-        scope?.cancel()
     }
 
     /**
      * 重置
      */
     fun reset() {
-        if (state == IntervalStatus.STATE_IDLE) return
         count = start
-        scope?.cancel()
         delay = unit.toMillis(initialDelay)
+        scope?.cancel()
         if (state == IntervalStatus.STATE_ACTIVE) launch()
     }
 
@@ -212,12 +212,13 @@ open class Interval(
 
             for (unit in ticker) {
 
-                receiveList.forEach {
+                subscribeList.forEach {
                     it.invoke(count)
                 }
 
                 if (end != -1L && count == end) {
                     scope?.cancel()
+                    state = IntervalStatus.STATE_IDLE
                     finishList.forEach {
                         it.invoke(count)
                     }
