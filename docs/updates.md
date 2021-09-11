@@ -1,3 +1,7 @@
+## 3.0.23
+1. 修复轮询器重复start无效问题
+2. Interval其他优化
+
 ## 3.0.21
 Interval添加cancel函数用于取消计时器, 取消完成不会调用finish
 
