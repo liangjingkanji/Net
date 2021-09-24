@@ -21,7 +21,7 @@ import com.drake.net.body.peekString
 import com.drake.net.convert.NetConverter
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.tag.NetLabel
-import okhttp.OkHttpUtils
+import okhttp3.OkHttpUtils
 import okhttp3.FormBody
 import okhttp3.Headers
 import okhttp3.Request
