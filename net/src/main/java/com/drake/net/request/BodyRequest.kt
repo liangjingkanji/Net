@@ -162,8 +162,8 @@ open class BodyRequest : BaseRequest() {
             try {
                 partBody.build()
                 for (i in 0 until form.size) {
-                    val name = form.encodedName(i)
-                    val value = form.encodedValue(i)
+                    val name = form.name(i)
+                    val value = form.value(i)
                     partBody.addFormDataPart(name, value)
                 }
                 partBody.setType(mediaType).build()
