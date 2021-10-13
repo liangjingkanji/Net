@@ -1,6 +1,15 @@
 一般网络请求都会选择在LogCat打印网络日志信息, 但LogCat日志可读性差, 且不完整
 
-Net扩展[Okhttp Profiler](https://github.com/itkacher/OkHttpProfiler)插件以支持更好的网络日志输出
+Net以下两种方案, 各有优劣
+
+1. 使用AndroidStudio的[Profiler监听网络](https://developer.android.com/studio/profile/network-profiler?hl=zh-cn) (推荐)
+    - 可以查看项目所有OkHttp层的网络请求日志
+    - 但是查看可能不太方便, 因为网络请求是动态的曲线图
+    - 启动应用立刻触发的请求的可能无法捕捉到
+2. 安装[Okhttp Profiler](https://github.com/itkacher/OkHttpProfiler)插件, 且添加Net的`LogRecordInterceptor`拦截器
+    - 列表显示请求, 使用自定义的日志拦截器才支持显示日志
+    - 实际上是插件捕获logCat生成的日志, 线上环境需要关闭
+    - 插件有点bug, 比如延迟第一次需要反复打开下, 参数请求头重复显示
 
 ## 添加日志拦截器
 
