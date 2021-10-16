@@ -25,3 +25,10 @@ thread {
     job.cancel()
 }
 ```
+
+
+Net主要推荐使用的是协程请求, 但是同时支持其他方式发起请求
+
+- 协程请求
+- [同步请求](sync-request.md)
+- [回调请求](callback.md)

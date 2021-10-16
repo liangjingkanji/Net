@@ -37,11 +37,10 @@ nav:
   - 使用: index.md
   - 协程请求: coroutine-request.md
   - 同步请求: sync-request.md
-  - ViewModel: view-model.md
-  - 请求对象: request.md
+  - 请求参数: request.md
   - 全局配置: config.md
-  - 转换数据:
-      - 创建转换器: converter.md
+  - 返回数据:
+      - 使用转换器: converter.md
       - 特殊结构解析: convert-special.md
       - kotlin-serialization: kotlin-serialization.md
       - 数据模型生成插件: model-generate.md
@@ -51,6 +50,7 @@ nav:
       - 自动下拉刷新: auto-refresh.md
       - 自动分页加载: auto-page.md
   - 创建作用域: scope.md
+  - ViewModel: view-model.md
   - 切换线程: switch-thread.md
   - OkHttpClient: okhttp-client.md
   - 错误处理: error-handle.md
@@ -63,7 +63,7 @@ nav:
   - 取消请求: cancel.md
   - Https证书: https.md
   - 重复请求: unique.md
-  - 节流阀: debounce.md
+  - 自动搜索/节流阀: debounce.md
   - 最快请求结果: fastest.md
   - 日志拦截器: log-recorder.md
   - 轮循器/倒计时: interval.md
