@@ -34,12 +34,12 @@ interface NetConverter {
          * 返回结果应当等于泛型对象, 可空
          */
         override fun <R> onConvert(succeed: Type, response: Response): R? {
-            return when (succeed) {
-                String::class.java -> response.body?.string() as R
-                ByteString::class.java -> response.body?.byteString() as R
-                ByteArray::class.java -> response.body?.bytes() as R
-                Response::class.java -> response as R
-                File::class.java -> response.file() as R
+            return when {
+                succeed === String::class.java -> response.body?.string() as R
+                succeed === ByteString::class.java -> response.body?.byteString() as R
+                succeed.toString().contentEquals("byte[]") -> response.body?.bytes() as R
+                succeed === Response::class.java -> response as R
+                succeed === File::class.java -> response.file() as R
                 else -> throw ConvertException(
                     response,
                     "An exception occurred while converting the NetConverter.DEFAULT"
