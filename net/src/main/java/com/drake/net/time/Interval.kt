@@ -68,8 +68,8 @@ open class Interval(
         initialDelay: Long = 0
     ) : this(-1, period, unit, 0, initialDelay)
 
-    private val subscribeList: MutableList<(Long) -> Unit> = mutableListOf()
-    private val finishList: MutableList<(Long) -> Unit> = mutableListOf()
+    private val subscribeList: MutableList<Interval.(Long) -> Unit> = mutableListOf()
+    private val finishList: MutableList<Interval.(Long) -> Unit> = mutableListOf()
     private var countTime = 0L
     private var delay = 0L
     private var scope: AndroidScope? = null
@@ -89,7 +89,7 @@ open class Interval(
      * 每次轮循器计时都会调用该回调函数
      * 轮循器完成时会同时触发回调[block]和[finish]
      */
-    fun subscribe(block: (Long) -> Unit) = apply {
+    fun subscribe(block: Interval.(Long) -> Unit) = apply {
         subscribeList.add(block)
     }
 
@@ -98,7 +98,7 @@ open class Interval(
      * @see stop 执行该函数也会回调finish
      * @see cancel 使用该函数取消轮询器不会回调finish
      */
-    fun finish(block: (Long) -> Unit) = apply {
+    fun finish(block: Interval.(Long) -> Unit) = apply {
         finishList.add(block)
     }
 
@@ -125,7 +125,7 @@ open class Interval(
         scope?.cancel()
         state = IntervalStatus.STATE_IDLE
         finishList.forEach {
-            it.invoke(count)
+            it.invoke(this, count)
         }
     }
 
@@ -211,14 +211,14 @@ open class Interval(
             for (unit in ticker) {
 
                 subscribeList.forEach {
-                    it.invoke(count)
+                    it.invoke(this@Interval, count)
                 }
 
                 if (end != -1L && count == end) {
                     scope?.cancel()
                     state = IntervalStatus.STATE_IDLE
                     finishList.forEach {
-                        it.invoke(count)
+                        it.invoke(this@Interval, count)
                     }
                 }
 
