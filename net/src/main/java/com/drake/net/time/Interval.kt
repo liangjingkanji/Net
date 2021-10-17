@@ -33,7 +33,7 @@ import java.io.Serializable
 import java.util.concurrent.TimeUnit
 
 /**
- * 轮循器
+ * 创建一个会自动结束的轮循器
  *
  * 操作
  * 1. 开启 [start] 只有在闲置状态下才可以开始
@@ -62,6 +62,13 @@ open class Interval(
     private val initialDelay: Long = 0
 ) : Serializable, Closeable {
 
+    /**
+     * 创建一个不会自动结束的轮询器/计时器
+     *
+     * @param period 间隔时间
+     * @param unit 时间单位
+     * @param initialDelay 初次间隔时间, 默认为0即立即开始
+     */
     constructor(
         period: Long,
         unit: TimeUnit,
@@ -139,6 +146,9 @@ open class Interval(
         state = IntervalStatus.STATE_IDLE
     }
 
+    /** 等于[cancel] */
+    override fun close() = cancel()
+
     /**
      * 切换轮循器开始或结束
      * 假设轮询器为暂停[IntervalStatus.STATE_PAUSE]状态将继续运行[resume]
@@ -152,16 +162,6 @@ open class Interval(
     }
 
     /**
-     * 继续
-     * 要求轮循器为暂停状态[IntervalStatus.STATE_PAUSE], 否则无效
-     */
-    fun resume() {
-        if (state != IntervalStatus.STATE_PAUSE) return
-        state = IntervalStatus.STATE_ACTIVE
-        launch(delay)
-    }
-
-    /**
      * 暂停
      */
     fun pause() {
@@ -169,6 +169,16 @@ open class Interval(
         scope?.cancel()
         state = IntervalStatus.STATE_PAUSE
         delay = System.currentTimeMillis() - countTime
+    }
+
+    /**
+     * 继续
+     * 要求轮循器为暂停状态[IntervalStatus.STATE_PAUSE], 否则无效
+     */
+    fun resume() {
+        if (state != IntervalStatus.STATE_PAUSE) return
+        state = IntervalStatus.STATE_ACTIVE
+        launch(delay)
     }
 
     /**
@@ -226,10 +236,6 @@ open class Interval(
                 countTime = System.currentTimeMillis()
             }
         }
-    }
-
-    override fun close() {
-        cancel()
     }
 }
 

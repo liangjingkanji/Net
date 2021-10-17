@@ -32,6 +32,8 @@ interface NetConverter {
     companion object DEFAULT : NetConverter {
         /**
          * 返回结果应当等于泛型对象, 可空
+         * @param succeed 请求要求返回的泛型类型
+         * @param response 请求响应对象
          */
         override fun <R> onConvert(succeed: Type, response: Response): R? {
             return when {
@@ -40,10 +42,7 @@ interface NetConverter {
                 succeed.toString().contentEquals("byte[]") -> response.body?.bytes() as R
                 succeed === Response::class.java -> response as R
                 succeed === File::class.java -> response.file() as R
-                else -> throw ConvertException(
-                    response,
-                    "An exception occurred while converting the NetConverter.DEFAULT"
-                )
+                else -> throw ConvertException(response, "An exception occurred while converting the NetConverter.DEFAULT")
             }
         }
     }

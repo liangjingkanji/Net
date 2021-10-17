@@ -3,6 +3,7 @@
 package com.drake.net.callback
 
 import android.app.Dialog
+import androidx.annotation.MainThread
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -27,6 +28,8 @@ abstract class DialogCallback<T> constructor(
     val cancelable: Boolean = true,
 ) : NetCallback<T>(), LifecycleObserver {
 
+    /** 网络请求开始 */
+    @MainThread
     override fun onStart(request: Request) {
         super.onStart(request)
         activity.lifecycle.addObserver(this)
@@ -48,6 +51,11 @@ abstract class DialogCallback<T> constructor(
         }
     }
 
+    /**
+     * 网络请求完成
+     * @param e 假设请求过程中发生错误则不为null
+     */
+    @MainThread
     override fun onComplete(call: Call, e: Throwable?) {
         dismiss()
         super.onComplete(call, e)

@@ -47,6 +47,10 @@ abstract class NetCallback<T> constructor(
         }
     }
 
+    /**
+     * 网络请求错误, 异步线程
+     * @param e 请求过程中发生错误则
+     */
     override fun onFailure(call: Call, e: IOException) {
         val message = e.cause?.message
         if (message == "Socket closed") {

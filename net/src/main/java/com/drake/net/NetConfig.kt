@@ -28,7 +28,6 @@ import com.drake.net.NetConfig.dialogFactory
 import com.drake.net.NetConfig.errorHandler
 import com.drake.net.NetConfig.host
 import com.drake.net.NetConfig.logEnabled
-import com.drake.net.NetConfig.onError
 import com.drake.net.NetConfig.requestInterceptor
 import com.drake.net.NetConfig.runningCalls
 import com.drake.net.convert.NetConverter
@@ -42,7 +41,7 @@ import okhttp3.Call
 import okhttp3.OkHttpClient
 import java.lang.ref.WeakReference
 import java.net.UnknownHostException
-import java.util.concurrent.*
+import java.util.concurrent.ConcurrentLinkedQueue
 
 
 /**
@@ -61,19 +60,36 @@ import java.util.concurrent.*
 object NetConfig {
 
     lateinit var app: Application
+
+    /** 全局域名 */
+    var host: String = ""
+
+    /** 全局单例请求客户端 */
     var okHttpClient: OkHttpClient = OkHttpClient.Builder().toNetOkhttp().build()
         set(value) {
             field = value.toNetOkhttp()
         }
-    var host: String = ""
+
+    /** 是否启用日志 */
     var logEnabled = true
+
+    /** 运行中的请求 */
     var runningCalls: ConcurrentLinkedQueue<WeakReference<Call>> = ConcurrentLinkedQueue()
         private set
+
+    /** 请求拦截器 */
     var requestInterceptor: RequestInterceptor? = null
+
+    /** 响应数据转换器 */
     var converter: NetConverter = NetConverter
+
+    /** 错误处理器 */
     var errorHandler: NetErrorHandler = NetErrorHandler
+
+    /** 对话框构建工厂 */
     var dialogFactory: NetDialogFactory = NetDialogFactory
 
+    /** 对话框, 已废弃, 请使用[dialogFactory] */
     @Deprecated("废弃", replaceWith = ReplaceWith("NetConfig.dialogFactory"))
     var onDialog: (FragmentActivity) -> Dialog = { activity ->
         val progress = ProgressDialog(activity)
@@ -81,6 +97,7 @@ object NetConfig {
         progress
     }
 
+    /** 全局错误处理器, 已废弃, 请使用[errorHandler] */
     @Deprecated("使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("NetConfig.errorHandler"))
     var onError: Throwable.() -> Unit = onError@{
 
@@ -108,6 +125,7 @@ object NetConfig {
     }
 
 
+    /** 网络请求自动处理缺省页时发生错误的处理逻辑 */
     @Deprecated("使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("NetConfig.errorHandler"))
     var onStateError: Throwable.(view: View) -> Unit = {
         when (this) {
@@ -133,6 +151,12 @@ object NetConfig {
         okHttpClient = builder.toNetOkhttp().build()
     }
 
+    /**
+     * 初始化框架, 该函数仅在Kotlin下有效
+     *
+     * @param host 请求url的主机名
+     * @param config 进行配置网络请求
+     */
     fun init(host: String = "", config: OkHttpClient.Builder) {
         NetConfig.host = host
         okHttpClient = config.toNetOkhttp().build()

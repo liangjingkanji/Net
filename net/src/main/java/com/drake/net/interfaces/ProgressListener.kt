@@ -31,6 +31,7 @@ abstract class ProgressListener(var interval: Long = 500) {
 
     /**
      * 监听上传/下载进度回调函数
+     * @param p 上传或者下载进度
      */
     abstract fun onProgress(p: Progress)
 }
