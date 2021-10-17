@@ -1,6 +1,7 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:androidx.lifecycle////PointingToDeclaration/-net/androidx.lifecycle/index.html
+$dokka.location:androidx.lifecycle//life/com.drake.net.time.Interval#androidx.lifecycle.ViewModel/PointingToDeclaration/-net/androidx.lifecycle/life.html
 $dokka.location:androidx.lifecycle//scopeLife/androidx.lifecycle.ViewModel#kotlinx.coroutines.CoroutineDispatcher#kotlin.coroutines.SuspendFunction1[kotlinx.coroutines.CoroutineScope,kotlin.Unit]/PointingToDeclaration/-net/androidx.lifecycle/scope-life.html
 $dokka.location:androidx.lifecycle//scopeNetLife/androidx.lifecycle.ViewModel#kotlinx.coroutines.CoroutineDispatcher#kotlin.coroutines.SuspendFunction1[kotlinx.coroutines.CoroutineScope,kotlin.Unit]/PointingToDeclaration/-net/androidx.lifecycle/scope-net-life.html
 $dokka.location:com.drake.net.body////PointingToDeclaration/-net/com.drake.net.body/index.html
@@ -445,9 +446,10 @@ $dokka.location:com.drake.net.time/Interval///PointingToDeclaration/-net/com.dr
 $dokka.location:com.drake.net.time/Interval/Interval/#kotlin.Long#java.util.concurrent.TimeUnit#kotlin.Long/PointingToDeclaration/-net/com.drake.net.time/-interval/-interval.html
 $dokka.location:com.drake.net.time/Interval/Interval/#kotlin.Long#kotlin.Long#java.util.concurrent.TimeUnit#kotlin.Long#kotlin.Long/PointingToDeclaration/-net/com.drake.net.time/-interval/-interval.html
 $dokka.location:com.drake.net.time/Interval/cancel/#/PointingToDeclaration/-net/com.drake.net.time/-interval/cancel.html
+$dokka.location:com.drake.net.time/Interval/close/#/PointingToDeclaration/-net/com.drake.net.time/-interval/close.html
 $dokka.location:com.drake.net.time/Interval/count/#/PointingToDeclaration/-net/com.drake.net.time/-interval/count.html
 $dokka.location:com.drake.net.time/Interval/end/#/PointingToDeclaration/-net/com.drake.net.time/-interval/end.html
-$dokka.location:com.drake.net.time/Interval/finish/#kotlin.Function1[kotlin.Long,kotlin.Unit]/PointingToDeclaration/-net/com.drake.net.time/-interval/finish.html
+$dokka.location:com.drake.net.time/Interval/finish/#kotlin.Function2[com.drake.net.time.Interval,kotlin.Long,kotlin.Unit]/PointingToDeclaration/-net/com.drake.net.time/-interval/finish.html
 $dokka.location:com.drake.net.time/Interval/life/#androidx.lifecycle.LifecycleOwner#androidx.lifecycle.Lifecycle.Event/PointingToDeclaration/-net/com.drake.net.time/-interval/life.html
 $dokka.location:com.drake.net.time/Interval/pause/#/PointingToDeclaration/-net/com.drake.net.time/-interval/pause.html
 $dokka.location:com.drake.net.time/Interval/reset/#/PointingToDeclaration/-net/com.drake.net.time/-interval/reset.html
@@ -455,7 +457,7 @@ $dokka.location:com.drake.net.time/Interval/resume/#/PointingToDeclaration/-net
 $dokka.location:com.drake.net.time/Interval/start/#/PointingToDeclaration/-net/com.drake.net.time/-interval/start.html
 $dokka.location:com.drake.net.time/Interval/state/#/PointingToDeclaration/-net/com.drake.net.time/-interval/state.html
 $dokka.location:com.drake.net.time/Interval/stop/#/PointingToDeclaration/-net/com.drake.net.time/-interval/stop.html
-$dokka.location:com.drake.net.time/Interval/subscribe/#kotlin.Function1[kotlin.Long,kotlin.Unit]/PointingToDeclaration/-net/com.drake.net.time/-interval/subscribe.html
+$dokka.location:com.drake.net.time/Interval/subscribe/#kotlin.Function2[com.drake.net.time.Interval,kotlin.Long,kotlin.Unit]/PointingToDeclaration/-net/com.drake.net.time/-interval/subscribe.html
 $dokka.location:com.drake.net.time/Interval/switch/#/PointingToDeclaration/-net/com.drake.net.time/-interval/switch.html
 $dokka.location:com.drake.net.time/IntervalStatus.STATE_ACTIVE///PointingToDeclaration/-net/com.drake.net.time/-interval-status/-s-t-a-t-e_-a-c-t-i-v-e/index.html
 $dokka.location:com.drake.net.time/IntervalStatus.STATE_IDLE///PointingToDeclaration/-net/com.drake.net.time/-interval-status/-s-t-a-t-e_-i-d-l-e/index.html
@@ -545,11 +547,11 @@ $dokka.location:com.drake.net/NetConfig/onError/#/PointingToDeclaration/-net/co
 $dokka.location:com.drake.net/NetConfig/onStateError/#/PointingToDeclaration/-net/com.drake.net/-net-config/on-state-error.html
 $dokka.location:com.drake.net/NetConfig/requestInterceptor/#/PointingToDeclaration/-net/com.drake.net/-net-config/request-interceptor.html
 $dokka.location:com.drake.net/NetConfig/runningCalls/#/PointingToDeclaration/-net/com.drake.net/-net-config/running-calls.html
-$dokka.location:okhttp////PointingToDeclaration/-net/okhttp/index.html
-$dokka.location:okhttp/OkHttpUtils///PointingToDeclaration/-net/okhttp/-ok-http-utils/index.html
-$dokka.location:okhttp/OkHttpUtils/headers/#okhttp3.Request.Builder/PointingToDeclaration/-net/okhttp/-ok-http-utils/headers.html
-$dokka.location:okhttp/OkHttpUtils/tags/#okhttp3.Request.Builder/PointingToDeclaration/-net/okhttp/-ok-http-utils/tags.html
-$dokka.location:okhttp/OkHttpUtils/tags/#okhttp3.Request/PointingToDeclaration/-net/okhttp/-ok-http-utils/tags.html
+$dokka.location:okhttp3////PointingToDeclaration/-net/okhttp3/index.html
+$dokka.location:okhttp3/OkHttpUtils///PointingToDeclaration/-net/okhttp3/-ok-http-utils/index.html
+$dokka.location:okhttp3/OkHttpUtils/headers/#okhttp3.Request.Builder/PointingToDeclaration/-net/okhttp3/-ok-http-utils/headers.html
+$dokka.location:okhttp3/OkHttpUtils/tags/#okhttp3.Request.Builder/PointingToDeclaration/-net/okhttp3/-ok-http-utils/tags.html
+$dokka.location:okhttp3/OkHttpUtils/tags/#okhttp3.Request/PointingToDeclaration/-net/okhttp3/-ok-http-utils/tags.html
 androidx.lifecycle
 com.drake.net
 com.drake.net.body
@@ -569,5 +571,5 @@ com.drake.net.tag
 com.drake.net.time
 com.drake.net.transform
 com.drake.net.utils
-okhttp
+okhttp3
 
