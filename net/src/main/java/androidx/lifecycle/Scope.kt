@@ -18,6 +18,7 @@ package androidx.lifecycle
 
 import com.drake.net.scope.AndroidScope
 import com.drake.net.scope.NetCoroutineScope
+import com.drake.net.time.Interval
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,4 +44,9 @@ fun ViewModel.scopeNetLife(
 ): NetCoroutineScope {
     val scope = NetCoroutineScope(dispatcher = dispatcher).launch(block)
     return setTagIfAbsent(scope.toString(), scope)
+}
+
+/** 轮询器根据ViewModel生命周期自动取消 */
+fun Interval.life(viewModel: ViewModel) = apply {
+    viewModel.setTagIfAbsent(toString(), this)
 }

@@ -28,6 +28,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.TickerMode
 import kotlinx.coroutines.channels.ticker
+import java.io.Closeable
 import java.io.Serializable
 import java.util.concurrent.TimeUnit
 
@@ -59,7 +60,7 @@ open class Interval(
     private val unit: TimeUnit,
     private val start: Long = 0,
     private val initialDelay: Long = 0
-) : Serializable {
+) : Serializable, Closeable {
 
     constructor(
         period: Long,
@@ -88,9 +89,8 @@ open class Interval(
      * 每次轮循器计时都会调用该回调函数
      * 轮循器完成时会同时触发回调[block]和[finish]
      */
-    fun subscribe(block: (Long) -> Unit): Interval {
+    fun subscribe(block: (Long) -> Unit) = apply {
         subscribeList.add(block)
-        return this
     }
 
     /**
@@ -98,9 +98,8 @@ open class Interval(
      * @see stop 执行该函数也会回调finish
      * @see cancel 使用该函数取消轮询器不会回调finish
      */
-    fun finish(block: (Long) -> Unit): Interval {
+    fun finish(block: (Long) -> Unit) = apply {
         finishList.add(block)
-        return this
     }
 
     // </editor-fold>
@@ -111,8 +110,8 @@ open class Interval(
      * 开始
      * 如果当前为暂停状态将重新开始轮询
      */
-    fun start() {
-        if (state == IntervalStatus.STATE_ACTIVE) return
+    fun start() = apply {
+        if (state == IntervalStatus.STATE_ACTIVE) return this
         state = IntervalStatus.STATE_ACTIVE
         count = start
         launch()
@@ -195,13 +194,12 @@ open class Interval(
     fun life(
         lifecycleOwner: LifecycleOwner,
         lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP
-    ): Interval {
+    ) = apply {
         lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                if (lifeEvent == event) scope?.cancel()
+                if (lifeEvent == event) cancel()
             }
         })
-        return this
     }
     //</editor-fold>
 
@@ -228,6 +226,10 @@ open class Interval(
                 countTime = System.currentTimeMillis()
             }
         }
+    }
+
+    override fun close() {
+        cancel()
     }
 }
 
