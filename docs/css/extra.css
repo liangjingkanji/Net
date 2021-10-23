@@ -117,6 +117,11 @@ table tr:nth-child(2n), thead {
     border: 1px solid #dfe2e5;
 }
 
+/*隐藏搜索框, 因为不支持中文搜索*/
+.md-search__form {
+    visibility: hidden;
+}
+
 /*引用*/
 .md-typeset blockquote {
     color: inherit;
