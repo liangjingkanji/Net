@@ -116,6 +116,7 @@ object NetConfig {
             is NullPointerException -> app.getString(R.string.net_null_error)
             is NoCacheException -> app.getString(R.string.net_no_cache_error)
             is ResponseException -> message
+            is HttpFailureException -> app.getString(R.string.request_failure)
             is NetException -> app.getString(R.string.net_error)
             else -> app.getString(R.string.net_other_error)
         }
