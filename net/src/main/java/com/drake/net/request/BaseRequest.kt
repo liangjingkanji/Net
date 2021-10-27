@@ -119,6 +119,20 @@ abstract class BaseRequest {
         } else httpUrl.setQueryParameter(name, value)
     }
 
+    /**
+     * 设置Url上的Query参数
+     */
+    fun setQuery(name: String, value: Number?) {
+        setQuery(name, value?.toString() ?: return)
+    }
+
+    /**
+     * 设置Url上的Query参数
+     */
+    fun setQuery(name: String, value: Boolean?) {
+        setQuery(name, value?.toString() ?: return)
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Param">
