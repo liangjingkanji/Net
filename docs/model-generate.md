@@ -59,7 +59,7 @@
 
 截图即为我的推荐配置
 
-<img src="https://i.loli.net/2021/08/14/MrxTilmOX7k6uvt.png" width="450"/>
+<img src="https://i.loli.net/2021/11/05/SaH8dw6r9WgolzC.png" width="450"/>
 
 1. 添加@Keep注解, 为防止被代码混淆
 2. 注解和字段处于同一行, 便于美观
