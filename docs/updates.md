@@ -1,3 +1,9 @@
+## 3.0.26
+- 优化返回ByteArray类型性能
+- setQuery函数支持Number/Boolean类型
+- 新增一个错误提示 HttpFailureException
+
+
 ## 3.0.25
 - 轮询器支持ViewModel取消
 - 修复无法返回ByteArray类型问题
