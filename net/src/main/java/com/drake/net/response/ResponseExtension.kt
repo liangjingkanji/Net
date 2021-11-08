@@ -70,9 +70,19 @@ fun Response.fileName(): String {
  */
 @Throws(DownloadFileException::class)
 fun Response.file(): File? {
-    val downloadDir = request.downloadFileDir()
-    val fileName = fileName()
-    var file = File(downloadDir, fileName)
+    var dir = request.downloadFileDir() // 下载目录
+    val fileName: String // 下载文件名
+    val dirFile = File(dir)
+    // 判断downloadDir是否为目录
+    var file = if (dirFile.isDirectory) {
+        fileName = fileName()
+        File(dir, fileName)
+    } else {
+        val temp = dir
+        dir = dir.substringBeforeLast(File.separatorChar)
+        fileName = temp.substringAfterLast(File.separatorChar)
+        dirFile
+    }
     try {
         if (file.exists()) {
             // MD5校验匹配文件
@@ -85,7 +95,7 @@ fun Response.file(): File? {
                 val fileExtension = file.extension
                 val fileNameWithoutExtension = file.nameWithoutExtension
                 fun rename(index: Long): File {
-                    file = File(downloadDir, fileNameWithoutExtension + "_($index)" + fileExtension)
+                    file = File(dir, fileNameWithoutExtension + "_($index)" + fileExtension)
                     return if (file.exists()) {
                         rename(index + 1)
                     } else file
@@ -96,7 +106,7 @@ fun Response.file(): File? {
 
         // 临时文件
         if (request.downloadTempFile()) {
-            file = File(downloadDir, file.name + ".net-download")
+            file = File(dir, file.name + ".net-download")
         }
         val source = body?.source() ?: return null
         if (!file.exists()) file.createNewFile()
@@ -105,7 +115,7 @@ fun Response.file(): File? {
         }
         // 下载完毕删除临时文件
         if (request.downloadTempFile()) {
-            val fileFinal = File(downloadDir, fileName)
+            val fileFinal = File(dir, fileName)
             file.renameTo(fileFinal)
             return fileFinal
         }
