@@ -285,18 +285,26 @@ abstract class BaseRequest {
 
     /**
      * 下载文件名
+     * 如果[setDownloadDir]函数使用完整路径(包含文件名的参数)作为参数则将无视本函数设置
+     * 如果不调用本函数则默认是读取服务器返回的文件名
+     * @see setDownloadFileNameDecode
+     * @see setDownloadFileNameConflict
+     * @see setDownloadDir
      */
     fun setDownloadFileName(name: String?) {
         okHttpRequest.setLabel(NetLabel.DownloadFileName(name))
     }
 
     /**
-     * 下载文件的保存目录
+     * 下载保存的目录, 也支持包含文件名称的完整路径, 如果使用完整路径则无视setDownloadFileName设置
      */
     fun setDownloadDir(name: String?) {
         okHttpRequest.setLabel(NetLabel.DownloadFileDir(name))
     }
 
+    /**
+     * 下载保存的目录, 也支持包含文件名称的完整路径, 如果使用完整路径则无视setDownloadFileName设置
+     */
     fun setDownloadDir(name: File?) {
         okHttpRequest.setLabel(NetLabel.DownloadFileDir(name))
     }

@@ -42,7 +42,7 @@ Download函数一调用就会开始执行下载文件请求, 然后`await`则会
 | 函数 | 描述 |
 |-|-|
 | setDownloadFileName | 下载的文件名称 |
-| setDownloadDir | 下载保存的目录 |
+| setDownloadDir | 下载保存的目录, 也支持包含文件名称的完整路径, 如果使用完整路径则无视`setDownloadFileName`设置 |
 | setDownloadMd5Verify | 下载是否开启MD5校验, 如果服务器返回 "Content-MD5"响应头和制定路径已经存在的文件MD5相同是否直接返回File, 不会重新下载 |
 | setDownloadFileNameConflict | 下载文件名如果在指定路径下存在同名会自动重新命名, 例如`file_name(1).apk` |
 | setDownloadFileNameDecode | 文件名称是否使用URL解码, 例如下载的文件名如果是中文, 服务器传输给你的会是被URL编码的字符串. 你使用URL解码后才是可读的中文名称 |
