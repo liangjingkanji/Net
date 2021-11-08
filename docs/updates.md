@@ -1,3 +1,6 @@
+## 3.0.27
+- setDownloadDir函数同时支持完整路径(即包含文件名称)和下载目录
+
 ## 3.0.26
 - 优化返回ByteArray类型性能
 - setQuery函数支持Number/Boolean类型
