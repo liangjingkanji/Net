@@ -67,7 +67,7 @@ fun Fragment.scopeDialog(
  * 作用域开始执行时显示加载中缺省页
  * 作用域正常结束时显示成功缺省页
  * 作用域抛出异常时显示错误缺省页
- * 并且自动吐司错误信息, 可配置 [com.drake.net.NetConfig.onStateError]
+ * 并且自动吐司错误信息, 可配置 [com.drake.net.interfaces.NetErrorHandler.onStateError]
  * 自动打印异常日志
  * @receiver 当前视图会被缺省页包裹
  *
@@ -89,7 +89,7 @@ fun StateLayout.scope(
  * 2. 上拉加载自动结束
  * 3. 捕获异常
  * 4. 打印异常日志
- * 5. 吐司部分异常[com.drake.net.NetConfig.onStateError]
+ * 5. 吐司部分异常[com.drake.net.interfaces.NetErrorHandler.onStateError]
  * 6. 判断添加还是覆盖数据
  * 7. 自动显示缺省页
  *

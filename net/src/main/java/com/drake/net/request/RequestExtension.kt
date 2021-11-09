@@ -21,9 +21,9 @@ import com.drake.net.body.peekString
 import com.drake.net.convert.NetConverter
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.tag.NetLabel
-import okhttp3.OkHttpUtils
 import okhttp3.FormBody
 import okhttp3.Headers
+import okhttp3.OkHttpUtils
 import okhttp3.Request
 import java.net.URLDecoder
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -71,22 +71,22 @@ var Request.kType: KType?
         setLabel(NetLabel.RequestKType(value))
     }
 
-@Deprecated("建议使用属性", ReplaceWith("id"))
+@Deprecated("建议使用属性", ReplaceWith("id"), DeprecationLevel.ERROR)
 fun Request.id(): Any? {
     return id
 }
 
-@Deprecated("建议使用属性", ReplaceWith("group"))
+@Deprecated("建议使用属性", ReplaceWith("group"), DeprecationLevel.ERROR)
 fun Request.group(): Any? {
     return group
 }
 
-@Deprecated("建议使用属性", ReplaceWith("logRecord"))
+@Deprecated("建议使用属性", ReplaceWith("logRecord"), DeprecationLevel.ERROR)
 fun Request.isLogRecord(): Boolean? {
     return logRecord
 }
 
-@Deprecated("建议使用属性", ReplaceWith("kType"))
+@Deprecated("建议使用属性", ReplaceWith("kType"), DeprecationLevel.ERROR)
 fun Request.kType(): KType? {
     return kType
 }

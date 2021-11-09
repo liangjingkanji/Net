@@ -24,7 +24,10 @@ import androidx.lifecycle.LifecycleOwner
 import com.drake.net.scope.AndroidScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.debounce
 
 /**
  * 收集Flow结果并过滤重复结果
@@ -47,7 +50,7 @@ inline fun <T> Flow<T>.listen(
  * @param event 销毁时机
  * @param dispatcher 指定调度器
  */
-@Deprecated("规范命名", ReplaceWith("launchIn"))
+@Deprecated("规范命名", ReplaceWith("launchIn"), DeprecationLevel.ERROR)
 @OptIn(InternalCoroutinesApi::class)
 inline fun <T> Flow<T>.scope(
     owner: LifecycleOwner? = null,

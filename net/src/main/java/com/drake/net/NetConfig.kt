@@ -31,23 +31,20 @@ import com.drake.net.NetConfig.logEnabled
 import com.drake.net.NetConfig.requestInterceptor
 import com.drake.net.NetConfig.runningCalls
 import com.drake.net.convert.NetConverter
-import com.drake.net.exception.*
 import com.drake.net.interceptor.RequestInterceptor
 import com.drake.net.interfaces.NetDialogFactory
 import com.drake.net.interfaces.NetErrorHandler
 import com.drake.net.okhttp.toNetOkhttp
-import com.drake.net.utils.TipUtils
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import java.lang.ref.WeakReference
-import java.net.UnknownHostException
 import java.util.concurrent.ConcurrentLinkedQueue
 
 
 /**
  * Net的全局配置
  *
- * @property app 全局上下文, 一般执行[initNet]即可, 无需手动赋值
+ * @property app 全局上下文, 一般执行[NetConfig.init]即可, 无需手动赋值
  * @property host 全局的域名或者ip(baseUrl)
  * @property runningCalls Net中正在运行的请求Call
  * @property requestInterceptor 请求拦截器
@@ -90,7 +87,7 @@ object NetConfig {
     var dialogFactory: NetDialogFactory = NetDialogFactory
 
     /** 对话框, 已废弃, 请使用[dialogFactory] */
-    @Deprecated("废弃", replaceWith = ReplaceWith("NetConfig.dialogFactory"))
+    @Deprecated("废弃", replaceWith = ReplaceWith("NetConfig.dialogFactory"), DeprecationLevel.ERROR)
     var onDialog: (FragmentActivity) -> Dialog = { activity ->
         val progress = ProgressDialog(activity)
         progress.setMessage(activity.getString(R.string.net_dialog_msg))
@@ -98,44 +95,14 @@ object NetConfig {
     }
 
     /** 全局错误处理器, 已废弃, 请使用[errorHandler] */
-    @Deprecated("使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("NetConfig.errorHandler"))
+    @Deprecated("使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("NetConfig.errorHandler"), DeprecationLevel.ERROR)
     var onError: Throwable.() -> Unit = onError@{
-
-        val message = when (this) {
-            is UnknownHostException -> app.getString(R.string.net_host_error)
-            is URLParseException -> app.getString(R.string.net_url_error)
-            is NetConnectException -> app.getString(R.string.net_network_error)
-            is NetSocketTimeoutException -> app.getString(
-                R.string.net_connect_timeout_error,
-                message
-            )
-            is DownloadFileException -> app.getString(R.string.net_download_error)
-            is ConvertException -> app.getString(R.string.net_parse_error)
-            is RequestParamsException -> app.getString(R.string.net_request_error)
-            is ServerResponseException -> app.getString(R.string.net_server_error)
-            is NullPointerException -> app.getString(R.string.net_null_error)
-            is NoCacheException -> app.getString(R.string.net_no_cache_error)
-            is ResponseException -> message
-            is HttpFailureException -> app.getString(R.string.request_failure)
-            is NetException -> app.getString(R.string.net_error)
-            else -> app.getString(R.string.net_other_error)
-        }
-
-        if (logEnabled) printStackTrace()
-        TipUtils.toast(message)
     }
 
 
     /** 网络请求自动处理缺省页时发生错误的处理逻辑 */
-    @Deprecated("使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("NetConfig.errorHandler"))
+    @Deprecated("使用NetErrorHandler统一处理错误", replaceWith = ReplaceWith("NetConfig.errorHandler"), DeprecationLevel.ERROR)
     var onStateError: Throwable.(view: View) -> Unit = {
-        when (this) {
-            is ConvertException,
-            is RequestParamsException,
-            is ResponseException,
-            is NullPointerException -> errorHandler.onError(this)
-            else -> if (logEnabled) printStackTrace()
-        }
     }
 
     //<editor-fold desc="初始化">
