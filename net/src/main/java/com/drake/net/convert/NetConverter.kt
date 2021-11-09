@@ -38,11 +38,11 @@ interface NetConverter {
          */
         override fun <R> onConvert(succeed: Type, response: Response): R? {
             return when {
-                succeed === String::class.java -> response.body?.string() as R
-                succeed === ByteString::class.java -> response.body?.byteString() as R
-                succeed is GenericArrayType && succeed.genericComponentType === Byte::class.java -> response.body?.bytes() as R
+                succeed === String::class.java && response.isSuccessful -> response.body?.string() as R
+                succeed === ByteString::class.java && response.isSuccessful -> response.body?.byteString() as R
+                succeed is GenericArrayType && succeed.genericComponentType === Byte::class.java && response.isSuccessful -> response.body?.bytes() as R
+                succeed === File::class.java && response.isSuccessful -> response.file() as R
                 succeed === Response::class.java -> response as R
-                succeed === File::class.java -> response.file() as R
                 else -> throw ConvertException(response, "An exception occurred while converting the NetConverter.DEFAULT")
             }
         }
