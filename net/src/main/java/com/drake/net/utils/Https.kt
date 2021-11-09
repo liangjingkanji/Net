@@ -15,6 +15,7 @@
  */
 package com.drake.net.utils
 
+import com.drake.net.Net
 import java.io.IOException
 import java.io.InputStream
 import java.security.KeyStore
@@ -61,7 +62,7 @@ internal fun prepareKeyManager(bksFile: InputStream?, password: String?): Array<
         kmf.init(clientKeyStore, password.toCharArray())
         return kmf.keyManagers
     } catch (e: Exception) {
-        e.printStackTrace()
+        Net.printStackTrace(e)
     }
     return null
 }
@@ -82,7 +83,7 @@ internal fun prepareTrustManager(vararg certificates: InputStream?): Array<Trust
             try {
                 certStream?.close()
             } catch (e: IOException) {
-                e.printStackTrace()
+                Net.printStackTrace(e)
             }
         }
         // 我们创建一个默认类型的TrustManagerFactory
@@ -92,7 +93,7 @@ internal fun prepareTrustManager(vararg certificates: InputStream?): Array<Trust
         // 通过tmf获取TrustManager数组，TrustManager也会信任keyStore中的证书
         return tmf.trustManagers
     } catch (e: Exception) {
-        e.printStackTrace()
+        Net.printStackTrace(e)
     }
     return null
 }

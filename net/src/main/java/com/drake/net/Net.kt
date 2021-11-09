@@ -18,12 +18,14 @@
 
 package com.drake.net
 
+import android.util.Log
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.request.*
 import com.drake.net.tag.NetLabel
 import okhttp3.Request
-import java.util.*
-import kotlin.collections.ArrayList
+import java.io.PrintWriter
+import java.io.StringWriter
+import java.net.UnknownHostException
 
 object Net {
 
@@ -257,4 +259,38 @@ object Net {
         return requests
     }
     //</editor-fold>
+
+    /**
+     * 输出异常日志
+     * @see NetConfig.logTag
+     */
+    fun printStackTrace(t: Throwable) {
+        if (NetConfig.logEnabled) {
+            Log.d(NetConfig.logTag, getStackTraceString(t))
+        }
+    }
+
+    /**
+     * 返回异常堆栈日志字符串
+     * 如果tr为null则返回空字符串
+     */
+    private fun getStackTraceString(tr: Throwable?): String {
+        if (tr == null) {
+            return ""
+        }
+        // This is to reduce the amount of log spew that apps do in the non-error
+        // condition of the network being unavailable.
+        var t = tr
+        while (t != null) {
+            if (t is UnknownHostException) {
+                return t.message ?: ""
+            }
+            t = t.cause
+        }
+        val sw = StringWriter()
+        val pw = PrintWriter(sw)
+        tr.printStackTrace(pw)
+        pw.flush()
+        return sw.toString()
+    }
 }

@@ -33,7 +33,7 @@ object NetOkHttpInterceptor : Interceptor {
         } catch (e: ConnectException) {
             throw NetConnectException(request, cause = e)
         } catch (e: UnknownHostException) {
-            throw NetUnknownHostException(request, cause = e)
+            throw NetUnknownHostException(request, message = e.message)
         } catch (e: Throwable) {
             throw HttpFailureException(request, cause = e)
         }

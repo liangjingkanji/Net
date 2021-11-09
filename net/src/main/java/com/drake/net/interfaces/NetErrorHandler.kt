@@ -1,6 +1,7 @@
 package com.drake.net.interfaces
 
 import android.view.View
+import com.drake.net.Net
 import com.drake.net.NetConfig
 import com.drake.net.R
 import com.drake.net.exception.*
@@ -37,7 +38,7 @@ interface NetErrorHandler {
             else -> NetConfig.app.getString(R.string.net_other_error)
         }
 
-        if (NetConfig.logEnabled) e.printStackTrace()
+        Net.printStackTrace(e)
         TipUtils.toast(message)
     }
 
@@ -53,7 +54,7 @@ interface NetErrorHandler {
             is RequestParamsException,
             is ResponseException,
             is NullPointerException -> onError(e)
-            else -> if (NetConfig.logEnabled) e.printStackTrace()
+            else -> Net.printStackTrace(e)
         }
     }
 }

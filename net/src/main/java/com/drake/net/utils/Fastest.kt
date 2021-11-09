@@ -17,7 +17,6 @@
 package com.drake.net.utils
 
 import com.drake.net.Net
-import com.drake.net.NetConfig
 import com.drake.net.transform.DeferredTransform
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
@@ -56,7 +55,7 @@ suspend fun <T> CoroutineScope.fastest(
                 val allFail = listDeferred.all { it.isCancelled }
                 if (allFail) deferred.completeExceptionally(e) else {
                     if (e !is CancellationException) {
-                        if (NetConfig.logEnabled) e.printStackTrace()
+                        Net.printStackTrace(e)
                     }
                 }
             }
@@ -103,7 +102,7 @@ suspend fun <T, R> CoroutineScope.fastest(
                 val allFail = listDeferred.all { it.deferred.isCancelled }
                 if (allFail) deferred.completeExceptionally(e) else {
                     if (e !is CancellationException) {
-                        if (NetConfig.logEnabled) e.printStackTrace()
+                        Net.printStackTrace(e)
                     }
                 }
             }

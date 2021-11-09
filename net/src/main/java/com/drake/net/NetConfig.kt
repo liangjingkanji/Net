@@ -70,6 +70,9 @@ object NetConfig {
     /** 是否启用日志 */
     var logEnabled = true
 
+    /** 网络异常日志的标签 */
+    var logTag = "NET-LOG"
+
     /** 运行中的请求 */
     var runningCalls: ConcurrentLinkedQueue<WeakReference<Call>> = ConcurrentLinkedQueue()
         private set

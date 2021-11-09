@@ -19,7 +19,7 @@ package com.drake.net.scope
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.drake.net.NetConfig
+import com.drake.net.Net
 import kotlinx.coroutines.*
 import java.io.Closeable
 import kotlin.coroutines.CoroutineContext
@@ -96,7 +96,7 @@ open class AndroidScope(
      * 错误处理
      */
     open fun handleError(e: Throwable) {
-        if (NetConfig.logEnabled) e.printStackTrace()
+        Net.printStackTrace(e)
     }
 
     open fun cancel(cause: CancellationException? = null) {

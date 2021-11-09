@@ -3,6 +3,7 @@ package com.drake.net.log
 import android.annotation.SuppressLint
 import android.os.*
 import android.util.Log
+import com.drake.net.Net
 import com.drake.net.log.LogRecorder.enabled
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -191,7 +192,7 @@ object LogRecorder {
                     try {
                         Thread.sleep(5L)
                     } catch (e: InterruptedException) {
-                        e.printStackTrace()
+                        Net.printStackTrace(e)
                     }
                 }
                 val data = bundle.getString(KEY_VALUE) ?: "null"

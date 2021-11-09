@@ -63,7 +63,7 @@ Net.post("api").onResult<String> {
 
     exceptionOrNull()?.apply {
         Log.d("日志", "请求失败")
-        printStackTrace() // 如果发生错误就不为Null
+        Net.printStackTrace(this) // 如果发生错误就不为Null
     }
 
     Log.d("日志", "完成请求")
