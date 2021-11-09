@@ -12,7 +12,8 @@ interface NetErrorHandler {
     companion object DEFAULT : NetErrorHandler
 
     /**
-     * 全局错误
+     * 全局的网络错误处理
+     *
      * @param e 发生的错误
      */
     fun onError(e: Throwable) {
@@ -41,7 +42,8 @@ interface NetErrorHandler {
     }
 
     /**
-     * 自动缺省页错误
+     * 当你使用包含缺省页功能的作用域中发生错误将回调本函数处理错误
+     *
      * @param e 发生的错误
      * @param view 缺省页, StateLayout或者PageRefreshLayout
      */
