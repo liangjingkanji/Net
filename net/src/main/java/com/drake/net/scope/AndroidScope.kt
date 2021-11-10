@@ -20,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.drake.net.Net
+import com.drake.net.utils.runMain
 import kotlinx.coroutines.*
 import java.io.Closeable
 import kotlin.coroutines.CoroutineContext
@@ -36,11 +37,13 @@ open class AndroidScope(
 ) : CoroutineScope, Closeable {
 
     init {
-        lifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
-            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                if (lifeEvent == event) cancel()
-            }
-        })
+        runMain {
+            lifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
+                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                    if (lifeEvent == event) cancel()
+                }
+            })
+        }
     }
 
     protected var catch: (AndroidScope.(Throwable) -> Unit)? = null
@@ -52,7 +55,7 @@ open class AndroidScope(
     val scopeGroup = exceptionHandler
 
     override val coroutineContext: CoroutineContext =
-            dispatcher + exceptionHandler + SupervisorJob()
+        dispatcher + exceptionHandler + SupervisorJob()
 
 
     open fun launch(block: suspend CoroutineScope.() -> Unit): AndroidScope {

@@ -23,6 +23,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.drake.net.scope.AndroidScope
+import com.drake.net.utils.runMain
 import com.drake.net.utils.scope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -205,11 +206,13 @@ open class Interval(
         lifecycleOwner: LifecycleOwner,
         lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP
     ) = apply {
-        lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
-            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                if (lifeEvent == event) cancel()
-            }
-        })
+        runMain {
+            lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
+                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                    if (lifeEvent == event) cancel()
+                }
+            })
+        }
     }
     //</editor-fold>
 
