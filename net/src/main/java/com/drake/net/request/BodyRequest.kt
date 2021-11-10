@@ -19,7 +19,6 @@
 package com.drake.net.request
 
 import com.drake.net.interfaces.ProgressListener
-import com.drake.net.utils.lazyField
 import com.drake.net.utils.toRequestBody
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -39,13 +38,13 @@ open class BodyRequest : BaseRequest() {
      * multipart请求体
      * 主要存放文件/IO流
      */
-    open var partBody: MultipartBody.Builder by lazyField { MultipartBody.Builder() }
+    open var partBody = MultipartBody.Builder()
 
     /**
      * 表单请求体
      * 当你设置`partBody`后当前表单请求体中的所有参数都会被存放到partBody中
      */
-    open var formBody: FormBody.Builder by lazyField { FormBody.Builder() }
+    open var formBody = FormBody.Builder()
 
     /**
      * multipart请求体的媒体类型

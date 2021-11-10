@@ -23,7 +23,6 @@ import com.drake.net.exception.DownloadFileException
 import com.drake.net.exception.NetException
 import com.drake.net.reflect.typeTokenOf
 import com.drake.net.request.*
-import com.drake.net.utils.isValid
 import com.drake.net.utils.md5
 import okhttp3.Response
 import okio.buffer
@@ -44,12 +43,12 @@ import kotlin.coroutines.cancellation.CancellationException
  * 4. 时间戳
  */
 fun Response.fileName(): String {
-    request.downloadFileName().isValid { return it }
+    request.downloadFileName().takeUnless { it.isNullOrBlank() }?.let { return it }
     val disposition = header("Content-Disposition")
     if (disposition != null) {
-        disposition.substringAfter("filename=", "").isValid { return it }
+        disposition.substringAfter("filename=", "").takeUnless { it.isBlank() }?.let { return it }
         disposition.substringAfter("filename*=", "").trimStart(*"UTF-8''".toCharArray())
-            .isValid { return it }
+            .takeUnless { it.isBlank() }?.let { return it }
     }
 
     var fileName: String = request.url.pathSegments.last().substringBefore("?")
