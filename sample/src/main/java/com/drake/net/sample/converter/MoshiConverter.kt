@@ -21,7 +21,10 @@ import com.squareup.moshi.Moshi
 import java.lang.reflect.Type
 
 class MoshiConverter : JSONConvert(code = "code", message = "msg", success = "0") {
-    private val moshi = Moshi.Builder().build()
+
+    companion object {
+        val moshi = Moshi.Builder().build()
+    }
 
     override fun <R> String.parseBody(succeed: Type): R? {
         return moshi.adapter<R>(succeed).fromJson(this)
