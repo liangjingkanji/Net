@@ -72,6 +72,7 @@ val jsonDecoder = Json {
 
 数据类使用默认值
 ```kotlin
+@Serializable
 data class Data(var name:String = "", var age:Int = 0)
 ```
 
