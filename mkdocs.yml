@@ -68,5 +68,6 @@ nav:
   - 日志拦截器: log-recorder.md
   - 轮循器/倒计时: interval.md
   - Callback: callback.md
+  - 常见问题: issues.md
   - 更新日志: updates.md
   - 3.x文档: api/index.html
