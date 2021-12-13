@@ -17,7 +17,7 @@
 ```kotlin
 var scope: CoroutineScope? = null
 
-et_input.debounce().listen(this) {
+et_input.debounce().distinctUntilChanged().listen(this) {
     scope?.cancel() // 发起新的请求前取消旧的请求, 避免旧数据覆盖新数据
     scope = scopeNetLife { // 保存旧的请求到一个变量中, scopeNetLife其函数决定网络请求生命周期
         tvFragment.text = "请求中"
@@ -32,6 +32,8 @@ et_input.debounce().listen(this) {
 ```kotlin
 fun EditText.debounce(timeoutMillis: Long = 800)
 ```
+
+过滤掉重复结果使用函数`distinctUntilChanged`
 
 ## 生命周期
 其生命周期依然遵守[网络请求作用域函数scope*](scope.md#_2)
