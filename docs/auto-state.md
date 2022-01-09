@@ -15,9 +15,23 @@
     implementation 'com.github.liangjingkanji:BRV:+'
     ```
 
+<br>
+初始化缺省页
+
+需要在`Application`里配置全局自定义的 `加载中/加载失败/空数据布局`，可以复制使用Demo里自定义的布局资源，Demo中的`App.kt`配置如下
+
+````kotlin
+//全局缺省页配置 [https://github.com/liangjingkanji/StateLayout]
+StateConfig.apply {
+    emptyLayout = R.layout.layout_empty
+    loadingLayout = R.layout.layout_loading
+    errorLayout = R.layout.layout_error
+}
+````
+
 
 <br>
-创建缺省页
+声明缺省页
 
 ```xml
 <com.drake.statelayout.StateLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,12 +65,10 @@ state.onRefresh {
 
 > 注意高亮处使用的是`scope`而不是其他作用域, 只能使用scope, 否则无法跟随StateLayout生命周期(自动显示对应缺省页)等功能
 
+
 ## 生命周期
 
 |生命周期|描述|
 |-|-|
 |开始|StateLayout执行`showLoading`后触发`onRefresh`, 然后开始网络请求|
 |结束|缺省页被销毁(例如其所在的Activity或Fragment被销毁), 网络请求自动取消|
-
-
-
