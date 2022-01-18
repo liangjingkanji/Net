@@ -1,3 +1,27 @@
+## 作用域异常中断
+一个作用域内常常有多个请求发生. 默认情况下一个请求发生错误就会取消所在作用域, 然后间接取消所有子作用域 (即取消所在作用域的所有请求).
+
+```kotlin
+scopeNetLife {
+    Get<String>("api").await() // 失败
+    Get<String>("api2").await() // 上面失败, 此处也不会执行
+}
+```
+虽然示例代码是同步请求, 但是实际上并发请求也是如此.
+
+除非你catch住错误
+```kotlin
+scopeNetLife {
+    try {
+        Get<String>("api").await() // 失败
+    } catch(e:Exception) {
+    }
+    Get<String>("api2").await() // 上面失败, 此处继续执行
+}
+```
+或者你创建不同的作用域分别请求
+
+## 默认错误处理
 Net具备完善的错误处理机制, 默认情况发生错误会执行
 
 1. Logcat 显示详细的异常堆栈信息
@@ -90,7 +114,7 @@ NetConfig.init("http://localhost:80/") {
 
 覆盖默认错误处理有两种方式
 
-### 1) 参考源码完全自定义
+### 1) 实现NetErrorHandler
 
 源码位于: `NetConfig`
 
@@ -98,7 +122,7 @@ NetConfig.init("http://localhost:80/") {
 
 缺省页的错误处理是单独的: `onStateError`
 
-### 2)  仅覆盖错误信息
+### 2)  仅覆盖错误信息文本
 
 默认错误处理的文本被定义在`strings.xml`中, 我们可以在项目中使用同名覆盖或者多语言
 ```xml
