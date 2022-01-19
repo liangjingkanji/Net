@@ -1,4 +1,4 @@
-轮循器属于项目中常见需求, 本工具支持以下特性
+轮询器属于项目中常见需求, 本工具支持以下特性
 
 1. 正计时
 1. 倒计时
@@ -7,7 +7,7 @@
 
 === "指定轮循次数/间隔"
     ```kotlin
-    interval = Interval(100, 1, TimeUnit.SECONDS).life(this) // 自定义计数器个数的轮循器
+    interval = Interval(100, 1, TimeUnit.SECONDS).life(this) // 自定义计数器个数的轮询器
     ```
 === "仅轮循间隔"
     ```kotlin
@@ -15,11 +15,11 @@
     ```
 === "倒计时"
     ```kotlin
-    // 倒计时轮循器, 当[start]]比[end]值大, 且end不等于-1时, 即为倒计时
+    // 倒计时轮询器, 当[start]]比[end]值大, 且end不等于-1时, 即为倒计时
     interval = Interval(1, 1, TimeUnit.SECONDS, 5).life(this)
     ```
 
-监听轮循器
+监听轮询器
 ```kotlin
 interval.subscribe {
     tvFragment.text = it.toString()
@@ -30,7 +30,7 @@ interval.subscribe {
 
 | Interval函数 | 描述 |
 |-|-|
-| start | 开始轮循器 |
+| start | 开始轮询器 |
 | stop | 停止 |
 | cancel | 取消, 区别于stop, 此函数执行后并不会回调finish |
 | pause | 暂停 |

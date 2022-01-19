@@ -84,7 +84,7 @@
     <fragment
         android:id="@+id/super_interval"
         android:name="com.drake.net.sample.ui.fragment.SuperIntervalFragment"
-        android:label="超级轮循器"
+        android:label="超级轮询器"
         tools:layout="@layout/fragment_super_interval" />
     <fragment
         android:id="@+id/switch_dispatcher"

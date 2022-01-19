@@ -34,18 +34,18 @@ import java.io.Serializable
 import java.util.concurrent.TimeUnit
 
 /**
- * 创建一个会自动结束的轮循器
+ * 创建一个会自动结束的轮询器
  *
  * 操作
  * 1. 开启 [start] 只有在闲置状态下才可以开始
  * 2. 停止 [stop]
  * 3. 暂停 [pause]
  * 4. 继续 [resume]
- * 5. 重置 [reset] 重置不会导致轮循器停止
+ * 5. 重置 [reset] 重置不会导致轮询器停止
  * 6. 开关 [switch] 开启|暂停切换
  * 7. 生命周期 [life]
  *
- * 函数回调: 允许多次订阅同一个轮循器
+ * 函数回调: 允许多次订阅同一个轮询器
  * 1. 每个事件 [subscribe]
  * 2. 停止或者结束 [finish]
  *
@@ -83,26 +83,26 @@ open class Interval(
     private var scope: AndroidScope? = null
     private lateinit var ticker: ReceiveChannel<Unit>
 
-    /** 轮循器的计数 */
+    /** 轮询器的计数 */
     var count = start
 
-    /** 轮循器当前状态 */
+    /** 轮询器当前状态 */
     var state = IntervalStatus.STATE_IDLE
         private set
 
     // <editor-fold desc="回调">
 
     /**
-     * 订阅轮循器
-     * 每次轮循器计时都会调用该回调函数
-     * 轮循器完成时会同时触发回调[block]和[finish]
+     * 订阅轮询器
+     * 每次轮询器计时都会调用该回调函数
+     * 轮询器完成时会同时触发回调[block]和[finish]
      */
     fun subscribe(block: Interval.(Long) -> Unit) = apply {
         subscribeList.add(block)
     }
 
     /**
-     * 轮循器完成时回调该函数
+     * 轮询器完成时回调该函数
      * @see stop 执行该函数也会回调finish
      * @see cancel 使用该函数取消轮询器不会回调finish
      */
@@ -151,7 +151,7 @@ open class Interval(
     override fun close() = cancel()
 
     /**
-     * 切换轮循器开始或结束
+     * 切换轮询器开始或结束
      * 假设轮询器为暂停[IntervalStatus.STATE_PAUSE]状态将继续运行[resume]
      */
     fun switch() {
@@ -174,7 +174,7 @@ open class Interval(
 
     /**
      * 继续
-     * 要求轮循器为暂停状态[IntervalStatus.STATE_PAUSE], 否则无效
+     * 要求轮询器为暂停状态[IntervalStatus.STATE_PAUSE], 否则无效
      */
     fun resume() {
         if (state != IntervalStatus.STATE_PAUSE) return
@@ -196,11 +196,11 @@ open class Interval(
 
     //<editor-fold desc="生命周期">
     /**
-     * 绑定生命周期, 在指定生命周期发生时取消轮循器
-     * @param lifecycleOwner 默认在销毁时取消轮循器
-     * @param lifeEvent 销毁的时机, 默认为 ON_STOP 界面停止时停止轮循器
+     * 绑定生命周期, 在指定生命周期发生时取消轮询器
+     * @param lifecycleOwner 默认在销毁时取消轮询器
+     * @param lifeEvent 销毁的时机, 默认为 ON_STOP 界面停止时停止轮询器
      *
-     * Fragment的显示/隐藏不会调用onDestroy, 故轮循器默认是在ON_STOP停止, 如果你设置ON_DESTORY请考虑Fragment的情况下
+     * Fragment的显示/隐藏不会调用onDestroy, 故轮询器默认是在ON_STOP停止, 如果你设置ON_DESTORY请考虑Fragment的情况下
      */
     fun life(
         lifecycleOwner: LifecycleOwner,
