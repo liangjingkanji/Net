@@ -226,6 +226,23 @@ open class Interval(
      * 销毁生命周期为[Lifecycle.Event.ON_STOP]. 因为Fragment多数情况下不会触发[Fragment.onDestroy]
      */
     fun life(fragment: Fragment) = life(fragment, Lifecycle.Event.ON_STOP)
+
+    /**
+     *  当界面不可见时暂停[pause], 当界面可见时继续[resume]. 不会自动[start]轮询器
+     */
+    fun onlyResumed(lifecycleOwner: LifecycleOwner) = apply {
+        runMain {
+            lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
+                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                    if (event == Lifecycle.Event.ON_RESUME) {
+                        resume()
+                    } else if (event == Lifecycle.Event.ON_PAUSE) {
+                        pause()
+                    }
+                }
+            })
+        }
+    }
     //</editor-fold>
 
     /** 启动轮询器 */
