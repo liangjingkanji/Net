@@ -19,6 +19,8 @@
 
 package com.drake.net.time
 
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -196,11 +198,9 @@ open class Interval(
 
     //<editor-fold desc="生命周期">
     /**
-     * 绑定生命周期, 在指定生命周期发生时取消轮询器
-     * @param lifecycleOwner 默认在销毁时取消轮询器
-     * @param lifeEvent 销毁的时机, 默认为 ON_STOP 界面停止时停止轮询器
-     *
-     * Fragment的显示/隐藏不会调用onDestroy, 故轮询器默认是在ON_STOP停止, 如果你设置ON_DESTORY请考虑Fragment的情况下
+     * 自动在指定生命周期后取消[cancel]轮询器
+     * @param lifecycleOwner 生命周期持有者, 一般为Activity/Fragment
+     * @param lifeEvent 取消轮询器的时机, 默认为 ON_STOP 界面停止时停止轮询器
      */
     fun life(
         lifecycleOwner: LifecycleOwner,
@@ -214,8 +214,21 @@ open class Interval(
             })
         }
     }
+
+    /**
+     * 自动在指定生命周期后取消[cancel]轮询器
+     * 销毁生命周期为[Lifecycle.Event.ON_DESTROY]
+     */
+    fun life(activity: FragmentActivity) = life(activity, Lifecycle.Event.ON_DESTROY)
+
+    /**
+     * 自动在指定生命周期后取消[cancel]轮询器
+     * 销毁生命周期为[Lifecycle.Event.ON_STOP]. 因为Fragment多数情况下不会触发[Fragment.onDestroy]
+     */
+    fun life(fragment: Fragment) = life(fragment, Lifecycle.Event.ON_STOP)
     //</editor-fold>
 
+    /** 启动轮询器 */
     private fun launch(delay: Long = unit.toMillis(initialDelay)) {
         scope = scope {
 
