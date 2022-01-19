@@ -1,3 +1,8 @@
+## 3.1.2
+- 升级BRV至1.3.51, [其内部升级SmartRefreshLayout至2.0.5](https://github.com/liangjingkanji/BRV/issues/85). SmartRefreshLayout相关依赖需要迁移
+- Interval添加`onlyResumed`函数
+- Interval修改`life`函数参数为FragmentActivity情况下的自动取消轮询器的生命周期
+
 ## 3.1.1
 内嵌混淆规则, 不需要手动添加
 
