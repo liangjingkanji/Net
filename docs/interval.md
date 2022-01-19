@@ -1,10 +1,13 @@
-轮询器属于项目中常见需求, 本工具支持以下特性
+轮询器(计时器)属于项目中常见需求, 而本框架拥有非常强大的轮询器工具. 支持以下特性
 
-1. 正计时
-1. 倒计时
-1. 计数器
-1. 支持开始/停止/暂停/继续/重置/切换开关
+- 正计时
+- 倒计时
+- 指定次数
+- 支持开始/停止/暂停/继续/重置/切换开关
+- 仅页面显示时计时
+- 页面销毁自动取消
 
+<br>
 === "指定轮循次数/间隔"
     ```kotlin
     interval = Interval(100, 1, TimeUnit.SECONDS).life(this) // 自定义计数器个数的轮询器
@@ -39,13 +42,7 @@ interval.subscribe {
 | switch | 切换开关 |
 | subscribe | 每次计时都会执行该回调 |
 | finish | 当计时器完成时执行该回调, 执行stop后也会回调 |
-
-自动取消(感知生命周期)
-
-```kotlin
-interval.life(this).subscribe { // 添加一个life函数即可
-    tvFragment.text = it.toString()
-}
-```
+| life | 指定生命周期自动取消轮询器 |
+| onlyResumed | 当界面不可见时暂停, 当界面可见时继续 |
 
 [完整源码](https://github.com/liangjingkanji/Net/blob/master/sample/src/main/java/com/drake/net/sample/ui/fragment/SuperIntervalFragment.kt)
