@@ -16,7 +16,7 @@
                 // 超时设置
                 connectTimeout(2, TimeUnit.MINUTES)
                 readTimeout(2, TimeUnit.MINUTES)
-                writeTimeout(2, TimeUnit.MINUTES
+                writeTimeout(2, TimeUnit.MINUTES)
     
                 setLog(BuildConfig.DEBUG) // 作用域发生异常是否打印
                 setConverter(GsonConvert()) // 转换器
@@ -80,5 +80,5 @@ NetConfig.init("http://github.com/") {
 NetConfig.host = "https://github.com/"
 ```
 
-<img src="https://i.loli.net/2021/08/14/jZyaU5IVhPipWEr.png" width="480"/>
+<img src="https://s2.loli.net/2022/02/23/1n8djBbypHYTta9.png" width="480"/>
 
