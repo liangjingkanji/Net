@@ -40,5 +40,7 @@ object MediaConst {
 
     val FORM = "multipart/form-data".toMediaType()
 
+    val OCTET_STREAM = "application/octet-stream".toMediaType()
+
     val URLENCODED = "application/x-www-form-urlencoded".toMediaType()
 }
