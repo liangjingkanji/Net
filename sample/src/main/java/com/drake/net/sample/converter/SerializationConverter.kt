@@ -42,23 +42,18 @@ class SerializationConverter(
                         ?: throw ConvertException(response, "Request does not contain KType")
                     return try {
                         val json = JSONObject(bodyString) // 获取JSON中后端定义的错误码和错误信息
-                        if (json.getString(this.code) == success) { // 对比后端自定义错误码
+                        val srvCode = json.getString(this.code)
+                        if (srvCode == success) { // 对比后端自定义错误码
                             bodyString.parseBody<R>(kType)
                         } else { // 错误码匹配失败, 开始写入错误异常
-                            val errorMessage = json.optString(
-                                message,
-                                NetConfig.app.getString(com.drake.net.R.string.no_error_message)
-                            )
-                            throw ResponseException(response, errorMessage)
+                            val errorMessage = json.optString(message, NetConfig.app.getString(com.drake.net.R.string.no_error_message))
+                            throw ResponseException(response, errorMessage, tag = srvCode) // 将业务错误码作为tag传递
                         }
                     } catch (e: JSONException) { // 固定格式JSON分析失败直接解析JSON
                         bodyString.parseBody<R>(kType)
                     }
                 }
-                code in 400..499 -> throw RequestParamsException(
-                    response,
-                    code.toString()
-                ) // 请求参数错误
+                code in 400..499 -> throw RequestParamsException(response, code.toString()) // 请求参数错误
                 code >= 500 -> throw ServerResponseException(response, code.toString()) // 服务器异常错误
                 else -> throw ConvertException(response)
             }
