@@ -67,9 +67,7 @@ MyErrorHandler : NetErrorHandler {
     override fun onError(e: Throwable) {
     // .... 其他错误
         if (e is ResponseException && e.tag == 401) { // 判断异常为token失效
-            Engine.currentActivity?.let {
-                it.startActivity(Intent(it, LoginActivity::class.java))
-            }
+           // 打开登录界面或者弹登录失效对话框
         }
     }
 }
