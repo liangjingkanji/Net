@@ -17,14 +17,13 @@
 package com.drake.net.request
 
 import com.drake.net.NetConfig
+import com.drake.net.body.name
 import com.drake.net.body.peekString
+import com.drake.net.body.value
 import com.drake.net.convert.NetConverter
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.tag.NetLabel
-import okhttp3.FormBody
-import okhttp3.Headers
-import okhttp3.OkHttpUtils
-import okhttp3.Request
+import okhttp3.*
 import java.net.URLDecoder
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.reflect.KType
@@ -370,16 +369,27 @@ fun Request.Builder.setConverter(converter: NetConverter) = apply {
  * @param urlDecode 是否进行 UTF-8 URLDecode
  */
 fun Request.logString(byteCount: Long = 1024 * 1024, urlDecode: Boolean = true): String? {
-    val mediaType = body?.contentType() ?: return null
-    val bodyString =
-        if (body is FormBody || mediaType.type == "text" || mediaType.subtype == "json") {
-            body?.peekString(byteCount)
-        } else "Not support this type $mediaType"
+    val requestBody = body ?: return null
+    val mediaType = requestBody.contentType()
+    val supportSubtype = arrayOf("plain", "json", "xml", "html").contains(mediaType?.subtype)
+    val bodyString = when {
+        requestBody is MultipartBody -> {
+            val buf = StringBuilder()
+            requestBody.parts.forEach {
+                buf.append("${it.name()} = ${it.value()} \n")
+            }
+            buf.toString()
+        }
+        requestBody is FormBody || supportSubtype -> requestBody.peekString(byteCount)
+        else -> "$mediaType does not support output logs"
+    }
     return if (urlDecode) {
         try {
             URLDecoder.decode(bodyString, "UTF-8")
         } catch (e: Exception) {
             bodyString
         }
-    } else bodyString
+    } else {
+        bodyString
+    }
 }

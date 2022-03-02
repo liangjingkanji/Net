@@ -133,11 +133,13 @@ fun Response.file(): File? {
  * 只会输出 application/json, text/`*` 响应体类型日志
  */
 fun Response.logString(byteCount: Long = 1024 * 1024 * 4): String? {
-    val mediaType = body?.contentType() ?: return null
-    return if (mediaType.subtype == "json" || mediaType.type == "text") {
-        body?.peekString(byteCount)
+    val requestBody = body ?: return null
+    val mediaType = requestBody.contentType()
+    val supportSubtype = arrayOf("plain", "json", "xml", "html").contains(mediaType?.subtype)
+    return if (supportSubtype) {
+        requestBody.peekString(byteCount)
     } else {
-        "Not support this type $mediaType"
+        "$mediaType does not support output logs"
     }
 }
 
