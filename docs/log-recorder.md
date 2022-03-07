@@ -2,14 +2,17 @@
 
 Net以下两种方案, 各有优劣
 
-1. 使用AndroidStudio的[Profiler监听网络](https://developer.android.com/studio/profile/network-profiler?hl=zh-cn) (推荐)
-    - 可以查看项目所有OkHttp层的网络请求日志
-    - 但是查看可能不太方便, 因为网络请求是动态的曲线图
-    - 启动应用立刻触发的请求的可能无法捕捉到
-2. 安装[Okhttp Profiler](https://github.com/itkacher/OkHttpProfiler)插件, 且添加Net的`LogRecordInterceptor`拦截器
-    - 列表显示请求, 使用自定义的日志拦截器才支持显示日志
+1. 使用AndroidStudio的[Profiler](https://developer.android.com/studio/profile/network-profiler?hl=zh-cn)监听网络
+    - 可以查看项目所有OkHttp框架发起的网络请求
+    - 网络请求是动态曲线图, 查不太方便
+    - 启动应用时立刻触发的请求无法捕捉
+
+    <br>
+
+2. 安装[Okhttp Profiler](https://github.com/itkacher/OkHttpProfiler)插件  (推荐)
+    - 列表显示请求
+    - 要求添加Net的`LogRecordInterceptor`拦截器
     - 实际上是插件捕获logCat生成的日志, 线上环境需要关闭
-    - 插件有点bug, 比如延迟第一次需要反复打开下, 参数请求头重复显示
 
 ## 添加日志拦截器
 
