@@ -70,9 +70,9 @@ NetConfig.init("http://github.com/") {
 ```
 
 
-## 动态配置
+## 修改配置
 
-单例[NetConfig](api/-net/com.drake.net/-net-config/index.html)存储了初始化时的配置, 可以后期动态读写.
+单例[NetConfig](api/-net/com.drake.net/-net-config/index.html)存储初始化时的配置, 可以随时修改配置
 
 例如Retrofit的动态`baseURL`功能就可以直接修改`NetConfig.host`
 
@@ -81,4 +81,15 @@ NetConfig.host = "https://github.com/"
 ```
 
 <img src="https://s2.loli.net/2022/02/23/1n8djBbypHYTta9.png" width="480"/>
+
+## 动态域名
+
+如果请求时传入的是路径(例如`/api/index`)那么会自动和初始化时的Host拼接. 但是如果传入的是以`http/https`开头的全路径那么则不会与Host进行拼接
+
+```kotlin
+scopeNetLife {
+    val data = Get<String>("http://www.baidu.com/").await()
+}
+```
+
 
