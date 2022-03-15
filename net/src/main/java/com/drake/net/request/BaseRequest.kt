@@ -103,7 +103,7 @@ abstract class BaseRequest {
             try {
                 httpUrl = (NetConfig.host + path).toHttpUrl().newBuilder()
             } catch (e: Throwable) {
-                throw URLParseException(NetConfig.host.ifEmpty { "NetConfig.host is empty" }, e)
+                throw URLParseException(NetConfig.host + path, e)
             }
         } else {
             this.httpUrl = url.newBuilder()
