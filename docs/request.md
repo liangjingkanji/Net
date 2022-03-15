@@ -128,8 +128,8 @@ scopeNetLife { // 创建作用域
 ```kotlin
 scopeNetLife {
     tvFragment.text = Post<String>("api") {
-        gson("name" to name, "model" to Model() // 参数支持Gson可解析的对象
-        // fastJson("name" to name, "model" to Model() // 使用FastJson
+        gson("name" to name, "model" to Model()) // 参数支持Gson可解析的对象
+        // fastJson("name" to name, "model" to Model()) // 使用FastJson
     }.await()
 }
 ```
