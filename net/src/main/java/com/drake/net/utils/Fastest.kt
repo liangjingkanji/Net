@@ -31,12 +31,11 @@ import java.util.concurrent.CancellationException
  * @param group 指定该值将在成功返回结果后取消掉对应uid的网络请求
  * @param listDeferred 一系列并发任务
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 @Suppress("SuspendFunctionOnCoroutineScope")
-suspend fun <T> CoroutineScope.fastest(
+suspend fun <T> fastest(
     listDeferred: List<Deferred<T>>,
     group: Any? = null
-): T {
+): T = coroutineScope {
     val deferred = CompletableDeferred<T>()
     if (listDeferred.isNullOrEmpty()) {
         deferred.completeExceptionally(IllegalArgumentException("Fastest is null or empty"))
@@ -61,7 +60,7 @@ suspend fun <T> CoroutineScope.fastest(
             }
         }
     }
-    return deferred.await()
+    deferred.await()
 }
 
 
@@ -75,12 +74,11 @@ suspend fun <T> CoroutineScope.fastest(
  * @param listDeferred 一系列并发任务
  */
 @JvmName("fastestTransform")
-@OptIn(ExperimentalCoroutinesApi::class)
 @Suppress("SuspendFunctionOnCoroutineScope")
-suspend fun <T, R> CoroutineScope.fastest(
+suspend fun <T, R> fastest(
     listDeferred: List<DeferredTransform<T, R>>?,
     group: Any? = null
-): R {
+): R = coroutineScope {
     val deferred = CompletableDeferred<R>()
     if (listDeferred.isNullOrEmpty()) {
         deferred.completeExceptionally(IllegalArgumentException("Fastest is null or empty"))
@@ -108,5 +106,5 @@ suspend fun <T, R> CoroutineScope.fastest(
             }
         }
     }
-    return deferred.await()
+    deferred.await()
 }
