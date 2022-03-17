@@ -1,4 +1,6 @@
-从Net3开始支持使用[kotlin-serialization](https://github.com/Kotlin/kotlinx.serialization)(简称KS)
+从Net3开始支持使用[kotlin-serialization](https://github.com/Kotlin/kotlinx.serialization)(以下简称ks)
+
+中文使用文档请阅读: [Kotlin最强解析库 - kotlin-serialization](https://juejin.cn/post/6963676982651387935)
 
 <br>
 **Net完美支持kotlin-serialization创建转换器**
