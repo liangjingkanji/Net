@@ -33,6 +33,13 @@ inline fun <reified M> CoroutineScope.Get(
     }.execute()
 }
 
+/**
+ * 异步网络请求
+ *
+ * @param path 请求路径, 如果其不包含http/https则会自动拼接[NetConfig.host]
+ * @param tag 可以传递对象给Request, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param block 函数中可以配置请求参数
+ */
 inline fun <reified M> CoroutineScope.Post(
     path: String,
     tag: Any? = null,
@@ -48,6 +55,13 @@ inline fun <reified M> CoroutineScope.Post(
     }.execute()
 }
 
+/**
+ * 异步网络请求
+ *
+ * @param path 请求路径, 如果其不包含http/https则会自动拼接[NetConfig.host]
+ * @param tag 可以传递对象给Request, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param block 函数中可以配置请求参数
+ */
 inline fun <reified M> CoroutineScope.Head(
     path: String,
     tag: Any? = null,
@@ -63,6 +77,13 @@ inline fun <reified M> CoroutineScope.Head(
     }.execute()
 }
 
+/**
+ * 异步网络请求
+ *
+ * @param path 请求路径, 如果其不包含http/https则会自动拼接[NetConfig.host]
+ * @param tag 可以传递对象给Request, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param block 函数中可以配置请求参数
+ */
 inline fun <reified M> CoroutineScope.Options(
     path: String,
     tag: Any? = null,
@@ -78,6 +99,13 @@ inline fun <reified M> CoroutineScope.Options(
     }.execute()
 }
 
+/**
+ * 异步网络请求
+ *
+ * @param path 请求路径, 如果其不包含http/https则会自动拼接[NetConfig.host]
+ * @param tag 可以传递对象给Request, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param block 函数中可以配置请求参数
+ */
 inline fun <reified M> CoroutineScope.Trace(
     path: String,
     tag: Any? = null,
@@ -93,6 +121,13 @@ inline fun <reified M> CoroutineScope.Trace(
     }.execute()
 }
 
+/**
+ * 异步网络请求
+ *
+ * @param path 请求路径, 如果其不包含http/https则会自动拼接[NetConfig.host]
+ * @param tag 可以传递对象给Request, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param block 函数中可以配置请求参数
+ */
 inline fun <reified M> CoroutineScope.Delete(
     path: String,
     tag: Any? = null,
@@ -108,6 +143,13 @@ inline fun <reified M> CoroutineScope.Delete(
     }.execute()
 }
 
+/**
+ * 异步网络请求
+ *
+ * @param path 请求路径, 如果其不包含http/https则会自动拼接[NetConfig.host]
+ * @param tag 可以传递对象给Request, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param block 函数中可以配置请求参数
+ */
 inline fun <reified M> CoroutineScope.Put(
     path: String,
     tag: Any? = null,
@@ -123,6 +165,13 @@ inline fun <reified M> CoroutineScope.Put(
     }.execute()
 }
 
+/**
+ * 异步网络请求
+ *
+ * @param path 请求路径, 如果其不包含http/https则会自动拼接[NetConfig.host]
+ * @param tag 可以传递对象给Request, 一般用于在拦截器/转换器中进行针对某个接口行为判断
+ * @param block 函数中可以配置请求参数
+ */
 inline fun <reified M> CoroutineScope.Patch(
     path: String,
     tag: Any? = null,

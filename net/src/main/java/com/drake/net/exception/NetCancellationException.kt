@@ -35,7 +35,7 @@ class NetCancellationException(
 
 
 /**
- * 抛出该异常将取消作用域内所有的网络请求
+ * 在作用域中抛出该异常将取消其作用域内所有的网络请求(如果存在的话)
  */
 @Suppress("FunctionName")
 fun CoroutineScope.NetCancellationException(message: String? = null): NetCancellationException {
