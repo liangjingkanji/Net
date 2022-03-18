@@ -1,15 +1,14 @@
 package com.drake.net.interceptor
 
+import com.drake.net.NetConfig
 import com.drake.net.body.toNetRequestBody
 import com.drake.net.body.toNetResponseBody
-import com.drake.net.exception.HttpFailureException
-import com.drake.net.exception.NetConnectException
-import com.drake.net.exception.NetSocketTimeoutException
-import com.drake.net.exception.NetUnknownHostException
+import com.drake.net.exception.*
 import com.drake.net.okhttp.attachToNet
 import com.drake.net.okhttp.detachFromNet
 import com.drake.net.request.downloadListeners
 import com.drake.net.request.uploadListeners
+import com.drake.net.utils.isNetworking
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.net.ConnectException
@@ -33,7 +32,16 @@ object NetOkHttpInterceptor : Interceptor {
         } catch (e: ConnectException) {
             throw NetConnectException(request, cause = e)
         } catch (e: UnknownHostException) {
-            throw NetUnknownHostException(request, message = e.message)
+            val isNetworking = try {
+                NetConfig.app.isNetworking()
+            } catch (e: Exception) {
+                true
+            }
+            if (isNetworking) {
+                throw NetUnknownHostException(request, message = e.message)
+            } else {
+                throw NetworkingException(request)
+            }
         } catch (e: Throwable) {
             throw HttpFailureException(request, cause = e)
         }
