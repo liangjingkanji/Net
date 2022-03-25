@@ -16,9 +16,6 @@
 
 package com.drake.net.okhttp
 
-import android.app.Dialog
-import android.view.View
-import androidx.fragment.app.FragmentActivity
 import com.drake.net.NetConfig
 import com.drake.net.convert.NetConverter
 import com.drake.net.interceptor.NetOkHttpInterceptor
@@ -136,47 +133,7 @@ fun OkHttpClient.Builder.setRequestInterceptor(interceptor: RequestInterceptor) 
 }
 
 /**
- * 全局网络请求错误捕获
- */
-@Deprecated(
-    message = "使用NetErrorHandler统一处理错误",
-    replaceWith = ReplaceWith("setErrorHandler(NetErrorHandler())"),
-    DeprecationLevel.ERROR
-)
-fun OkHttpClient.Builder.onError(block: Throwable.() -> Unit) = apply {
-    // NetConfig.onError = block
-}
-
-/**
- * 全局缺省页错误捕获
- */
-@Deprecated(
-    message = "使用NetErrorHandler统一处理错误",
-    replaceWith = ReplaceWith("setErrorHandler(NetErrorHandler())"),
-    DeprecationLevel.ERROR
-)
-fun OkHttpClient.Builder.onStateError(block: Throwable.(view: View) -> Unit) = apply {
-    // NetConfig.onStateError = block
-}
-
-/**
- * 全局加载对话框设置
- * 设置在使用scopeDialog自动弹出的加载对话框
- */
-@Deprecated(
-    message = "使用NetDialogFactory创建",
-    replaceWith = ReplaceWith("setDialogFactory(NetDialogFactory())"),
-    DeprecationLevel.ERROR
-)
-fun OkHttpClient.Builder.onDialog(block: (FragmentActivity) -> Dialog) =
-    apply {
-        // NetConfig.onDialog = block
-    }
-
-/**
  * 全局错误处理器
- *
- * 会覆盖[onError]和[onStateError]
  */
 fun OkHttpClient.Builder.setErrorHandler(handler: NetErrorHandler) = apply {
     NetConfig.errorHandler = handler

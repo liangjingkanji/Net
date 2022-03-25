@@ -70,26 +70,6 @@ var Request.kType: KType?
         setLabel(NetLabel.RequestKType(value))
     }
 
-@Deprecated("建议使用属性", ReplaceWith("id"), DeprecationLevel.ERROR)
-fun Request.id(): Any? {
-    return id
-}
-
-@Deprecated("建议使用属性", ReplaceWith("group"), DeprecationLevel.ERROR)
-fun Request.group(): Any? {
-    return group
-}
-
-@Deprecated("建议使用属性", ReplaceWith("logRecord"), DeprecationLevel.ERROR)
-fun Request.isLogRecord(): Boolean? {
-    return logRecord
-}
-
-@Deprecated("建议使用属性", ReplaceWith("kType"), DeprecationLevel.ERROR)
-fun Request.kType(): KType? {
-    return kType
-}
-
 //</editor-fold>
 
 //<editor-fold desc="Request.Builder">
