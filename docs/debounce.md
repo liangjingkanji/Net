@@ -17,7 +17,7 @@
 ```kotlin
 var scope: CoroutineScope? = null
 
-et_input.debounce().distinctUntilChanged().listen(this) {
+et_input.debounce().distinctUntilChanged().launchIn(this) {
     scope?.cancel() // 发起新的请求前取消旧的请求, 避免旧数据覆盖新数据
     scope = scopeNetLife { // 保存旧的请求到一个变量中, scopeNetLife其函数决定网络请求生命周期
         tvFragment.text = "请求中"

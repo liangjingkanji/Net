@@ -11,7 +11,7 @@
     
             // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
     
-            NetConfig.init("http://github.com/") {
+            NetConfig.init("http://github.com/", this) {
     
                 // 超时设置
                 connectTimeout(2, TimeUnit.MINUTES)
