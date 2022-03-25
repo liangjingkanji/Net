@@ -17,9 +17,9 @@
 package com.drake.net
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.app.Dialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.drake.net.NetConfig.app
@@ -56,7 +56,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 @SuppressLint("StaticFieldLeak")
 object NetConfig {
 
-    lateinit var app: Application
+    lateinit var app: Context
 
     /** 全局域名 */
     var host: String = ""
@@ -113,10 +113,16 @@ object NetConfig {
      * 初始化框架, 该函数仅在Kotlin下有效
      *
      * @param host 请求url的主机名
+     * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
      * @param config 进行配置网络请求
      */
-    fun init(host: String = "", config: OkHttpClient.Builder.() -> Unit = {}) {
+    fun init(
+        host: String = "",
+        context: Context? = null,
+        config: OkHttpClient.Builder.() -> Unit = {}
+    ) {
         NetConfig.host = host
+        context?.let { app = it }
         val builder = OkHttpClient.Builder()
         builder.config()
         okHttpClient = builder.toNetOkhttp().build()
@@ -126,10 +132,12 @@ object NetConfig {
      * 初始化框架, 该函数仅在Kotlin下有效
      *
      * @param host 请求url的主机名
+     * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
      * @param config 进行配置网络请求
      */
-    fun init(host: String = "", config: OkHttpClient.Builder) {
+    fun init(host: String = "", context: Context? = null, config: OkHttpClient.Builder) {
         NetConfig.host = host
+        context?.let { app = it }
         okHttpClient = config.toNetOkhttp().build()
     }
     //</editor-fold>

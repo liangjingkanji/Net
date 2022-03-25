@@ -11,7 +11,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="n">
         <provider
-            android:name=".component.InitContentProvider"
+            android:name=".component.NetInitializer"
             android:authorities="${applicationId}.drake.netInit"
             android:enabled="true"
             android:exported="false"

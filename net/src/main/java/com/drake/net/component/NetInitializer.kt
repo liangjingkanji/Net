@@ -10,7 +10,7 @@ import com.drake.net.NetConfig
 /**
  * 用于初始化[NetConfig.app]
  */
-internal class InitContentProvider : ContentProvider() {
+internal class NetInitializer : ContentProvider() {
 
     override fun onCreate(): Boolean {
         val application = context?.applicationContext as? Application ?: return false
