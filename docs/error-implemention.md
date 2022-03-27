@@ -9,13 +9,17 @@
 | URLParseException | 地址错误 |
 | NetUnknownHostException | 域名错误 |
 | NetSocketTimeoutException | 连接超时 |
-| NetConnectException | 连接服务器失败 |
+| NetConnectException | 连接网络失败, 设备未开启网络 |
+| NetworkingException | 当前网络不可用, 设备网络异常 |
 | DownloadFileException | 下载文件异常 |
 | ConvertException | 解析错误, `NetConvert`中发生的未捕获异常都算解析错误 |
 | RequestParamsException | 请求参数错误 `400 - 499` 范围内错误码 |
 | ServerResponseException | 服务器错误 `500 - 599` 范围内错误码 |
 | ResponseException | 错误码异常, 一般应用于后端返回的错误码和其定义的成功码不匹配 |
 | NullPointerException | 空指针, 一般是在作用域内操作一个空的对象 |
+
+> `NetConnectException/NetworkingException` 这两个异常一般是设备网络异常可以不用收集上报, 其他网络异常建议收集处理
+
 
 ## 自定义异常
 
