@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.debounce
 /**
  * 收集Flow结果并过滤重复结果
  */
-@Deprecated("规范命名", ReplaceWith("launchIn"), DeprecationLevel.WARNING)
+@Deprecated("规范命名", ReplaceWith("launchIn(owner,event,dispatcher,action)"), DeprecationLevel.ERROR)
 @OptIn(InternalCoroutinesApi::class)
 inline fun <T> Flow<T>.listen(
     owner: LifecycleOwner? = null,
@@ -51,7 +51,7 @@ inline fun <T> Flow<T>.listen(
  * @param event 销毁时机
  * @param dispatcher 指定调度器
  */
-@Deprecated("规范命名", ReplaceWith("launchIn"), DeprecationLevel.WARNING)
+@Deprecated("规范命名", ReplaceWith("launchIn(owner,event,dispatcher,action)"), DeprecationLevel.ERROR)
 @OptIn(InternalCoroutinesApi::class)
 inline fun <T> Flow<T>.scope(
     owner: LifecycleOwner? = null,
