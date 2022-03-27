@@ -87,9 +87,9 @@ object NetConfig {
 
     //<editor-fold desc="初始化">
     /**
-     * 初始化框架, 该函数仅在Kotlin下有效
-     *
-     * @param host 请求url的主机名
+     * 初始化框架
+     * 不初始化也可以使用, 但是App使用多进程情况下要求为[NetConfig.host]或者[context]赋值, 否则会导致无法正常吐司或其他意外问题
+     * @param host 请求url的主机名, 该参数会在每次请求时自动和请求路径进行拼接(如果路径包含https/http则不会拼接)
      * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
      * @param config 进行配置网络请求
      */
@@ -106,9 +106,9 @@ object NetConfig {
     }
 
     /**
-     * 初始化框架, 该函数仅在Kotlin下有效
-     *
-     * @param host 请求url的主机名
+     * 初始化框架
+     * 不初始化也可以使用, 但是App使用多进程情况下要求为[NetConfig.host]或者[context]赋值, 否则会导致无法正常吐司或其他意外问题
+     * @param host 请求url的主机名, 该参数会在每次请求时自动和请求路径进行拼接(如果路径包含https/http则不会拼接)
      * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
      * @param config 进行配置网络请求
      */
