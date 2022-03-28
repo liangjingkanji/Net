@@ -46,7 +46,7 @@ abstract class DialogCallback<T> constructor(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun dismiss() {
-        if (dialog != null && dialog!!.isShowing) {
+        if (dialog?.isShowing == true) {
             dialog?.dismiss()
         }
     }

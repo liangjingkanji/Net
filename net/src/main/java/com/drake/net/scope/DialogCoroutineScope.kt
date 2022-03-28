@@ -74,7 +74,7 @@ class DialogCoroutineScope(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun dismiss() {
-        if (dialog != null && dialog!!.isShowing) {
+        if (dialog?.isShowing == true) {
             dialog?.dismiss()
         }
     }
