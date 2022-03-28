@@ -10,7 +10,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        NetConfig.init("http://github.com/") {
+        NetConfig.initialize("http://github.com/") {
             addInterceptor { chain -> chain.proceed(chain.request()) }
         }
     }
@@ -31,7 +31,7 @@ RequestInterceptor属于轻量级的请求拦截器, 在每次请求的时候该
 初始化时添加请求拦截器的示例代码
 
 ```kotlin
-NetConfig.init("http://github.com/") {
+NetConfig.initialize("http://github.com/") {
     setRequestInterceptor(object : RequestInterceptor {
         override fun interceptor(request: BaseRequest) {
             request.param("client", "Net")

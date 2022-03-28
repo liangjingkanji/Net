@@ -17,7 +17,7 @@ Net以下两种方案, 各有优劣
 ## 添加日志拦截器
 
 ```kotlin hl_lines="2"
-NetConfig.init("http://github.com/") {
+NetConfig.initialize("http://github.com/") {
     addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
 }
 ```
@@ -82,7 +82,7 @@ scopeNetLife {
 然后初始化时添加自己实现拦截器即可
 
 ```kotlin
-NetConfig.init("http://github.com/") {
+NetConfig.initialize("http://github.com/") {
     addInterceptor(MyLogRecordInterceptor(BuildConfig.DEBUG))
 }
 ```

@@ -11,7 +11,7 @@
     
             // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
     
-            NetConfig.init("http://github.com/", this) {
+            NetConfig.initialize("http://github.com/", this) {
     
                 // 超时设置
                 connectTimeout(2, TimeUnit.MINUTES)
@@ -38,7 +38,7 @@
                 .setConverter(GsonConvert())
                 .addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
     
-            NetConfig.init("http://github.com/", okHttpClientBuilder)
+            NetConfig.initialize("http://github.com/", okHttpClientBuilder)
         }
     }
     ```
@@ -50,7 +50,7 @@
 | 函数 | 描述 |
 |-|-|
 | setLog | 输出网络异常日志 |
-| setHost | 全局域名, 和NetConfig.init("Host")函数中的第一个参数等效 |
+| setHost | 全局域名, 和NetConfig.initialize("Host")函数中的第一个参数等效 |
 | setConverter | [转换器](converter.md), 将网络返回的数据转换成你想要的数据结构 |
 | setRequestInterceptor | [请求拦截器](interceptor.md), 用于添加全局请求头/参数 |
 | setErrorHandler | [全局错误处理](error-handle.md) |
@@ -63,7 +63,7 @@
 但是个别开发者需求指定重试次数则可以添加`RetryInterceptor`拦截器即可实现失败以后会重试指定次数
 
 ```kotlin
-NetConfig.init("http://github.com/") {
+NetConfig.initialize("http://github.com/") {
     // ... 其他配置
     addInterceptor(RetryInterceptor(3)) // 如果全部失败会重试三次
 }

@@ -70,7 +70,7 @@ scopeNetLife {
 
 === "全局"
     ```kotlin hl_lines="2"
-    NetConfig.init("http://github.com/") {
+    NetConfig.initialize("http://github.com/") {
         setConverter(SerializationConverter())
     }
     ```

@@ -13,7 +13,7 @@ object NetConfig {
 ## 全局OkHttpClient
 
 ```kotlin
-NetConfig.init("http://github.com/") {
+NetConfig.initialize("http://github.com/") {
     // 此处this即为OkHttpClient.Builder
 }
 ```

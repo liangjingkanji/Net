@@ -77,7 +77,7 @@ MyErrorHandler : NetErrorHandler {
 }
 
 // 初始化Net的时候设置错误处理器
-NetConfig.init("host") {
+NetConfig.initialize("host") {
     setErrorHandler(MyErrorHandler()
 }
 ```

@@ -72,7 +72,7 @@ Interval添加cancel函数用于取消计时器, 取消完成不会调用finish
 2. NetCallback具备跟随生命周期自动取消网络请求
 3. 扩展NetCallback来添加DialogCallback/StateCallback/PageCallback
 4. 废弃部分函数, 例如onDialog被废弃, 现在由`NetConfig.dialogFactory`构建全局加载对话框
-5. initNet现在废弃, 由`NetConfig.init`取代. 所有配置信息由NetConfig承载
+5. initNet现在废弃, 由`NetConfig.initialize`取代. 所有配置信息由NetConfig承载
 5. RequestParamsException添加错误码信息
 
 ## 3.0.12

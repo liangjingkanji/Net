@@ -93,7 +93,35 @@ object NetConfig {
      * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
      * @param config 进行配置网络请求
      */
+    @Deprecated("命名规范", ReplaceWith("initialize(host, context, config)"))
     fun init(
+        host: String = "",
+        context: Context? = null,
+        config: OkHttpClient.Builder.() -> Unit = {}
+    ) = initialize(host, context, config)
+
+    /**
+     * 初始化框架
+     * 不初始化也可以使用, 但是App使用多进程情况下要求为[NetConfig.host]或者[context]赋值, 否则会导致无法正常吐司或其他意外问题
+     * @param host 请求url的主机名
+     * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
+     * @param config 进行配置网络请求
+     */
+    @Deprecated("命名规范", ReplaceWith("initialize(host, context, config)"))
+    fun init(
+        host: String = "",
+        context: Context? = null,
+        config: OkHttpClient.Builder
+    ) = initialize(host, context, config)
+
+    /**
+     * 初始化框架
+     * 不初始化也可以使用, 但是App使用多进程情况下要求为[NetConfig.host]或者[context]赋值, 否则会导致无法正常吐司或其他意外问题
+     * @param host 请求url的主机名
+     * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
+     * @param config 进行配置网络请求
+     */
+    fun initialize(
         host: String = "",
         context: Context? = null,
         config: OkHttpClient.Builder.() -> Unit = {}
@@ -112,7 +140,7 @@ object NetConfig {
      * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
      * @param config 进行配置网络请求
      */
-    fun init(host: String = "", context: Context? = null, config: OkHttpClient.Builder) {
+    fun initialize(host: String = "", context: Context? = null, config: OkHttpClient.Builder) {
         NetConfig.host = host
         context?.let { app = it }
         okHttpClient = config.toNetOkhttp().build()
