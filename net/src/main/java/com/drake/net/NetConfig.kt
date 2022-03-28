@@ -82,7 +82,7 @@ object NetConfig {
     /** 错误处理器 */
     var errorHandler: NetErrorHandler = NetErrorHandler
 
-    /** 对话框构建工厂 */
+    /** 请求对话框构建工厂 */
     var dialogFactory: NetDialogFactory = NetDialogFactory
 
     //<editor-fold desc="初始化">
