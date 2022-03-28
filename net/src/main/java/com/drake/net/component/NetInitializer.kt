@@ -8,7 +8,8 @@ import android.net.Uri
 import com.drake.net.NetConfig
 
 /**
- * 用于初始化[NetConfig.app]
+ * 使用内容提供者自动初始化[NetConfig.app], 仅应用主进程下有效
+ * 在其他进程使用Net请手动在Application中初始化[NetConfig.initialize]
  */
 internal class NetInitializer : ContentProvider() {
 
