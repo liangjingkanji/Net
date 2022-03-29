@@ -1,3 +1,16 @@
+## 3.2.0
+- 更改tag相关函数
+- 更改`NetConfig.app`类型改为Context
+- 删除敏感权限(外部存储读写)
+- 删除废弃函数/提高函数废弃等级
+- 废弃`NetConfig.init`
+- 删除fastest函数接受者
+- 删除logRecord属性
+- 优化域名解析错误异常信息
+- 新增无网络不可用异常`NetworkingException`
+- 新增输出MultiPart参数日志
+- 更改RetryInterceptor/LogRecordInterceptor属性访问权限
+
 ## 3.1.2
 - 升级BRV至1.3.51, [其内部升级SmartRefreshLayout至2.0.5](https://github.com/liangjingkanji/BRV/issues/85). SmartRefreshLayout相关依赖需要迁移
 - Interval添加`onlyResumed`函数
