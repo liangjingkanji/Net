@@ -60,18 +60,6 @@ NetConfig.initialize("http://github.com/") {
 | <img src="https://i.loli.net/2021/08/14/hy8Kkwmpc5CGxlu.png" width="10%"/> 清空 | 清空记录 |
 
 
-<br>
-
-## 单例禁用日志
-
-```kotlin
-scopeNetLife {
-    tvFragment.text = Get<String>("api") {
-        setLogRecord(false) // 为当前请求禁用日志记录
-    }.await()
-}
-```
-
 ## 自定义日志(解密)
 
 通过继承`LogRecordInterceptor`可以覆写函数自定义自己的日志输出逻辑
