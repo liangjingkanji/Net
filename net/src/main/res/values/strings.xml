@@ -34,12 +34,6 @@
     <string name="net_other_error">未知错误</string>
     <string name="no_error_message">无错误信息</string>
 
-
-    <!--<string name="net_connect_exception">请检查网络连接</string>-->
-    <!--<string name="net_read_exception">读取数据错误</string>-->
-    <!--<string name="net_write_exception">发送数据错误</string>-->
-    <!--<string name="net_read_timeout_error">读取服务器数据超时，请检查网络</string>-->
-
     <!--对话框-->
     <string name="net_dialog_msg">加载中</string>
 
