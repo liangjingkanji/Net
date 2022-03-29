@@ -10,7 +10,7 @@ import okhttp3.internal.closeQuietly
  *
  * @property retryCount 重试次数
  */
-class RetryInterceptor(@IntRange(from = 1) val retryCount: Int = 3) : Interceptor {
+class RetryInterceptor(@IntRange(from = 1) var retryCount: Int = 3) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var retryCount = 0

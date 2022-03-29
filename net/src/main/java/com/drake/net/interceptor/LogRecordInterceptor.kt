@@ -21,9 +21,9 @@ import okhttp3.Response
  * @property responseByteCount 响应日志输出字节数, -1 则为全部
  */
 open class LogRecordInterceptor(
-    val enabled: Boolean,
-    val requestByteCount: Long = 1024 * 1024,
-    val responseByteCount: Long = 1024 * 1024 * 4
+    var enabled: Boolean,
+    var requestByteCount: Long = 1024 * 1024,
+    var responseByteCount: Long = 1024 * 1024 * 4
 ) : Interceptor {
 
     init {
