@@ -1,47 +1,50 @@
+Net支持两种类型数据贯穿整个请求流程(请求 -> 拦截器 -> 转换器)
 
-Q: 什么是标签?
+- Tag: `HashMap<Class<*>, Any?>` 标签
+- Extra: `HashMap<String, Any?>` 额外数据
 
-A: 标签就是一个存储在Request对象中的Map集合, 便于Request请求对象携带指定的数据. 该数据可以通过Request在拦截器/转换器/响应体中被获取到, 用于构建区分请求的业务逻辑
-
-<br>
-Net中的标签同时支持使用字符串或者Class字节码作为标签的键名. 根据传入类型决定
+> 他们的区别是key是Class还是String类型, 具体使用哪一种请根据自己方便来
 
 ## 标签使用
 
-### 1) 设置标签
+### 1) 写入标签
 
 ```kotlin hl_lines="2"
 scopeNetLife {
     tvFragment.text = Get<String>("api", "标签A"){ // 使用Any::class.java作为键名
-        setTag("tagName", "标签B") // 使用字符串作为键名
+        // tag("标签A") 等效上一行的参数 "标签A"
+        setExtra("tagName", "标签B") // 写入额外数据
     }.await()
 }
 ```
 
-### 2) 拦截器中获取标签
+> `tagOf(Person())` 等效 `tag(Person::class.java, Person())`, 只是使用泛型推断区别 <br>
+> 但`tag(Person())` 等效 `tag(Any::class.java, Person())`, 可以查看方法实现
+
+### 2) 拦截器中读取标签
 ```kotlin hl_lines="4"
 class MyInterceptor : Interceptor {
     override fun intercept(chain: Chain): Response {
         val request = chain.request()
         request.tag()?.let {
-            // 获取标签做任何事
+            // 读取标签
         }
-        request.tag("tagName")?.let {
-           // 获取标签做任何事
+        request.extra("tagName")?.let {
+           // 读取额外数据
         }
         return chain.proceed(request)
     }
 }
 ```
 
-### 3) 转换器中获取标签
+### 3) 转换器中读取标签
 
 ```kotlin hl_lines="4"
 class MyConvert : NetConvert {
 
-    override fun <R> onConvert( succeed: Type, response: Response ): R? {
+    override fun <R> onConvert(succeed: Type, response: Response ): R? {
         response.request.tag()?.let{
-            // 获取标签做任何事
+            // 读取标签
         }
     }
 }
@@ -49,21 +52,25 @@ class MyConvert : NetConvert {
 
 <br>
 
-我们通过Request的函数可以设置和读取标签
+我们通过Request的函数可以读取/写入标签/额外数据
 
-| 函数 | 描述 |
+| 方法 | 描述 |
 |-|-|
-| setTag | 设置标签 |
-| tag | 读取标签 |
+| setExtra | 写入额外数据 |
+| extra | 读取额外数据 |
+| extras | 全部额外数据 |
+| tag | 读取/写入标签 |
+| tagOf | 读取/写入标签, 和上面函数不同的时本函数使用的泛型而非`Class<*>` |
+| tags | 全部标签 |
 
-
-## 设置多个标签
+## 多个标签
 
 ```kotlin
 scopeNetLife {
     Get<String>("api"){
-        setTag("person", Person()) // 使用Request.tag("person")获取
-        setTag(User()) // 使用Request.tag()直接获取
+        setExtra("person", Person()) // 使用Request.extra("person")读取
+        tag(User()) // 等同于tag(Any::class.java, User()), 使用Request.tag()读取
+        tag(User::class.java, User()) // 使用Request.tag(User::class.java)读取
     }.await()
 }
 ```
@@ -74,9 +81,11 @@ scopeNetLife {
 class MyInterceptor : Interceptor {
     override fun intercept(chain: Chain): Response {
         val request = chain.request()
-        request.tag("person")?.let {
+        request.extra("person")?.let {
             // it既为Person对象
         }
+        request.tagOf<User>() // 结果为User()
+        request.tag() // 结果为User()
         return chain.proceed(request)
     }
 }
