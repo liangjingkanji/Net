@@ -45,9 +45,9 @@ class App : Application() {
         NetConfig.initialize("http://43.128.31.195/") {
 
             // 超时设置
-            connectTimeout(2, TimeUnit.MINUTES)
-            readTimeout(2, TimeUnit.MINUTES)
-            writeTimeout(2, TimeUnit.MINUTES)
+            connectTimeout(30, TimeUnit.SECONDS)
+            readTimeout(30, TimeUnit.SECONDS)
+            writeTimeout(30, TimeUnit.SECONDS)
 
             setLog(BuildConfig.DEBUG) // LogCat异常日志
             addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG)) // 添加日志记录器
