@@ -2,11 +2,11 @@ package com.drake.net.interceptor
 
 import android.util.Log
 import com.drake.net.log.LogRecorder
-import com.drake.net.request.label
 import com.drake.net.request.logRecord
 import com.drake.net.request.logString
+import com.drake.net.request.tagOf
 import com.drake.net.response.logString
-import com.drake.net.tag.NetLabel
+import com.drake.net.tag.NetTag
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -35,9 +35,9 @@ open class LogRecordInterceptor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        request.label<NetLabel.LogRecord>()
+        request.tagOf<NetTag.LogRecord>()
 
-        if (request.logRecord == false) {
+        if (!request.logRecord) {
             return chain.proceed(request)
         }
 

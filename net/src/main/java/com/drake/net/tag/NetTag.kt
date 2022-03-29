@@ -21,8 +21,8 @@ import java.io.File
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.reflect.KType
 
-sealed class NetLabel {
-    class Tags : HashMap<String, Any?>()
+sealed class NetTag {
+    class Extras : HashMap<String, Any?>()
 
     inline class RequestId(val value: Any?)
     inline class RequestGroup(val value: Any?)

@@ -24,7 +24,7 @@ import com.drake.net.interfaces.NetCallback
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.okhttp.toNetOkhttp
 import com.drake.net.response.convert
-import com.drake.net.tag.NetLabel
+import com.drake.net.tag.NetTag
 import com.drake.net.utils.runMain
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -62,6 +62,22 @@ abstract class BaseRequest {
      */
     fun setClient(block: OkHttpClient.Builder.() -> Unit) {
         okHttpClient = okHttpClient.newBuilder().apply(block).toNetOkhttp().build()
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="ID">
+    /**
+     * 唯一的Id
+     */
+    fun setId(id: Any?) {
+        okHttpRequest.id = id
+    }
+
+    /**
+     * 分组
+     */
+    fun setGroup(group: Any?) {
+        okHttpRequest.group = group
     }
     //</editor-fold>
 
@@ -116,7 +132,9 @@ abstract class BaseRequest {
     fun setQuery(name: String, value: String?, encoded: Boolean = false) {
         if (encoded) {
             httpUrl.setEncodedQueryParameter(name, value)
-        } else httpUrl.setQueryParameter(name, value)
+        } else {
+            httpUrl.setQueryParameter(name, value)
+        }
     }
 
     /**
@@ -177,46 +195,7 @@ abstract class BaseRequest {
 
     //</editor-fold>
 
-    //<editor-fold desc="Tag">
-
-    /**
-     * 唯一的Id
-     */
-    fun setId(id: Any?) {
-        okHttpRequest.setId(id)
-    }
-
-    /**
-     * 分组
-     */
-    fun setGroup(group: Any?) {
-        okHttpRequest.setGroup(group)
-    }
-
-    /**
-     * 使用Any::class作为键名添加标签
-     * 使用Request.tag()返回标签
-     */
-    fun setTag(tag: Any?) {
-        okHttpRequest.tag(tag)
-    }
-
-    /**
-     * 使用[type]作为键名添加标签
-     * 使用Request.label<T>()或者Request.tag(type)返回标签
-     */
-    fun <T> setTag(type: Class<in T>, tag: T?) {
-        okHttpRequest.tag(type, tag)
-    }
-
-    /**
-     * 使用[T]作为键名添加标签
-     * 使用Request.label<T>()或者Request.tag(type)返回标签
-     */
-    inline fun <reified T> setLabel(tag: T?) {
-        okHttpRequest.setLabel(tag)
-    }
-
+    //<editor-fold desc="Extra">
     /**
      * 添加标签
      * 使用`Request.tag(name)`得到指定标签
@@ -224,16 +203,36 @@ abstract class BaseRequest {
      * @param name 标签名称
      * @param tag 标签
      */
-    fun setTag(name: String, tag: Any?) {
-        okHttpRequest.setTag(name, tag)
+    fun setExtra(name: String, tag: Any?) {
+        okHttpRequest.setExtra(name, tag)
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="Tag">
+
+    /**
+     * 使用Any::class作为键名添加标签
+     * 使用Request.tag()返回标签
+     */
+    fun tag(tag: Any?) {
+        okHttpRequest.tag(tag)
     }
 
     /**
-     * 为请求附着针对Kotlin的Type信息
+     * 使用[type]作为键名添加标签
+     * 使用Request.label<T>()或者Request.tag(type)返回标签
      */
-    @OptIn(ExperimentalStdlibApi::class)
-    inline fun <reified T> setKType() {
-        okHttpRequest.setKType(typeOf<T>())
+    fun <T> tag(type: Class<in T>, tag: T?) {
+        okHttpRequest.tag(type, tag)
+    }
+
+    /**
+     * 使用[T]作为键名添加标签
+     * 使用Request.label<T>()或者Request.tag(type)返回标签
+     */
+    inline fun <reified T> tagOf(tag: T?) {
+        okHttpRequest.tagOf(tag)
     }
 
     //</editor-fold>
@@ -292,35 +291,35 @@ abstract class BaseRequest {
      * @see setDownloadDir
      */
     fun setDownloadFileName(name: String?) {
-        okHttpRequest.setLabel(NetLabel.DownloadFileName(name))
+        okHttpRequest.tagOf(NetTag.DownloadFileName(name))
     }
 
     /**
      * 下载保存的目录, 也支持包含文件名称的完整路径, 如果使用完整路径则无视setDownloadFileName设置
      */
     fun setDownloadDir(name: String?) {
-        okHttpRequest.setLabel(NetLabel.DownloadFileDir(name))
+        okHttpRequest.tagOf(NetTag.DownloadFileDir(name))
     }
 
     /**
      * 下载保存的目录, 也支持包含文件名称的完整路径, 如果使用完整路径则无视setDownloadFileName设置
      */
     fun setDownloadDir(name: File?) {
-        okHttpRequest.setLabel(NetLabel.DownloadFileDir(name))
+        okHttpRequest.tagOf(NetTag.DownloadFileDir(name))
     }
 
     /**
      * 如果服务器返回 "Content-MD5"响应头和制定路径已经存在的文件MD5相同是否直接返回File
      */
     fun setDownloadMd5Verify(enabled: Boolean = true) {
-        okHttpRequest.setLabel(NetLabel.DownloadFileMD5Verify(enabled))
+        okHttpRequest.tagOf(NetTag.DownloadFileMD5Verify(enabled))
     }
 
     /**
      * 假设下载文件路径已存在同名文件是否重命名, 例如`file_name(1).apk`
      */
     fun setDownloadFileNameConflict(enabled: Boolean = true) {
-        okHttpRequest.setLabel(NetLabel.DownloadFileConflictRename(enabled))
+        okHttpRequest.tagOf(NetTag.DownloadFileConflictRename(enabled))
     }
 
     /**
@@ -328,7 +327,7 @@ abstract class BaseRequest {
      * 例如下载的文件名如果是中文, 服务器传输给你的会是被URL编码的字符串. 你使用URL解码后才是可读的中文名称
      */
     fun setDownloadFileNameDecode(enabled: Boolean = true) {
-        okHttpRequest.setLabel(NetLabel.DownloadFileNameDecode(enabled))
+        okHttpRequest.tagOf(NetTag.DownloadFileNameDecode(enabled))
     }
 
     /**
@@ -338,7 +337,7 @@ abstract class BaseRequest {
      *      下载文件名: install.apk, 临时文件名: install.apk.net-download
      */
     fun setDownloadTempFile(enabled: Boolean = true) {
-        okHttpRequest.setLabel(NetLabel.DownloadTempFile(enabled))
+        okHttpRequest.tagOf(NetTag.DownloadTempFile(enabled))
     }
 
     /**
@@ -354,7 +353,15 @@ abstract class BaseRequest {
      * 是否启用日志记录器
      */
     fun setLogRecord(enabled: Boolean) {
-        okHttpRequest.setLogRecord(enabled)
+        okHttpRequest.logRecord = enabled
+    }
+
+    /**
+     * 为请求附着针对Kotlin的Type信息
+     */
+    @OptIn(ExperimentalStdlibApi::class)
+    inline fun <reified T> setKType() {
+        okHttpRequest.kType = typeOf<T>()
     }
 
     /**

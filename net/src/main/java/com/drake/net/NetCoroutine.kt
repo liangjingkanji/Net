@@ -28,7 +28,7 @@ inline fun <reified M> CoroutineScope.Get(
         setPath(path)
         method = Method.GET
         setGroup(coroutineContext[CoroutineExceptionHandler])
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }.execute()
 }
@@ -50,7 +50,7 @@ inline fun <reified M> CoroutineScope.Post(
         setPath(path)
         method = Method.POST
         setGroup(coroutineContext[CoroutineExceptionHandler])
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }.execute()
 }
@@ -72,7 +72,7 @@ inline fun <reified M> CoroutineScope.Head(
         setPath(path)
         method = Method.HEAD
         setGroup(coroutineContext[CoroutineExceptionHandler])
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }.execute()
 }
@@ -94,7 +94,7 @@ inline fun <reified M> CoroutineScope.Options(
         setPath(path)
         method = Method.OPTIONS
         setGroup(coroutineContext[CoroutineExceptionHandler])
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }.execute()
 }
@@ -116,7 +116,7 @@ inline fun <reified M> CoroutineScope.Trace(
         setPath(path)
         method = Method.TRACE
         setGroup(coroutineContext[CoroutineExceptionHandler])
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }.execute()
 }
@@ -138,7 +138,7 @@ inline fun <reified M> CoroutineScope.Delete(
         setPath(path)
         method = Method.DELETE
         setGroup(coroutineContext[CoroutineExceptionHandler])
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }.execute()
 }
@@ -160,7 +160,7 @@ inline fun <reified M> CoroutineScope.Put(
         setPath(path)
         method = Method.PUT
         setGroup(coroutineContext[CoroutineExceptionHandler])
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }.execute()
 }
@@ -182,7 +182,7 @@ inline fun <reified M> CoroutineScope.Patch(
         setPath(path)
         method = Method.PATCH
         setGroup(coroutineContext[CoroutineExceptionHandler])
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }.execute()
 }

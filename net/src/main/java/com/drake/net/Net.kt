@@ -21,7 +21,7 @@ package com.drake.net
 import android.util.Log
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.request.*
-import com.drake.net.tag.NetLabel
+import com.drake.net.tag.NetTag
 import okhttp3.Request
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -44,7 +44,7 @@ object Net {
     ) = UrlRequest().apply {
         setPath(path)
         method = Method.GET
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }
 
@@ -62,7 +62,7 @@ object Net {
     ) = BodyRequest().apply {
         setPath(path)
         method = Method.POST
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }
 
@@ -80,7 +80,7 @@ object Net {
     ) = UrlRequest().apply {
         setPath(path)
         method = Method.HEAD
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }
 
@@ -98,7 +98,7 @@ object Net {
     ) = UrlRequest().apply {
         setPath(path)
         method = Method.OPTIONS
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }
 
@@ -116,7 +116,7 @@ object Net {
     ) = UrlRequest().apply {
         setPath(path)
         method = Method.TRACE
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }
 
@@ -134,7 +134,7 @@ object Net {
     ) = BodyRequest().apply {
         setPath(path)
         method = Method.DELETE
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }
 
@@ -152,7 +152,7 @@ object Net {
     ) = BodyRequest().apply {
         setPath(path)
         method = Method.PUT
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }
 
@@ -170,7 +170,7 @@ object Net {
     ) = BodyRequest().apply {
         setPath(path)
         method = Method.PATCH
-        setTag(tag)
+        tag(tag)
         block?.invoke(this)
     }
     //</editor-fold>
@@ -194,7 +194,7 @@ object Net {
         val iterator = NetConfig.runningCalls.iterator()
         while (iterator.hasNext()) {
             val call = iterator.next().get() ?: continue
-            if (id == call.request().label<NetLabel.RequestId>()?.value) {
+            if (id == call.request().tagOf<NetTag.RequestId>()?.value) {
                 call.cancel()
                 iterator.remove()
                 return true
@@ -213,7 +213,7 @@ object Net {
         var hasCancel = false
         while (iterator.hasNext()) {
             val call = iterator.next().get() ?: continue
-            val value = call.request().label<NetLabel.RequestGroup>()?.value
+            val value = call.request().tagOf<NetTag.RequestGroup>()?.value
             if (group == value) {
                 call.cancel()
                 iterator.remove()
@@ -234,7 +234,7 @@ object Net {
         NetConfig.runningCalls.forEach {
             val request = it.get()?.request() ?: return@forEach
             if (request.id == id) {
-                request.addUploadListener(progressListener)
+                request.uploadListeners().add(progressListener)
             }
         }
     }
@@ -262,7 +262,7 @@ object Net {
         NetConfig.runningCalls.forEach {
             val request = it.get()?.request() ?: return@forEach
             if (request.id == id) {
-                request.addDownloadListener(progressListener)
+                request.downloadListeners().add(progressListener)
             }
         }
     }
