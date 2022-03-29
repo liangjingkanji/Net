@@ -54,17 +54,6 @@ var Request.group: Any?
 //</editor-fold>
 
 /**
- * 是否输出网络请求日志
- * 该属性和[NetConfig.logEnabled]有所区别
- * @see [com.drake.net.interceptor.LogRecordInterceptor]
- */
-var Request.logRecord: Boolean
-    get() = tagOf<NetTag.LogRecord>()?.enabled ?: true
-    set(value) {
-        tagOf(NetTag.LogRecord(value))
-    }
-
-/**
  * KType属于Kotlin特有的Type, 某些kotlin独占框架可能会使用到. 例如 kotlin.serialization
  */
 var Request.kType: KType?

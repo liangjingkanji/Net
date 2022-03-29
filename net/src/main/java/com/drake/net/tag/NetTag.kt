@@ -27,7 +27,6 @@ sealed class NetTag {
     inline class RequestId(val value: Any?)
     inline class RequestGroup(val value: Any?)
     inline class RequestKType(val value: KType?)
-    inline class LogRecord(val enabled: Boolean)
 
     inline class DownloadFileMD5Verify(val enabled: Boolean = true)
     inline class DownloadFileNameDecode(val enabled: Boolean = true)

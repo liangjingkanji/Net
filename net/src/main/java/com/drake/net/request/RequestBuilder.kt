@@ -1,6 +1,5 @@
 package com.drake.net.request
 
-import com.drake.net.NetConfig
 import com.drake.net.convert.NetConverter
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.tag.NetTag
@@ -31,17 +30,6 @@ var Request.Builder.group: Any?
         tagOf(NetTag.RequestGroup(value))
     }
 //</editor-fold>
-
-/**
- * 是否输出网络请求日志
- * 该属性和[NetConfig.logEnabled]有所区别
- * @see [com.drake.net.interceptor.LogRecordInterceptor]
- */
-var Request.Builder.logRecord: Boolean
-    get() = tagOf<NetTag.LogRecord>()?.enabled ?: false
-    set(value) {
-        tagOf(NetTag.LogRecord(value))
-    }
 
 /**
  * KType属于Kotlin特有的Type, 某些kotlin独占框架可能会使用到. 例如 kotlin.serialization

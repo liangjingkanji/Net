@@ -350,13 +350,6 @@ abstract class BaseRequest {
     //</editor-fold>
 
     /**
-     * 是否启用日志记录器
-     */
-    fun setLogRecord(enabled: Boolean) {
-        okHttpRequest.logRecord = enabled
-    }
-
-    /**
      * 为请求附着针对Kotlin的Type信息
      */
     @OptIn(ExperimentalStdlibApi::class)
