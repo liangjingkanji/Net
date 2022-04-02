@@ -22,8 +22,7 @@
 
 <br>
 
-Android上不是最强网络任务库, 基于OkHttp/协程的非侵入式框架. 完美支持其原有函数和组件, 兼具Kotlin的优雅函数设计
-
+Android上可能是最强的网络框架, 基于OkHttp/协程的非侵入式框架(不影响原有功能). **一行代码**发起网络请求, 你甚至无需初始化 <br>
 <br>
 
 [Net 1.x](https://github.com/liangjingkanji/Net/tree/1.x) 版本使用RxJava实现 <br>
