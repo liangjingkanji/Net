@@ -22,9 +22,8 @@ fun ResponseBody.toNetResponseBody(
  * @param byteCount 复制的字节长度. 如果-1则返回完整的字符串内容
  */
 @JvmName("peekString")
-fun RequestBody?.peekString(byteCount: Long = 1024 * 1024, discard: Boolean = false): String? {
+fun RequestBody.peekString(byteCount: Long = 1024 * 1024, discard: Boolean = false): String {
     return when (this) {
-        null -> return null
         is NetRequestBody -> peekString(byteCount, discard)
         else -> {
             val buffer = Buffer()
