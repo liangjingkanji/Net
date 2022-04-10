@@ -22,7 +22,7 @@ import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.sample.R
 import com.drake.net.sample.databinding.FragmentPullRefreshBinding
-import com.drake.net.sample.model.UserModel
+import com.drake.net.sample.model.GameInfoModel
 import com.drake.net.utils.scope
 
 
@@ -31,12 +31,12 @@ class PullRefreshFragment :
 
     override fun initView() {
         binding.rv.linear().setup {
-            addType<UserModel>(R.layout.item_list)
+            addType<GameInfoModel>(R.layout.item_list)
         }
 
         binding.page.onRefresh {
             scope {
-                val data = Get<List<UserModel>>("list") {
+                val data = Get<List<GameInfoModel>>("list") {
                     param("page", index)
                 }.await()
                 addData(data) {

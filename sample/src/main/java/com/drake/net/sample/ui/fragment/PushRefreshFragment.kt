@@ -23,7 +23,7 @@ import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.sample.R
 import com.drake.net.sample.databinding.FragmentPushRefreshBinding
-import com.drake.net.sample.model.UserModel
+import com.drake.net.sample.model.GameInfoModel
 import com.drake.net.utils.scope
 
 /** 本页面已禁用上拉加载(添加xml属性app:srlEnableLoadMore="false"), 只允许下拉刷新 */
@@ -32,12 +32,12 @@ class PushRefreshFragment :
 
     override fun initView() {
         binding.rv.linear().setup {
-            addType<UserModel>(R.layout.item_list)
+            addType<GameInfoModel>(R.layout.item_list)
         }
 
         binding.page.onRefresh {
             scope {
-                binding.rv.models = Get<List<UserModel>>("list").await()
+                binding.rv.models = Get<List<GameInfoModel>>("list").await()
             }
         }.autoRefresh()
     }
