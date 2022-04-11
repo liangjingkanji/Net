@@ -342,6 +342,7 @@ abstract class BaseRequest {
 
     /**
      * 下载监听器
+     * [setDownloadMd5Verify] 启用MD5文件校验且匹配本地文件MD5值成功会直接返回本地文件对象, 不会触发下载监听器
      */
     fun addDownloadListener(progressListener: ProgressListener) {
         okHttpRequest.downloadListeners().add(progressListener)
