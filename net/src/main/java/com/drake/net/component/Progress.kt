@@ -13,13 +13,15 @@ import com.drake.net.NetConfig
  * @property intervalByteCount 进度间隔时间内完成的字节数
  * @property intervalTime 距离上次进度变化间隔时间
  * @property startElapsedRealtime 开始下载的时间
+ * @property finish 是否完成
  */
 data class Progress(
     var currentByteCount: Long = 0,
     var totalByteCount: Long = 0,
     var intervalByteCount: Long = 0,
     var intervalTime: Long = 0,
-    val startElapsedRealtime: Long = SystemClock.elapsedRealtime()
+    val startElapsedRealtime: Long = SystemClock.elapsedRealtime(),
+    var finish: Boolean = false,
 ) {
 
     /**
@@ -79,13 +81,6 @@ data class Progress(
             totalByteCount <= 0 -> 0
             else -> (currentByteCount * 100 / totalByteCount).toInt()
         }
-    }
-
-    /**
-     * 是否完成
-     */
-    fun finish(): Boolean {
-        return currentByteCount == totalByteCount || totalByteCount <= 0
     }
 
     /**
