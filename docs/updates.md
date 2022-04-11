@@ -1,3 +1,7 @@
+## 3.2.1
+- Fixed [#76](https://github.com/liangjingkanji/Net/issues/76)
+- `RequestBody?.peekString()`函数接受者改为非可空类型
+
 ## 3.2.0
 - 更改tag相关函数
 - 更改`NetConfig.app`类型改为Context
