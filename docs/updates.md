@@ -1,3 +1,8 @@
+## 3.2.2
+- Fixed [#77](https://github.com/liangjingkanji/Net/issues/77)
+- 修复gzip启用情况下载进度始终为0
+- `Progress.finish()`方法改为属性
+
 ## 3.2.1
 - Fixed [#76](https://github.com/liangjingkanji/Net/issues/76)
 - `RequestBody?.peekString()`函数接受者改为非可空类型
