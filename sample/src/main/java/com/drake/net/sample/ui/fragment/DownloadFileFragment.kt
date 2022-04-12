@@ -59,6 +59,8 @@ class DownloadFileFragment :
                         }
                     })
                 }.await()
+
+            // 下载完成才会执行此处(所有网络请求使用await都会等待请求完成), 只是监听文件下载完成请不要使用[addDownloadListener]
         }
     }
 
