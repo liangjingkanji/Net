@@ -75,8 +75,8 @@ class NetResponseBody(
                     progressListeners.forEach { progressListener ->
                         progressListener.intervalByteCount += if (bytesRead != -1L) bytesRead else 0
                         val currentInterval = currentElapsedTime - progressListener.elapsedTime
-                        if (!progress.finish && (currentInterval >= progressListener.interval || readByteCount == contentLength)) {
-                            if (readByteCount == contentLength) {
+                        if (!progress.finish && (readByteCount == contentLength || bytesRead == -1L || currentInterval >= progressListener.interval)) {
+                            if (readByteCount == contentLength || bytesRead == -1L) {
                                 progress.finish = true
                             }
                             progressListener.onProgress(

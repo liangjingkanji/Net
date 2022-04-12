@@ -78,7 +78,7 @@ data class Progress(
      */
     fun progress(): Int {
         return when {
-            currentByteCount == totalByteCount -> 100
+            finish || currentByteCount == totalByteCount -> 100
             totalByteCount <= 0 -> 0
             else -> (currentByteCount * 100 / totalByteCount).toInt()
         }
