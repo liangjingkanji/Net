@@ -20,19 +20,15 @@ package com.drake.net.request
 import com.drake.net.NetConfig
 import com.drake.net.convert.NetConverter
 import com.drake.net.exception.URLParseException
-import com.drake.net.interfaces.NetCallback
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.okhttp.toNetOkhttp
 import com.drake.net.response.convert
 import com.drake.net.tag.NetTag
-import com.drake.net.utils.runMain
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.File
-import java.io.IOException
 import java.net.URL
-import java.util.concurrent.CancellationException
 import kotlin.reflect.typeOf
 
 abstract class BaseRequest {
@@ -407,40 +403,7 @@ abstract class BaseRequest {
         NetConfig.requestInterceptor?.interceptor(this)
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
-        if (block is NetCallback<*>) {
-            block.request = request
-            block.onStart(request)
-        }
         newCall.enqueue(block)
-        return newCall
-    }
-
-    /**
-     * 队列请求. 支持Result作为请求结果
-     */
-    inline fun <reified R> onResult(crossinline block: Result<R>.() -> Unit): Call {
-        NetConfig.requestInterceptor?.interceptor(this)
-        val newCall = okHttpClient.newCall(buildRequest())
-        setKType<R>()
-        newCall.enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                val message = e.cause?.message
-                val exception = if (message == "Socket closed") {
-                    CancellationException(message)
-                } else e
-                runMain { block(Result.failure(exception)) }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val success = try {
-                    response.convert<R>(converter)
-                } catch (e: IOException) {
-                    onFailure(call, e)
-                    return
-                }
-                runMain { block(Result.success(success)) }
-            }
-        })
         return newCall
     }
     //</editor-fold>
