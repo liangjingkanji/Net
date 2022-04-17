@@ -22,10 +22,7 @@ import android.util.Log
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.request.*
 import com.drake.net.tag.NetTag
-import okhttp3.Request
-import java.io.PrintWriter
-import java.io.StringWriter
-import java.net.UnknownHostException
+import com.drake.net.utils.NetUtils
 
 object Net {
 
@@ -284,31 +281,6 @@ object Net {
 
     //</editor-fold>
 
-    //<editor-fold desc="Request">
-    /**
-     * 指定Id的请求
-     */
-    fun requestById(id: Any): Request? {
-        NetConfig.runningCalls.forEach {
-            val request = it.get()?.request() ?: return@forEach
-            if (request.id == id) return request
-        }
-        return null
-    }
-
-    /**
-     * 指定分组的请求
-     */
-    fun requestByGroup(group: Any): ArrayList<Request> {
-        val requests = ArrayList<Request>()
-        NetConfig.runningCalls.forEach {
-            val request = it?.get()?.request() ?: return@forEach
-            if (request.group == group) requests.add(request)
-        }
-        return requests
-    }
-    //</editor-fold>
-
     //<editor-fold desc="日志">
     /**
      * 输出异常日志
@@ -316,32 +288,8 @@ object Net {
      */
     fun printStackTrace(t: Throwable) {
         if (NetConfig.logEnabled) {
-            Log.d(NetConfig.logTag, getStackTraceString(t))
+            Log.d(NetConfig.logTag, NetUtils.getStackTraceString(t))
         }
-    }
-
-    /**
-     * 返回异常堆栈日志字符串
-     * 如果tr为null则返回空字符串
-     */
-    private fun getStackTraceString(tr: Throwable?): String {
-        if (tr == null) {
-            return ""
-        }
-        // This is to reduce the amount of log spew that apps do in the non-error
-        // condition of the network being unavailable.
-        var t = tr
-        while (t != null) {
-            if (t is UnknownHostException) {
-                return t.message ?: ""
-            }
-            t = t.cause
-        }
-        val sw = StringWriter()
-        val pw = PrintWriter(sw)
-        tr.printStackTrace(pw)
-        pw.flush()
-        return sw.toString()
     }
     //</editor-fold>
 }
