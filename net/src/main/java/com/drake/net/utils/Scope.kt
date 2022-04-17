@@ -17,6 +17,7 @@
 package com.drake.net.utils
 
 import android.app.Dialog
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
@@ -35,14 +36,57 @@ import kotlinx.coroutines.Dispatchers
  * 作用域内部异常全部被捕获, 不会引起应用崩溃
  */
 
+//<editor-fold desc="异步任务">
+/**
+ * 异步作用域
+ *
+ * 该作用域生命周期跟随整个应用, 注意内存泄漏
+ * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
+ */
+fun scope(
+    dispatcher: CoroutineDispatcher = Dispatchers.Main,
+    block: suspend CoroutineScope.() -> Unit
+): AndroidScope {
+    return AndroidScope(dispatcher = dispatcher).launch(block)
+}
+
+/**
+ * 异步作用域
+ *
+ * 该作用域生命周期跟随[LifecycleOwner]
+ * @param lifeEvent 生命周期事件, 默认为[Lifecycle.Event.ON_DESTROY]下取消协程作用域
+ * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
+ */
+fun LifecycleOwner.scopeLife(
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main,
+    block: suspend CoroutineScope.() -> Unit
+) = AndroidScope(this, lifeEvent, dispatcher).launch(block)
+
+/**
+ * 异步作用域
+ *
+ * 该作用域生命周期跟随[Fragment]
+ * @param lifeEvent 生命周期事件, 默认为[Lifecycle.Event.ON_DESTROY]下取消协程作用域
+ * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
+ */
+fun Fragment.scopeLife(
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main,
+    block: suspend CoroutineScope.() -> Unit
+) = AndroidScope(this, lifeEvent, dispatcher).launch(block)
+//</editor-fold>
+
 // <editor-fold desc="加载对话框">
 
 /**
  * 作用域开始时自动显示加载对话框, 结束时自动关闭加载对话框
  * 可以设置全局对话框 [com.drake.net.NetConfig.dialogFactory]
- * @param dialog 仅该作用域使用的对话框
- *
  * 对话框被取消或者界面关闭作用域被取消
+ *
+ * @param dialog 仅该作用域使用的对话框
+ * @param cancelable 对话框是否可取消
+ * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
  */
 fun FragmentActivity.scopeDialog(
     dialog: Dialog? = null,
@@ -51,6 +95,14 @@ fun FragmentActivity.scopeDialog(
     block: suspend CoroutineScope.() -> Unit
 ) = DialogCoroutineScope(this, dialog, cancelable, dispatcher).launch(block)
 
+/**
+ * 作用域开始时自动显示加载对话框, 结束时自动关闭加载对话框
+ * 可以设置全局对话框 [com.drake.net.NetConfig.dialogFactory]
+ * 对话框被取消或者界面关闭作用域被取消
+ * @param dialog 仅该作用域使用的对话框
+ * @param cancelable 对话框是否可取消
+ * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
+ */
 fun Fragment.scopeDialog(
     dialog: Dialog? = null,
     cancelable: Boolean = true,
@@ -61,7 +113,7 @@ fun Fragment.scopeDialog(
 // </editor-fold>
 
 
-//<editor-fold desc="缺省页/分页">
+//<editor-fold desc="视图">
 /**
  * 自动处理缺省页的异步作用域
  * 作用域开始执行时显示加载中缺省页
@@ -69,9 +121,9 @@ fun Fragment.scopeDialog(
  * 作用域抛出异常时显示错误缺省页
  * 并且自动吐司错误信息, 可配置 [com.drake.net.interfaces.NetErrorHandler.onStateError]
  * 自动打印异常日志
- * @receiver 当前视图会被缺省页包裹
- *
  * 布局被销毁或者界面关闭作用域被取消
+ * @receiver 当前视图会被缺省页包裹
+ * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
  */
 fun StateLayout.scope(
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
@@ -94,6 +146,7 @@ fun StateLayout.scope(
  * 7. 自动显示缺省页
  *
  * 布局被销毁或者界面关闭作用域被取消
+ * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
  */
 fun PageRefreshLayout.scope(
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
@@ -103,32 +156,20 @@ fun PageRefreshLayout.scope(
     scope.launch(block)
     return scope
 }
-//</editor-fold>
 
-//<editor-fold desc="异步任务">
 /**
- * 异步作用域
- *
- * 该作用域生命周期跟随整个应用, 注意内存泄漏
+ * 视图作用域
+ * 会在视图销毁时自动取消作用域
+ * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
  */
-fun scope(
+fun View.scopeNetLife(
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     block: suspend CoroutineScope.() -> Unit
-): AndroidScope {
-    return AndroidScope(dispatcher = dispatcher).launch(block)
+): ViewCoroutineScope {
+    val scope = ViewCoroutineScope(this, dispatcher)
+    scope.launch(block)
+    return scope
 }
-
-fun LifecycleOwner.scopeLife(
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    dispatcher: CoroutineDispatcher = Dispatchers.Main,
-    block: suspend CoroutineScope.() -> Unit
-) = AndroidScope(this, lifeEvent, dispatcher).launch(block)
-
-fun Fragment.scopeLife(
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
-    dispatcher: CoroutineDispatcher = Dispatchers.Main,
-    block: suspend CoroutineScope.() -> Unit
-) = AndroidScope(this, lifeEvent, dispatcher).launch(block)
 //</editor-fold>
 
 //<editor-fold desc="网络">
@@ -139,6 +180,7 @@ fun Fragment.scopeLife(
  * - 自动显示错误信息吐司, 可以通过指定[NetConfig.onError]来取消或者增加自己的处理
  *
  * 该作用域生命周期跟随整个应用, 注意内存泄漏
+ * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
  */
 fun scopeNet(
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
@@ -160,9 +202,11 @@ fun LifecycleOwner.scopeNetLife(
 ) = NetCoroutineScope(this, lifeEvent, dispatcher).launch(block)
 
 /**
- * 和上述函数功能相同, 只是接受者为Fragment
+ * 和[scopeNetLife]功能相同, 只是接受者为Fragment
  *
  * Fragment应当在[Lifecycle.Event.ON_STOP]时就取消作用域, 避免[Fragment.onDestroyView]导致引用空视图
+ * @param lifeEvent 指定LifecycleOwner处于生命周期下取消网络请求/作用域
+ * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
  */
 fun Fragment.scopeNetLife(
     lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,

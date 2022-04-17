@@ -28,6 +28,8 @@ import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * 异步协程作用域
+ * @param lifecycleOwner 生命周期持有者
+ * @param lifeEvent 生命周期事件, 默认为[Lifecycle.Event.ON_DESTROY]下取消协程作用域
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING")
 open class AndroidScope(
