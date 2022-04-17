@@ -2,6 +2,7 @@
 
 package com.drake.net
 
+import com.drake.net.interfaces.NetDeferred
 import com.drake.net.request.BodyRequest
 import com.drake.net.request.Method
 import com.drake.net.request.UrlRequest
@@ -22,7 +23,7 @@ inline fun <reified M> CoroutineScope.Get(
     path: String,
     tag: Any? = null,
     noinline block: (UrlRequest.() -> Unit)? = null
-): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
+): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
     UrlRequest().apply {
         setPath(path)
@@ -31,7 +32,7 @@ inline fun <reified M> CoroutineScope.Get(
         tag(tag)
         block?.invoke(this)
     }.execute()
-}
+})
 
 /**
  * 异步网络请求
@@ -44,7 +45,7 @@ inline fun <reified M> CoroutineScope.Post(
     path: String,
     tag: Any? = null,
     noinline block: (BodyRequest.() -> Unit)? = null
-): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
+): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
     BodyRequest().apply {
         setPath(path)
@@ -53,7 +54,7 @@ inline fun <reified M> CoroutineScope.Post(
         tag(tag)
         block?.invoke(this)
     }.execute()
-}
+})
 
 /**
  * 异步网络请求
@@ -66,7 +67,7 @@ inline fun <reified M> CoroutineScope.Head(
     path: String,
     tag: Any? = null,
     noinline block: (UrlRequest.() -> Unit)? = null
-): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
+): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
     UrlRequest().apply {
         setPath(path)
@@ -75,7 +76,7 @@ inline fun <reified M> CoroutineScope.Head(
         tag(tag)
         block?.invoke(this)
     }.execute()
-}
+})
 
 /**
  * 异步网络请求
@@ -88,7 +89,7 @@ inline fun <reified M> CoroutineScope.Options(
     path: String,
     tag: Any? = null,
     noinline block: (UrlRequest.() -> Unit)? = null
-): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
+): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
     UrlRequest().apply {
         setPath(path)
@@ -97,7 +98,7 @@ inline fun <reified M> CoroutineScope.Options(
         tag(tag)
         block?.invoke(this)
     }.execute()
-}
+})
 
 /**
  * 异步网络请求
@@ -110,7 +111,7 @@ inline fun <reified M> CoroutineScope.Trace(
     path: String,
     tag: Any? = null,
     noinline block: (UrlRequest.() -> Unit)? = null
-): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
+): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
     UrlRequest().apply {
         setPath(path)
@@ -119,7 +120,7 @@ inline fun <reified M> CoroutineScope.Trace(
         tag(tag)
         block?.invoke(this)
     }.execute()
-}
+})
 
 /**
  * 异步网络请求
@@ -132,7 +133,7 @@ inline fun <reified M> CoroutineScope.Delete(
     path: String,
     tag: Any? = null,
     noinline block: (BodyRequest.() -> Unit)? = null
-): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
+): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
     BodyRequest().apply {
         setPath(path)
@@ -141,7 +142,7 @@ inline fun <reified M> CoroutineScope.Delete(
         tag(tag)
         block?.invoke(this)
     }.execute()
-}
+})
 
 /**
  * 异步网络请求
@@ -154,7 +155,7 @@ inline fun <reified M> CoroutineScope.Put(
     path: String,
     tag: Any? = null,
     noinline block: (BodyRequest.() -> Unit)? = null
-): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
+): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
     BodyRequest().apply {
         setPath(path)
@@ -163,7 +164,7 @@ inline fun <reified M> CoroutineScope.Put(
         tag(tag)
         block?.invoke(this)
     }.execute()
-}
+})
 
 /**
  * 异步网络请求
@@ -176,7 +177,7 @@ inline fun <reified M> CoroutineScope.Patch(
     path: String,
     tag: Any? = null,
     noinline block: (BodyRequest.() -> Unit)? = null
-): Deferred<M> = async(Dispatchers.IO + SupervisorJob()) {
+): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
     if (!isActive) throw CancellationException()
     BodyRequest().apply {
         setPath(path)
@@ -186,5 +187,5 @@ inline fun <reified M> CoroutineScope.Patch(
         block?.invoke(this)
     }.execute()
 }
-
+)
 // </editor-fold>

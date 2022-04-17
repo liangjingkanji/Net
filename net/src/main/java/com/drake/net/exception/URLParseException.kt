@@ -8,5 +8,12 @@ package com.drake.net.exception
  */
 open class URLParseException(
     message: String? = null,
-    cause: Throwable? = null
-) : Exception(message, cause)
+    cause: Throwable? = null,
+) : Exception(message, cause) {
+
+    var occurred: String = ""
+
+    override fun getLocalizedMessage(): String? {
+        return super.getLocalizedMessage() + occurred
+    }
+}

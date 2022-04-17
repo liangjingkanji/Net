@@ -30,14 +30,12 @@ import java.io.IOException
 open class NetException(
     open val request: Request,
     message: String? = null,
-    cause: Throwable? = null
+    cause: Throwable? = null,
 ) : IOException(message, cause) {
 
+    var occurred: String = ""
+
     override fun getLocalizedMessage(): String? {
-        return if (message != null) {
-            "$message (${request.url})"
-        } else {
-            "(${request.url})"
-        }
+        return "${if (message == null) "" else message + " "}${request.url}$occurred"
     }
 }
