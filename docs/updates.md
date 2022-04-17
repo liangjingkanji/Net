@@ -1,3 +1,9 @@
+## 3.3.0
+- 删除Callback/onResult(破坏性迁移)
+- 删除requestById/requestByGroup(破坏性迁移)
+- Add View.scopeNetLife
+- 网络请求异常位置追踪
+
 ## 3.2.2
 - Fixed [#77](https://github.com/liangjingkanji/Net/issues/77)
 - 修复gzip启用情况下载进度始终为0
