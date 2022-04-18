@@ -15,7 +15,7 @@
 <a href="https://liangjingkanji.github.io/Net/api/"><img src="https://img.shields.io/badge/api-%E5%87%BD%E6%95%B0%E6%96%87%E6%A1%A3-red"/></a>
 <a href="https://jq.qq.com/?_wv=1027&k=vWsXSNBJ"><img src="https://img.shields.io/badge/QQ群-752854893-blue"/></a>
 <a href="http://liangjingkanji.github.io/Net/updates"><img src="https://img.shields.io/badge/updates-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97-brightgreen"/></a>
-<a href="https://liangjingkanji.github.io/Net/issues/"><img src="https://raw.githubusercontent.com/liangjingkanji/Net/master/docs/img/issues.svg"/></a>
+<a href="https://github.com/liangjingkanji/Net/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><img src="https://raw.githubusercontent.com/liangjingkanji/Net/master/docs/img/issues.svg"/></a>
 </p>
 
 <p align="center"><img src="https://i.imgur.com/aBe7Ib2.png" align="center" width="30%;" /></p>
