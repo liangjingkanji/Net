@@ -63,7 +63,7 @@ scopeNetLife { // 创建作用域
 
     scopeNetLife {
         tvFragment.text = Post<String>("api") {
-            // 只支持基础类型的值, 如果值为对象或者包含对象的List会导致其值为null
+            // 只支持基础类型的值, 如果值为对象或者包含对象的集合/数组会导致其值为null
             json("name" to name, "age" to age, "measurements" to measurements)
         }.await()
     }
@@ -73,7 +73,7 @@ scopeNetLife { // 创建作用域
     ```kotlin
     val name = "金城武"
     val age = 29
-    val measurements = listOf(100, 100, 100)
+    val measurements = listOf(100, 100, 100) // 只支持基础类型的值, 如果值为对象或者包含对象的集合/数组会导致其值为null
 
     scopeNetLife {
         tvFragment.text = Post<String>("api") {
