@@ -24,7 +24,7 @@ inline fun <reified M> CoroutineScope.Get(
     tag: Any? = null,
     noinline block: (UrlRequest.() -> Unit)? = null
 ): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
-    if (!isActive) throw CancellationException()
+    coroutineContext.ensureActive()
     UrlRequest().apply {
         setPath(path)
         method = Method.GET
@@ -46,7 +46,7 @@ inline fun <reified M> CoroutineScope.Post(
     tag: Any? = null,
     noinline block: (BodyRequest.() -> Unit)? = null
 ): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
-    if (!isActive) throw CancellationException()
+    coroutineContext.ensureActive()
     BodyRequest().apply {
         setPath(path)
         method = Method.POST
@@ -68,7 +68,7 @@ inline fun <reified M> CoroutineScope.Head(
     tag: Any? = null,
     noinline block: (UrlRequest.() -> Unit)? = null
 ): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
-    if (!isActive) throw CancellationException()
+    coroutineContext.ensureActive()
     UrlRequest().apply {
         setPath(path)
         method = Method.HEAD
@@ -90,7 +90,7 @@ inline fun <reified M> CoroutineScope.Options(
     tag: Any? = null,
     noinline block: (UrlRequest.() -> Unit)? = null
 ): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
-    if (!isActive) throw CancellationException()
+    coroutineContext.ensureActive()
     UrlRequest().apply {
         setPath(path)
         method = Method.OPTIONS
@@ -112,7 +112,7 @@ inline fun <reified M> CoroutineScope.Trace(
     tag: Any? = null,
     noinline block: (UrlRequest.() -> Unit)? = null
 ): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
-    if (!isActive) throw CancellationException()
+    coroutineContext.ensureActive()
     UrlRequest().apply {
         setPath(path)
         method = Method.TRACE
@@ -134,7 +134,7 @@ inline fun <reified M> CoroutineScope.Delete(
     tag: Any? = null,
     noinline block: (BodyRequest.() -> Unit)? = null
 ): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
-    if (!isActive) throw CancellationException()
+    coroutineContext.ensureActive()
     BodyRequest().apply {
         setPath(path)
         method = Method.DELETE
@@ -156,7 +156,7 @@ inline fun <reified M> CoroutineScope.Put(
     tag: Any? = null,
     noinline block: (BodyRequest.() -> Unit)? = null
 ): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
-    if (!isActive) throw CancellationException()
+    coroutineContext.ensureActive()
     BodyRequest().apply {
         setPath(path)
         method = Method.PUT
@@ -178,7 +178,7 @@ inline fun <reified M> CoroutineScope.Patch(
     tag: Any? = null,
     noinline block: (BodyRequest.() -> Unit)? = null
 ): Deferred<M> = NetDeferred(async(Dispatchers.IO + SupervisorJob()) {
-    if (!isActive) throw CancellationException()
+    coroutineContext.ensureActive()
     BodyRequest().apply {
         setPath(path)
         method = Method.PATCH
