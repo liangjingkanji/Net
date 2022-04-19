@@ -96,12 +96,11 @@ open class AndroidScope(
         return this
     }
 
-
     /**
      * 错误处理
      */
     open fun handleError(e: Throwable) {
-        Net.printStackTrace(e)
+        Net.debug(e)
     }
 
     open fun cancel(cause: CancellationException? = null) {

@@ -22,7 +22,6 @@ import android.util.Log
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.request.*
 import com.drake.net.tag.NetTag
-import com.drake.net.utils.NetUtils
 
 object Net {
 
@@ -106,7 +105,7 @@ object Net {
      * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
      * @param block 函数中可以配置请求参数
      */
-    fun trace(
+    fun error(
         path: String,
         tag: Any? = null,
         block: (UrlRequest.() -> Unit)? = null
@@ -245,7 +244,7 @@ object Net {
         NetConfig.runningCalls.forEach {
             val request = it.get()?.request() ?: return@forEach
             if (request.id == id) {
-                request.uploadListeners()?.remove(progressListener)
+                request.uploadListeners().remove(progressListener)
             }
         }
     }
@@ -274,7 +273,7 @@ object Net {
         NetConfig.runningCalls.forEach {
             val request = it.get()?.request() ?: return@forEach
             if (request.id == id) {
-                request.downloadListeners()?.remove(progressListener)
+                request.downloadListeners().remove(progressListener)
             }
         }
     }
@@ -284,11 +283,27 @@ object Net {
     //<editor-fold desc="日志">
     /**
      * 输出异常日志
-     * @see NetConfig.logTag
+     * @see NetConfig.debug
      */
+    @Deprecated("命名变更", ReplaceWith("Net.trace(t)"))
     fun printStackTrace(t: Throwable) {
-        if (NetConfig.logEnabled) {
-            Log.d(NetConfig.logTag, NetUtils.getStackTraceString(t))
+        debug(t)
+    }
+
+    /**
+     * 输出异常日志
+     * @param message 如果非[Throwable]则会自动追加代码位置(文件:行号)
+     * @see NetConfig.debug
+     */
+    fun debug(message: Any) {
+        if (NetConfig.debug) {
+            val adjustMessage = if (message is Throwable) {
+                message.stackTraceToString()
+            } else {
+                val occurred = Throwable().stackTrace.getOrNull(1)?.run { " (${fileName}:${lineNumber})" } ?: ""
+                message.toString() + occurred
+            }
+            Log.d(NetConfig.TAG, adjustMessage)
         }
     }
     //</editor-fold>

@@ -18,14 +18,6 @@ package com.drake.net
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.drake.net.NetConfig.app
-import com.drake.net.NetConfig.converter
-import com.drake.net.NetConfig.dialogFactory
-import com.drake.net.NetConfig.errorHandler
-import com.drake.net.NetConfig.host
-import com.drake.net.NetConfig.logEnabled
-import com.drake.net.NetConfig.requestInterceptor
-import com.drake.net.NetConfig.runningCalls
 import com.drake.net.convert.NetConverter
 import com.drake.net.interceptor.RequestInterceptor
 import com.drake.net.interfaces.NetDialogFactory
@@ -39,15 +31,6 @@ import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
  * Net的全局配置
- *
- * @property app 全局上下文, 一般执行[NetConfig.init]即可, 无需手动赋值
- * @property host 全局的域名或者ip(baseUrl)
- * @property runningCalls Net中正在运行的请求Call
- * @property requestInterceptor 请求拦截器
- * @property logEnabled 是否启用日志
- * @property dialogFactory 全局加载框
- * @property errorHandler 全局错误处理器, 会覆盖onError/onStateError
- * @property converter 全局数据转换器
  */
 @SuppressLint("StaticFieldLeak")
 object NetConfig {
@@ -64,10 +47,26 @@ object NetConfig {
         }
 
     /** 是否启用日志 */
-    var logEnabled = true
+    @Deprecated("命名变更", ReplaceWith("NetConfig.debug"))
+    var logEnabled
+        get() = debug
+        set(value) {
+            debug = value
+        }
+
+    /** 是否启用日志 */
+    var debug = true
 
     /** 网络异常日志的标签 */
-    var logTag = "NET-LOG"
+    @Deprecated("命名变更", ReplaceWith("NetConfig.TAG"))
+    var logTag
+        get() = TAG
+        set(value) {
+            TAG = value
+        }
+
+    /** 网络异常日志的标签 */
+    var TAG = "NET_LOG"
 
     /** 运行中的请求 */
     var runningCalls: ConcurrentLinkedQueue<WeakReference<Call>> = ConcurrentLinkedQueue()

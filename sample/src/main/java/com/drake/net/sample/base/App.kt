@@ -23,8 +23,8 @@ import com.drake.net.NetConfig
 import com.drake.net.interceptor.LogRecordInterceptor
 import com.drake.net.interceptor.RequestInterceptor
 import com.drake.net.okhttp.setConverter
+import com.drake.net.okhttp.setDebug
 import com.drake.net.okhttp.setDialogFactory
-import com.drake.net.okhttp.setLog
 import com.drake.net.okhttp.setRequestInterceptor
 import com.drake.net.request.BaseRequest
 import com.drake.net.sample.BR
@@ -49,7 +49,7 @@ class App : Application() {
             readTimeout(30, TimeUnit.SECONDS)
             writeTimeout(30, TimeUnit.SECONDS)
 
-            setLog(BuildConfig.DEBUG) // LogCat异常日志
+            setDebug(BuildConfig.DEBUG) // LogCat异常日志
             addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG)) // 添加日志记录器
             setRequestInterceptor(object : RequestInterceptor { // 添加请求拦截器
                 override fun interceptor(request: BaseRequest) {

@@ -54,7 +54,7 @@ suspend fun <T> fastest(
                 val allFail = listDeferred.all { it.isCancelled }
                 if (allFail) deferred.completeExceptionally(e) else {
                     if (e !is CancellationException) {
-                        Net.printStackTrace(e)
+                        Net.debug(e)
                     }
                 }
             }
@@ -100,7 +100,7 @@ suspend fun <T, R> fastest(
                 val allFail = listDeferred.all { it.deferred.isCancelled }
                 if (allFail) deferred.completeExceptionally(e) else {
                     if (e !is CancellationException) {
-                        Net.printStackTrace(e)
+                        Net.debug(e)
                     }
                 }
             }

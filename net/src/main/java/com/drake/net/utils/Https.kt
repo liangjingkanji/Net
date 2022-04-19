@@ -62,7 +62,7 @@ internal fun prepareKeyManager(bksFile: InputStream?, password: String?): Array<
         kmf.init(clientKeyStore, password.toCharArray())
         return kmf.keyManagers
     } catch (e: Exception) {
-        Net.printStackTrace(e)
+        Net.debug(e)
     }
     return null
 }
@@ -83,7 +83,7 @@ internal fun prepareTrustManager(vararg certificates: InputStream?): Array<Trust
             try {
                 certStream?.close()
             } catch (e: IOException) {
-                Net.printStackTrace(e)
+                Net.debug(e)
             }
         }
         // 我们创建一个默认类型的TrustManagerFactory
@@ -93,7 +93,7 @@ internal fun prepareTrustManager(vararg certificates: InputStream?): Array<Trust
         // 通过tmf获取TrustManager数组，TrustManager也会信任keyStore中的证书
         return tmf.trustManagers
     } catch (e: Exception) {
-        Net.printStackTrace(e)
+        Net.debug(e)
     }
     return null
 }

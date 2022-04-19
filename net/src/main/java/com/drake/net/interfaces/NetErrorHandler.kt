@@ -39,7 +39,7 @@ interface NetErrorHandler {
             else -> NetConfig.app.getString(R.string.net_other_error)
         }
 
-        Net.printStackTrace(e)
+        Net.debug(e)
         TipUtils.toast(message)
     }
 
@@ -55,7 +55,7 @@ interface NetErrorHandler {
             is RequestParamsException,
             is ResponseException,
             is NullPointerException -> onError(e)
-            else -> Net.printStackTrace(e)
+            else -> Net.debug(e)
         }
     }
 }

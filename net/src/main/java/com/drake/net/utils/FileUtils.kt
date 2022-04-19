@@ -35,7 +35,7 @@ fun File.md5(): String? {
         for (b in md5) stringBuilder.append(String.format("%02X", b))
         return stringBuilder.toString().toLowerCase(Locale.ROOT)
     } catch (e: IOException) {
-        Net.printStackTrace(e)
+        Net.debug(e)
     }
     return null
 }

@@ -192,7 +192,7 @@ object LogRecorder {
                     try {
                         Thread.sleep(5L)
                     } catch (e: InterruptedException) {
-                        Net.printStackTrace(e)
+                        Net.debug(e)
                     }
                 }
                 val data = bundle.getString(KEY_VALUE) ?: "null"
