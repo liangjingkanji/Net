@@ -62,7 +62,11 @@ open class BodyRequest : BaseRequest() {
     }
 
     override fun param(name: String, value: String?, encoded: Boolean) {
-        formBody.addEncoded(name, value ?: return)
+        if (encoded) {
+            formBody.addEncoded(name, value ?: return)
+        } else {
+            formBody.add(name, value ?: return)
+        }
     }
 
     override fun param(name: String, value: Number?) {
