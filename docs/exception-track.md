@@ -28,4 +28,4 @@ NetConfig.initialize("http://github.com/") {
 }
 ```
 
-或者设置字段`NetConfig.logEnabled`的值
+或者设置字段`NetConfig.debug`的值
