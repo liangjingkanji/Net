@@ -1,3 +1,8 @@
+## 3.3.1
+废弃部分日志相关函数
+新增Net.debug日志输出函数
+修复Query编码问题
+
 ## 3.3.0
 - 删除Callback/onResult(破坏性迁移)
 - 删除requestById/requestByGroup(破坏性迁移)
