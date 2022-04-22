@@ -136,5 +136,9 @@
         android:name="com.drake.net.sample.ui.fragment.ViewModelRequestFragment"
         android:label="ViewModel" />
     <include app:graph="@navigation/nav_converter" />
+    <fragment
+        android:id="@+id/previewCacheFragment"
+        android:name="com.drake.net.sample.ui.fragment.PreviewCacheFragment"
+        android:label="PreviewCacheFragment" />
 
 </navigation>

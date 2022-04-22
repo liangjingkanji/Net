@@ -18,6 +18,7 @@ package com.drake.net
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.drake.net.cache.ForceCache
 import com.drake.net.convert.NetConverter
 import com.drake.net.interceptor.RequestInterceptor
 import com.drake.net.interfaces.NetDialogFactory
@@ -25,6 +26,7 @@ import com.drake.net.interfaces.NetErrorHandler
 import com.drake.net.okhttp.toNetOkhttp
 import okhttp3.Call
 import okhttp3.OkHttpClient
+import okhttp3.OkHttpUtils
 import java.lang.ref.WeakReference
 import java.util.concurrent.ConcurrentLinkedQueue
 
@@ -44,7 +46,15 @@ object NetConfig {
     var okHttpClient: OkHttpClient = OkHttpClient.Builder().toNetOkhttp().build()
         set(value) {
             field = value.toNetOkhttp()
+            forceCache = field.cache?.let { ForceCache(OkHttpUtils.diskLruCache(it)) }
         }
+
+    /**
+     * 强制缓存配置. 不允许直接设置, 因为整个框架只允许存在一个缓存配置管理, 所以请使用[OkHttpClient.Builder.cache]
+     * 强制缓存会无视标准Http协议强制缓存任何数据
+     * 缓存目录和缓存最大值设置见: [okhttp3.Cache]
+     */
+    internal var forceCache: ForceCache? = null
 
     /** 是否启用日志 */
     @Deprecated("命名变更", ReplaceWith("NetConfig.debug"))

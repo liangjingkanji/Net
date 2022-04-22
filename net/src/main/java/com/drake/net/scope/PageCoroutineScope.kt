@@ -44,12 +44,12 @@ class PageCoroutineScope(
     }
 
     override fun start() {
-        isReadCache = !page.loaded
+        isPreview = !page.loaded
         page.trigger()
     }
 
-    override fun readCache(succeed: Boolean) {
-        if (succeed && !animate) {
+    override fun previewFinish(succeed: Boolean) {
+        if (succeed && previewBreakLoading) {
             page.showContent()
         }
         page.loaded = succeed

@@ -34,30 +34,35 @@ open class NetCoroutineScope(
     dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : AndroidScope(lifecycleOwner, lifeEvent, dispatcher) {
 
-    protected var isReadCache = true
+    /** 预览模式 */
     protected var preview: (suspend CoroutineScope.() -> Unit)? = null
 
-    protected var isCacheSucceed = false
+    /** 是否可读取缓存 */
+    protected var isPreview = true
+
+    /** 是否读取缓存成功 */
+    protected var previewSucceed = false
         get() = if (preview != null) field else false
 
-    protected var error = true
-        get() = if (isCacheSucceed) field else true
+    /** 使用[preview]预览模式情况下读取缓存成功后, 网络请求失败是否处理错误信息 */
+    protected var previewBreakError = false
+        get() = if (previewSucceed) field else false
 
-    var animate: Boolean = false
-
+    /** 使用[preview]预览模式情况下读取缓存成功后是否关闭加载动画 */
+    protected var previewBreakLoading: Boolean = true
 
     override fun launch(block: suspend CoroutineScope.() -> Unit): NetCoroutineScope {
         launch(EmptyCoroutineContext) {
             start()
-            if (preview != null && isReadCache) {
+            if (preview != null && isPreview) {
                 supervisorScope {
-                    isCacheSucceed = try {
+                    previewSucceed = try {
                         preview?.invoke(this)
                         true
                     } catch (e: Exception) {
                         false
                     }
-                    readCache(isCacheSucceed)
+                    previewFinish(previewSucceed)
                 }
             }
             block()
@@ -75,14 +80,14 @@ open class NetCoroutineScope(
      * 读取缓存回调
      * @param succeed 缓存是否成功
      */
-    protected open fun readCache(succeed: Boolean) {}
+    protected open fun previewFinish(succeed: Boolean) {}
 
     override fun handleError(e: Throwable) {
         NetConfig.errorHandler.onError(e)
     }
 
     override fun catch(e: Throwable) {
-        catch?.invoke(this@NetCoroutineScope, e) ?: if (error) handleError(e)
+        catch?.invoke(this@NetCoroutineScope, e) ?: if (!previewBreakError) handleError(e)
     }
 
     /**
@@ -91,17 +96,19 @@ open class NetCoroutineScope(
      * 该函数在作用域[NetCoroutineScope.launch]之前执行
      * 函数内部所有的异常都不会被抛出, 也不会终止作用域执行
      *
-     * @param ignore 是否在缓存读取成功但网络请求错误时吐司错误信息
-     * @param animate 是否在缓存成功后依然显示加载动画
+     * @param breakError 读取缓存成功后不再处理错误信息
+     * @param breakLoading 读取缓存成功后结束加载动画
      * @param block 该作用域内的所有异常都算缓存读取失败, 不会吐司和打印任何错误
+     *
+     * 这里指的读取缓存也可以替换为其他任务, 比如读取数据库或者其他接口数据
      */
     fun preview(
-        ignore: Boolean = false,
-        animate: Boolean = false,
+        breakError: Boolean = false,
+        breakLoading: Boolean = true,
         block: suspend CoroutineScope.() -> Unit
     ): AndroidScope {
-        this.animate = animate
-        this.error = ignore
+        this.previewBreakError = breakError
+        this.previewBreakLoading = breakLoading
         this.preview = block
         return this
     }

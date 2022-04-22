@@ -35,6 +35,7 @@ import com.drake.statelayout.StateConfig
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import okhttp3.Cache
 import java.util.concurrent.TimeUnit
 
 class App : Application() {
@@ -57,9 +58,8 @@ class App : Application() {
                     request.setHeader("token", "123456")
                 }
             })
-
             setConverter(GsonConverter()) // 数据转换器
-
+            cache(Cache(cacheDir, 1024 * 1024 * 128)) // 缓存设置
             setDialogFactory { // 全局加载对话框
                 ProgressDialog(it).apply {
                     setMessage("我是全局自定义的加载对话框...")

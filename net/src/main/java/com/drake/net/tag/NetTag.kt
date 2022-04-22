@@ -23,20 +23,38 @@ import kotlin.reflect.KType
 
 sealed class NetTag {
     class Extras : HashMap<String, Any?>()
-
-    inline class RequestId(val value: Any?)
-    inline class RequestGroup(val value: Any?)
-    inline class RequestKType(val value: KType?)
-
-    inline class DownloadFileMD5Verify(val enabled: Boolean = true)
-    inline class DownloadFileNameDecode(val enabled: Boolean = true)
-    inline class DownloadTempFile(val enabled: Boolean = true)
-    inline class DownloadFileConflictRename(val enabled: Boolean = true)
-    inline class DownloadFileName(val name: String?)
-    inline class DownloadFileDir(val dir: String?) {
-        constructor(fileDir: File?) : this(fileDir?.absolutePath)
-    }
-
     class UploadListeners : ConcurrentLinkedQueue<ProgressListener>()
     class DownloadListeners : ConcurrentLinkedQueue<ProgressListener>()
+
+    @JvmInline
+    value class RequestId(val value: Any)
+
+    @JvmInline
+    value class RequestGroup(val value: Any)
+
+    @JvmInline
+    value class RequestKType(val value: KType)
+
+    @JvmInline
+    value class DownloadFileMD5Verify(val value: Boolean = true)
+
+    @JvmInline
+    value class DownloadFileNameDecode(val value: Boolean = true)
+
+    @JvmInline
+    value class DownloadTempFile(val value: Boolean = true)
+
+    @JvmInline
+    value class DownloadFileConflictRename(val value: Boolean = true)
+
+    @JvmInline
+    value class DownloadFileName(val value: String)
+
+    @JvmInline
+    value class CacheKey(val value: String)
+
+    @JvmInline
+    value class DownloadFileDir(val value: String) {
+        constructor(fileDir: File) : this(fileDir.absolutePath)
+    }
 }

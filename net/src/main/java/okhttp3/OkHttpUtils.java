@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import kotlin.jvm.JvmStatic;
+import okhttp3.internal.cache.DiskLruCache;
 
 @SuppressWarnings("KotlinInternalInJava")
 public class OkHttpUtils {
@@ -42,5 +43,15 @@ public class OkHttpUtils {
     @JvmStatic
     public static Headers.Builder headers(Request.Builder builder) {
         return builder.getHeaders$okhttp();
+    }
+
+    @JvmStatic
+    public static Headers.Builder addLenient(Headers.Builder builder, String line) {
+        return builder.addLenient$okhttp(line);
+    }
+
+    @JvmStatic
+    public static DiskLruCache diskLruCache(Cache cache) {
+        return cache.getCache$okhttp();
     }
 }

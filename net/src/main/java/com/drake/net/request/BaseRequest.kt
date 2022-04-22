@@ -18,6 +18,8 @@
 package com.drake.net.request
 
 import com.drake.net.NetConfig
+import com.drake.net.cache.CacheMode
+import com.drake.net.cache.ForceCache
 import com.drake.net.convert.NetConverter
 import com.drake.net.exception.URLParseException
 import com.drake.net.interfaces.ProgressListener
@@ -51,6 +53,8 @@ abstract class BaseRequest {
     open var okHttpClient = NetConfig.okHttpClient
         set(value) {
             field = value.toNetOkhttp()
+            val forceCache = field.cache?.let { ForceCache(OkHttpUtils.diskLruCache(it)) }
+            tagOf(forceCache)
         }
 
     /**
@@ -269,10 +273,26 @@ abstract class BaseRequest {
     //<editor-fold desc="Cache">
 
     /**
-     * 设置请求头的缓存控制
+     * 设置Http缓存协议头的缓存控制
      */
     fun setCacheControl(cacheControl: CacheControl) {
         okHttpRequest.cacheControl(cacheControl)
+    }
+
+    /**
+     * 设置缓存模式
+     * 缓存模式将无视Http缓存协议进行强制读取/写入缓存
+     */
+    fun setCacheMode(mode: CacheMode) {
+        tagOf(mode)
+    }
+
+    /**
+     * 自定义强制缓存使用的Key, 本方法对于Http缓存协议无效
+     * @param key 缓存的Key无论是自定义还是默认(使用URL作为Key)最终都会被进行SHA1编码, 所以无需考虑特殊字符问题
+     */
+    fun setCacheKey(key: String) {
+        tagOf(NetTag.CacheKey(key))
     }
     //</editor-fold>
 
@@ -286,21 +306,21 @@ abstract class BaseRequest {
      * @see setDownloadFileNameConflict
      * @see setDownloadDir
      */
-    fun setDownloadFileName(name: String?) {
+    fun setDownloadFileName(name: String) {
         okHttpRequest.tagOf(NetTag.DownloadFileName(name))
     }
 
     /**
      * 下载保存的目录, 也支持包含文件名称的完整路径, 如果使用完整路径则无视setDownloadFileName设置
      */
-    fun setDownloadDir(name: String?) {
+    fun setDownloadDir(name: String) {
         okHttpRequest.tagOf(NetTag.DownloadFileDir(name))
     }
 
     /**
      * 下载保存的目录, 也支持包含文件名称的完整路径, 如果使用完整路径则无视setDownloadFileName设置
      */
-    fun setDownloadDir(name: File?) {
+    fun setDownloadDir(name: File) {
         okHttpRequest.tagOf(NetTag.DownloadFileDir(name))
     }
 

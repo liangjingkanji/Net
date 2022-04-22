@@ -16,7 +16,7 @@ import kotlin.reflect.KType
 var Request.Builder.id: Any?
     get() = tagOf<NetTag.RequestId>()
     set(value) {
-        tagOf(NetTag.RequestId(value))
+        tagOf(value?.let { NetTag.RequestId(it) })
     }
 
 /**
@@ -27,7 +27,7 @@ var Request.Builder.id: Any?
 var Request.Builder.group: Any?
     get() = tagOf<NetTag.RequestGroup>()
     set(value) {
-        tagOf(NetTag.RequestGroup(value))
+        tagOf(value?.let { NetTag.RequestGroup(it) })
     }
 //</editor-fold>
 
@@ -37,7 +37,7 @@ var Request.Builder.group: Any?
 var Request.Builder.kType: KType?
     get() = tagOf<NetTag.RequestKType>()?.value
     set(value) {
-        tagOf(NetTag.RequestKType(value))
+        tagOf(value?.let { NetTag.RequestKType(it) })
     }
 
 /**

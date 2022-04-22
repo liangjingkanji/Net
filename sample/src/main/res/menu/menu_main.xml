@@ -75,11 +75,14 @@
         android:id="@+id/state_layout"
         android:icon="@drawable/ic_state_layout"
         android:title="自动缺省页" />
-    <!--缓存设计中-->
-    <!--<item-->
-    <!--    android:id="@+id/read_cache"-->
-    <!--    android:icon="@drawable/ic_read_cache"-->
-    <!--    android:title="预读缓存" />-->
+    <item
+        android:id="@+id/read_cache"
+        android:icon="@drawable/ic_read_cache"
+        android:title="强制缓存" />
+    <item
+        android:id="@+id/previewCacheFragment"
+        android:icon="@drawable/ic_preview_cache"
+        android:title="预读缓存" />
     <item
         android:id="@+id/fastest"
         android:icon="@drawable/ic_fastest"

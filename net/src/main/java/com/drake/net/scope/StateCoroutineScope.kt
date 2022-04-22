@@ -43,11 +43,11 @@ class StateCoroutineScope(
     }
 
     override fun start() {
-        isReadCache = !state.loaded
+        isPreview = !state.loaded
         state.trigger()
     }
 
-    override fun readCache(succeed: Boolean) {
+    override fun previewFinish(succeed: Boolean) {
         if (succeed) {
             state.showContent()
         }
@@ -55,7 +55,7 @@ class StateCoroutineScope(
 
     override fun catch(e: Throwable) {
         super.catch(e)
-        if (!isCacheSucceed) state.showError(e)
+        if (!previewSucceed) state.showError(e)
     }
 
     override fun handleError(e: Throwable) {

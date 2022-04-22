@@ -61,7 +61,7 @@ class DialogCoroutineScope(
         }
     }
 
-    override fun readCache(succeed: Boolean) {
+    override fun previewFinish(succeed: Boolean) {
         if (succeed) {
             dismiss()
         }

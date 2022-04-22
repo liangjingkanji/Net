@@ -38,7 +38,7 @@ import kotlin.reflect.KType
 var Request.id: Any?
     get() = tagOf<NetTag.RequestId>()
     set(value) {
-        tagOf(NetTag.RequestId(value))
+        tagOf(value?.let { NetTag.RequestId(it) })
     }
 
 /**
@@ -49,7 +49,7 @@ var Request.id: Any?
 var Request.group: Any?
     get() = tagOf<NetTag.RequestGroup>()
     set(value) {
-        tagOf(NetTag.RequestGroup(value))
+        tagOf(value?.let { NetTag.RequestGroup(it) })
     }
 //</editor-fold>
 
@@ -59,7 +59,7 @@ var Request.group: Any?
 var Request.kType: KType?
     get() = tagOf<NetTag.RequestKType>()?.value
     set(value) {
-        tagOf(NetTag.RequestKType(value))
+        tagOf(value?.let { NetTag.RequestKType(it) })
     }
 
 
@@ -139,28 +139,28 @@ fun Request.downloadListeners(): ConcurrentLinkedQueue<ProgressListener> {
  * 当指定下载目录存在同名文件是覆盖还是进行重命名, 重命名规则是: $文件名_($序号).$后缀
  */
 fun Request.downloadConflictRename(): Boolean {
-    return tagOf<NetTag.DownloadFileConflictRename>()?.enabled == true
+    return tagOf<NetTag.DownloadFileConflictRename>()?.value == true
 }
 
 /**
  * 是否进行校验文件md5, 如果校验则匹配上既马上返回文件而不会进行下载
  */
 fun Request.downloadMd5Verify(): Boolean {
-    return tagOf<NetTag.DownloadFileMD5Verify>()?.enabled == true
+    return tagOf<NetTag.DownloadFileMD5Verify>()?.value == true
 }
 
 /**
  * 下载文件目录
  */
 fun Request.downloadFileDir(): String {
-    return tagOf<NetTag.DownloadFileDir>()?.dir ?: NetConfig.app.filesDir.absolutePath
+    return tagOf<NetTag.DownloadFileDir>()?.value ?: NetConfig.app.filesDir.absolutePath
 }
 
 /**
  * 下载文件名
  */
 fun Request.downloadFileName(): String? {
-    return tagOf<NetTag.DownloadFileName>()?.name
+    return tagOf<NetTag.DownloadFileName>()?.value
 }
 
 /**
@@ -168,7 +168,7 @@ fun Request.downloadFileName(): String? {
  * 例如下载的文件名如果是中文, 服务器传输给你的会是被URL编码的字符串. 你使用URL解码后才是可读的中文名称
  */
 fun Request.downloadFileNameDecode(): Boolean {
-    return tagOf<NetTag.DownloadFileNameDecode>()?.enabled == true
+    return tagOf<NetTag.DownloadFileNameDecode>()?.value == true
 }
 
 /**
@@ -178,7 +178,7 @@ fun Request.downloadFileNameDecode(): Boolean {
  *      下载文件名: install.apk, 临时文件名: install.apk.net-download
  */
 fun Request.downloadTempFile(): Boolean {
-    return tagOf<NetTag.DownloadTempFile>()?.enabled == true
+    return tagOf<NetTag.DownloadTempFile>()?.value == true
 }
 //</editor-fold>
 
