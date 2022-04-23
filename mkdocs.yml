@@ -68,6 +68,7 @@ nav:
   - 取消请求: cancel.md
   - Https证书: https.md
   - 重复请求: unique.md
+  - 缓存: cache.md
   - 自动搜索/筛选: debounce.md
   - 最快请求结果: fastest.md
   - 日志拦截器: log-recorder.md
