@@ -36,14 +36,17 @@ object NetOkHttpInterceptor : Interceptor {
         var request = chain.request()
         val reqBody = request.body?.toNetRequestBody(request.uploadListeners())
         val cache = request.tagOf<ForceCache>() ?: NetConfig.forceCache
+        val cacheMode = request.tagOf<CacheMode>()
         request = request.newBuilder().apply {
-            if (cache != null) cacheControl(CacheControl.Builder().noCache().noStore().build())
+            if (cache != null && cacheMode != null) {
+                cacheControl(CacheControl.Builder().noCache().noStore().build())
+            }
         }.method(request.method, reqBody).build()
 
         try {
             attach(chain)
             val response = if (cache != null) {
-                when (request.tagOf<CacheMode>()) {
+                when (cacheMode) {
                     CacheMode.READ -> cache.get(request) ?: throw NoCacheException(request)
                     CacheMode.READ_THEN_REQUEST -> cache.get(request) ?: chain.proceed(request).run {
                         cacheWritingResponse(cache, this)
