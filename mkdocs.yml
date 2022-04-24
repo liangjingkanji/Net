@@ -75,6 +75,6 @@ nav:
   - 通知栏日志: log-notice.md
   - 轮询器/倒计时: interval.md
   - Callback: callback.md
-  - 常见问题: https://github.com/liangjingkanji/Net/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98
+  - 常见问题: https://github.com/liangjingkanji/Net/blob/master/docs/issues.md
   - 更新日志: updates.md
   - 3.x文档: api/index.html
