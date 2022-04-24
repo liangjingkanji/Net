@@ -1,0 +1,287 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ForceCache</title>
+<link href="../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
+  <body>
+    <div id="container">
+      <div id="leftColumn"><a href="../../../index.html">
+          <div id="logo"></div>
+        </a>
+        <div id="paneSearch"></div>
+        <div id="sideMenu"></div>
+      </div>
+      <div id="main">
+        <div id="leftToggler"><span class="icon-toggler"></span></div>
+<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="Net::com.drake.net.cache/ForceCache///PointingToDeclaration//1281733757">
+          <div class="navigation-wrapper" id="navigation-wrapper">
+            <div class="breadcrumbs"><a href="../../../index.html">Net</a>/<a href="../index.html">com.drake.net.cache</a>/<a href="index.html">ForceCache</a></div>
+            <div class="pull-right d-flex">
+              <div id="searchBar"></div>
+            </div>
+          </div>
+          <div class="cover ">
+            <h1 class="cover"><span>Force</span><wbr></wbr><span>Cache</span></h1>
+            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">class <a href="index.html">ForceCache</a> : <a href="https://developer.android.com/reference/kotlin/java/io/Closeable.html">Closeable</a>, <a href="https://developer.android.com/reference/kotlin/java/io/Flushable.html">Flushable</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Caches HTTP and HTTPS responses to the filesystem so they may be reused, saving time and bandwidth.</p><h2 class=""> Cache Optimization</h2><p class="paragraph">To measure cache effectiveness, this class tracks three statistics:</p><ul><li><p class="paragraph">requestCount the number of HTTP requests issued since this cache was     created.</p></li><li><p class="paragraph">networkCount the number of those requests that required network use.</p></li><li><p class="paragraph">hitCount the number of those requests whose responses were served by the     cache.</p></li></ul><p class="paragraph">Sometimes a request will result in a conditional cache hit. If the cache contains a stale copy of the response, the client will issue a conditional <code>GET</code>. The server will then send either the updated response if it has changed, or a short 'not modified' response if the client's copy is still valid. Such responses increment both the network count and hit count.</p><p class="paragraph">The best way to improve the cache hit rate is by configuring the web server to return cacheable responses. Although this client honors all <a href="http://tools.ietf.org/html/rfc7234">HTTP/1.1 (RFC 7234)</a> cache headers, it doesn't cache partial responses.</p><h2 class=""> Force a Network Response</h2><p class="paragraph">In some situations, such as after a user clicks a 'refresh' button, it may be necessary to skip the cache, and fetch data directly from the server. To force a full refresh, add the <code>no-cache</code> directive:</p><div class="sample-container"><code class="" theme="idea"><pre>Request request = new Request.Builder()<br>    .cacheControl(new CacheControl.Builder().noCache().build())<br>    .url(&quot;http://publicobject.com/helloworld.txt&quot;)<br>    .build();</pre></code></div><p class="paragraph">If it is only necessary to force a cached response to be validated by the server, use the more efficient <code>max-age=0</code> directive instead:</p><div class="sample-container"><code class="" theme="idea"><pre>Request request = new Request.Builder()<br>    .cacheControl(new CacheControl.Builder()<br>        .maxAge(0, TimeUnit.SECONDS)<br>        .build())<br>    .url(&quot;http://publicobject.com/helloworld.txt&quot;)<br>    .build();</pre></code></div><h2 class=""> Force a Cache Response</h2><p class="paragraph">Sometimes you'll want to show resources if they are available immediately, but not otherwise. This can be used so your application can show something while waiting for the latest data to be downloaded. To restrict a request to locally-cached resources, add the <code>only-if-cached</code> directive:</p><div class="sample-container"><code class="" theme="idea"><pre>Request request = new Request.Builder()<br>    .cacheControl(new CacheControl.Builder()<br>        .onlyIfCached()<br>        .build())<br>    .url(&quot;http://publicobject.com/helloworld.txt&quot;)<br>    .build();<br>Response forceCacheResponse = client.newCall(request).execute();<br>if (forceCacheResponse.code() != 504) {<br>  // The resource was cached! Show it.<br>} else {<br>  // The resource was not cached.<br>}</pre></code></div><p class="paragraph">This technique works even better in situations where a stale response is better than no response. To permit stale cached responses, use the <code>max-stale</code> directive with the maximum staleness in seconds:</p><div class="sample-container"><code class="" theme="idea"><pre>Request request = new Request.Builder()<br>    .cacheControl(new CacheControl.Builder()<br>        .maxStale(365, TimeUnit.DAYS)<br>        .build())<br>    .url(&quot;http://publicobject.com/helloworld.txt&quot;)<br>    .build();</pre></code></div><p class="paragraph">The <span data-unresolved-link="okhttp3/CacheControl///PointingToDeclaration/">CacheControl</span> class can configure request caching directives and parse response caching directives. It even offers convenient constants <span data-unresolved-link="okhttp3/CacheControl.Companion/FORCE_NETWORK/#/PointingToDeclaration/">CacheControl.FORCE_NETWORK</span> and <span data-unresolved-link="okhttp3/CacheControl.Companion/FORCE_CACHE/#/PointingToDeclaration/">CacheControl.FORCE_CACHE</span> that address the use cases above.</p></div></div>
+          </div>
+          <div class="tabbedcontent">
+            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+            <div class="tabs-section-body">
+              <h2 class="">Types</h2>
+              <div class="table" data-togglable="Types"><a data-name="635885712%2FClasslikes%2F1281733757" anchor-label="Companion" id="635885712%2FClasslikes%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-companion/index.html">Companion</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="635885712%2FClasslikes%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">object <a href="-companion/index.html">Companion</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h2 class="">Functions</h2>
+              <div class="table" data-togglable="Functions"><a data-name="-1054411183%2FFunctions%2F1281733757" anchor-label="close" id="-1054411183%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="close.html">close</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1054411183%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">open override fun <a href="close.html">close</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1807903846%2FFunctions%2F1281733757" anchor-label="delete" id="1807903846%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="delete.html">delete</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1807903846%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="delete.html">delete</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1807903846%2FFunctions%2F1281733757" anchor-label="delete" id="1807903846%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="1807903846%2FFunctions%2F1281733757" anchor-label="delete" id="1807903846%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>Closes the cache and deletes all of its stored values.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-871363204%2FFunctions%2F1281733757" anchor-label="directory" id="-871363204%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="directory.html">directory</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-871363204%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace strikethrough"><div class="block"><div class="block">@<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-name/index.html">JvmName</a>(<span>name = <span class="breakable-word">-deprecated_directory</span></span><wbr></wbr>)</div></div>fun <a href="directory.html">directory</a>(): <a href="https://developer.android.com/reference/kotlin/java/io/File.html">File</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-39302887%2FFunctions%2F1281733757" anchor-label="evictAll" id="-39302887%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="evict-all.html">evictAll</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-39302887%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="evict-all.html">evictAll</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-39302887%2FFunctions%2F1281733757" anchor-label="evictAll" id="-39302887%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="-39302887%2FFunctions%2F1281733757" anchor-label="evictAll" id="-39302887%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>Deletes all values stored in the cache.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1839144645%2FFunctions%2F1281733757" anchor-label="flush" id="1839144645%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="flush.html">flush</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1839144645%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">open override fun <a href="flush.html">flush</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1915684897%2FFunctions%2F1281733757" anchor-label="initialize" id="1915684897%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="initialize.html">initialize</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1915684897%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="initialize.html">initialize</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1915684897%2FFunctions%2F1281733757" anchor-label="initialize" id="1915684897%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="1915684897%2FFunctions%2F1281733757" anchor-label="initialize" id="1915684897%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>Initialize the cache.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1094181476%2FFunctions%2F1281733757" anchor-label="maxSize" id="1094181476%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="max-size.html">maxSize</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1094181476%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="max-size.html">maxSize</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1094181476%2FFunctions%2F1281733757" anchor-label="maxSize" id="1094181476%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="1094181476%2FFunctions%2F1281733757" anchor-label="maxSize" id="1094181476%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>Max size of the cache (in bytes).</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-656430128%2FFunctions%2F1281733757" anchor-label="size" id="-656430128%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="size.html">size</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-656430128%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="size.html">size</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1706272691%2FFunctions%2F1281733757" anchor-label="urls" id="-1706272691%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="urls.html">urls</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1706272691%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="urls.html">urls</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-iterator/index.html">MutableIterator</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1706272691%2FFunctions%2F1281733757" anchor-label="urls" id="-1706272691%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="-1706272691%2FFunctions%2F1281733757" anchor-label="urls" id="-1706272691%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>Returns an iterator over the URLs in this cache.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1605090549%2FFunctions%2F1281733757" anchor-label="writeAbortCount" id="-1605090549%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="write-abort-count.html">writeAbortCount</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1605090549%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-synchronized/index.html">Synchronized</a>()</div></div>fun <a href="write-abort-count.html">writeAbortCount</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="2078512478%2FFunctions%2F1281733757" anchor-label="writeSuccessCount" id="2078512478%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="write-success-count.html">writeSuccessCount</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2078512478%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-synchronized/index.html">Synchronized</a>()</div></div>fun <a href="write-success-count.html">writeSuccessCount</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h2 class="">Properties</h2>
+              <div class="table" data-togglable="Properties"><a data-name="980423687%2FProperties%2F1281733757" anchor-label="cache" id="980423687%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="cache.html">cache</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="980423687%2FProperties%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><a data-name="980423687%2FProperties%2F1281733757" anchor-label="cache" id="980423687%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="symbol monospace">val <a href="cache.html">cache</a>: <span data-unresolved-link="okhttp3.internal.cache/DiskLruCache///PointingToDeclaration/">DiskLruCache</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-871363204%2FProperties%2F1281733757" anchor-label="directory" id="-871363204%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="directory.html">directory</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-871363204%2FProperties%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><a data-name="-871363204%2FProperties%2F1281733757" anchor-label="directory" id="-871363204%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="symbol monospace">val <a href="directory.html">directory</a>: <a href="https://developer.android.com/reference/kotlin/java/io/File.html">File</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-499338181%2FProperties%2F1281733757" anchor-label="isClosed" id="-499338181%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="is-closed.html">isClosed</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-499338181%2FProperties%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><a data-name="-499338181%2FProperties%2F1281733757" anchor-label="isClosed" id="-499338181%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="symbol monospace">val <a href="is-closed.html">isClosed</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+      </div>
+    </div>
+  </body>
+</html>
+
