@@ -81,9 +81,7 @@ object LogRecorder {
             if (header.length > 2) header = header.substring(1, header.length - 1)
             fastLog(id, MessageType.REQUEST_HEADER, key + HEADER_DELIMITER + SPACE + header)
         }
-        if (body != null) {
-            largeLog(id, MessageType.REQUEST_BODY, body)
-        }
+        largeLog(id, MessageType.REQUEST_BODY, body)
     }
 
     /**
@@ -124,7 +122,7 @@ object LogRecorder {
      *
      * @param id 请求的唯一标识符
      * @param requestMillis 请求时间毫秒值
-     * @param errorMessage 错误信息, 如果存在\n换行符, 仅接受最后一行
+     * @param error 错误信息, 如果存在\n换行符, 仅接受最后一行
      */
     @JvmStatic
     fun recordException(
@@ -132,12 +130,12 @@ object LogRecorder {
         requestMillis: Long,
         code: Int?,
         response: String?,
-        errorMessage: String?
+        error: String?
     ) {
         if (!enabled) return
         largeLog(id, MessageType.RESPONSE_BODY, response)
         logWithHandler(id, MessageType.RESPONSE_STATUS, code.toString(), 0)
-        logWithHandler(id, MessageType.RESPONSE_ERROR, errorMessage, 0)
+        logWithHandler(id, MessageType.RESPONSE_ERROR, error, 0)
         logWithHandler(
             id,
             MessageType.RESPONSE_TIME,
@@ -156,6 +154,7 @@ object LogRecorder {
     }
 
     private fun logWithHandler(id: String, type: MessageType, message: String?, partsCount: Int) {
+        message ?: return
         val handlerMessage = handler.obtainMessage()
         val tag = LOG_PREFIX + DELIMITER + id + DELIMITER + type.type
         val bundle = Bundle()
@@ -167,7 +166,8 @@ object LogRecorder {
     }
 
     private fun largeLog(id: String, type: MessageType, content: String?) {
-        val contentLength = content?.length ?: 0
+        content ?: return
+        val contentLength = content.length
         if (contentLength > LOG_LENGTH) {
             val parts = contentLength / LOG_LENGTH
             for (i in 0..parts) {
@@ -176,7 +176,7 @@ object LogRecorder {
                 if (end > contentLength) {
                     end = contentLength
                 }
-                logWithHandler(id, type, content?.substring(start, end), parts)
+                logWithHandler(id, type, content.substring(start, end), parts)
             }
         } else {
             logWithHandler(id, type, content, 0)
