@@ -4,6 +4,7 @@
 
 <p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a>
  | <a href="https://coding-pages-bucket-3558162-8706000-16642-587704-1252757332.cos-website.ap-shanghai.myqcloud.com/">备用访问</a>
+ | <a href="https://raw.githubusercontent.com/liangjingkanji/Net/master/sample/release/sample-release.apk">下载体验</a>
 </p>
 
 <p align="center"><img src="https://i.imgur.com/X06J6fK.jpg" width="400"/></p>
@@ -62,7 +63,8 @@ Net 3.x 版本使用OkHttp+协程实现, 可指定其OkHttp版本
 - 并发请求返回最快请求结果
 - 全局取消请求/自动取消请求
 - 协程作用域支持错误和结束回调
-- 支持先强制读取缓存后网络请求二次刷新
+- 强制缓存模式/自定义缓存Key/LRU缓存算法/缓存任何类型
+- 缓存+网络双重读取(预览模式实现)
 - 内置超强轮询器(倒计时)
 - 监听上传/下载进度信息(使用时间, 每秒速度, 剩余时间...)
 
@@ -102,7 +104,7 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1'
 // OkHttp(版本可自定, 要求OkHttp4以上版本)
 implementation 'com.squareup.okhttp3:okhttp:4.9.1'
 // Net
-implementation 'com.github.liangjingkanji:Net:3.3.1'
+implementation 'com.github.liangjingkanji:Net:3.4.0'
 
 // 支持自动下拉刷新和缺省页的(可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.62'
