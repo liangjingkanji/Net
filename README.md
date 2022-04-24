@@ -114,7 +114,7 @@ implementation 'com.github.liangjingkanji:BRV:1.3.62'
 
 ## Contribute
 
-<img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaskr305czj30u00wjtcz.jpg" width="100"/> 
+<img src="https://s2.loli.net/2022/04/24/qrYuJ5lg67kb31n.jpg" width="100"/>
 
 supported by [JetBrains](https://www.jetbrains.com/)
 
