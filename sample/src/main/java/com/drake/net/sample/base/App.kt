@@ -17,7 +17,8 @@
 package com.drake.net.sample.base
 
 import android.app.Application
-import android.app.ProgressDialog
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.drake.brv.BindingAdapter
 import com.drake.net.NetConfig
 import com.drake.net.interceptor.LogRecordInterceptor
@@ -28,9 +29,10 @@ import com.drake.net.okhttp.setRequestInterceptor
 import com.drake.net.sample.BR
 import com.drake.net.sample.BuildConfig
 import com.drake.net.sample.R
-import com.drake.net.sample.converter.GsonConverter
+import com.drake.net.sample.converter.SerializationConverter
 import com.drake.net.sample.interfaces.MyRequestInterceptor
 import com.drake.statelayout.StateConfig
+import com.drake.tooltip.dialog.BubbleDialog
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -52,15 +54,31 @@ class App : Application() {
             // 本框架支持Http缓存协议和强制缓存模式
             cache(Cache(cacheDir, 1024 * 1024 * 128)) // 缓存设置, 当超过maxSize最大值会根据最近最少使用算法清除缓存来限制缓存大小
 
-            setDebug(BuildConfig.DEBUG) // LogCat是否输出异常日志, 异常日志可以快速定位网络请求错误
+            // LogCat是否输出异常日志, 异常日志可以快速定位网络请求错误
+            setDebug(BuildConfig.DEBUG)
 
-            addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG)) // 添加日志记录拦截器
-            setRequestInterceptor(MyRequestInterceptor()) // 添加请求拦截器, 可配置全局/动态参数
-            setConverter(GsonConverter()) // 数据转换器
-            setDialogFactory { // 全局加载对话框
-                ProgressDialog(it).apply {
-                    setMessage("我是全局自定义的加载对话框...")
-                }
+            // AndroidStudio OkHttp Profiler 插件输出网络日志
+            addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
+
+            // 通知栏监听网络日志
+            addInterceptor(
+                ChuckerInterceptor.Builder(this@App)
+                    .collector(ChuckerCollector(this@App))
+                    .maxContentLength(250000L)
+                    .redactHeaders(emptySet())
+                    .alwaysReadResponseBody(false)
+                    .build()
+            )
+
+            // 添加请求拦截器, 可配置全局/动态参数
+            setRequestInterceptor(MyRequestInterceptor())
+
+            // 数据转换器
+            setConverter(SerializationConverter())
+
+            // 自定义全局加载对话框
+            setDialogFactory {
+                BubbleDialog(it, "加载中....")
             }
         }
 

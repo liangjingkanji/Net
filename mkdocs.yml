@@ -71,7 +71,8 @@ nav:
   - 缓存: cache.md
   - 自动搜索/筛选: debounce.md
   - 最快请求结果: fastest.md
-  - 日志拦截器: log-recorder.md
+  - 日志插件: log-recorder.md
+  - 通知栏日志: log-notice.md
   - 轮询器/倒计时: interval.md
   - Callback: callback.md
   - 常见问题: https://github.com/liangjingkanji/Net/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98

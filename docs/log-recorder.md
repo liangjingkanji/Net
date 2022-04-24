@@ -1,6 +1,6 @@
-一般网络请求都会选择在LogCat打印网络日志信息, 但LogCat日志可读性差, 且不完整
+由于LogCat日志可读性差, 所以Net支持以下两种方案
 
-Net以下两种方案, 各有优劣
+
 
 1. 使用AndroidStudio的[Profiler](https://developer.android.com/studio/profile/network-profiler?hl=zh-cn)监听网络
     - 可以查看项目所有OkHttp框架发起的网络请求
@@ -86,7 +86,7 @@ NetConfig.initialize("http://github.com/") {
 
 ## 其他网络框架
 
-可能你项目中还残留其他网络框架, 也可以使用Net的日志记录器`LogRecorder`来为其他框架打印日志信息
+可能你项目中还残留其他网络框架, 也可以使用Net的日志记录器`LogRecorder`来为其他框架打印日志信息. 如果是基于OkHttp的框架那可以直接使用LogRecordInterceptor
 
 | 函数 | 描述 |
 |-|-|
