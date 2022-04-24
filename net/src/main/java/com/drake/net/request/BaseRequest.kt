@@ -289,7 +289,7 @@ abstract class BaseRequest {
 
     /**
      * 自定义强制缓存使用的Key, 本方法对于Http缓存协议无效
-     * @param key 缓存的Key无论是自定义还是默认(使用URL作为Key)最终都会被进行SHA1编码, 所以无需考虑特殊字符问题
+     * @param key 缓存的Key无论是自定义还是默认(使用RequestMethod+URL作为Key)最终都会被进行SHA1编码, 所以无需考虑特殊字符问题
      */
     fun setCacheKey(key: String) {
         tagOf(NetTag.CacheKey(key))
