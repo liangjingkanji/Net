@@ -59,7 +59,7 @@ nav:
       - 全局错误: error-global.md
       - 自定义错误提示: error-tip.md
       - 自定义错误对象: error-implemention.md
-  - 定位异常: exception-track.md
+  - 异常追踪: exception-track.md
   - 拦截器: interceptor.md
   - 标签/额外数据: tag.md
   - 上传文件: upload-file.md

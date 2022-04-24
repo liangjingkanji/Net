@@ -1,21 +1,18 @@
-Net中网络请求导致的异常都会在LogCat中打印, 同时被全局的NetErrorHandler的onError拦截到
-
-> Net的异常对象通常会携带Request或者Response对象. 可以精准定位到请求信息
+Net中网络请求导致的异常都会在LogCat中打印, 同时被全局的NetErrorHandler的onError拦截到(除非catch住)
 
 
-演示访问一个不存在的请求路径(但是URL存在)
+演示访问一个不存在的请求路径
 ```kotlin
 scopeNetLife {
-    // 这是一个错误的地址, 请查看LogCat的错误信息, 在[Convert]中你也可以进行自定义错误信息打印
-    tvFragment.text = Get<String>("error").await()
+    tvFragment.text = Get<String>("https://githuberror.com/liangjingkanji/Net/").await()
 }
 ```
 
-查看LogCat可以看到异常堆栈信息
+查看LogCat可以看到异常堆栈信息, 这属于URL未知异常
 
-<img src="https://i.loli.net/2021/08/14/TsEdIXkpbLFgOeS.png" width="650"/>
+<img src="https://s2.loli.net/2022/04/24/JVT2kP1Kn5B6Uqd.png" width="1000"/>
 
-这属于请求参数错误404, 将会打印出错误码以及请求的URL.
+截图可以看到有具体的URL和请求代码位置
 
 
 ### 关闭日志
@@ -24,7 +21,7 @@ scopeNetLife {
 
 ```kotlin
 NetConfig.initialize("http://github.com/") {
-    setLog(false) // 关闭日志
+    setDebug(false) // 关闭日志, 我们一般使用 BuildConfig.DEBUG
 }
 ```
 
