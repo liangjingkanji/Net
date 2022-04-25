@@ -61,14 +61,16 @@ class App : Application() {
             addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
 
             // 通知栏监听网络日志
-            addInterceptor(
-                ChuckerInterceptor.Builder(this@App)
-                    .collector(ChuckerCollector(this@App))
-                    .maxContentLength(250000L)
-                    .redactHeaders(emptySet())
-                    .alwaysReadResponseBody(false)
-                    .build()
-            )
+            if (BuildConfig.DEBUG) {
+                addInterceptor(
+                    ChuckerInterceptor.Builder(this@App)
+                        .collector(ChuckerCollector(this@App))
+                        .maxContentLength(250000L)
+                        .redactHeaders(emptySet())
+                        .alwaysReadResponseBody(false)
+                        .build()
+                )
+            }
 
             // 添加请求拦截器, 可配置全局/动态参数
             setRequestInterceptor(MyRequestInterceptor())

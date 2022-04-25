@@ -7,8 +7,7 @@
 添加依赖
 
 ```groovy
-debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
-releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2" // release安装包自动会无效
+implementation "com.github.chuckerteam.chucker:library:3.5.2"
 ```
 
 添加拦截器
@@ -21,14 +20,16 @@ override fun onCreate() {
 
     NetConfig.initialize("https://github.com/liangjingkanji/", this) {
         // ...
-        addInterceptor(
-            ChuckerInterceptor.Builder(this@App)
-                .collector(ChuckerCollector(this@App))
-                .maxContentLength(250000L)
-                .redactHeaders(emptySet())
-                .alwaysReadResponseBody(false)
-                .build()
-        )
+        if (BuildConfig.DEBUG) {
+            addInterceptor(
+                ChuckerInterceptor.Builder(this@App)
+                    .collector(ChuckerCollector(this@App))
+                    .maxContentLength(250000L)
+                    .redactHeaders(emptySet())
+                    .alwaysReadResponseBody(false)
+                    .build()
+            )
+        }
     }
 }
 ```
