@@ -51,6 +51,7 @@ scopeNetLife {
 | READ_THEN_REQUEST | 先从缓存读取，如果失败再从网络读取, 强制写入缓存 |
 | REQUEST_THEN_READ | 先从网络读取，如果失败再从缓存读取, 强制写入缓存 |
 
+> 在okHttp中`response.cacheResponse`不为null的时候即代表response来自于本地缓存, 强制缓存或Http缓存协议都如此
 
 ## 缓存+网络
 

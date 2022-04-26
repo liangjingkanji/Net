@@ -14,18 +14,10 @@ import okhttp3.CacheControl
 import okhttp3.Call
 import okhttp3.Interceptor
 import okhttp3.Response
-import okhttp3.internal.discard
-import okhttp3.internal.http.ExchangeCodec
-import okhttp3.internal.http.RealResponseBody
-import okio.Buffer
-import okio.Source
-import okio.buffer
-import java.io.IOException
 import java.lang.ref.WeakReference
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import java.util.concurrent.TimeUnit
 
 /**
  * Net代理OkHttp的拦截器
@@ -49,17 +41,17 @@ object NetOkHttpInterceptor : Interceptor {
                 when (cacheMode) {
                     CacheMode.READ -> cache.get(request) ?: throw NoCacheException(request)
                     CacheMode.READ_THEN_REQUEST -> cache.get(request) ?: chain.proceed(request).run {
-                        cacheWritingResponse(cache, this)
+                        cache.put(this)
                     }
                     CacheMode.REQUEST_THEN_READ -> try {
                         chain.proceed(request).run {
-                            cacheWritingResponse(cache, this)
+                            cache.put(this)
                         }
                     } catch (e: Exception) {
                         cache.get(request) ?: throw NoCacheException(request)
                     }
                     CacheMode.WRITE -> chain.proceed(request).run {
-                        cacheWritingResponse(cache, this)
+                        cache.put(this)
                     }
                     else -> chain.proceed(request)
                 }
@@ -102,65 +94,5 @@ object NetOkHttpInterceptor : Interceptor {
                 return
             }
         }
-    }
-
-    /** 缓存网络响应 */
-    @Throws(IOException::class)
-    private fun cacheWritingResponse(cache: ForceCache, response: Response): Response {
-        // Some apps return a null body; for compatibility we treat that like a null cache request.
-        if (!response.isSuccessful) return response
-        val cacheRequest = cache.put(response) ?: return response
-        val cacheBodyUnbuffered = cacheRequest.body()
-
-        val source = response.body!!.source()
-        val cacheBody = cacheBodyUnbuffered.buffer()
-
-        val cacheWritingSource = object : Source {
-            private var cacheRequestClosed = false
-
-            @Throws(IOException::class)
-            override fun read(sink: Buffer, byteCount: Long): Long {
-                val bytesRead: Long
-                try {
-                    bytesRead = source.read(sink, byteCount)
-                } catch (e: IOException) {
-                    if (!cacheRequestClosed) {
-                        cacheRequestClosed = true
-                        cacheRequest.abort() // Failed to write a complete cache response.
-                    }
-                    throw e
-                }
-
-                if (bytesRead == -1L) {
-                    if (!cacheRequestClosed) {
-                        cacheRequestClosed = true
-                        cacheBody.close() // The cache response is complete!
-                    }
-                    return -1
-                }
-
-                sink.copyTo(cacheBody.buffer, sink.size - bytesRead, bytesRead)
-                cacheBody.emitCompleteSegments()
-                return bytesRead
-            }
-
-            override fun timeout() = source.timeout()
-
-            @Throws(IOException::class)
-            override fun close() {
-                if (!cacheRequestClosed &&
-                    !discard(ExchangeCodec.DISCARD_STREAM_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)) {
-                    cacheRequestClosed = true
-                    cacheRequest.abort()
-                }
-                source.close()
-            }
-        }
-
-        val contentType = response.header("Content-Type")
-        val contentLength = response.body?.contentLength() ?: 0
-        return response.newBuilder()
-            .body(RealResponseBody(contentType, contentLength, cacheWritingSource.buffer()))
-            .build()
     }
 }

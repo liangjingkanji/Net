@@ -23,6 +23,9 @@ import okhttp3.internal.EMPTY_HEADERS
 import okhttp3.internal.cache.CacheRequest
 import okhttp3.internal.cache.DiskLruCache
 import okhttp3.internal.closeQuietly
+import okhttp3.internal.discard
+import okhttp3.internal.http.ExchangeCodec
+import okhttp3.internal.http.RealResponseBody
 import okhttp3.internal.http.StatusLine
 import okhttp3.internal.platform.Platform
 import okhttp3.internal.toLongOrDefault
@@ -39,6 +42,7 @@ import java.security.cert.CertificateEncodingException
 import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Caches HTTP and HTTPS responses to the filesystem so they may be reused, saving time and
@@ -158,17 +162,69 @@ class ForceCache internal constructor(
         return entry.response(snapshot, request.body)
     }
 
-    internal fun put(response: Response): CacheRequest? {
+    internal fun put(response: Response): Response {
+        if (!response.isSuccessful) return response
         val entry = Entry(response)
         var editor: DiskLruCache.Editor? = null
-        try {
-            editor = cache.edit(key(response.request)) ?: return null
+        val cacheRequest: CacheRequest? = try {
+            editor = cache.edit(key(response.request)) ?: return response
             entry.writeTo(editor)
-            return RealCacheRequest(editor)
+            RealCacheRequest(editor)
         } catch (_: IOException) {
             abortQuietly(editor)
-            return null
+            null
         }
+        // Some apps return a null body; for compatibility we treat that like a null cache request.
+        cacheRequest ?: return response
+        val cacheBody = cacheRequest.body().buffer()
+        val responseBody = response.body ?: return response
+        val source = responseBody.source()
+        val cacheWritingSource = object : Source {
+            private var cacheRequestClosed = false
+
+            @Throws(IOException::class)
+            override fun read(sink: Buffer, byteCount: Long): Long {
+                val bytesRead: Long
+                try {
+                    bytesRead = source.read(sink, byteCount)
+                } catch (e: IOException) {
+                    if (!cacheRequestClosed) {
+                        cacheRequestClosed = true
+                        cacheRequest.abort() // Failed to write a complete cache response.
+                    }
+                    throw e
+                }
+
+                if (bytesRead == -1L) {
+                    if (!cacheRequestClosed) {
+                        cacheRequestClosed = true
+                        cacheBody.close() // The cache response is complete!
+                    }
+                    return -1
+                }
+
+                sink.copyTo(cacheBody.buffer, sink.size - bytesRead, bytesRead)
+                cacheBody.emitCompleteSegments()
+                return bytesRead
+            }
+
+            override fun timeout() = source.timeout()
+
+            @Throws(IOException::class)
+            override fun close() {
+                if (!cacheRequestClosed &&
+                    !discard(ExchangeCodec.DISCARD_STREAM_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)) {
+                    cacheRequestClosed = true
+                    cacheRequest.abort()
+                }
+                source.close()
+            }
+        }
+        val contentType = response.header("Content-Type")
+        val contentLength = responseBody.contentLength()
+        return response.newBuilder()
+            .body(RealResponseBody(contentType, contentLength, cacheWritingSource.buffer()))
+            .build()
     }
 
     @Throws(IOException::class)
@@ -549,8 +605,8 @@ class ForceCache internal constructor(
         private fun writeCertList(sink: BufferedSink, certificates: List<Certificate>) {
             try {
                 sink.writeDecimalLong(certificates.size.toLong()).writeByte('\n'.toInt())
-                for (i in 0 until certificates.size) {
-                    val bytes = certificates[i].encoded
+                for (element in certificates) {
+                    val bytes = element.encoded
                     val line = bytes.toByteString().base64()
                     sink.writeUtf8(line).writeByte('\n'.toInt())
                 }
@@ -571,16 +627,18 @@ class ForceCache internal constructor(
                 .method(requestMethod, requestBody)
                 .headers(varyHeaders)
                 .build()
-            return Response.Builder()
+            val builder = Response.Builder()
                 .request(cacheRequest)
                 .protocol(protocol)
                 .code(code)
                 .message(message)
                 .headers(responseHeaders)
-                .body(CacheResponseBody(snapshot, contentType, contentLength))
                 .handshake(handshake)
                 .sentRequestAtMillis(sentRequestMillis)
                 .receivedResponseAtMillis(receivedResponseMillis)
+            return builder
+                .cacheResponse(builder.build())
+                .body(CacheResponseBody(snapshot, contentType, contentLength))
                 .build()
         }
 
