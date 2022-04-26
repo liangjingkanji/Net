@@ -77,6 +77,8 @@ object NetOkHttpInterceptor : Interceptor {
             } else {
                 throw NetworkingException(request)
             }
+        } catch (e: NetException) {
+            throw e
         } catch (e: Throwable) {
             throw HttpFailureException(request, cause = e)
         }

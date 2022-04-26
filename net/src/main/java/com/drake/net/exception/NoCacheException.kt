@@ -1,5 +1,6 @@
 package com.drake.net.exception
 
+import com.drake.net.cache.ForceCache
 import okhttp3.Request
 
 /**
@@ -13,4 +14,9 @@ class NoCacheException(
     request: Request,
     message: String? = null,
     cause: Throwable? = null
-) : NetException(request, message, cause)
+) : NetException(request, message, cause) {
+
+    override fun getLocalizedMessage(): String {
+        return "cacheKey = " + ForceCache.key(request) + " " + super.getLocalizedMessage()
+    }
+}
