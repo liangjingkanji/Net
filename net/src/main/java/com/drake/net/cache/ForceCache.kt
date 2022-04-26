@@ -154,13 +154,8 @@ class ForceCache internal constructor(
             return null
         }
 
-        val response = entry.response(snapshot, request.body)
-        if (!entry.matches(request, response)) {
-            response.body?.closeQuietly()
-            return null
-        }
-
-        return response
+        if (!entry.matches(request)) return null
+        return entry.response(snapshot, request.body)
     }
 
     internal fun put(response: Response): CacheRequest? {
@@ -564,10 +559,8 @@ class ForceCache internal constructor(
             }
         }
 
-        fun matches(request: Request, response: Response): Boolean {
-            return url == request.url.toString() &&
-                    requestMethod == request.method &&
-                    varyMatches(response, varyHeaders, request)
+        fun matches(request: Request): Boolean {
+            return url == request.url.toString() && requestMethod == request.method
         }
 
         fun response(snapshot: DiskLruCache.Snapshot, requestBody: RequestBody?): Response {
