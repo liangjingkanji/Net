@@ -1,3 +1,6 @@
+## 3.4.4
+- 新增Cookie管理
+
 ## 3.4.3
 - 修复gzip导致的强制缓存读取失败
 - 修复NoCacheException无法捕获
