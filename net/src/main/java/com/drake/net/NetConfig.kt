@@ -57,7 +57,7 @@ object NetConfig {
     internal var forceCache: ForceCache? = null
 
     /** 是否启用日志 */
-    @Deprecated("命名变更", ReplaceWith("NetConfig.debug"))
+    @Deprecated("命名变更, 后续版本将被删除", ReplaceWith("NetConfig.debug"))
     var logEnabled
         get() = debug
         set(value) {
@@ -68,7 +68,7 @@ object NetConfig {
     var debug = true
 
     /** 网络异常日志的标签 */
-    @Deprecated("命名变更", ReplaceWith("NetConfig.TAG"))
+    @Deprecated("命名变更, 后续版本将被删除", ReplaceWith("NetConfig.TAG"))
     var logTag
         get() = TAG
         set(value) {
@@ -102,7 +102,7 @@ object NetConfig {
      * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
      * @param config 进行配置网络请求
      */
-    @Deprecated("命名规范", ReplaceWith("initialize(host, context, config)"))
+    @Deprecated("命名变更, 后续版本将被删除", ReplaceWith("initialize(host, context, config)"))
     fun init(
         host: String = "",
         context: Context? = null,
@@ -116,7 +116,7 @@ object NetConfig {
      * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
      * @param config 进行配置网络请求
      */
-    @Deprecated("命名规范", ReplaceWith("initialize(host, context, config)"))
+    @Deprecated("命名变更, 后续版本将被删除", ReplaceWith("initialize(host, context, config)"))
     fun init(
         host: String = "",
         context: Context? = null,

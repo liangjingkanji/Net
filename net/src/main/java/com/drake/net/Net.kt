@@ -285,7 +285,7 @@ object Net {
      * 输出异常日志
      * @see NetConfig.debug
      */
-    @Deprecated("命名变更", ReplaceWith("Net.trace(t)"))
+    @Deprecated("命名变更, 后续版本将被删除", ReplaceWith("Net.debug(t)"))
     fun printStackTrace(t: Throwable) {
         debug(t)
     }
