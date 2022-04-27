@@ -21,6 +21,7 @@ import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.drake.brv.BindingAdapter
 import com.drake.net.NetConfig
+import com.drake.net.cookie.PersistentCookieJar
 import com.drake.net.interceptor.LogRecordInterceptor
 import com.drake.net.okhttp.setConverter
 import com.drake.net.okhttp.setDebug
@@ -59,6 +60,9 @@ class App : Application() {
 
             // AndroidStudio OkHttp Profiler 插件输出网络日志
             addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
+
+            // 添加持久化Cookie管理
+            cookieJar(PersistentCookieJar(this@App))
 
             // 通知栏监听网络日志
             if (BuildConfig.DEBUG) {

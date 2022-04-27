@@ -67,6 +67,7 @@ nav:
   - 进度监听: progress.md
   - 取消请求: cancel.md
   - Https证书: https.md
+  - Cookie管理: cookie.md
   - 重复请求: unique.md
   - 缓存: cache.md
   - 自动搜索/筛选: debounce.md
