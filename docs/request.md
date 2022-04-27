@@ -137,6 +137,17 @@ scopeNetLife {
 - 举一反三可以创建其他功能自定义的请求函数
 - 扩展函数要求为顶层函数, 即直接在文件中 (kotlin基础语法)
 
+## 全局请求参数
+
+对于动态生成的全局请求头或参数都可以通过实现`RequestInterceptor`来设置全局的请求拦截器来添加, 如果RequestInterceptor不满足你的需求可以使用拦截器(Interceptor)来实现
+
+```kotlin
+NetConfig.initialize("http://github.com/", this) {
+    // 添加请求拦截器, 每次请求都会触发的, 可配置全局/动态参数
+    setRequestInterceptor(MyRequestInterceptor())
+}
+```
+
 ## 请求函数
 
 关于全部的请求配置选项推荐阅读函数文档或者阅读源码. Net提供清晰的函数结构浏览方便直接阅读源码
