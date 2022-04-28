@@ -71,10 +71,10 @@ fun LifecycleOwner.scopeLife(
  * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
  */
 fun Fragment.scopeLife(
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     block: suspend CoroutineScope.() -> Unit
-) = AndroidScope(this, lifeEvent, dispatcher).launch(block)
+) = AndroidScope(viewLifecycleOwner, lifeEvent, dispatcher).launch(block)
 //</editor-fold>
 
 // <editor-fold desc="加载对话框">
@@ -204,15 +204,14 @@ fun LifecycleOwner.scopeNetLife(
 /**
  * 和[scopeNetLife]功能相同, 只是接受者为Fragment
  *
- * Fragment应当在[Lifecycle.Event.ON_STOP]时就取消作用域, 避免[Fragment.onDestroyView]导致引用空视图
- * @param lifeEvent 指定LifecycleOwner处于生命周期下取消网络请求/作用域
+ * @param lifeEvent 生命周期事件, 默认为[Lifecycle.Event.ON_DESTROY]下取消协程作用域
  * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
  */
 fun Fragment.scopeNetLife(
-    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP,
+    lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     block: suspend CoroutineScope.() -> Unit
-) = NetCoroutineScope(this, lifeEvent, dispatcher).launch(block)
+) = NetCoroutineScope(viewLifecycleOwner, lifeEvent, dispatcher).launch(block)
 
 
 //</editor-fold>
