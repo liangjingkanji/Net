@@ -13,7 +13,7 @@ object NetConfig {
 ## 全局OkHttpClient
 
 ```kotlin
-NetConfig.initialize("http://github.com/") {
+NetConfig.initialize("https://github.com/liangjingkanji/Net/") {
     // 此处this即为OkHttpClient.Builder
 }
 ```
@@ -27,7 +27,7 @@ NetConfig.initialize("http://github.com/") {
 
 ```kotlin
 scopeNetLife {
-    tv_response.text = Get<String>("https://github.com/") {
+    tv_response.text = Get<String>("https://github.com/liangjingkanji/Net/") {
         setClient {
             // 此处this即为OkHttpClient.Builder
             trustCertificate()
@@ -40,7 +40,7 @@ scopeNetLife {
 
 ```kotlin
 scopeNetLife {
-    tv_response.text = Get<String>("https://github.com/") {
+    tv_response.text = Get<String>("https://github.com/liangjingkanji/Net/") {
         okHttpClient = OkHttpClient.Builder().build()
     }.await()
 }

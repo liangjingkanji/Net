@@ -36,6 +36,7 @@ markdown_extensions:
 nav:
   - 使用: index.md
   - 协程请求: coroutine-request.md
+  - 作用域: scope.md
   - 同步请求: sync-request.md
   - 请求参数: request.md
   - 全局配置: config.md
@@ -49,33 +50,32 @@ nav:
       - 自动缺省页: auto-state.md
       - 自动下拉刷新: auto-refresh.md
       - 自动分页加载: auto-page.md
-  - 创建作用域: scope.md
-  - ViewModel: view-model.md
   - 切换线程: switch-thread.md
-  - OkHttpClient: okhttp-client.md
-  - 错误处理:
-      - 默认错误: error-default.md
-      - 单例错误: error-single.md
-      - 全局错误: error-global.md
-      - 自定义错误提示: error-tip.md
-      - 自定义错误对象: error-implemention.md
+  - ViewModel: view-model.md
   - 异常追踪: exception-track.md
+  - 错误处理:
+      - 默认错误处理: error-default.md
+      - 单例错误捕获: error-single.md
+      - 全局错误捕获: error-global.md
+      - 自定义错误提示: error-tip.md
+      - 自定义异常: error-exception.md
+  - OkHttpClient: okhttp-client.md
   - 拦截器: interceptor.md
+  - Https证书: https.md
+  - Cookie管理: cookie.md
+  - 缓存: cache.md
   - 标签/额外数据: tag.md
   - 上传文件: upload-file.md
   - 下载文件: download-file.md
   - 进度监听: progress.md
   - 取消请求: cancel.md
-  - Https证书: https.md
-  - Cookie管理: cookie.md
   - 重复请求: unique.md
-  - 缓存: cache.md
   - 自动搜索/筛选: debounce.md
   - 最快请求结果: fastest.md
   - 日志插件: log-recorder.md
   - 通知栏日志: log-notice.md
-  - 轮询器/倒计时: interval.md
   - Callback: callback.md
+  - 轮询器/倒计时: interval.md
   - 常见问题: https://github.com/liangjingkanji/Net/blob/master/docs/issues.md
   - 更新日志: updates.md
   - 3.x文档: api/index.html

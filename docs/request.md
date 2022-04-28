@@ -33,7 +33,7 @@ scopeNetLife {
 ```kotlin
 scopeNetLife { // 创建作用域
     // 这个大括号内就属于作用域内部
-    val data = Get<String>("http://www.baidu.com/"){
+    val data = Get<String>("https://github.com/liangjingkanji/Net/"){
         param("u_name", "drake")
         param("pwd", "123456")
     }.await() // 发起GET请求并返回`String`类型数据
@@ -142,7 +142,7 @@ scopeNetLife {
 对于动态生成的全局请求头或参数都可以通过实现`RequestInterceptor`来设置全局的请求拦截器来添加, 如果RequestInterceptor不满足你的需求可以使用拦截器(Interceptor)来实现
 
 ```kotlin
-NetConfig.initialize("http://github.com/", this) {
+NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
     // 添加请求拦截器, 每次请求都会触发的, 可配置全局/动态参数
     setRequestInterceptor(MyRequestInterceptor())
 }

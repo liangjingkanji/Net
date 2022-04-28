@@ -17,7 +17,7 @@
 ## 添加日志拦截器
 
 ```kotlin hl_lines="2"
-NetConfig.initialize("http://github.com/") {
+NetConfig.initialize("https://github.com/liangjingkanji/Net/") {
     addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
 }
 ```
@@ -70,7 +70,7 @@ NetConfig.initialize("http://github.com/") {
 然后初始化时添加自己实现拦截器即可
 
 ```kotlin
-NetConfig.initialize("http://github.com/") {
+NetConfig.initialize("https://github.com/liangjingkanji/Net/") {
     addInterceptor(MyLogRecordInterceptor(BuildConfig.DEBUG))
 }
 ```

@@ -10,16 +10,13 @@
             super.onCreate()
     
             // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
-    
-            NetConfig.initialize("http://github.com/", this) {
-    
-                // 超时设置
-                connectTimeout(2, TimeUnit.MINUTES)
-                readTimeout(2, TimeUnit.MINUTES)
-                writeTimeout(2, TimeUnit.MINUTES)
-    
-                setLog(BuildConfig.DEBUG) // 作用域发生异常是否打印
-                setConverter(GsonConvert()) // 转换器
+            NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
+                // 超时配置, 默认是10秒, 设置太长时间会导致用户等待过久
+                connectTimeout(30, TimeUnit.SECONDS)
+                readTimeout(30, TimeUnit.SECONDS)
+                writeTimeout(30, TimeUnit.SECONDS)
+                setDebug(BuildConfig.DEBUG)
+                setConverter(SerializationConverter())
             }
         }
     }
@@ -31,30 +28,30 @@
     class App : Application() {
         override fun onCreate() {
             super.onCreate()
-    
             // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
             val okHttpClientBuilder = OkHttpClient.Builder()
-                .setLog(BuildConfig.DEBUG)
-                .setConverter(GsonConvert())
+                .setDebug(BuildConfig.DEBUG)
+                .setConverter(SerializationConverter())
                 .addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
     
-            NetConfig.initialize("http://github.com/", okHttpClientBuilder)
+            NetConfig.initialize("https://github.com/liangjingkanji/Net/", okHttpClientBuilder)
         }
     }
     ```
 
 > 配置都是可选项, 不是不初始化就不能使用. 在Xposed项目中可能需要使用 `NetConfig.app = this`
 
-在initNet函数作用域中的this属于`OkHttpClient.Builder()`, 可以配置任何OkHttp参数选项
+在initNet函数作用域中的this属于`OkHttpClient.Builder()`, 可以配置任何OkHttpClient.Builder的属性以外还支持以下Net独有配置
 
 | 函数 | 描述 |
 |-|-|
-| setLog | 输出网络异常日志 |
-| setHost | 全局域名, 和NetConfig.initialize("Host")函数中的第一个参数等效 |
-| setConverter | [转换器](converter.md), 将网络返回的数据转换成你想要的数据结构 |
-| setRequestInterceptor | [请求拦截器](interceptor.md), 用于添加全局请求头/参数 |
-| setErrorHandler | [全局错误处理](error-handle.md) |
-| setDialogFactory | [全局对话框](auto-dialog.md) |
+| setDebug | 是否输出网络日志, 和`LogRecordInterceptor`互不影响  |
+| setSSLCertificate | 配置Https证书 |
+| trustSSLCertificate | 信任所有Https证书 |
+| setConverter | [配置数据转换器](converter.md), 将网络返回的数据转换成你想要的数据结构 |
+| setRequestInterceptor | [配置请求拦截器](interceptor.md), 适用于添加全局请求头/参数 |
+| setErrorHandler | [配置全局错误处理](error-global.md) |
+| setDialogFactory | [配置全局对话框](auto-dialog.md) |
 
 ## 重试次数
 
@@ -63,7 +60,7 @@
 但是个别开发者需求指定重试次数则可以添加`RetryInterceptor`拦截器即可实现失败以后会重试指定次数
 
 ```kotlin
-NetConfig.initialize("http://github.com/") {
+NetConfig.initialize("https://github.com/liangjingkanji/Net/") {
     // ... 其他配置
     addInterceptor(RetryInterceptor(3)) // 如果全部失败会重试三次
 }
@@ -77,10 +74,9 @@ NetConfig.initialize("http://github.com/") {
 例如Retrofit的动态`baseURL`功能就可以直接修改`NetConfig.host`
 
 ```kotlin
-NetConfig.host = "https://github.com/"
+NetConfig.host = "https://github.com/liangjingkanji/Net/"
 ```
 
-<img src="https://s2.loli.net/2022/02/23/1n8djBbypHYTta9.png" width="480"/>
 
 ## 动态域名
 
@@ -88,7 +84,7 @@ NetConfig.host = "https://github.com/"
 
 ```kotlin
 scopeNetLife {
-    val data = Get<String>("http://www.baidu.com/").await()
+    val data = Get<String>("https://github.com/liangjingkanji/Net/").await()
 }
 ```
 

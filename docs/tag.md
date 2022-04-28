@@ -1,7 +1,7 @@
 Net支持两种类型数据贯穿整个请求流程(请求 -> 拦截器 -> 转换器)
 
-- Tag: `HashMap<Class<*>, Any?>` 标签
-- Extra: `HashMap<String, Any?>` 额外数据
+- tag: `HashMap<Class<*>, Any?>` 标签
+- extra: `HashMap<String, Any?>` 额外数据
 
 > 他们的区别是key是Class还是String类型, 具体使用哪一种请根据自己方便来
 

@@ -8,7 +8,7 @@ Https如果是使用的CA颁发的证书, 不需要任何配置Net可以直接�
 
 ```kotlin
 scopeNetLife {
-    tvFragment.text = Get<String>("https://github.com/").await()
+    tvFragment.text = Get<String>("https://github.com/liangjingkanji/Net/").await()
 }
 ```
 
@@ -19,7 +19,7 @@ scopeNetLife {
 === "全局配置"
 
     ```kotlin
-    NetConfig.initialize("https://www.google.com/"){
+    NetConfig.initialize("https://github.com/liangjingkanji/Net/"){
         trustSSLCertificate() // 信任所有证书
     }
     ```
@@ -27,7 +27,7 @@ scopeNetLife {
 
     ```kotlin
     scopeNetLife {
-        Get<String>("https://github.com/"){
+        Get<String>("https://github.com/liangjingkanji/Net/"){
           setClient {
               trustSSLCertificate()
           }
@@ -42,7 +42,7 @@ scopeNetLife {
 === "全局配置"
 
     ```kotlin
-    NetConfig.initialize("http://github.com/") {
+    NetConfig.initialize("https://github.com/liangjingkanji/Net/") {
         val privateCertificate = resources.assets.open("https.certificate")
         setSSLCertificate(privateCertificate)
     }
@@ -52,7 +52,7 @@ scopeNetLife {
 
     ```kotlin
     scopeNetLife {
-        Get<String>("https://github.com/") {
+        Get<String>("https://github.com/liangjingkanji/Net/") {
             setClient {
                 val privateCertificate = resources.assets.open("https.certificate") // 这里的证书是放到应用的资产目录下
                 setSSLCertificate(privateCertificate)

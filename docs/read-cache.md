@@ -3,7 +3,7 @@ Net_v2基于[Kalle](https://github.com/yanzhenjie/Kalle)开发, 支持Kalle的9�
 缓存模式要求在初始化的时候开启
 
 ```kotlin
-NetConfig.initialize("http://github.com/") {
+NetConfig.initialize("https://github.com/liangjingkanji/Net/") {
     cacheEnabled() // 开启缓存
 }
 ```

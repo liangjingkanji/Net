@@ -10,7 +10,7 @@
 
 不配置缓存设置是不会触发缓存的
 ```kotlin
-NetConfig.initialize("https://github.com/liangjingkanji", this) {
+NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
     // ...
     // 本框架支持Http缓存协议和强制缓存模式
     cache(Cache(cacheDir, 1024 * 1024 * 128)) // 缓存设置, 当超过maxSize最大值会根据最近最少使用算法清除缓存来限制缓存大小
@@ -23,10 +23,26 @@ NetConfig.initialize("https://github.com/liangjingkanji", this) {
 这属于OkHttp默认的Http缓存协议控制, 要求满足一定条件
 
 - 请求方式为Get
+- URL的MD5值作为Key, 所以一旦URL发生改变即不会算同一缓存
 - 存在响应头存在缓存控制: [Cache-Control](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Cache-Control)
-- URL的MD5值作为Key
 
-考虑到你的后端同事的技术水平可能无法实现标准缓存协议, 下面我们可以使用强制缓存模式来完全由客户端控制缓存
+<br>
+通过指定`CacheControl`也可以控制Http缓存协议(原理是添加请求头)
+
+```kotlin
+scopeNetLife {
+    Post<String>("api") {
+        setCacheControl(CacheControl.FORCE_CACHE) // 强制使用缓存
+        // setCacheControl(CacheControl.FORCE_NETWORK) // 强制使用网络
+        // setCacheControl(CacheControl.Builder().noStore().noCache().build()) // 完全禁止读取/写入缓存
+    }.await()
+}
+```
+
+还可以指定缓存有效期, 更多使用请查看代码或者搜索[Cache-Control](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Cache-Control)
+
+<br>
+如果你后端同事的技术水平无法实现Http标准缓存协议, 或者你需要缓存Get以外的请求方法. 下面我们介绍使用`强制缓存模式`来完全由客户端控制缓存
 
 ## 强制缓存模式
 

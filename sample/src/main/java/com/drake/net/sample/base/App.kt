@@ -45,7 +45,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        NetConfig.initialize("http://43.128.31.195/", this) {
+        NetConfig.initialize("http://42.192.180.145/", this) {
 
             // 超时设置
             connectTimeout(30, TimeUnit.SECONDS)
