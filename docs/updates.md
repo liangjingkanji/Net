@@ -1,3 +1,6 @@
+## 3.4.5
+- Fixed [#88](https://github.com/liangjingkanji/Net/issues/80)
+
 ## 3.4.4
 - 新增Cookie管理
 
