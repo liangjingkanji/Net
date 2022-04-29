@@ -37,8 +37,6 @@ class ReadCacheFragment : EngineFragment<FragmentReadCacheBinding>(R.layout.frag
                 Post<String>("api") {
                     setCacheMode(CacheMode.REQUEST_THEN_READ) // 请求网络失败会读取缓存, 请断网测试
                     // setCacheKey("自定义缓存KEY")
-                    // 通过自定义Key可以设置一个每天会失效的缓存. 但超出缓存限制后还是会遵守最近最少使用删除策略
-                    // setCacheKey("自定义缓存KEY" + System.currentTimeMillis() / TimeUnit.DAYS.toMillis(1))
                 }.await()
         }
     }

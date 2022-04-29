@@ -51,9 +51,6 @@ scopeNetLife {
     binding.tvFragment.text =
         Post<String>("api") {
             setCacheMode(CacheMode.REQUEST_THEN_READ) // 请求网络失败会读取缓存, 请断网测试
-            // setCacheKey("自定义缓存KEY")
-            // 通过自定义Key可以设置一个每天会失效的缓存. 但超出缓存限制后还是会遵守最近最少使用删除策略
-            // setCacheKey("自定义缓存KEY" + System.currentTimeMillis() / TimeUnit.DAYS.toMillis(1))
         }.await()
 }
 ```
@@ -67,7 +64,38 @@ scopeNetLife {
 | READ_THEN_REQUEST | 先从缓存读取，如果失败再从网络读取, 强制写入缓存 |
 | REQUEST_THEN_READ | 先从网络读取，如果失败再从缓存读取, 强制写入缓存 |
 
-> 在okHttp中`response.cacheResponse`不为null的时候即代表response来自于本地缓存, 强制缓存或Http缓存协议都如此
+> 如果`response.cacheResponse`不为null的时候即代表response来自于本地缓存, 强制缓存或Http缓存协议都如此
+
+
+## 自定缓存Key
+
+缓存Key默认是`请求方式+URL`后产生的sha1值, 所以并不会使用请求参数判断(综合考虑都不适用)
+
+如果你要实现区别请求参数的缓存请自定义缓存key, 如下
+
+```kotlin
+scopeNetLife {
+    binding.tvFragment.text =
+        Post<String>("api") {
+            setCacheMode(CacheMode.REQUEST_THEN_READ) // 请求网络失败会读取缓存, 请断网测试
+            setCacheKey("请求热门信息" + params) // 具体值都行
+        }.await()
+}
+```
+
+## 缓存有效期
+
+缓存有效期只针对`强制缓存模式`, 标准Http缓存协议遵守协议本身的有效期
+
+```kotlin
+scopeNetLife {
+    binding.tvFragment.text =
+        Post<String>("api") {
+            setCacheMode(CacheMode.REQUEST_THEN_READ) // 请求网络失败会读取缓存, 请断网测试
+            setCacheValidTime(1, TimeUnit.DAYS) // 缓存仅一天内有效
+        }.await()
+}
+```
 
 ## 缓存+网络
 

@@ -54,6 +54,9 @@ sealed class NetTag {
     value class CacheKey(val value: String)
 
     @JvmInline
+    value class CacheValidTime(val value: Long)
+
+    @JvmInline
     value class DownloadFileDir(val value: String) {
         constructor(fileDir: File) : this(fileDir.absolutePath)
     }

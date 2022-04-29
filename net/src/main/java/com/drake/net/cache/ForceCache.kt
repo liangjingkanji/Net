@@ -159,7 +159,13 @@ class ForceCache internal constructor(
         }
 
         if (!entry.matches(request)) return null
-        return entry.response(snapshot, request.body)
+        val response = entry.response(snapshot, request.body)
+        val value = request.tagOf<NetTag.CacheValidTime>()?.value
+        return if (value != null && System.currentTimeMillis() - response.receivedResponseAtMillis > value) {
+            null
+        } else {
+            response
+        }
     }
 
     internal fun put(response: Response): Response {
