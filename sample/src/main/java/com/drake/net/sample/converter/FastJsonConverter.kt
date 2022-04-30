@@ -18,11 +18,16 @@ package com.drake.net.sample.converter
 
 import com.alibaba.fastjson.JSON
 import com.drake.net.convert.JSONConvert
+import org.json.JSONObject
 import java.lang.reflect.Type
 
-class FastJsonConverter : JSONConvert(code = "code", message = "msg", success = "0") {
+class FastJsonConverter : JSONConvert(code = "errorCode", message = "errorMsg", success = "0") {
 
     override fun <R> String.parseBody(succeed: Type): R? {
-        return JSON.parseObject(this, succeed)
+        return try {
+            JSON.parseObject(JSONObject(this).getString("data"), succeed)
+        } catch (e: Exception) {
+            JSON.parseObject(this, succeed)
+        }
     }
 }

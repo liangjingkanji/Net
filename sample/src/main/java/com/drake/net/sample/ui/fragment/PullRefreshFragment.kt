@@ -22,7 +22,7 @@ import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.sample.R
 import com.drake.net.sample.databinding.FragmentPullRefreshBinding
-import com.drake.net.sample.model.GameInfoModel
+import com.drake.net.sample.model.HomeArticleModel
 import com.drake.net.utils.scope
 
 
@@ -31,16 +31,14 @@ class PullRefreshFragment :
 
     override fun initView() {
         binding.rv.linear().setup {
-            addType<GameInfoModel>(R.layout.item_list)
+            addType<HomeArticleModel.Data>(R.layout.item_pull_list)
         }
 
         binding.page.onRefresh {
             scope {
-                val data = Get<List<GameInfoModel>>("list") {
-                    param("page", index)
-                }.await()
-                addData(data) {
-                    index < 100 // 最多加载100个
+                val response = Get<HomeArticleModel>("article/list/${index}/json").await()
+                addData(response.datas) {
+                    index < response.pageCount
                 }
             }
         }.autoRefresh()

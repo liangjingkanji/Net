@@ -32,7 +32,7 @@ class StateLayoutFragment :
     override fun initView() {
         binding.state.onRefresh {
             scope {
-                binding.tvFragment.text = Get<String>("api").await()
+                binding.tvFragment.text = Get<String>("banner/json").await()
             }
         }.showLoading()
     }

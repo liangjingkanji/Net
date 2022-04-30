@@ -28,7 +28,7 @@ class InterceptorFragment :
 
     override fun initView() {
         scopeNetLife {
-            binding.tvFragment.text = Get<String>("api") {
+            binding.tvFragment.text = Get<String>("banner/json") {
                 // 拦截器只支持全局, 无法单例, 请查看[com.drake.net.sample.interceptor.NetInterceptor]
             }.await()
         }

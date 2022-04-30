@@ -9,7 +9,7 @@
         override fun onCreate() {
             super.onCreate()
     
-            // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
+            // https://github.com/liangjingkanji/Net/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
             NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
                 // 超时配置, 默认是10秒, 设置太长时间会导致用户等待过久
                 connectTimeout(30, TimeUnit.SECONDS)
@@ -28,7 +28,7 @@
     class App : Application() {
         override fun onCreate() {
             super.onCreate()
-            // http://google.com/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
+            // https://github.com/liangjingkanji/Net/  这是接口全局域名, 可以使用NetConfig.host进行单独的修改
             val okHttpClientBuilder = OkHttpClient.Builder()
                 .setDebug(BuildConfig.DEBUG)
                 .setConverter(SerializationConverter())

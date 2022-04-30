@@ -21,7 +21,7 @@
 
         <variable
             name="m"
-            type="com.drake.net.sample.model.CommonWebsite" />
+            type="com.drake.net.sample.model.HomeArticleModel.Data" />
     </data>
 
     <LinearLayout
@@ -37,12 +37,12 @@
             android:foreground="?selectableItemBackgroundBorderless">
 
             <TextView
-                android:text="@{m.name}"
-                tools:text="1"
-                android:textStyle="bold"
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@{m.title}"
+                android:textStyle="bold"
+                tools:text="1" />
 
         </FrameLayout>
 

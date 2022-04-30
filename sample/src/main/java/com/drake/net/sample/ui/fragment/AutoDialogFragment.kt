@@ -21,7 +21,6 @@ import com.drake.net.Post
 import com.drake.net.sample.R
 import com.drake.net.sample.databinding.FragmentAutoDialogBinding
 import com.drake.net.utils.scopeDialog
-import com.drake.tooltip.dialog.BubbleDialog
 import com.drake.tooltip.toast
 import kotlinx.coroutines.CancellationException
 
@@ -31,9 +30,9 @@ class AutoDialogFragment :
 
     override fun initView() {
         scopeDialog {
-            binding.tvFragment.text = Post<String>("dialog") {
-                param("u_name", "drake")
-                param("pwd", "123456")
+            binding.tvFragment.text = Post<String>("user/login") {
+                param("username", "你的账号")
+                param("password", "123456")
             }.await()
         }.finally {
             // 关闭对话框后执行的异常

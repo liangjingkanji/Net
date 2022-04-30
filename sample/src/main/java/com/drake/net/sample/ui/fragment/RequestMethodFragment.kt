@@ -40,49 +40,49 @@ class RequestMethodFragment :
 
     private fun GET() {
         scopeNetLife {
-            binding.tvFragment.text = Get<String>("api").await()
+            binding.tvFragment.text = Get<String>("banner/json").await()
         }
     }
 
     private fun POST() {
         scopeNetLife {
-            binding.tvFragment.text = Post<String>("api").await()
+            binding.tvFragment.text = Post<String>("banner/json").await()
         }
     }
 
     private fun HEAD() {
         scopeNetLife {
-            binding.tvFragment.text = Head<String>("api").await()
+            binding.tvFragment.text = Head<String>("banner/json").await()
         }
     }
 
     private fun PUT() {
         scopeNetLife {
-            binding.tvFragment.text = Put<String>("api").await()
+            binding.tvFragment.text = Put<String>("banner/json").await()
         }
     }
 
     private fun PATCH() {
         scopeNetLife {
-            binding.tvFragment.text = Patch<String>("api").await()
+            binding.tvFragment.text = Patch<String>("banner/json").await()
         }
     }
 
     private fun DELETE() {
         scopeNetLife {
-            binding.tvFragment.text = Delete<String>("api").await()
+            binding.tvFragment.text = Delete<String>("banner/json").await()
         }
     }
 
     private fun TRACE() {
         scopeNetLife {
-            binding.tvFragment.text = Trace<String>("api").await()
+            binding.tvFragment.text = Trace<String>("banner/json").await()
         }
     }
 
     private fun OPTIONS() {
         scopeNetLife {
-            binding.tvFragment.text = Options<String>("api").await()
+            binding.tvFragment.text = Options<String>("banner/json").await()
         }
     }
 
@@ -98,7 +98,7 @@ class RequestMethodFragment :
         scopeNetLife {
 
             // 创建JSONObject对象
-            // binding.tvFragment.text = Post<String>("api") {
+            // binding.tvFragment.text = Post<String>("banner/json") {
             //     json(JSONObject().run {
             //         put("name", name)
             //         put("age", age)
@@ -107,7 +107,7 @@ class RequestMethodFragment :
             // }.await()
 
             // 创建JSON
-            binding.tvFragment.text = Post<String>("api") {
+            binding.tvFragment.text = Post<String>("banner/json") {
                 json("name" to name, "age" to age, "measurements" to measurements) // 同时支持Map集合
             }.await()
         }

@@ -34,8 +34,8 @@ class FastestFragment : EngineFragment<FragmentFastestBinding>(R.layout.fragment
             */
 
             // 同时发起四个网络请求
-            val deferred2 = Get<String>("api") { setGroup("最快") }
-            val deferred3 = Post<String>("api") { setGroup("最快") }
+            val deferred2 = Get<String>("banner/json") { setGroup("最快") }
+            val deferred3 = Post<String>("navi/json") { setGroup("最快") }
             val deferred = Get<String>("api0") { setGroup("最快") } // 错误接口
             val deferred1 = Get<String>("api1") { setGroup("最快") } // 错误接口
 
@@ -53,7 +53,7 @@ class FastestFragment : EngineFragment<FragmentFastestBinding>(R.layout.fragment
         //     // 同时发起四个网络请求
         //     val requestList = mutableListOf<DeferredTransform<String, String>>().apply {
         //         for (i in 0..28) {
-        //             val request = Get<String>("api").transform {
+        //             val request = Get<String>("banner/json").transform {
         //                 Log.d("日志", "(FastestFragment.kt:73)    it = ${it}")
         //                 it
         //             }

@@ -20,7 +20,7 @@ import com.drake.net.Get
 import com.drake.net.sample.R
 import com.drake.net.sample.converter.MoshiConverter
 import com.drake.net.sample.databinding.FragmentCustomConvertBinding
-import com.drake.net.sample.model.Model
+import com.drake.net.sample.model.HomeBannerModel
 import com.drake.net.utils.scopeNetLife
 
 
@@ -37,9 +37,9 @@ class MoshiConvertFragment :
         """.trimIndent()
 
         scopeNetLife {
-            binding.tvFragment.text = Get<Model>("api") {
+            binding.tvFragment.text = Get<List<HomeBannerModel>>("banner/json") {
                 converter = MoshiConverter() // 单例转换器, 此时会忽略全局转换器
-            }.await().data.request_method
+            }.await()[0].desc
         }
     }
 

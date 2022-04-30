@@ -26,7 +26,7 @@ class HttpsCertificateFragment :
      */
     private fun trustAllCertificate(view: View) {
         scopeNetLife {
-            binding.tvResponse.text = Get<String>("https://github.com/") {
+            binding.tvResponse.text = Get<String>("https://github.com/liangjingkanji/Net/") {
                 okHttpClient = OkHttpClient.Builder().build()
             }.await()
         }
@@ -37,7 +37,7 @@ class HttpsCertificateFragment :
      */
     private fun importCertificate(view: View) {
         scopeNetLife {
-            Get<String>("https://github.com/") {
+            Get<String>("https://github.com/liangjingkanji/Net/") {
                 setClient {
                     val privateCertificate = resources.assets.open("https.certificate")
                     setSSLCertificate(privateCertificate)

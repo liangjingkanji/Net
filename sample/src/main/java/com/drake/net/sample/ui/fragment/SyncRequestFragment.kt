@@ -12,12 +12,12 @@ class SyncRequestFragment :
     override fun initView() {
         thread { // 网络请求不允许在主线程
             val result = try {
-                Net.post("api").execute<String>()
+                Net.post("banner/json").execute<String>()
             } catch (e: Exception) { // 同步请求失败会导致崩溃要求捕获异常
                 "请求错误 = ${e.message}"
             }
 
-            // val result = Net.post("api").toResult<String>().getOrDefault("请求发生错误, 我这是默认值")
+            // val result = Net.post("banner/json").toResult<String>().getOrDefault("请求发生错误, 我这是默认值")
 
             binding.tvFragment?.post { // 这里用?号是避免界面被销毁依然赋值
                 binding.tvFragment?.text = result  // view要求在主线程更新

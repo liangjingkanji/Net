@@ -18,15 +18,15 @@ class UserViewModel : ViewModel() {
      * scopeNetLife/scopeDialog不推荐写在ViewModel中
      */
     fun fetchUserInfo() = scopeNetLife {
-        userInfo.value = Get<String>("api").await()
+        userInfo.value = Get<String>("banner/json").await()
     }
 
     /** 返回Deferred, 可以灵活使用, 支持并发组合 */
-    fun CoroutineScope.fetchList() = Get<String>("api")
+    fun CoroutineScope.fetchList() = Get<String>("banner/json")
 
     /** 直接返回数据, 会阻塞直至数据返回 */
     suspend fun fetchPrecessData() = coroutineScope {
-        val response = Get<String>("api").await()
+        val response = Get<String>("banner/json").await()
         response + "处理数据"
     }
 }

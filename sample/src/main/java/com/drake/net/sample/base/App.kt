@@ -45,7 +45,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        NetConfig.initialize("http://42.192.180.145/", this) {
+        NetConfig.initialize("https://www.wanandroid.com/", this) {
 
             // 超时设置
             connectTimeout(30, TimeUnit.SECONDS)

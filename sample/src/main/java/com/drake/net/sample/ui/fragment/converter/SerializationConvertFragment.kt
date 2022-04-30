@@ -20,7 +20,7 @@ import com.drake.net.Get
 import com.drake.net.sample.R
 import com.drake.net.sample.converter.SerializationConverter
 import com.drake.net.sample.databinding.FragmentCustomConvertBinding
-import com.drake.net.sample.model.GameInfoModel
+import com.drake.net.sample.model.HomeBannerModel
 import com.drake.net.utils.scopeNetLife
 
 class SerializationConvertFragment :
@@ -37,12 +37,12 @@ class SerializationConvertFragment :
         """.trimIndent()
 
         scopeNetLife {
-            val userList = Get<List<GameInfoModel>>("list") {
+            val data = Get<List<HomeBannerModel>>("banner/json") {
                 // 该转换器直接解析JSON中的data字段, 而非返回的整个JSON字符串
                 converter = SerializationConverter() // 单例转换器, 此时会忽略全局转换器
             }.await()
 
-            binding.tvFragment.text = userList[0].name
+            binding.tvFragment.text = data[0].desc
         }
     }
 
