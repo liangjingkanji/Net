@@ -1,3 +1,6 @@
+## 3.4.6
+- 新增强制缓存有效期
+
 ## 3.4.5
 - Fixed [#88](https://github.com/liangjingkanji/Net/issues/80)
 - Interval.life(Fragment)改为onDestroyView时销毁
