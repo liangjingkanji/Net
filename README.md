@@ -26,6 +26,9 @@
 Android上可能是最强的网络框架, 基于OkHttp/协程的非侵入式框架(不影响原有功能). **一行代码**发起网络请求, 你甚至无需初始化 <br>
 <br>
 
+欢迎将本项目文档/注释进行国际化翻译, 感谢您的支持! <br>
+Welcome to international translation of this project's documents/notes, thank you for your support!
+
 [Net 1.x](https://github.com/liangjingkanji/Net/tree/1.x) 版本使用RxJava实现 <br>
 [Net 2.x](https://github.com/liangjingkanji/Net/tree/2.x) 版本使用协程实现 <br>
 Net 3.x 版本使用OkHttp+协程实现, 可指定其OkHttp版本
