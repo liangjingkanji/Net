@@ -4,7 +4,7 @@
 
 <p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a>
  | <a href="https://coding-pages-bucket-3558162-8706000-16642-587704-1252757332.cos-website.ap-shanghai.myqcloud.com/">备用访问</a>
- | <a href="https://raw.githubusercontent.com/liangjingkanji/Net/master/sample/release/sample-release.apk">下载体验</a>
+ | <a href="https://github.com/liangjingkanji/Net/releases/download/3.4.6/net-sample.apk">下载体验</a>
 </p>
 
 <p align="center"><img src="https://i.imgur.com/X06J6fK.jpg" width="400"/></p>
@@ -38,40 +38,40 @@ Net 3.x 版本使用OkHttp+协程实现, 可指定其OkHttp版本
 
 ## 特点
 
-- 开发速度No.1
-- 专为Android而生
-- 支持OkHttp所有功能/组件
-- DSL编程用法
-- 高质量源码/注释/文档/示例
+- [x] 开发速度No.1
+- [x] 专为Android而生
+- [x] 支持OkHttp所有功能/组件
+- [x] DSL编程用法
+- [x] 高质量源码/注释/文档/示例
 
 ## 主要功能
 
-- 协程并发(不会协程也可上手)
-- 并发/串行/队列/同步请求
-- 快速切换线程
-- 全局错误处理
-- 协程作用域支持错误和结束回调
-- 解析任何数据(json/protocol...)的转换器
-- 泛型指定网络请求返回任何类型
-- 自动处理下拉刷新和上拉加载
-- 自动处理分页加载
-- 自动缺省页
-- 自动处理生命周期
-- 自动处理加载对话框
-- 自动错误信息吐司
-- 自动异常捕获(定位请求位置)
-- 支持ViewModel
-- Request携带数据(setExtra/tagOf)
-- Request支持Id/Group分组
-- AS日志插件/应用通知栏日志
-- 并发请求返回最快请求结果
-- 全局取消请求/自动取消请求
-- Https快速配置
-- Cookie持久化管理
-- 强制缓存模式/自定义缓存Key/缓存有效期/LRU缓存算法/缓存任何数据
-- 缓存+网络双重读取(预览模式实现)
-- 内置超强轮询器(计时器)
-- 监听上传/下载进度(使用时间, 每秒速度, 剩余时间...)
+- [x] 协程并发(不会协程也可上手)
+- [x] 并发/串行/队列/同步请求
+- [x] 快速切换线程
+- [x] 全局错误处理
+- [x] 协程作用域支持错误和结束回调
+- [x] 解析任何数据(json/protocol...)的转换器
+- [x] 泛型指定网络请求返回任何类型
+- [x] 自动处理下拉刷新和上拉加载
+- [x] 自动处理分页加载
+- [x] 自动缺省页
+- [x] 自动处理生命周期
+- [x] 自动处理加载对话框
+- [x] 自动错误信息吐司
+- [x] 自动异常捕获(定位请求位置)
+- [x] 支持ViewModel
+- [x] Request携带数据(setExtra/tagOf)
+- [x] Request支持Id/Group分组
+- [x] AS日志插件/应用通知栏日志
+- [x] 并发请求返回最快请求结果
+- [x] 全局取消请求/自动取消请求
+- [x] Https快速配置
+- [x] Cookie持久化管理
+- [x] 强制缓存模式/自定义缓存Key/缓存有效期/LRU缓存算法/缓存任何数据
+- [x] 缓存+网络双重读取(预览模式实现)
+- [x] 内置超强轮询器(计时器)
+- [x] 监听上传/下载进度(使用时间, 每秒速度, 剩余时间...)
 
 <br>
 

@@ -59,6 +59,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    applicationVariants.all {
+        it.outputs.each { output ->
+            output.outputFileName = "net-sample.apk"
+        }
+    }
+
 }
 
 dependencies {
