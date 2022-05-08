@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(ObsoleteCoroutinesApi::class)
 @file:Suppress("MemberVisibilityCanBePrivate")
 
 package com.drake.net.time
@@ -23,10 +22,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.drake.net.scope.AndroidScope
 import com.drake.net.utils.runMain
-import com.drake.net.utils.scope
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.TickerMode
 import kotlinx.coroutines.channels.ticker
@@ -81,7 +78,7 @@ open class Interval(
     private val finishList: MutableList<Interval.(Long) -> Unit> = mutableListOf()
     private var countTime = 0L
     private var delay = 0L
-    private var scope: AndroidScope? = null
+    private var scope: CoroutineScope? = null
     private lateinit var ticker: ReceiveChannel<Unit>
 
     /** 轮询器的计数 */
@@ -244,17 +241,15 @@ open class Interval(
     //</editor-fold>
 
     /** 启动轮询器 */
+    @OptIn(ObsoleteCoroutinesApi::class)
     private fun launch(delay: Long = unit.toMillis(initialDelay)) {
-        scope = scope {
-
+        scope = CoroutineScope(Dispatchers.Main)
+        scope?.launch {
             ticker = ticker(unit.toMillis(period), delay, mode = TickerMode.FIXED_DELAY)
-
             for (unit in ticker) {
-
                 subscribeList.forEach {
                     it.invoke(this@Interval, count)
                 }
-
                 if (end != -1L && count == end) {
                     scope?.cancel()
                     state = IntervalStatus.STATE_IDLE
@@ -262,7 +257,6 @@ open class Interval(
                         it.invoke(this@Interval, count)
                     }
                 }
-
                 if (end != -1L && start > end) count-- else count++
                 countTime = System.currentTimeMillis()
             }
