@@ -7,7 +7,7 @@
  | <a href="https://github.com/liangjingkanji/Net/releases/download/3.4.6/net-sample.apk">下载体验</a>
 </p>
 
-<p align="center"><img src="https://i.imgur.com/X06J6fK.jpg" width="400"/></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/21078112/169665591-1bf3de50-888e-467a-9b64-0a9d03f73751.png" width="320"/></p>
 
 <p align="center">
 <a href="https://jitpack.io/#liangjingkanji/Net"><img src="https://jitpack.io/v/liangjingkanji/Net.svg"/></a>
