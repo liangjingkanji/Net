@@ -84,7 +84,7 @@ inline fun <T> Flow<T>.launchIn(
  * @param timeoutMillis 节流阀超时时间/单位毫秒, 默认值为800
  */
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-fun EditText.debounce(timeoutMillis: Long = 800) = callbackFlow<String> {
+fun EditText.debounce(timeoutMillis: Long = 800) = callbackFlow {
 
     val textWatcher = object : TextWatcher {
 
@@ -106,10 +106,9 @@ fun EditText.debounce(timeoutMillis: Long = 800) = callbackFlow<String> {
         }
 
         override fun afterTextChanged(s: Editable) {
-            offer(s.toString())
+            trySend(s.toString())
         }
     }
-
     addTextChangedListener(textWatcher)
     awaitClose { this@debounce.removeTextChangedListener(textWatcher) }
 }.debounce(timeoutMillis)

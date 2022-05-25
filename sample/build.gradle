@@ -103,8 +103,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version" // 图片加载库
     implementation 'com.github.liangjingkanji:StatusBar:2.0.2' // 透明状态栏
     implementation 'com.github.liangjingkanji:debugkit:1.2.11' // 开发调试窗口工具
-    implementation "com.github.liangjingkanji:Tooltip:1.1.7" // 吐司工具
-    implementation 'com.github.liangjingkanji:Engine:0.0.60'
+    implementation "com.github.liangjingkanji:Tooltip:1.2.1" // 吐司工具
+    implementation 'com.github.liangjingkanji:Engine:0.0.62'
 
     // ------------------------------Google数据库-------------------------------------
     implementation "androidx.room:room-runtime:$room_version"
