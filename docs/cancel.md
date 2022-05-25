@@ -20,7 +20,9 @@ downloadScope.cancel() // 取消下载
 创建请求
 ```kotlin
 scopeNetLife {
-    tvFragment.text = Get<String>("api", uid = "请求用户信息").await()
+    tvFragment.text = Get<String>("api"){
+        setId("请求用户信息")
+    }.await()
 }
 ```
 
