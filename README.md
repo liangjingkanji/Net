@@ -4,7 +4,7 @@
 
 <p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a>
  | <a href="https://coding-pages-bucket-3558162-8706000-16642-587704-1252757332.cos-website.ap-shanghai.myqcloud.com/">备用访问</a>
- | <a href="https://github.com/liangjingkanji/Net/releases/download/3.4.6/net-sample.apk">下载体验</a>
+ | <a href="https://github.com/liangjingkanji/Net/releases/download/3.4.7/net-sample.apk">下载体验</a>
 </p>
 
 <p align="center"><img src="https://user-images.githubusercontent.com/21078112/169665591-1bf3de50-888e-467a-9b64-0a9d03f73751.png" width="320"/></p>
@@ -104,15 +104,13 @@ dependencyResolutionManagement {
 然后在 module 的 build.gradle 添加依赖框架
 
 ```groovy
-// 协程库(版本可自定)
-implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1'
-// OkHttp(版本可自定, 要求OkHttp4以上版本)
-implementation 'com.squareup.okhttp3:okhttp:4.9.1'
-// Net
-implementation 'com.github.liangjingkanji:Net:3.4.6'
+implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0" // 协程(版本自定)
+implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
+implementation 'com.squareup.okhttp3:okhttp:4.9.3' // 要求OkHttp4以上
+implementation 'com.github.liangjingkanji:Net:3.4.7'
 
 // 支持自动下拉刷新和缺省页的(可选)
-implementation 'com.github.liangjingkanji:BRV:1.3.62'
+implementation 'com.github.liangjingkanji:BRV:1.3.71'
 ```
 如果你是在 Android 5 (API level 21)以下开发, 要求使用OkHttp3.x请使用: [Net-okhttp3](https://github.com/liangjingkanji/Net-okhttp3)
 <br>

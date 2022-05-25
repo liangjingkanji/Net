@@ -1,3 +1,9 @@
+## 3.4.7
+- 升级依赖
+- 支持协程1.6.0
+- optimize Interval
+- EditText.debounce事件类型改为Editable
+
 ## 3.4.6
 - 新增强制缓存有效期
 
