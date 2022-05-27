@@ -62,31 +62,37 @@ open class BodyRequest : BaseRequest() {
     }
 
     override fun param(name: String, value: String?, encoded: Boolean) {
+        value ?: return
         if (encoded) {
-            formBody.addEncoded(name, value ?: return)
+            formBody.addEncoded(name, value)
         } else {
-            formBody.add(name, value ?: return)
+            formBody.add(name, value)
         }
     }
 
     override fun param(name: String, value: Number?) {
+        value ?: return
         formBody.add(name, value.toString())
     }
 
     override fun param(name: String, value: Boolean?) {
+        value ?: return
         formBody.add(name, value.toString())
     }
 
     fun param(name: String, value: RequestBody?) {
-        partBody.addFormDataPart(name, null, value ?: return)
+        value ?: return
+        partBody.addFormDataPart(name, null, value)
     }
 
     fun param(name: String, value: ByteString?) {
-        partBody.addFormDataPart(name, null, value?.toRequestBody() ?: return)
+        value ?: return
+        partBody.addFormDataPart(name, null, value.toRequestBody())
     }
 
     fun param(name: String, value: ByteArray?) {
-        partBody.addFormDataPart(name, null, value?.toRequestBody() ?: return)
+        value ?: return
+        partBody.addFormDataPart(name, null, value.toRequestBody())
     }
 
     fun param(name: String, value: File?) {
