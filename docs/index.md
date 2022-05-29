@@ -32,7 +32,7 @@
 === "串行请求"
     ```kotlin
     scopeNetLife {
-        val data = Get<String>("http://0000www.baidu.com/").await() // 请求A 发起GET请求并返回数据
+        val data = Get<String>("http://www.baidu.com/").await() // 请求A 发起GET请求并返回数据
         val data = Get<String>("https://github.com/liangjingkanji/Net/").await() // 请求B 将等待A请求完毕后发起GET请求并返回数据
     }
     ```
