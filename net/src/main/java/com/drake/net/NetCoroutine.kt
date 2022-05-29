@@ -186,6 +186,5 @@ inline fun <reified M> CoroutineScope.Patch(
         tag(tag)
         block?.invoke(this)
     }.execute()
-}
-)
+})
 // </editor-fold>
