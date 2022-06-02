@@ -17,7 +17,7 @@
 package com.drake.net.scope
 
 import android.app.Dialog
-import androidx.fragment.app.FragmentActivity
+import androidx.activity.ComponentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -33,13 +33,12 @@ import kotlinx.coroutines.Dispatchers
  * 错误: 提示错误信息, 关闭对话框
  * 完全: 关闭对话框
  *
- * @param activity 对话框跟随生命周期的FragmentActivity
+ * @param activity 对话框跟随生命周期的ComponentActivity
  * @param dialog 不使用默认的加载对话框而指定对话框
  * @param cancelable 是否允许用户取消对话框
  */
-@Suppress("DEPRECATION")
 class DialogCoroutineScope(
-    val activity: FragmentActivity,
+    val activity: ComponentActivity,
     var dialog: Dialog? = null,
     val cancelable: Boolean = true,
     dispatcher: CoroutineDispatcher = Dispatchers.Main

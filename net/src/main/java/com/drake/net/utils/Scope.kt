@@ -18,6 +18,7 @@ package com.drake.net.utils
 
 import android.app.Dialog
 import android.view.View
+import androidx.activity.ComponentActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
@@ -88,7 +89,7 @@ fun Fragment.scopeLife(
  * @param cancelable 对话框是否可取消
  * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
  */
-fun FragmentActivity.scopeDialog(
+fun ComponentActivity.scopeDialog(
     dialog: Dialog? = null,
     cancelable: Boolean = true,
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
