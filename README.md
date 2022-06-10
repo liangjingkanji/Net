@@ -107,7 +107,7 @@ dependencyResolutionManagement {
 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0" // 协程(版本自定)
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
 implementation 'com.squareup.okhttp3:okhttp:4.9.3' // 要求OkHttp4以上
-implementation 'com.github.liangjingkanji:Net:3.4.8'
+implementation 'com.github.liangjingkanji:Net:3.4.10'
 
 // 支持自动下拉刷新和缺省页的(可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.76'

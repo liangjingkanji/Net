@@ -1,3 +1,9 @@
+## 3.4.10
+- fix: [#91](https://github.com/liangjingkanji/Net/issues/91) 修复ViewPager2的视图生命周期导致网络请求被取消
+- fix: LogCat错误发生位置高亮
+- feat: brv 1.3.76
+- pref: DialogCoroutineScope
+
 ## 3.4.8
 - fix: 不提交null请求参数
 
