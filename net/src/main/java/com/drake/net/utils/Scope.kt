@@ -176,8 +176,8 @@ fun View.scopeNetLife(
 
 /**
  * 该函数比[scope]多了以下功能
- * - 在作用域内抛出异常时会被回调的[NetConfig.onError]函数中
- * - 自动显示错误信息吐司, 可以通过指定[NetConfig.onError]来取消或者增加自己的处理
+ * - 在作用域内抛出异常时会被回调的[com.drake.net.interfaces.NetErrorHandler.onError]函数中
+ * - 自动显示错误信息吐司, 可以通过指定[com.drake.net.interfaces.NetErrorHandler.onError]来取消或者增加自己的处理
  *
  * 该作用域生命周期跟随整个应用, 注意内存泄漏
  * @param dispatcher 调度器, 默认运行在[Dispatchers.Main]即主线程下
