@@ -57,7 +57,7 @@ class DialogCoroutineScope(
             }
             dialog?.setOnDismissListener { cancel() }
             dialog?.setCancelable(cancelable)
-            dialog?.show()
+            if (!activity.isFinishing) dialog?.show()
         }
     }
 
