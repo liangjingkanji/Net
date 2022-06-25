@@ -99,6 +99,7 @@ class App : Application() {
             emptyLayout = R.layout.layout_empty
             loadingLayout = R.layout.layout_loading
             errorLayout = R.layout.layout_error
+            setRetryIds(R.id.iv)
         }
 
 
