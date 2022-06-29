@@ -12,7 +12,9 @@ Net在2.0开始引入协程来支持并发和异步, 虽然很多网络框架支
 val job = scopeNetLife {
     repeat(10000) {
         // 这里将返回的数据显示在TextView上
-        tvFragment.text = Get<String>("https://github.com/liangjingkanji/Net/").await()
+        launch {
+            tvFragment.text = Get<String>("https://github.com/liangjingkanji/Net/").await()
+        }
     }
 }
 ```
