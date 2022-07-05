@@ -105,7 +105,7 @@ object Net {
      * @param tag 可以传递对象给Request请求, 一般用于在拦截器/转换器中进行针对某个接口行为判断
      * @param block 函数中可以配置请求参数
      */
-    fun error(
+    fun trace(
         path: String,
         tag: Any? = null,
         block: (UrlRequest.() -> Unit)? = null
