@@ -1,3 +1,6 @@
+## 3.4.11
+- fix: 缺失trace请求方式 #99
+
 ## 3.4.10
 - fix: [#91](https://github.com/liangjingkanji/Net/issues/91) 修复ViewPager2的视图生命周期导致网络请求被取消
 - fix: LogCat错误发生位置高亮
