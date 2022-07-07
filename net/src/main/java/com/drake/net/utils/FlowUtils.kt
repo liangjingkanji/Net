@@ -106,7 +106,7 @@ fun EditText.debounce(timeoutMillis: Long = 800) = callbackFlow {
         }
 
         override fun afterTextChanged(s: Editable) {
-            trySend(s)
+            trySend(s.toString())
         }
     }
     addTextChangedListener(textWatcher)
