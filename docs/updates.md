@@ -1,3 +1,6 @@
+## 3.4.12
+- fix: FlowUtils.kt [#102](https://github.com/liangjingkanji/Net/issues/102)
+
 ## 3.4.11
 - fix: 缺失trace请求方式 #99
 
