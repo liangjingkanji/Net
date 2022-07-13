@@ -65,9 +65,9 @@ ProgressListener的构造参数`interval`控制触发进度监听器的间隔时
 | 函数 | 描述 |
 |-|-|
 | currentBytes | 已完成字节数 |
-| totalBytes | 全局字节数 |
-| intervalBytes | 监听器间隔时间内的完成字节数 |
-| intervalTime | 监听器的间隔时间 |
+| totalBytes | 全部大小字节数 |
+| intervalBytes | 进度间隔时间内完成的字节数 |
+| intervalTime | 距离上次进度变化间隔时间 |
 | startElapsedRealtime | 开始下载时间(该时间值开机到现在的毫秒数) |
 | speedBytes | 每秒下载字节数 |
 | progress | 进度, 1-100 |
@@ -79,9 +79,9 @@ ProgressListener的构造参数`interval`控制触发进度监听器的间隔时
 
 | 函数 | 描述 |
 |-|-|
-| currentSize | 已完成大小, 格式为: `120kB` 或者 `1.5MB` |
-| totalSize | 全部大小 |
-| remainSize | 剩余大小 |
-| speedSize | 每秒下载大小 |
+| currentSize | 已完成大小, 例如: `120kB` 或者 `1.5MB` |
+| totalSize | 全部大小, 同上 |
+| remainSize | 剩余大小, 同上 |
+| speedSize | 每秒下载大小, 同上 |
 | useTime | 已使用时间, 格式为: `01:23:04` |
 | remainTime | 估算的剩余时间, 格式为: `01:23:04`  |
