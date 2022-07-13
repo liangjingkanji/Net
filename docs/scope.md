@@ -36,7 +36,7 @@
 <br>
 
 
-> 如果想了解详细的协程使用方式, 可以查看我的一篇文章: [最全面的Kotlin协程: Coroutine/Channel/Flow 以及实际应用](https://juejin.im/post/6844904037586829320)
+> 如果想了解详细的协程使用方式, 可以查看一篇文章: [最全面的Kotlin协程: Coroutine/Channel/Flow 以及实际应用](https://juejin.im/post/6844904037586829320)
 
 有时候可能面临嵌套的`scope*`函数或者作用域内有子作用域情况, 这个时候的生命周期是如何
 

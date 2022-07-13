@@ -69,23 +69,44 @@ NetConfig.initialize("https://github.com/liangjingkanji/Net/") {
 
 ## 修改配置
 
-单例[NetConfig](api/-net/com.drake.net/-net-config/index.html)存储初始化时的配置, 可以随时修改配置
+[NetConfig](api/-net/com.drake.net/-net-config/index.html)的字段即为全局配置, 可随时修改
 
-例如Retrofit的动态`baseURL`功能就可以直接修改`NetConfig.host`
+例如Retrofit的动态`BaseURL`功能就可以直接修改`NetConfig.host`
 
 ```kotlin
 NetConfig.host = "https://github.com/liangjingkanji/Net/"
 ```
 
 
-## 动态域名
+## 动态BaseURL
 
-如果请求时传入的是路径(例如`/api/index`)那么会自动和初始化时的Host拼接. 但是如果传入的是以`http/https`开头的全路径那么则不会与Host进行拼接
+这个概念来源于Retrofit, 因为Retrofit无法动态修改Host, 但是这个Net支持随时修改
+
+1) 直接修改
+
+```kotlin
+NetConfig.host = "新的BaseURL"
+```
+
+
+2) 传入路径
+如传入参数为路径(例如`/api/index`)会自动和`host`拼接组成完成URL, 但如果传入的以`http/https`开头的全路径则会直接作为请求URL
 
 ```kotlin
 scopeNetLife {
     val data = Get<String>("https://github.com/liangjingkanji/Net/").await()
 }
+```
+
+3) 使用拦截器
+
+或者通过指定`tag`, 然后拦截器(interceptor)中根据tag动态修改host, 因为拦截器能修改一切请求参数
+
+```kotlin
+scopeNetLife {
+    val data = Get<String>("/api/index", "User").await() // User即为tag
+}
+// 拦截器修改请求URL不做介绍
 ```
 
 
