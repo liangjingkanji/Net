@@ -23,7 +23,7 @@ buildscript {
         coroutine_version = '1.6.0'
         glide_version = '4.11.0'
         room_version = "2.3.0"
-        okhttp_version = "4.9.3"
+        okhttp_version = "4.10.0"
     }
 
     repositories {

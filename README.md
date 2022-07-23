@@ -23,7 +23,9 @@
 
 <br>
 
-Android上可能是最强的网络框架, 基于OkHttp/协程的非侵入式框架(不影响原有功能). **一行代码**发起网络请求, 你甚至无需初始化 <br>
+Android上可能是最强的网络框架, 基于OkHttp/协程的非侵入式框架(不影响原有功能). 一行代码发起网络请求, 你甚至可以不初始化
+
+本项目承诺会永远保持社区维护
 <br>
 
 欢迎将本项目文档/注释进行国际化翻译, 感谢您的支持! <br>
@@ -106,7 +108,7 @@ dependencyResolutionManagement {
 ```groovy
 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0" // 协程(版本自定)
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
-implementation 'com.squareup.okhttp3:okhttp:4.9.3' // 要求OkHttp4以上
+implementation 'com.squareup.okhttp3:okhttp:4.10.0' // 要求OkHttp4以上
 implementation 'com.github.liangjingkanji:Net:3.4.12'
 
 // 支持自动下拉刷新和缺省页的(可选)
