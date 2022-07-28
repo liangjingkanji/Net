@@ -1,3 +1,6 @@
+## 3.4.13
+- fix: [#110](https://github.com/liangjingkanji/Net/issues/110) 缓存模式下Request信息丢失
+
 ## 3.4.12
 - fix: FlowUtils.kt [#102](https://github.com/liangjingkanji/Net/issues/102)
 
