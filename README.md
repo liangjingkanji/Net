@@ -4,7 +4,7 @@
 
 <p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a>
  | <a href="https://github.com/liangjingkanji/document/blob/master/visit-pages.md">无法访问?</a>
- | <a href="https://github.com/liangjingkanji/Net/releases/download/3.4.13/net-sample.apk">下载体验</a>
+ | <a href="https://github.com/liangjingkanji/Net/releases/download/3.4.14/net-sample.apk">下载体验</a>
 </p>
 
 <p align="center"><img src="https://user-images.githubusercontent.com/21078112/169665591-1bf3de50-888e-467a-9b64-0a9d03f73751.png" width="320"/></p>
@@ -109,7 +109,7 @@ dependencyResolutionManagement {
 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0" // 协程(版本自定)
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
 implementation 'com.squareup.okhttp3:okhttp:4.10.0' // 要求OkHttp4以上
-implementation 'com.github.liangjingkanji:Net:3.4.13'
+implementation 'com.github.liangjingkanji:Net:3.4.14'
 
 // 支持自动下拉刷新和缺省页的(可选)
 implementation 'com.github.liangjingkanji:BRV:1.3.79'

@@ -1,3 +1,6 @@
+## 3.4.14
+- fix: Fragment未初始化View执行scopeNetLife导致空指针
+
 ## 3.4.13
 - fix: [#110](https://github.com/liangjingkanji/Net/issues/110) 缓存模式下Request信息丢失
 
