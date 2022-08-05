@@ -21,6 +21,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.scope.*
@@ -74,7 +75,17 @@ fun Fragment.scopeLife(
     lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     block: suspend CoroutineScope.() -> Unit
-) = AndroidScope(viewLifecycleOwner, lifeEvent, dispatcher).launch(block)
+): AndroidScope {
+    val coroutineScope = AndroidScope(dispatcher = dispatcher).launch(block)
+    viewLifecycleOwnerLiveData.observe(this) {
+        it?.lifecycle?.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (lifeEvent == event) coroutineScope.cancel()
+            }
+        })
+    }
+    return coroutineScope
+}
 //</editor-fold>
 
 // <editor-fold desc="加载对话框">
@@ -211,7 +222,17 @@ fun Fragment.scopeNetLife(
     lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     block: suspend CoroutineScope.() -> Unit
-) = NetCoroutineScope(viewLifecycleOwner, lifeEvent, dispatcher).launch(block)
+): NetCoroutineScope {
+    val coroutineScope = NetCoroutineScope(dispatcher = dispatcher).launch(block)
+    viewLifecycleOwnerLiveData.observe(this) {
+        it?.lifecycle?.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (lifeEvent == event) coroutineScope.cancel()
+            }
+        })
+    }
+    return coroutineScope
+}
 
 
 //</editor-fold>

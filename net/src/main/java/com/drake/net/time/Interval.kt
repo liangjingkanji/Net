@@ -223,7 +223,14 @@ open class Interval @JvmOverloads constructor(
         fragment: Fragment,
         lifeEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
     ): Interval {
-        return life(fragment.viewLifecycleOwner, lifeEvent)
+        fragment.viewLifecycleOwnerLiveData.observe(fragment) {
+            it?.lifecycle?.addObserver(object : LifecycleEventObserver {
+                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                    if (lifeEvent == event) cancel()
+                }
+            })
+        }
+        return this
     }
 
     /**
