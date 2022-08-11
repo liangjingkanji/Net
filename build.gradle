@@ -22,7 +22,6 @@ buildscript {
         brv_version = '1.3.79'
         coroutine_version = '1.6.0'
         glide_version = '4.11.0'
-        room_version = "2.3.0"
         okhttp_version = "4.10.0"
     }
 
