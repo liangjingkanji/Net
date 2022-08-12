@@ -6,7 +6,7 @@
 
         <variable
             name="m"
-            type="com.drake.net.sample.model.UserViewModel" />
+            type="com.drake.net.sample.vm.UserViewModel" />
 
     </data>
 

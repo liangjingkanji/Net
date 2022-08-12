@@ -4,7 +4,7 @@ import androidx.fragment.app.viewModels
 import com.drake.engine.base.EngineFragment
 import com.drake.net.sample.R
 import com.drake.net.sample.databinding.FragmentViewModelRequestBinding
-import com.drake.net.sample.model.UserViewModel
+import com.drake.net.sample.vm.UserViewModel
 
 class ViewModelRequestFragment :
     EngineFragment<FragmentViewModelRequestBinding>(R.layout.fragment_view_model_request) {
