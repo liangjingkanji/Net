@@ -1,4 +1,4 @@
-package com.drake.net.sample.model
+package com.drake.net.sample.vm
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
