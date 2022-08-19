@@ -112,7 +112,7 @@ implementation 'com.squareup.okhttp3:okhttp:4.10.0' // 要求OkHttp4以上
 implementation 'com.github.liangjingkanji:Net:3.4.14'
 
 // 支持自动下拉刷新和缺省页的(可选)
-implementation 'com.github.liangjingkanji:BRV:1.3.79'
+implementation 'com.github.liangjingkanji:BRV:1.3.80'
 ```
 如果你是在 Android 5 (API level 21)以下开发, 要求使用OkHttp3.x请使用: [Net-okhttp3](https://github.com/liangjingkanji/Net-okhttp3)
 <br>
