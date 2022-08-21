@@ -1,3 +1,9 @@
+## 3.5.0
+- refactor: 删除权限REQUEST_INSTALL_PACKAGES(谷歌商店权限要求)
+- refactor: 删除File.install
+- pref: 改为使用AppStartup默认初始化
+
+
 ## 3.4.14
 - fix: Fragment未初始化View执行scopeNetLife导致空指针
 
