@@ -1,4 +1,4 @@
-package com.drake.net.interfaces
+package com.drake.net.internal
 
 import com.drake.net.exception.NetException
 import com.drake.net.exception.URLParseException

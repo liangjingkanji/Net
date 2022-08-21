@@ -2,7 +2,7 @@
 
 package com.drake.net
 
-import com.drake.net.interfaces.NetDeferred
+import com.drake.net.internal.NetDeferred
 import com.drake.net.request.BodyRequest
 import com.drake.net.request.Method
 import com.drake.net.request.UrlRequest
