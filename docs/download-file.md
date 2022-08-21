@@ -14,28 +14,16 @@ Download函数一调用就会开始执行下载文件请求, 然后`await`则会
 
 支持丰富的下载定制方案, 并且会不断地更新完善
 
-=== "下载文件"
-    ```kotlin
-    scopeNetLife {
-        val file =
-            Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
-                setDownloadFileName("net.apk")
-                setDownloadDir(requireContext().filesDir)
-                setDownloadMd5Verify()
-            }.await()
-    }
-    ```
-
-=== "下载并安装"
-    ```kotlin
-    scopeNetLife {
+```kotlin
+scopeNetLife {
+    val file =
         Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
             setDownloadFileName("net.apk")
             setDownloadDir(requireContext().filesDir)
             setDownloadMd5Verify()
-        }.await().install()
-    }
-    ```
+        }.await()
+}
+```
 
 配置选项
 
