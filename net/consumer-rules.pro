@@ -1,1 +1,2 @@
 -keep class okhttp3.** { *; }
+-keep class com.drake.net.exception.** { *; }
