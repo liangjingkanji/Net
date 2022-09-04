@@ -16,12 +16,16 @@
 
 package com.drake.net.sample.ui.fragment
 
+import android.app.Activity
+import android.net.Uri
 import com.drake.engine.base.EngineFragment
 import com.drake.net.Post
 import com.drake.net.component.Progress
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.sample.R
+import com.drake.net.sample.contract.AlbumSelectContract
 import com.drake.net.sample.databinding.FragmentUploadFileBinding
+import com.drake.net.utils.TipUtils
 import com.drake.net.utils.scopeNetLife
 import okio.buffer
 import okio.sink
@@ -29,10 +33,49 @@ import okio.source
 import java.io.File
 
 
-class UploadFileFragment :
-    EngineFragment<FragmentUploadFileBinding>(R.layout.fragment_upload_file) {
-
+class UploadFileFragment : EngineFragment<FragmentUploadFileBinding>(R.layout.fragment_upload_file) {
+    private val albumSelectContract = AlbumSelectContract()
+    private val albumSelectLauncher = registerForActivityResult(albumSelectContract) {
+        when (it.code) {
+            Activity.RESULT_CANCELED -> {
+                TipUtils.toast("图片选择取消")
+            }
+            Activity.RESULT_OK -> { //content://com.miui.gallery.open/raw/%2Fstorage%2Femulated%2F0%2FPictures%2FWeiXin%2Fmmexport1662182783378.jpg
+                uploadUri(it.uri)
+            }
+        }
+    }
+    
     override fun initView() {
+        binding.btnFile.setOnClickListener {
+            uploadFile()
+        }
+        binding.btnUri.setOnClickListener {
+            if (AlbumSelectContract.canChoosePhoto(context)) {
+                albumSelectLauncher.launch(null)
+            } else {
+                TipUtils.toast("无法选择图片")
+            }
+        }
+    }
+    
+    private fun uploadUri(uri: Uri?) {
+        scopeNetLife {
+            Post<String>("upload") {
+                param("file", uri)
+                addUploadListener(object : ProgressListener() {
+                    override fun onProgress(p: Progress) {
+                        binding.seek.post {
+                            binding.seek.progress = p.progress()
+                            binding.tvProgress.text = "上传进度: ${p.progress()}% 上传速度: ${p.speedSize()}     " + "\n\n文件大小: ${p.totalSize()}  已上传: ${p.currentSize()}  剩余大小: ${p.remainSize()}" + "\n\n已使用时间: ${p.useTime()}  剩余时间: ${p.remainTime()}"
+                        }
+                    }
+                })
+            }.await()
+        }
+    }
+    
+    private fun uploadFile() {
         scopeNetLife {
             Post<String>("upload") {
                 param("file", assetsFile())
@@ -40,17 +83,14 @@ class UploadFileFragment :
                     override fun onProgress(p: Progress) {
                         binding.seek.post {
                             binding.seek.progress = p.progress()
-                            binding.tvProgress.text =
-                                "上传进度: ${p.progress()}% 上传速度: ${p.speedSize()}     " +
-                                        "\n\n文件大小: ${p.totalSize()}  已上传: ${p.currentSize()}  剩余大小: ${p.remainSize()}" +
-                                        "\n\n已使用时间: ${p.useTime()}  剩余时间: ${p.remainTime()}"
+                            binding.tvProgress.text = "上传进度: ${p.progress()}% 上传速度: ${p.speedSize()}     " + "\n\n文件大小: ${p.totalSize()}  已上传: ${p.currentSize()}  剩余大小: ${p.remainSize()}" + "\n\n已使用时间: ${p.useTime()}  剩余时间: ${p.remainTime()}"
                         }
                     }
                 })
             }.await()
         }
     }
-
+    
     private fun assetsFile(): File {
         val fileName = "upload_file.jpg"
         val inputStream = resources.assets.open(fileName)
@@ -60,7 +100,7 @@ class UploadFileFragment :
         }
         return file
     }
-
+    
     override fun initData() {
     }
 }
