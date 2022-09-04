@@ -18,6 +18,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.drake.net.sample">
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PICK" />
+            <data android:mimeType="image/*" />
+        </intent>
+    </queries>
     <application
         android:name=".base.App"
         android:allowBackup="true"

@@ -18,7 +18,9 @@
 
 package com.drake.net.request
 
+import android.net.Uri
 import com.drake.net.interfaces.ProgressListener
+import com.drake.net.utils.fileName
 import com.drake.net.utils.toRequestBody
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -93,6 +95,11 @@ open class BodyRequest : BaseRequest() {
     fun param(name: String, value: ByteArray?) {
         value ?: return
         partBody.addFormDataPart(name, null, value.toRequestBody())
+    }
+    
+    fun param(name: String, value: Uri?) {
+        value ?: return
+        partBody.addFormDataPart(name, value.fileName(), value.toRequestBody())
     }
 
     fun param(name: String, value: File?) {
