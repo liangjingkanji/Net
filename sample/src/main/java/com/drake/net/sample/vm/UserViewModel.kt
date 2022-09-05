@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.scopeNetLife
 import com.drake.net.Get
+import com.drake.net.sample.constants.Api
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 
@@ -18,15 +19,15 @@ class UserViewModel : ViewModel() {
      * scopeNetLife/scopeDialog不推荐写在ViewModel中
      */
     fun fetchUserInfo() = scopeNetLife {
-        userInfo.value = Get<String>("banner/json").await()
+        userInfo.value = Get<String>(Api.BANNER).await()
     }
 
     /** 返回Deferred, 可以灵活使用, 支持并发组合 */
-    fun CoroutineScope.fetchList() = Get<String>("banner/json")
+    fun CoroutineScope.fetchList() = Get<String>(Api.BANNER)
 
     /** 直接返回数据, 会阻塞直至数据返回 */
     suspend fun fetchPrecessData() = coroutineScope {
-        val response = Get<String>("banner/json").await()
+        val response = Get<String>(Api.BANNER).await()
         response + "处理数据"
     }
 }

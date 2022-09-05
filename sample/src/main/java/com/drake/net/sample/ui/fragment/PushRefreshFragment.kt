@@ -22,6 +22,7 @@ import com.drake.brv.utils.setup
 import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.sample.R
+import com.drake.net.sample.constants.Api
 import com.drake.net.sample.databinding.FragmentPushRefreshBinding
 import com.drake.net.sample.model.CommonWebsite
 import com.drake.net.utils.scope
@@ -37,7 +38,7 @@ class PushRefreshFragment :
 
         binding.page.onRefresh {
             scope {
-                binding.rv.models = Get<List<CommonWebsite>>("friend/json").await()
+                binding.rv.models = Get<List<CommonWebsite>>(Api.FRIEND).await()
             }
         }.autoRefresh()
     }

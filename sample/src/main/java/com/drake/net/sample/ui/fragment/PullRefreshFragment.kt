@@ -21,6 +21,7 @@ import com.drake.brv.utils.setup
 import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.sample.R
+import com.drake.net.sample.constants.Api
 import com.drake.net.sample.databinding.FragmentPullRefreshBinding
 import com.drake.net.sample.model.HomeArticleModel
 import com.drake.net.utils.scope
@@ -36,7 +37,7 @@ class PullRefreshFragment :
 
         binding.page.onRefresh {
             scope {
-                val response = Get<HomeArticleModel>("article/list/${index}/json").await()
+                val response = Get<HomeArticleModel>(String.format(Api.ARTICLE, index)).await()
                 addData(response.datas) {
                     index < response.pageCount
                 }

@@ -21,6 +21,7 @@ import com.drake.net.Post
 import com.drake.net.component.Progress
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.sample.R
+import com.drake.net.sample.constants.Api
 import com.drake.net.sample.databinding.FragmentUploadFileBinding
 import com.drake.net.utils.scopeNetLife
 import okio.buffer
@@ -34,7 +35,7 @@ class UploadFileFragment :
 
     override fun initView() {
         scopeNetLife {
-            Post<String>("upload") {
+            Post<String>(Api.UPLOAD) {
                 param("file", assetsFile())
                 addUploadListener(object : ProgressListener() {
                     override fun onProgress(p: Progress) {

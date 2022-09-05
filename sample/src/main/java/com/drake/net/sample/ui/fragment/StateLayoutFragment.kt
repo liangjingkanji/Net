@@ -19,6 +19,7 @@ package com.drake.net.sample.ui.fragment
 import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.sample.R
+import com.drake.net.sample.constants.Api
 import com.drake.net.sample.databinding.FragmentStateLayoutBinding
 import com.drake.net.utils.scope
 
@@ -32,7 +33,7 @@ class StateLayoutFragment :
     override fun initView() {
         binding.state.onRefresh {
             scope {
-                binding.tvFragment.text = Get<String>("banner/json").await()
+                binding.tvFragment.text = Get<String>(Api.BANNER).await()
             }
         }.showLoading()
     }

@@ -21,6 +21,7 @@ import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.cache.CacheMode
 import com.drake.net.sample.R
+import com.drake.net.sample.constants.Api
 import com.drake.net.sample.databinding.FragmentReadCacheBinding
 import com.drake.net.utils.scopeNetLife
 
@@ -34,13 +35,13 @@ class PreviewCacheFragment : EngineFragment<FragmentReadCacheBinding>(R.layout.f
 
         scopeNetLife {
             // 然后执行这里(网络请求)
-            binding.tvFragment.text = Get<String>("banner/json") {
+            binding.tvFragment.text = Get<String>(Api.BANNER) {
                 setCacheMode(CacheMode.WRITE)
             }.await()
             Log.d("日志", "网络请求")
         }.preview(true) {
             // 先执行这里(仅读缓存), 任何异常都视为读取缓存失败
-            binding.tvFragment.text = Get<String>("banner/json") {
+            binding.tvFragment.text = Get<String>(Api.BANNER) {
                 setCacheMode(CacheMode.READ)
             }.await()
             Log.d("日志", "读取缓存")

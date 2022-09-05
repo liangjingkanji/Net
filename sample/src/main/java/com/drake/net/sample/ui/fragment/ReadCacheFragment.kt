@@ -20,6 +20,7 @@ import com.drake.engine.base.EngineFragment
 import com.drake.net.Post
 import com.drake.net.cache.CacheMode
 import com.drake.net.sample.R
+import com.drake.net.sample.constants.Api
 import com.drake.net.sample.databinding.FragmentReadCacheBinding
 import com.drake.net.utils.scopeNetLife
 
@@ -34,7 +35,7 @@ class ReadCacheFragment : EngineFragment<FragmentReadCacheBinding>(R.layout.frag
     override fun initView() {
         scopeNetLife {
             binding.tvFragment.text =
-                Post<String>("banner/json") {
+                Post<String>(Api.BANNER) {
                     setCacheMode(CacheMode.REQUEST_THEN_READ) // 请求网络失败会读取缓存, 请断网测试
                     // setCacheKey("自定义缓存KEY")
                 }.await()

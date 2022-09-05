@@ -21,6 +21,7 @@ import com.drake.net.Get
 import com.drake.net.Post
 import com.drake.net.Trace
 import com.drake.net.sample.R
+import com.drake.net.sample.constants.Api
 import com.drake.net.sample.databinding.FragmentParallelNetworkBinding
 import com.drake.net.utils.scopeNetLife
 
@@ -32,9 +33,9 @@ class ParallelNetworkFragment :
         scopeNetLife {
 
             // 同时发起三个请求
-            val deferred = Get<String>("banner/json")
-            val deferred1 = Post<String>("banner/json")
-            val deferred2 = Trace<String>("banner/json")
+            val deferred = Get<String>(Api.BANNER)
+            val deferred1 = Post<String>(Api.BANNER)
+            val deferred2 = Trace<String>(Api.BANNER)
 
             // 同时接收三个请求数据
             deferred.await()

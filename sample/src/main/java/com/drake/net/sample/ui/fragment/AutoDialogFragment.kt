@@ -19,6 +19,7 @@ package com.drake.net.sample.ui.fragment
 import com.drake.engine.base.EngineFragment
 import com.drake.net.Post
 import com.drake.net.sample.R
+import com.drake.net.sample.constants.Api
 import com.drake.net.sample.databinding.FragmentAutoDialogBinding
 import com.drake.net.utils.scopeDialog
 import com.drake.tooltip.toast
@@ -30,7 +31,7 @@ class AutoDialogFragment :
 
     override fun initView() {
         scopeDialog {
-            binding.tvFragment.text = Post<String>("user/login") {
+            binding.tvFragment.text = Post<String>(Api.LOGIN) {
                 param("username", "你的账号")
                 param("password", "123456")
             }.await()

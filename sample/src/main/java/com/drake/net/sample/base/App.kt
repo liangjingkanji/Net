@@ -30,6 +30,7 @@ import com.drake.net.okhttp.setRequestInterceptor
 import com.drake.net.sample.BR
 import com.drake.net.sample.BuildConfig
 import com.drake.net.sample.R
+import com.drake.net.sample.constants.Api
 import com.drake.net.sample.converter.SerializationConverter
 import com.drake.net.sample.interfaces.MyRequestInterceptor
 import com.drake.statelayout.StateConfig
@@ -45,7 +46,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        NetConfig.initialize("https://www.wanandroid.com/", this) {
+        NetConfig.initialize(Api.HOST, this) {
 
             // 超时设置
             connectTimeout(30, TimeUnit.SECONDS)
