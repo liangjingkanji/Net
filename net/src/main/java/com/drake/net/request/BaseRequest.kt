@@ -152,6 +152,31 @@ abstract class BaseRequest {
         setQuery(name, value?.toString() ?: return)
     }
 
+    /**
+     * 添加Url上的Query参数
+     */
+    fun addQuery(name: String, value: String?, encoded: Boolean = false) {
+        if (encoded) {
+            httpUrl.addEncodedQueryParameter(name, value)
+        } else {
+            httpUrl.addQueryParameter(name, value)
+        }
+    }
+
+    /**
+     * 添加Url上的Query参数
+     */
+    fun addQuery(name: String, value: Number?) {
+        addQuery(name, value?.toString() ?: return)
+    }
+
+    /**
+     * 添加Url上的Query参数
+     */
+    fun addQuery(name: String, value: Boolean?) {
+        addQuery(name, value?.toString() ?: return)
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Param">
