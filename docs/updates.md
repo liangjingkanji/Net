@@ -1,3 +1,9 @@
+## 3.5.1
+- feat: 新增param方法参数Uri
+- feat: 新增addQuery方法
+- pref: 不混淆exception包
+- fix: #129 请求URL不同导致setCacheKey无效
+
 ## 3.5.0
 - refactor: 删除权限REQUEST_INSTALL_PACKAGES(谷歌商店权限要求)
 - refactor: 删除File.install
