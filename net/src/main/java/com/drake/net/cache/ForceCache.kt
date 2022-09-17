@@ -158,7 +158,6 @@ class ForceCache internal constructor(
             return null
         }
 
-        if (!entry.matches(request)) return null
         val response = entry.response(snapshot, request.body)
         val value = request.tagOf<NetTag.CacheValidTime>()?.value
         return if (value != null && System.currentTimeMillis() - response.receivedResponseAtMillis > value) {
@@ -619,10 +618,6 @@ class ForceCache internal constructor(
             } catch (e: CertificateEncodingException) {
                 throw IOException(e.message)
             }
-        }
-
-        fun matches(request: Request): Boolean {
-            return url == request.url.toString() && requestMethod == request.method
         }
 
         fun response(snapshot: DiskLruCache.Snapshot, requestBody: RequestBody?): Response {
