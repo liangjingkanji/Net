@@ -109,4 +109,16 @@ scopeNetLife {
 // 拦截器修改请求URL不做介绍
 ```
 
+## 多域名
+
+```kotlin
+scopeNetLife {
+    Get<String>("https://github.com/liangjingkanji/Net/").await() // 传入域名就会使用当前域名
+    Get<String>("/liangjingkanji/Net/").await() // 自动和NetConfig.host拼接
+    Get<String>(Api.Host2 + "/liangjingkanji/Net/").await() // 自己手动拼接
+}
+```
+
+当然你还可以在拦截器里面统一处理, 在拦截器里面判断tag或者path来拼接域名
+
 
