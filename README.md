@@ -23,7 +23,7 @@
 
 <br>
 
-Android上可能是最强的网络框架, 基于OkHttp/协程的非侵入式框架(不影响原有功能). 一行代码发起网络请求, 你甚至可以不初始化
+Android上可能是最强的网络框架, 基于[OkHttp](https://github.com/square/okhttp)/协程的非侵入式框架(不影响原有功能). 一行代码发起网络请求, 你甚至可以不初始化
 
 本项目承诺会永远保持社区维护
 <br>
@@ -33,18 +33,18 @@ Welcome to international translation of this project's documents/notes, thank yo
 
 [Net 1.x](https://github.com/liangjingkanji/Net/tree/1.x) 版本使用RxJava实现 <br>
 [Net 2.x](https://github.com/liangjingkanji/Net/tree/2.x) 版本使用协程实现 <br>
-Net 3.x 版本使用OkHttp+协程实现, 可指定其OkHttp版本
+[Net 3.x](https://github.com/liangjingkanji/Net/) 版本使用协程实现, 可自定义OkHttp版本
 
 <br>
 <p align="center"><strong>欢迎贡献代码/问题</strong></p>
 
 ## 特点
 
-- [x] 开发速度No.1
+- [x] 开发效率No.1
 - [x] 专为Android而生
 - [x] 支持OkHttp所有功能/组件
-- [x] DSL编程用法
-- [x] 高质量源码/注释/文档/示例
+- [x] DSL作用域编程
+- [x] 优秀的源码/注释/文档/示例
 
 ## 主要功能
 
@@ -67,7 +67,7 @@ Net 3.x 版本使用OkHttp+协程实现, 可指定其OkHttp版本
 - [x] Request支持Id/Group分组
 - [x] AS日志插件/应用通知栏日志
 - [x] 并发请求返回最快请求结果
-- [x] 全局取消请求/自动取消请求
+- [x] 全局取消请求
 - [x] Https快速配置
 - [x] Cookie持久化管理
 - [x] 强制缓存模式/自定义缓存Key/缓存有效期/LRU缓存算法/缓存任何数据
