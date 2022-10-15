@@ -294,6 +294,13 @@ abstract class BaseRequest {
         okHttpRequest.headers(headers)
     }
 
+    /**
+     * 全部请求头
+     */
+    fun headers(): Headers.Builder {
+        return okHttpRequest.headers()
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Cache">
