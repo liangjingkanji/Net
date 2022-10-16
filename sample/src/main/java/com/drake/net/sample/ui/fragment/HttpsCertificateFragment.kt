@@ -4,6 +4,7 @@ import android.view.View
 import com.drake.engine.base.EngineFragment
 import com.drake.net.Get
 import com.drake.net.okhttp.setSSLCertificate
+import com.drake.net.okhttp.trustSSLCertificate
 import com.drake.net.sample.R
 import com.drake.net.sample.databinding.FragmentHttpsCertificateBinding
 import com.drake.net.utils.scopeNetLife
@@ -23,11 +24,13 @@ class HttpsCertificateFragment :
 
     /**
      * 信任全部证书
+     * 大部分情况下还是建议在Application中配置一次全局的证书
      */
     private fun trustAllCertificate(view: View) {
         scopeNetLife {
             binding.tvResponse.text = Get<String>("https://github.com/liangjingkanji/Net/") {
-                okHttpClient = OkHttpClient.Builder().build()
+                // 构建新的客户端
+                okHttpClient = OkHttpClient.Builder().trustSSLCertificate().build()
             }.await()
         }
     }
@@ -38,6 +41,7 @@ class HttpsCertificateFragment :
     private fun importCertificate(view: View) {
         scopeNetLife {
             Get<String>("https://github.com/liangjingkanji/Net/") {
+                // 使用现在客户端
                 setClient {
                     val privateCertificate = resources.assets.open("https.certificate")
                     setSSLCertificate(privateCertificate)
