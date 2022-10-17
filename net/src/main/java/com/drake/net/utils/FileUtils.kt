@@ -6,18 +6,19 @@ import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okio.BufferedSink
+import okio.ByteString.Companion.toByteString
 import okio.source
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 import java.security.DigestInputStream
 import java.security.MessageDigest
-import java.util.*
 
 /**
  * 返回文件的MD5值
+ * @param base64 是否将md5值进行base64编码, 否则将返回hex编码
  */
-fun File.md5(): String? {
+fun File.md5(base64: Boolean = false): String? {
     try {
         val fileInputStream = FileInputStream(this)
         val digestInputStream = DigestInputStream(fileInputStream, MessageDigest.getInstance("MD5"))
@@ -26,9 +27,11 @@ fun File.md5(): String? {
             while (true) if (digestInputStream.read(buffer) <= 0) break
         }
         val md5 = digestInputStream.messageDigest.digest()
-        val stringBuilder = StringBuilder()
-        for (b in md5) stringBuilder.append(String.format("%02X", b))
-        return stringBuilder.toString().toLowerCase(Locale.ROOT)
+        return if (base64) {
+            md5.toByteString().base64()
+        } else {
+            md5.toByteString().hex()
+        }
     } catch (e: IOException) {
         Net.debug(e)
     }
