@@ -27,6 +27,7 @@ import com.drake.net.request.*
 import com.drake.net.tag.NetTag
 import com.drake.net.utils.md5
 import okhttp3.Response
+import okhttp3.internal.closeQuietly
 import okio.buffer
 import okio.sink
 import java.io.File
@@ -128,6 +129,7 @@ fun Response.file(): File? {
         if (!file.exists()) file.createNewFile()
         file.sink().buffer().use {
             it.writeAll(source)
+            source.closeQuietly()
         }
         // 下载完毕删除临时文件
         if (request.downloadTempFile()) {

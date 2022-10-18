@@ -43,9 +43,10 @@ class NetRequestBody(
 
     @Throws(IOException::class)
     override fun writeTo(sink: BufferedSink) {
-        if (sink is Buffer || sink.toString()
-                .contains("com.android.tools.profiler.support.network.HttpTracker\$OutputStreamTracker")
-        ) requestBody.writeTo(sink) else {
+        if (sink is Buffer ||
+            sink.toString().contains("com.android.tools.profiler.support.network.HttpTracker\$OutputStreamTracker")) {
+            requestBody.writeTo(sink)
+        } else {
             val bufferedSink: BufferedSink = sink.toProgress().buffer()
             requestBody.writeTo(bufferedSink)
             bufferedSink.close()
