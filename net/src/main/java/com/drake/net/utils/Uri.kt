@@ -9,7 +9,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okio.BufferedSink
 import okio.source
-import okio.use
 
 fun Uri.fileName(): String? {
     return DocumentFile.fromSingleUri(NetConfig.app, this)?.name
@@ -28,9 +27,9 @@ fun Uri.toRequestBody(): RequestBody {
         override fun contentType(): MediaType? {
             return mediaType()
         }
-        
+
         override fun contentLength() = length
-        
+
         override fun writeTo(sink: BufferedSink) {
             NetConfig.app.contentResolver.openInputStream(this@toRequestBody)?.source()?.use {
                 sink.writeAll(it)

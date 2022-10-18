@@ -17,12 +17,14 @@
 package com.drake.net.response
 
 import com.drake.net.body.peekString
+import com.drake.net.component.Progress
 import com.drake.net.convert.NetConverter
 import com.drake.net.exception.ConvertException
 import com.drake.net.exception.DownloadFileException
 import com.drake.net.exception.NetException
 import com.drake.net.reflect.typeTokenOf
 import com.drake.net.request.*
+import com.drake.net.tag.NetTag
 import com.drake.net.utils.md5
 import okhttp3.Response
 import okio.buffer
@@ -87,7 +89,22 @@ fun Response.file(): File? {
             // MD5校验匹配文件
             if (request.downloadMd5Verify()) {
                 val md5Header = header("Content-MD5")
-                if (md5Header != null && file.md5(true) == md5Header) return file
+                if (md5Header != null && file.md5(true) == md5Header) {
+                    val downloadListeners = request.tagOf<NetTag.DownloadListeners>()
+                    if (!downloadListeners.isNullOrEmpty()) {
+                        val fileSize = file.length()
+                        val progress = Progress().apply {
+                            currentByteCount = fileSize
+                            totalByteCount = fileSize
+                            intervalByteCount = fileSize
+                            finish = true
+                        }
+                        downloadListeners.forEach {
+                            it.onProgress(progress)
+                        }
+                    }
+                    return file
+                }
             }
             // 命名冲突添加序列数字的后缀
             if (request.downloadConflictRename() && file.name == fileName) {

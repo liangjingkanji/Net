@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2018 Drake, https://github.com/liangjingkanji
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 @file:Suppress("unused", "MemberVisibilityCanBePrivate", "NAME_SHADOWING", "RedundantSetter")
 
 package com.drake.net.component
@@ -7,22 +24,47 @@ import android.text.format.DateUtils
 import android.text.format.Formatter
 import com.drake.net.NetConfig
 
+
 /**
- * @property currentByteCount 当前已经完成的字节数
- * @property totalByteCount 当前已经完成的字节数
- * @property intervalByteCount 进度间隔时间内完成的字节数
- * @property intervalTime 距离上次进度变化间隔时间
- * @property startElapsedRealtime 开始下载的时间
- * @property finish 是否完成
+ * 下载/上传进度信息
  */
-data class Progress(
-    var currentByteCount: Long = 0,
-    var totalByteCount: Long = 0,
-    var intervalByteCount: Long = 0,
-    var intervalTime: Long = 0,
-    val startElapsedRealtime: Long = SystemClock.elapsedRealtime(),
-    var finish: Boolean = false,
-) {
+class Progress {
+
+    /** 当前已经完成的字节数 */
+    var currentByteCount: Long = 0
+        internal set
+
+    /** 当前已经完成的字节数 */
+    var totalByteCount: Long = 0
+        internal set
+
+    /** 进度间隔时间内完成的字节数 */
+    var intervalByteCount: Long = 0
+        internal set
+
+    /** 距离上次进度变化间隔时间 */
+    var intervalTime: Long = 0
+        internal set
+
+    /** 是否完成 */
+    var finish: Boolean = false
+        internal set
+
+    /** 开始下载的时间 */
+    val startElapsedRealtime: Long = SystemClock.elapsedRealtime()
+
+    /**
+     * 每秒下载速度, 字节单位
+     */
+    var speedBytes = 0L
+        get() {
+            return if (intervalTime <= 0L || intervalByteCount <= 0) {
+                field
+            } else {
+                field = intervalByteCount * 1000 / intervalTime
+                field
+            }
+        }
 
     /**
      * 文件全部大小
@@ -50,6 +92,7 @@ data class Progress(
         return Formatter.formatFileSize(NetConfig.app, remain)
     }
 
+
     /**
      * 每秒下载速度
      * 根据字节数自动显示内存单位, 例如 19MB 或者 27KB
@@ -57,20 +100,6 @@ data class Progress(
     fun speedSize(): String {
         return Formatter.formatFileSize(NetConfig.app, speedBytes)
     }
-
-
-    /**
-     * 每秒下载速度, 字节单位
-     */
-    var speedBytes = 0L
-        get() {
-            return if (intervalTime <= 0L || intervalByteCount <= 0) {
-                field
-            } else {
-                field = intervalByteCount * 1000 / intervalTime
-                field
-            }
-        }
 
     /**
      * 请求或者响应的进度, 值范围在0-100
