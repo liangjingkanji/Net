@@ -1,3 +1,8 @@
+## 3.5.2
+- fix: #135 Content-MD5未使用Base64解码
+- feat: 新增 BaseRequest.headers
+
+
 ## 3.5.1
 - feat: 新增param方法参数Uri
 - feat: 新增addQuery方法
