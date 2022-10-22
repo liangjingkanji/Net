@@ -39,7 +39,7 @@
     }
     ```
 
-> 配置都是可选项, 不是不初始化就不能使用. 在Xposed项目中可能需要使用 `NetConfig.app = this`
+> 配置都是可选项, 不是不初始化就不能使用. 如果你是Xposed或者多进程项目中必须初始化传入上下文或者赋值 `NetConfig.app = this`
 
 在initNet函数作用域中的this属于`OkHttpClient.Builder()`, 可以配置任何OkHttpClient.Builder的属性以外还支持以下Net独有配置
 
