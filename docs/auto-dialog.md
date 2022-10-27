@@ -44,7 +44,7 @@ scopeDialog(dialog) {
 
 === "初始配置全局加载框"
     ```kotlin
-    NetConfig.initialize("https://github.com/liangjingkanji/Net/") {
+    NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
             setDialogFactory { // 全局加载对话框
                 ProgressDialog(it).apply {
                     setMessage("我是全局自定义的加载对话框...")

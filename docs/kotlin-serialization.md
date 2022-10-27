@@ -26,7 +26,7 @@
 
 === "全局配置"
     ```kotlin
-    NetConfig.initialize("https://github.com/liangjingkanji/Net/") {
+    NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
         setConverter(SerializationConvert())
         // ... 其他配置
     }

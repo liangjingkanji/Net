@@ -34,7 +34,7 @@
                 .setConverter(SerializationConverter())
                 .addInterceptor(LogRecordInterceptor(BuildConfig.DEBUG))
     
-            NetConfig.initialize("https://github.com/liangjingkanji/Net/", okHttpClientBuilder)
+            NetConfig.initialize("https://github.com/liangjingkanji/Net/", this, okHttpClientBuilder)
         }
     }
     ```
@@ -60,7 +60,7 @@
 但是个别开发者需求指定重试次数则可以添加`RetryInterceptor`拦截器即可实现失败以后会重试指定次数
 
 ```kotlin
-NetConfig.initialize("https://github.com/liangjingkanji/Net/") {
+NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
     // ... 其他配置
     addInterceptor(RetryInterceptor(3)) // 如果全部失败会重试三次
 }

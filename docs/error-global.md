@@ -1,7 +1,7 @@
 Net可以通过实现`NetErrorHandler`接口来监听全局错误处理, 当你通过`setErrorHandler`后Net就不会再执行默认的错误处理了
 
 ```kotlin
-NetConfig.initialize("https://github.com/liangjingkanji/Net/") {
+NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
 
     setErrorHandler(object : NetErrorHandler() {
         override fun onError(e: Throwable) {
