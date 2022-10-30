@@ -115,4 +115,12 @@
         android:id="@+id/request_callback"
         android:icon="@drawable/ic_callback_request"
         android:title="Callback" />
+    <item
+        android:id="@+id/limitedTimeFragment"
+        android:icon="@drawable/ic_limited_time"
+        android:title="限时请求" />
+    <item
+        android:id="@+id/timingRequestFragment"
+        android:icon="@drawable/ic_timing"
+        android:title="定时请求" />
 </menu>

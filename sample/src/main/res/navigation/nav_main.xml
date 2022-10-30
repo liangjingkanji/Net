@@ -140,5 +140,13 @@
         android:id="@+id/previewCacheFragment"
         android:name="com.drake.net.sample.ui.fragment.PreviewCacheFragment"
         android:label="PreviewCacheFragment" />
+    <fragment
+        android:id="@+id/limitedTimeFragment"
+        android:name="com.drake.net.sample.ui.fragment.LimitedTimeFragment"
+        android:label="限时请求" />
+    <fragment
+        android:id="@+id/timingRequestFragment"
+        android:name="com.drake.net.sample.ui.fragment.TimingRequestFragment"
+        android:label="定时请求" />
 
 </navigation>

@@ -74,6 +74,7 @@ nav:
   - 最快请求结果: fastest.md
   - 日志插件: log-recorder.md
   - 通知栏日志: log-notice.md
+  - 限时/定时请求: timing.md
   - Callback: callback.md
   - 轮询器/倒计时: interval.md
   - 社区讨论: https://github.com/liangjingkanji/Net/discussions
