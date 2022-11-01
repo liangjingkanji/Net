@@ -2,6 +2,7 @@ package com.drake.net.sample.interfaces
 
 import com.drake.net.interceptor.RequestInterceptor
 import com.drake.net.request.BaseRequest
+import com.drake.net.sample.constants.UserConfig
 
 
 /** 请求拦截器, 一般用于添加全局参数 */
@@ -13,6 +14,6 @@ class MyRequestInterceptor : RequestInterceptor {
         if (request.headers()["client"] == null) {
             request.addHeader("client", "Android")
         }
-        request.setHeader("token", "6cad0ff06f5a214b9cfdf2a4a7c43339")
+        request.setHeader("token", UserConfig.token)
     }
 }

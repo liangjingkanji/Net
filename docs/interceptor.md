@@ -1,9 +1,13 @@
-拦截器(Interceptor)一般用于修改请求的参数或者进行请求转发/重试. Net就是使用的OkHttp的拦截器. 所以支持市面上的所有OkHttp拦截器组件库
+Net总共支持两种拦截器
+
+1. Interceptor, 支持市面上的所有OkHttp拦截器组件库, 可以修改任何请求响应信息, 可以转发请求
+2. RequestInterceptor, 更简单易用的轻量拦截器, 一般用于添加全局请求头/参数, 无法转发请求
 <br>
 
-> 你的业务可能需要请求参数加密或者响应信息需要解密. 请尽可能不要封装Post/Get等请求动作(这是不明智的做法) <br>
-  自定义拦截器和转换器可以应对任何项目需求. 同时更符合项目设计
+> 你的业务可能需要加密解密. 但请不要封装Post/Get等请求动作(这是不明智的做法) <br>
+  建议自定义拦截器和转换器可以应对任何项目需求, 同时更符合架构设计
 
+添加拦截器
 
 ```kotlin
 class App : Application() {
@@ -11,11 +15,36 @@ class App : Application() {
         super.onCreate()
 
         NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
-            addInterceptor { chain -> chain.proceed(chain.request()) }
+            addInterceptor(RefreshTokenInterceptor())
         }
     }
 }
 ```
+
+以下为简单演示客户端自动刷新token拦截器
+
+```kotlin
+/**
+ * 演示如何自动刷新token令牌
+ */
+class RefreshTokenInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        val response = chain.proceed(request) // 如果token失效
+
+        return synchronized(RefreshTokenInterceptor::class.java) {
+            if (response.code == 401 && UserConfig.isLogin && !request.url.pathSegments.contains("token")) {
+                val json = Net.get("token").execute<String>() // 同步刷新token
+                UserConfig.token = JSONObject(json).optString("token")
+                chain.proceed(request)
+            } else {
+                response
+            }
+        }
+    }
+}
+```
+
 
 在拦截器中可以使用以下函数复制请求/响应体
 
