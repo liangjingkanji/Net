@@ -71,21 +71,21 @@ NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
 
 [NetConfig](api/-net/com.drake.net/-net-config/index.html)的字段即为全局配置, 可随时修改
 
-例如Retrofit的动态`BaseURL`功能就可以直接修改`NetConfig.host`
-
 ```kotlin
-NetConfig.host = "https://github.com/liangjingkanji/Net/"
+NetConfig.converter = MyNewConverter() // 修改全局数据转换器
+NetConfig.okHttpClient // 修改全局默认客户端
 ```
 
+更多请访问源码查看
 
-## 动态BaseURL
+## BaseUrl
 
-这个概念来源于Retrofit, 因为Retrofit无法动态修改Host, 但是这个Net支持随时修改
+这个概念来源于Retrofit, 因为Retrofit无法动态修改Host, 但是这个Net支持随时修改. 以下介绍三种修改方式
 
 1) 直接修改
 
 ```kotlin
-NetConfig.host = "新的BaseURL"
+NetConfig.host = "新的BaseUrl"
 ```
 
 
@@ -119,6 +119,6 @@ scopeNetLife {
 }
 ```
 
-当然你还可以在拦截器里面统一处理, 在拦截器里面判断tag或者path来拼接域名
+和BaseUrl一样你还可以在拦截器里面统一处理, 在拦截器里面判断tag或者path来拼接域名
 
 
