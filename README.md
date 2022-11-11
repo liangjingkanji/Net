@@ -23,9 +23,8 @@
 
 <br>
 
-Android上可能是最强的网络框架, 基于[OkHttp](https://github.com/square/okhttp)/协程的非侵入式框架(不影响原有功能). 一行代码发起网络请求, 你甚至可以不初始化
+Android上可能是最强的网络框架, 基于[OkHttp](https://github.com/square/okhttp)/协程的非侵入式框架(不影响原有功能). 学习成本低/使用简单, 一行代码发起网络请求, 甚至无需初始化
 
-本项目承诺会永远保持社区维护
 <br>
 
 欢迎将本项目文档/注释进行国际化翻译, 感谢您的支持! <br>
@@ -42,9 +41,11 @@ Welcome to international translation of this project's documents/notes, thank yo
 
 - [x] 开发效率No.1
 - [x] 专为Android而生
+- [x] 使用高性能Okio
 - [x] 支持OkHttp所有功能/组件
-- [x] DSL作用域编程
+- [x] 随时升级OkHttp版本保证网络安全性
 - [x] 优秀的源码/注释/文档/示例
+- [x] 永远保持社区维护
 
 ## 主要功能
 
