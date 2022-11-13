@@ -19,6 +19,7 @@ package com.drake.net.sample.interfaces
 
 import com.drake.net.Net
 import com.drake.net.sample.constants.UserConfig
+import com.drake.tooltip.toast
 import okhttp3.Interceptor
 import okhttp3.Response
 import org.json.JSONObject
@@ -35,7 +36,13 @@ class RefreshTokenInterceptor : Interceptor {
         return synchronized(RefreshTokenInterceptor::class.java) {
             if (response.code == 401 && UserConfig.isLogin && !request.url.pathSegments.contains("token")) {
                 val json = Net.get("token").execute<String>() // 同步刷新token
-                UserConfig.token = JSONObject(json).optString("token")
+                val jsonObject = JSONObject(json)
+                if (jsonObject.getBoolean("isExpired")) {
+                    toast("登录状态失效")
+                    // token刷新失败跳转到登录界面重新登录
+                } else {
+                    UserConfig.token = jsonObject.optString("token")
+                }
                 chain.proceed(request)
             } else {
                 response
