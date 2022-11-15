@@ -6,7 +6,7 @@ Net取消协程作用域自动取消内部网络请求, 也支持任意位置取
 ```kotlin
 downloadScope = scopeNetLife {
     // 下载文件
-    val file = Get("download").await()
+    val file = Get<File>("download").await()
 }
 
 downloadScope.cancel() // 取消下载

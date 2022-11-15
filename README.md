@@ -41,6 +41,7 @@ Welcome to international translation of this project's documents/notes, thank yo
 
 - [x] 开发效率No.1
 - [x] 专为Android而生
+- [x] OkHttp最佳实践
 - [x] 使用高性能Okio
 - [x] 支持OkHttp所有功能/组件
 - [x] 随时升级OkHttp版本保证网络安全性
@@ -52,27 +53,28 @@ Welcome to international translation of this project's documents/notes, thank yo
 - [x] 协程并发(不会协程也可上手)
 - [x] 并发/串行/队列/同步请求
 - [x] 快速切换线程
-- [x] 全局错误处理
+- [x] 全局错误处理(减少崩溃率)
 - [x] 协程作用域支持错误和结束回调
 - [x] 解析任何数据(json/protocol...)的转换器
 - [x] 泛型指定网络请求返回任何类型
 - [x] 自动处理下拉刷新和上拉加载
-- [x] 自动处理分页加载
-- [x] 自动缺省页
-- [x] 自动处理生命周期
-- [x] 自动处理加载对话框
-- [x] 自动错误信息吐司
-- [x] 自动异常捕获(定位请求位置)
+- [x] 自动分页加载
+- [x] 自动显示缺省页
+- [x] 自动显示加载对话框
+- [x] 自动取消请求(生命周期)
+- [x] 自动吐司错误信息
+- [x] 自动捕获异常
 - [x] 支持ViewModel
 - [x] Request携带数据(setExtra/tagOf)
 - [x] Request支持Id/Group分组
-- [x] AS日志插件/应用通知栏日志
+- [x] 日志信息输出(AndroidStudio插件/App通知栏)
 - [x] 并发请求返回最快请求结果
 - [x] 全局取消请求
 - [x] Https快速配置
 - [x] Cookie持久化管理
+- [x] 定时/限时请求
 - [x] 强制缓存模式/自定义缓存Key/缓存有效期/LRU缓存算法/缓存任何数据
-- [x] 缓存+网络双重读取(预览模式实现)
+- [x] 先缓存后网络请求(预览模式)
 - [x] 内置超强轮询器(计时器)
 - [x] 监听上传/下载进度(使用时间, 每秒速度, 剩余时间...)
 
