@@ -25,8 +25,8 @@ class SerializationConverter(
 
     companion object {
         val jsonDecoder = Json {
-            ignoreUnknownKeys = true // JSON和数据模型字段可以不匹配
-            coerceInputValues = true // 如果JSON字段是Null则使用默认值
+            ignoreUnknownKeys = true // 数据类可以不用声明Json的所有字段
+            coerceInputValues = true // 如果Json字段是Null则使用数据类字段默认值
         }
     }
 

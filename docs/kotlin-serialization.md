@@ -1,23 +1,39 @@
-从Net3开始支持使用[kotlin-serialization](https://github.com/Kotlin/kotlinx.serialization)(以下简称ks)
+1. 从Net3开始支持使用[kotlin-serialization](https://github.com/Kotlin/kotlinx.serialization)(以下简称ks)
 
-中文使用文档请阅读: [Kotlin最强解析库 - kotlin-serialization](https://juejin.cn/post/6963676982651387935)
+1. 更多使用教程请阅读: [Kotlin最强解析库 - kotlin-serialization](https://juejin.cn/post/6963676982651387935)
 
 <br>
-**Net完美支持kotlin-serialization创建转换器**
-
 ## kotlin-serialization 特点
 
-- kotlin官方发行
-- 可配置性强
-- 支持动态解析
+- kotlin官方库
+- 动态数据类型解析
 - 自定义序列化器
-- 支持ProtoBuf/CBOR/JSON等其他数据结构序列化
+- 支持ProtoBuf/JSON等数据结构序列化
 - 非空覆盖(即返回的Json字段为null则使用数据类默认值)
-- 启用宽松模式, 允许Json和数据类字段匹配不一致
-- 相对其他解析库他解决泛型擦除机制, 支持任何泛型, 可直接返回Map/List/Pair...
+- 启用宽松模式, Json和数据类字段无需一致
+- 解析任何类型(Map/List/Pair...)
 
-> 注意ks的数据模型类都要求使用注解`@Serializable`. <br>
+> ks的数据模型类都要求使用注解`@Serializable`(除非自定义解析过程), 父类和子类都需要使用 <br>
 > 一般开发中都是使用[插件生成数据模型](model-generate.md), 所以这并不会增加工作量. 即使手写也只是一个注解, 但是可以带来默认值支持和更安全的数据解析
+
+## 依赖
+
+
+项目 build.gradle
+
+
+```kotlin
+classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+// 和Kotlin插件同一个版本号即可
+```
+
+module build.gradle
+
+```kotlin
+apply plugin: "kotlin-kapt"
+apply plugin: 'kotlinx-serialization'
+implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0"
+```
 
 ## 配置转换器
 
@@ -56,19 +72,17 @@ scopeNetLife {
 data class UserModel(var name: String, var age: Int, var height: Int)
 ```
 
-> 具体解析返回的JSON中的某个字段请在转换器里面自定 <br>
+> 具体解析返回的JSON中的某个字段请在转换器里面自定, 其注意如果存在父类, 父类和子类都需要使用`@Serializable`注解修饰 <br>
 如果想详细了解KS, 请阅读文章: [Kotlin最强解析库 - kotlin-serialization](https://juejin.cn/post/6963676982651387935)
 
-## 非空覆盖
+## 常用配置
 
-在开发中遇到不规范的后端接口数据时为了避免空指针等数据异常则需要使用`非空覆盖`
-即返回的Json字段为null或者不存在则使用数据类默认值. 避免导致的空指针问题或者数据异常.
+以下为反序列化Json常用配置
 
-Json配置
 ```kotlin
 val jsonDecoder = Json {
-    ignoreUnknownKeys = true // JSON和数据模型字段可以不匹配
-    coerceInputValues = true // 如果JSON字段是Null则使用默认值
+    ignoreUnknownKeys = true // 数据类可以不用声明Json的所有字段
+    coerceInputValues = true // 如果Json字段是Null则使用数据类字段默认值
 }
 ```
 
@@ -77,6 +91,25 @@ val jsonDecoder = Json {
 @Serializable
 data class Data(var name:String = "", var age:Int = 0)
 ```
+> 建议为数据类所有字段设置默认值, 避免后端数据缺失导致解析异常, 也减少频繁判空操作
+
+### 启用默认值
+
+当`coerceInputValues = true`时, json字段为null数据类字段为非空类型情况下采用字段默认值, 没有默认值请`explicitNulls = false`则赋值为null
+
+同时当出现未知的枚举类型也会使用默认值
+
+
+
+### 字段缺失
+
+通过`explicitNulls`来配置字段缺时处理方式
+
+- 反序列化时, 如果数据类缺失字段, 使用`ignoreUnknownKeys = true`就会自动使用默认值, 没有默认值请`explicitNulls = false`赋值为null
+- 序列化时, 数据类如果字段为null也会被赋值到json中, `explicitNulls = false`可以忽略掉
+
+
+### 自动生成
 
 手动写默认值太麻烦, 推荐使用插件生成默认值
 
