@@ -44,7 +44,8 @@ scopeNetLife { // 创建作用域
 |-|-|
 |`param`|支持基础类型/文件/RequestBody/Part|
 |`json`|请求参数为JSONObject/JsonArray/String|
-|`setQuery`|Url参数, 如果当前请求为Url请求则该函数等效于`param`函数|
+|`setQuery/addQuery`|设置/添加Url参数, 如果当前请求为Url请求则该函数等效于`param`函数|
+|`setHeader/addHeader`|设置/添加请求头|
 
 如果没有添加文件/流那么就是通过BodyRequest内部的`FormBody`发起请求. 反之就是通过`MultipartBody`发起请求.
 
