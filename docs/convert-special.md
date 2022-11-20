@@ -80,27 +80,50 @@ scopeNetLife {
 }
 ```
 
-## 解析泛型数据模型
+## 解析泛型数据类
 
-这种方式在Retrofit中经常被使用到, 可能某些人比较习惯
+这种方式在Retrofit中经常被使用到, 因为有些人认为code/msg也要使用. 实际上一般非成功错误码(例如200或者0)算业务定义错误应当在转换器抛出异常, 然后在错误处理回调中取获取错误码/信息
+    ```kotlin
+    // 数据对象的基类
+    open class BaseResult<T> {
+        var code: Int = 0
+        var msg: String = ""
+        var data: T? = null
+    }
 
-数据对象
+    class Result(var name: String) : BaseResult<Result>()
+    ```
+
+如果你成功错误码要求定义多个都算网络请求成功, 也是可以的并且不需要写泛型这么麻烦, Net转换器可以实现无论加不加`code/msg`都能正常解析返回
 
 ```kotlin
-// 数据对象的基类
-open class BaseResult<T> {
-    var code: Int = 0
-    var msg: String = ""
-    var data: T? = null
-}
-
-class Result(var request_method: String) : BaseResult<Result>()
+@kotlinx.serialization.Serializable
+class Result(var data: String = "数据", var msg: String = "", var code:Int = 0)
 ```
 
-使用泛型
-
 ```kotlin
-scopeNetLife {
-    val data = Get<Result>("api").await().request_method
+@kotlinx.serialization.Serializable
+class Result(var data: String = "数据")
+```
+
+查看源码`SerializationConverter`可以看到转换器内进行了回退解析策略, 当截取`data`解析失败后会完整解析整个Json
+
+```kotlin hl_lines="15"
+code in 200..299 -> { // 请求成功
+    val bodyString = response.body?.string() ?: return null
+    val kType = response.request.kType
+        ?: throw ConvertException(response, "Request does not contain KType")
+    return try {
+        val json = JSONObject(bodyString) // 获取JSON中后端定义的错误码和错误信息
+        val srvCode = json.getString(this.code)
+        if (srvCode == success) { // 对比后端自定义错误码
+            json.getString("data").parseBody<R>(kType)
+        } else { // 错误码匹配失败, 开始写入错误异常
+            val errorMessage = json.optString(message, NetConfig.app.getString(com.drake.net.R.string.no_error_message))
+            throw ResponseException(response, errorMessage, tag = srvCode) // 将业务错误码作为tag传递
+        }
+    } catch (e: JSONException) { // 固定格式JSON分析失败直接解析JSON
+        bodyString.parseBody<R>(kType)
+    }
 }
 ```
