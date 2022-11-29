@@ -21,8 +21,7 @@ et_input.debounce().distinctUntilChanged().launchIn(this) {
     scope?.cancel() // 发起新的请求前取消旧的请求, 避免旧数据覆盖新数据
     scope = scopeNetLife { // 保存旧的请求到一个变量中, scopeNetLife其函数决定网络请求生命周期
         tvFragment.text = "请求中"
-        val data = Get<String>("http://api.k780.com/?app=life.time&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json",
-                               absolutePath = true).await()
+        val data = Get<String>("http://api.k780.com/?app=life.time&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json").await()
         tvFragment.text = JSONObject(data).getJSONObject("result").getString("datetime_2")
     }
 }
