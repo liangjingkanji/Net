@@ -1,3 +1,7 @@
+## 3.5.3
+- feat: 默认使用NetDialogFactory的setCancelable配置
+- fix: #150 scopeDialog预览模式
+
 ## 3.5.2
 - fix: #135 Content-MD5未使用Base64解码
 - feat: 新增 BaseRequest.headers
