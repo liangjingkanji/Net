@@ -39,7 +39,7 @@ import kotlinx.coroutines.Dispatchers
 class DialogCoroutineScope(
     val activity: FragmentActivity,
     var dialog: Dialog? = null,
-    val cancelable: Boolean = true,
+    val cancelable: Boolean? = null,
     dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : NetCoroutineScope(dispatcher = dispatcher), LifecycleObserver {
 
@@ -57,7 +57,7 @@ class DialogCoroutineScope(
         activity.runOnUiThread {
             val dialog = dialog ?: NetConfig.dialogFactory.onCreate(activity)
             this.dialog = dialog
-            dialog.setCancelable(cancelable)
+            cancelable?.let { dialog.setCancelable(it) }
             dialog.setOnCancelListener {
                 cancel()
             }
