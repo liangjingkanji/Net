@@ -43,11 +43,12 @@ class PageCoroutineScope(
     }
 
     override fun start() {
-        isPreview = !page.loaded
+        previewEnabled = !page.loaded
         page.trigger()
     }
 
     override fun previewFinish(succeed: Boolean) {
+        super.previewFinish(succeed)
         if (succeed && previewBreakLoading) {
             page.showContent()
         }

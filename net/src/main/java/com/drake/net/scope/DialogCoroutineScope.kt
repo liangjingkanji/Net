@@ -18,9 +18,7 @@ package com.drake.net.scope
 
 import android.app.Dialog
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 import com.drake.net.NetConfig
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -46,37 +44,39 @@ class DialogCoroutineScope(
 ) : NetCoroutineScope(dispatcher = dispatcher), LifecycleObserver {
 
     init {
-        activity.lifecycle.addObserver(this)
+        activity.lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    dialog?.cancel()
+                }
+            }
+        })
     }
 
     override fun start() {
         activity.runOnUiThread {
-            dialog = when {
-                dialog != null -> dialog
-                else -> NetConfig.dialogFactory.onCreate(activity)
+            val dialog = dialog ?: NetConfig.dialogFactory.onCreate(activity)
+            this.dialog = dialog
+            dialog.setCancelable(cancelable)
+            dialog.setOnCancelListener {
+                cancel()
             }
-            dialog?.setOnDismissListener { cancel() }
-            dialog?.setCancelable(cancelable)
-            if (!activity.isFinishing) dialog?.show()
+            if (!activity.isFinishing) {
+                dialog.show()
+            }
         }
     }
 
     override fun previewFinish(succeed: Boolean) {
-        if (succeed) {
-            dismiss()
+        super.previewFinish(succeed)
+        if (succeed && previewBreakLoading) {
+            dialog?.dismiss()
         }
     }
 
     override fun finally(e: Throwable?) {
         super.finally(e)
-        dismiss()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun dismiss() {
-        if (dialog?.isShowing == true) {
-            dialog?.dismiss()
-        }
+        dialog?.dismiss()
     }
 
 }

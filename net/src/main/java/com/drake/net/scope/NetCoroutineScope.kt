@@ -37,8 +37,8 @@ open class NetCoroutineScope(
     /** 预览模式 */
     protected var preview: (suspend CoroutineScope.() -> Unit)? = null
 
-    /** 是否可读取缓存 */
-    protected var isPreview = true
+    /** 是否启用预览 */
+    protected var previewEnabled = true
 
     /** 是否读取缓存成功 */
     protected var previewSucceed = false
@@ -54,7 +54,7 @@ open class NetCoroutineScope(
     override fun launch(block: suspend CoroutineScope.() -> Unit): NetCoroutineScope {
         launch(EmptyCoroutineContext) {
             start()
-            if (preview != null && isPreview) {
+            if (preview != null && previewEnabled) {
                 supervisorScope {
                     previewSucceed = try {
                         preview?.invoke(this)
@@ -80,7 +80,9 @@ open class NetCoroutineScope(
      * 读取缓存回调
      * @param succeed 缓存是否成功
      */
-    protected open fun previewFinish(succeed: Boolean) {}
+    protected open fun previewFinish(succeed: Boolean) {
+        previewEnabled = false
+    }
 
     override fun handleError(e: Throwable) {
         NetConfig.errorHandler.onError(e)

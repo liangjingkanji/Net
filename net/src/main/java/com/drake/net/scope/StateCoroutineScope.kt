@@ -43,11 +43,12 @@ class StateCoroutineScope(
     }
 
     override fun start() {
-        isPreview = !state.loaded
+        previewEnabled = !state.loaded
         state.trigger()
     }
 
     override fun previewFinish(succeed: Boolean) {
+        super.previewFinish(succeed)
         if (succeed) {
             state.showContent()
         }
