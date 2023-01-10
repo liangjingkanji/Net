@@ -41,49 +41,49 @@ class RequestMethodFragment :
 
     private fun GET() {
         scopeNetLife {
-            binding.tvFragment.text = Get<String>(Api.BANNER).await()
+            binding.tvFragment.text = Get<String>(Api.TEST).await()
         }
     }
 
     private fun POST() {
         scopeNetLife {
-            binding.tvFragment.text = Post<String>(Api.BANNER).await()
+            binding.tvFragment.text = Post<String>(Api.TEST).await()
         }
     }
 
     private fun HEAD() {
         scopeNetLife {
-            binding.tvFragment.text = Head<String>(Api.BANNER).await()
+            binding.tvFragment.text = Head<String>(Api.TEST).await()
         }
     }
 
     private fun PUT() {
         scopeNetLife {
-            binding.tvFragment.text = Put<String>(Api.BANNER).await()
+            binding.tvFragment.text = Put<String>(Api.TEST).await()
         }
     }
 
     private fun PATCH() {
         scopeNetLife {
-            binding.tvFragment.text = Patch<String>(Api.BANNER).await()
+            binding.tvFragment.text = Patch<String>(Api.TEST).await()
         }
     }
 
     private fun DELETE() {
         scopeNetLife {
-            binding.tvFragment.text = Delete<String>(Api.BANNER).await()
+            binding.tvFragment.text = Delete<String>(Api.TEST).await()
         }
     }
 
     private fun TRACE() {
         scopeNetLife {
-            binding.tvFragment.text = Trace<String>(Api.BANNER).await()
+            binding.tvFragment.text = Trace<String>(Api.TEST).await()
         }
     }
 
     private fun OPTIONS() {
         scopeNetLife {
-            binding.tvFragment.text = Options<String>(Api.BANNER).await()
+            binding.tvFragment.text = Options<String>(Api.TEST).await()
         }
     }
 
@@ -108,7 +108,7 @@ class RequestMethodFragment :
             // }.await()
 
             // 创建JSON
-            binding.tvFragment.text = Post<String>(Api.BANNER) {
+            binding.tvFragment.text = Post<String>(Api.TEST) {
                 json("name" to name, "age" to age, "measurements" to measurements) // 同时支持Map集合
             }.await()
         }

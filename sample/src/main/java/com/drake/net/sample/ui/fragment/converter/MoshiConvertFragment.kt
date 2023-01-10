@@ -21,7 +21,7 @@ import com.drake.net.sample.R
 import com.drake.net.sample.constants.Api
 import com.drake.net.sample.converter.MoshiConverter
 import com.drake.net.sample.databinding.FragmentCustomConvertBinding
-import com.drake.net.sample.model.HomeBannerModel
+import com.drake.net.sample.model.GameModel
 import com.drake.net.utils.scopeNetLife
 
 
@@ -38,9 +38,9 @@ class MoshiConvertFragment :
         """.trimIndent()
 
         scopeNetLife {
-            binding.tvFragment.text = Get<List<HomeBannerModel>>(Api.BANNER) {
+            binding.tvFragment.text = Get<GameModel>(Api.GAME) {
                 converter = MoshiConverter() // 单例转换器, 此时会忽略全局转换器
-            }.await()[0].desc
+            }.await().list[0].name
         }
     }
 

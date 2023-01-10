@@ -29,10 +29,11 @@ class MoshiConverter : JSONConvert(code = "errorCode", message = "errorMsg", suc
     }
 
     override fun <R> String.parseBody(succeed: Type): R? {
-        return try {
-            moshi.adapter<R>(succeed).fromJson(JSONObject(this).getString("data"))
+        val string = try {
+            JSONObject(this).getString("data")
         } catch (e: Exception) {
-            moshi.adapter<R>(succeed).fromJson(this)
+            this
         }
+        return moshi.adapter<R>(succeed).fromJson(string)
     }
 }

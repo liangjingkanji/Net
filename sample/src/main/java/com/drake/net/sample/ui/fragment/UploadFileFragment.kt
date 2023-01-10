@@ -23,8 +23,8 @@ import com.drake.net.Post
 import com.drake.net.component.Progress
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.sample.R
-import com.drake.net.sample.contract.AlbumSelectContract
 import com.drake.net.sample.constants.Api
+import com.drake.net.sample.contract.AlbumSelectContract
 import com.drake.net.sample.databinding.FragmentUploadFileBinding
 import com.drake.net.utils.TipUtils
 import com.drake.net.utils.scopeNetLife
@@ -69,7 +69,7 @@ class UploadFileFragment : EngineFragment<FragmentUploadFileBinding>(R.layout.fr
 
     private fun uploadUri(uri: Uri?) {
         scopeNetLife {
-            Post<String>("upload") {
+            Post<String>(Api.UPLOAD) {
                 param("file", uri)
                 addUploadListener(object : ProgressListener() {
                     override fun onProgress(p: Progress) {

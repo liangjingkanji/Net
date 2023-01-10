@@ -13,7 +13,7 @@ class SyncRequestFragment :
     override fun initView() {
         thread { // 网络请求不允许在主线程
             val result = try {
-                Net.post(Api.BANNER).execute<String>()
+                Net.post(Api.TEST).execute<String>()
             } catch (e: Exception) { // 同步请求失败会导致崩溃要求捕获异常
                 "请求错误 = ${e.message}"
             }

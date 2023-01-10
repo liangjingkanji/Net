@@ -23,7 +23,7 @@ import com.drake.net.Get
 import com.drake.net.sample.R
 import com.drake.net.sample.constants.Api
 import com.drake.net.sample.databinding.FragmentPullRefreshBinding
-import com.drake.net.sample.model.HomeArticleModel
+import com.drake.net.sample.model.GameModel
 import com.drake.net.utils.scope
 
 
@@ -32,14 +32,14 @@ class PullRefreshFragment :
 
     override fun initView() {
         binding.rv.linear().setup {
-            addType<HomeArticleModel.Data>(R.layout.item_pull_list)
+            addType<GameModel.Data>(R.layout.item_pull_list)
         }
 
         binding.page.onRefresh {
             scope {
-                val response = Get<HomeArticleModel>(String.format(Api.ARTICLE, index)).await()
-                addData(response.datas) {
-                    index < response.pageCount
+                val response = Get<GameModel>(String.format(Api.GAME, index)).await()
+                addData(response.list) {
+                    index < response.total
                 }
             }
         }.autoRefresh()

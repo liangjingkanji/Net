@@ -21,7 +21,7 @@
 
         <variable
             name="m"
-            type="com.drake.net.sample.model.HomeArticleModel.Data" />
+            type="com.drake.net.sample.model.GameModel.Data" />
     </data>
 
     <LinearLayout
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@{m.title}"
+                android:text="@{m.name}"
                 android:textStyle="bold"
                 tools:text="1" />
 

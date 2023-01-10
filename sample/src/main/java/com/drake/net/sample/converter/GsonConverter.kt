@@ -27,6 +27,11 @@ class GsonConverter : JSONConvert(code = "errorCode", message = "errorMsg") {
     }
 
     override fun <R> String.parseBody(succeed: Type): R? {
-        return gson.fromJson<R>(JSONObject(this).getString("data"), succeed)
+        val string = try {
+            JSONObject(this).getString("data")
+        } catch (e: Exception) {
+            this
+        }
+        return gson.fromJson<R>(string, succeed)
     }
 }

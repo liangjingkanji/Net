@@ -33,9 +33,9 @@ class ParallelNetworkFragment :
         scopeNetLife {
 
             // 同时发起三个请求
-            val deferred = Get<String>(Api.BANNER)
-            val deferred1 = Post<String>(Api.BANNER)
-            val deferred2 = Trace<String>(Api.BANNER)
+            val deferred = Get<String>(Api.TEST)
+            val deferred1 = Post<String>(Api.TEST)
+            val deferred2 = Trace<String>(Api.TEST)
 
             // 同时接收三个请求数据
             deferred.await()

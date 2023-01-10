@@ -31,7 +31,7 @@ class AutoDialogFragment :
 
     override fun initView() {
         scopeDialog {
-            binding.tvFragment.text = Post<String>(Api.LOGIN) {
+            binding.tvFragment.text = Post<String>(Api.DELAY) {
                 param("username", "你的账号")
                 param("password", "123456")
             }.await()

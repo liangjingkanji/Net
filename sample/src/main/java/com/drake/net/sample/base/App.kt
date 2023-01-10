@@ -33,6 +33,7 @@ import com.drake.net.sample.R
 import com.drake.net.sample.constants.Api
 import com.drake.net.sample.converter.SerializationConverter
 import com.drake.net.sample.interfaces.MyRequestInterceptor
+import com.drake.net.sample.mock.MockDispatcher
 import com.drake.statelayout.StateConfig
 import com.drake.tooltip.dialog.BubbleDialog
 import com.scwang.smart.refresh.footer.ClassicsFooter
@@ -88,6 +89,8 @@ class App : Application() {
                 BubbleDialog(it, "加载中....")
             }
         }
+
+        MockDispatcher.initialize()
 
         initializeThirdPart()
     }

@@ -21,7 +21,7 @@
 
         <variable
             name="m"
-            type="com.drake.net.sample.model.CommonWebsite" />
+            type="com.drake.net.sample.model.GameModel.Data" />
     </data>
 
     <LinearLayout

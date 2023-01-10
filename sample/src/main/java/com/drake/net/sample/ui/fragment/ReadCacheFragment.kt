@@ -35,7 +35,7 @@ class ReadCacheFragment : EngineFragment<FragmentReadCacheBinding>(R.layout.frag
     override fun initView() {
         scopeNetLife {
             binding.tvFragment.text =
-                Post<String>(Api.BANNER) {
+                Post<String>(Api.TEST) {
                     setCacheMode(CacheMode.REQUEST_THEN_READ) // 请求网络失败会读取缓存, 请断网测试
                     // setCacheKey("自定义缓存KEY")
                 }.await()

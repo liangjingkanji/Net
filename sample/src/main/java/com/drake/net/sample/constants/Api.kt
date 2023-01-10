@@ -1,11 +1,10 @@
 package com.drake.net.sample.constants
 
 object Api {
-    const val HOST = "https://www.wanandroid.com/"
+    const val HOST = "http://127.0.0.1:8090"
 
-    const val BANNER = "banner/json"
-    const val LOGIN = "user/login"
-    const val UPLOAD = "upload"
-    const val FRIEND = "friend/json"
-    const val ARTICLE = "article/list/%s/json" // %s为分页索引
+    const val TEST = "/test"
+    const val DELAY = "/delay"
+    const val UPLOAD = "/upload"
+    const val GAME = "/game"
 }

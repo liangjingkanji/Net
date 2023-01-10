@@ -19,7 +19,7 @@ class CallbackRequestFragment :
 
     override fun initView() {
         // Net同样支持OkHttp原始的队列任务
-        Net.post(Api.BANNER).enqueue(object : Callback {
+        Net.post(Api.TEST).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
             }
 

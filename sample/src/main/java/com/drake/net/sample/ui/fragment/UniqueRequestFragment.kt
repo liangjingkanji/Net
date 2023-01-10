@@ -20,7 +20,7 @@ class UniqueRequestFragment :
             scope?.cancel() // 如果存在则取消
 
             scope = scopeNetLife {
-                val result = Post<String>(Api.BANNER).await()
+                val result = Post<String>(Api.TEST).await()
                 Log.d("日志", "请求到结果") // 你一直重复点击"发起请求"按钮会发现永远无法拿到请求结果, 因为每次发起新的请求会取消未完成的
                 binding.tvResult.text = result
             }

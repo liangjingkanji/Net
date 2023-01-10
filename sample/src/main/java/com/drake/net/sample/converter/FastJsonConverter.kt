@@ -24,6 +24,11 @@ import java.lang.reflect.Type
 class FastJsonConverter : JSONConvert(code = "errorCode", message = "errorMsg", success = "0") {
 
     override fun <R> String.parseBody(succeed: Type): R? {
-        return JSON.parseObject(JSONObject(this).getString("data"), succeed)
+        val string = try {
+            JSONObject(this).getString("data")
+        } catch (e: Exception) {
+            this
+        }
+        return JSON.parseObject(string, succeed)
     }
 }

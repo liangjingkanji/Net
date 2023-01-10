@@ -29,7 +29,7 @@ class InterceptorFragment :
 
     override fun initView() {
         scopeNetLife {
-            binding.tvFragment.text = Get<String>(Api.BANNER) {
+            binding.tvFragment.text = Get<String>(Api.TEST) {
                 // 拦截器只支持全局, 无法单例, 请查看[com.drake.net.sample.interceptor.NetInterceptor]
             }.await()
         }
