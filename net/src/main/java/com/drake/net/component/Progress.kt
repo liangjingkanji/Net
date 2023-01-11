@@ -34,15 +34,15 @@ class Progress {
     var currentByteCount: Long = 0
         internal set
 
-    /** 当前已经完成的字节数 */
+    /** 全部字节数 */
     var totalByteCount: Long = 0
         internal set
 
-    /** 进度间隔时间内完成的字节数 */
+    /** 距离上次进度变化的新增字节数 */
     var intervalByteCount: Long = 0
         internal set
 
-    /** 距离上次进度变化间隔时间 */
+    /** 距离上次进度变化的时间 */
     var intervalTime: Long = 0
         internal set
 
@@ -65,6 +65,10 @@ class Progress {
                 field
             }
         }
+
+    override fun toString(): String {
+        return "Progress(currentByteCount=$currentByteCount, totalByteCount=$totalByteCount, finish=$finish)"
+    }
 
     /**
      * 文件全部大小
