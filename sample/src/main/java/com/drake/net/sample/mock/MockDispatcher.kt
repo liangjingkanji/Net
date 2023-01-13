@@ -37,7 +37,7 @@ class MockDispatcher : Dispatcher() {
             srv.dispatcher = MockDispatcher()
             thread {
                 try {
-                    srv.start(8090)
+                    srv.start(8091)
                 } catch (e: Exception) {
                     Log.e("日志", "MOCK服务启动失败", e)
                 }
@@ -46,17 +46,21 @@ class MockDispatcher : Dispatcher() {
     }
 
     override fun dispatch(request: RecordedRequest): MockResponse {
-        val response = MockResponse().setHeader("Content-Type", "application/json; charset=utf-8")
 
         return when (request.path) {
-            Api.TEST -> response.setBody("Request Success : ${request.method}")
-            Api.DELAY -> response.setBodyDelay(2, TimeUnit.SECONDS).setBody("Request Success : ${request.method}")
-            Api.UPLOAD -> response.setBodyDelay(1, TimeUnit.SECONDS).setBody("Upload Success")
-            Api.GAME -> {
-                val buf = app.resources.openRawResource(R.raw.game).source().buffer().readUtf8()
-                response.setBodyDelay(1, TimeUnit.SECONDS).setBody(buf)
-            }
-            else -> response.setResponseCode(404)
+            Api.TEST -> MockResponse().setBody("Request Success : ${request.method}")
+            Api.DELAY -> MockResponse().setBodyDelay(2, TimeUnit.SECONDS).setBody("Request Success : ${request.method}")
+            Api.UPLOAD -> MockResponse().setBodyDelay(1, TimeUnit.SECONDS).setBody("Upload Success")
+            Api.GAME -> getRawResponse(R.raw.game)
+            else -> MockResponse().setResponseCode(404)
         }
+    }
+
+    private fun getRawResponse(rawId: Int, delay: Long = 500): MockResponse {
+        val buf = app.resources.openRawResource(rawId).source().buffer().readUtf8()
+        return MockResponse()
+            .setHeader("Content-Type", "application/json; charset=utf-8")
+            .setBodyDelay(delay, TimeUnit.MILLISECONDS)
+            .setBody(buf)
     }
 }
