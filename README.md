@@ -113,9 +113,6 @@ implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0" // 协程(�
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
 implementation 'com.squareup.okhttp3:okhttp:4.10.0' // 要求OkHttp4以上
 implementation 'com.github.liangjingkanji:Net:3.5.3'
-
-// 支持自动下拉刷新和缺省页的(可选)
-implementation 'com.github.liangjingkanji:BRV:1.3.86'
 ```
 如果你是在 Android 5 (API level 21)以下开发, 要求使用OkHttp3.x请使用: [Net-okhttp3](https://github.com/liangjingkanji/Net-okhttp3)
 <br>
