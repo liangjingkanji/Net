@@ -25,15 +25,15 @@ import java.io.IOException
 import java.util.concurrent.ConcurrentLinkedQueue
 
 class NetRequestBody(
-    private val requestBody: RequestBody,
+    private val body: RequestBody,
     private val progressListeners: ConcurrentLinkedQueue<ProgressListener>? = null
 ) : RequestBody() {
 
     private val progress = Progress()
-    val contentLength by lazy { requestBody.contentLength() }
+    val contentLength by lazy { body.contentLength() }
 
     override fun contentType(): MediaType? {
-        return requestBody.contentType()
+        return body.contentType()
     }
 
     @Throws(IOException::class)
@@ -45,25 +45,23 @@ class NetRequestBody(
     override fun writeTo(sink: BufferedSink) {
         if (sink is Buffer ||
             sink.toString().contains("com.android.tools.profiler.support.network.HttpTracker\$OutputStreamTracker")) {
-            requestBody.writeTo(sink)
+            body.writeTo(sink)
         } else {
             val bufferedSink: BufferedSink = sink.toProgress().buffer()
-            requestBody.writeTo(bufferedSink)
+            body.writeTo(bufferedSink)
             bufferedSink.close()
         }
     }
 
     /**
      * 复制一段指定长度的字符串内容
-     * @param byteCount 复制的字节长度. 如果-1则返回完整的字符串内容
-     * @param discard 如果实际长度大于指定长度则直接返回null. 可以保证数据完整性
+     * @param byteCount 复制的字节长度, 允许超过实际长度, 如果-1则返回完整的字符串内容
      */
-    fun peekString(byteCount: Long = 1024 * 1024, discard: Boolean = false): String {
+    fun peekBytes(byteCount: Long = 1024 * 1024): ByteString {
         val buffer = Buffer()
-        requestBody.writeTo(buffer)
-        if (discard && buffer.size > byteCount) return ""
-        val byteCountFinal = if (byteCount < 0) buffer.size else minOf(buffer.size, byteCount)
-        return buffer.readUtf8(byteCountFinal)
+        body.writeTo(buffer)
+        val maxSize = if (byteCount < 0) buffer.size else minOf(buffer.size, byteCount)
+        return buffer.readByteString(maxSize)
     }
 
     private fun Sink.toProgress() = object : ForwardingSink(this) {

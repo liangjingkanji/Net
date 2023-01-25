@@ -48,14 +48,6 @@ class RefreshTokenInterceptor : Interceptor {
 }
 ```
 
-
-在拦截器中可以使用以下函数复制请求/响应体
-
-| 函数 | 描述 |
-|-|-|
-| peekString | 可以截取复制`RequestBody/ResponseBody`, 并返回String |
-| logString | 等同`peekString`, 但仅支持content-type为xml/html/json/plain类型的数据 |
-
 ## 请求拦截器
 
 RequestInterceptor属于轻量级的请求拦截器, 在每次请求的时候该拦截器都会被触发(无法修改响应信息), 方便添加全局请求头/参数

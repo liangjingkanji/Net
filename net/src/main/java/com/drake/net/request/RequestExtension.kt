@@ -17,17 +17,11 @@
 package com.drake.net.request
 
 import com.drake.net.NetConfig
-import com.drake.net.body.name
-import com.drake.net.body.peekString
-import com.drake.net.body.value
 import com.drake.net.convert.NetConverter
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.tag.NetTag
-import okhttp3.FormBody
-import okhttp3.MultipartBody
 import okhttp3.OkHttpUtils
 import okhttp3.Request
-import java.net.URLDecoder
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.reflect.KType
 
@@ -187,35 +181,4 @@ fun Request.downloadTempFile(): Boolean {
  */
 fun Request.converter(): NetConverter {
     return tagOf<NetConverter>() ?: NetConfig.converter
-}
-
-/**
- * 请求日志信息
- * 只会输出 application/x-www-form-urlencoded, application/json, text/`*` 的请求体类型日志
- * @param urlDecode 是否进行 UTF-8 URLDecode
- */
-fun Request.logString(byteCount: Long = 1024 * 1024, urlDecode: Boolean = true): String? {
-    val requestBody = body ?: return null
-    val mediaType = requestBody.contentType()
-    val supportSubtype = arrayOf("plain", "json", "xml", "html").contains(mediaType?.subtype)
-    val bodyString = when {
-        requestBody is MultipartBody -> {
-            val params = mutableListOf<String>()
-            requestBody.parts.forEach {
-                params.add("${it.name()}=${it.value()}")
-            }
-            params.joinToString("&")
-        }
-        requestBody is FormBody || supportSubtype -> requestBody.peekString(byteCount)
-        else -> "$mediaType does not support output logs"
-    }
-    return if (urlDecode) {
-        try {
-            URLDecoder.decode(bodyString, "UTF-8")
-        } catch (e: Exception) {
-            bodyString
-        }
-    } else {
-        bodyString
-    }
 }

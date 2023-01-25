@@ -16,7 +16,6 @@
 
 package com.drake.net.response
 
-import com.drake.net.body.peekString
 import com.drake.net.component.Progress
 import com.drake.net.convert.NetConverter
 import com.drake.net.exception.ConvertException
@@ -144,21 +143,6 @@ fun Response.file(): File? {
         throw CancellationException(e)
     } catch (e: Exception) {
         throw DownloadFileException(this, cause = e)
-    }
-}
-
-/**
- * 响应日志信息
- * 只会输出 application/json, text/`*` 响应体类型日志
- */
-fun Response.logString(byteCount: Long = 1024 * 1024 * 4): String? {
-    val requestBody = body ?: return null
-    val mediaType = requestBody.contentType()
-    val supportSubtype = arrayOf("plain", "json", "xml", "html").contains(mediaType?.subtype)
-    return if (supportSubtype) {
-        requestBody.peekString(byteCount)
-    } else {
-        "$mediaType does not support output logs"
     }
 }
 

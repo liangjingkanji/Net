@@ -4,8 +4,8 @@ import com.drake.net.interfaces.ProgressListener
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import okhttp3.ResponseBody.Companion.asResponseBody
 import okio.Buffer
+import okio.ByteString
 import java.util.concurrent.ConcurrentLinkedQueue
 
 fun RequestBody.toNetRequestBody(listeners: ConcurrentLinkedQueue<ProgressListener>? = null) = run {
@@ -19,38 +19,32 @@ fun ResponseBody.toNetResponseBody(
 
 /**
  * 复制一段指定长度的字符串内容
- * @param byteCount 复制的字节长度. 如果-1则返回完整的字符串内容
+ * @param byteCount 复制的字节长度, 允许超过实际长度, 如果-1则返回完整的字符串内容
  */
-@JvmName("peekString")
-fun RequestBody.peekString(byteCount: Long = 1024 * 1024, discard: Boolean = false): String {
+fun RequestBody.peekBytes(byteCount: Long = 1024 * 1024): ByteString {
     return when (this) {
-        is NetRequestBody -> peekString(byteCount, discard)
+        is NetRequestBody -> peekBytes(byteCount)
         else -> {
             val buffer = Buffer()
             writeTo(buffer)
-            if (discard && buffer.size > byteCount) return ""
-            val byteCountFinal = if (byteCount < 0) buffer.size else minOf(buffer.size, byteCount)
-            buffer.readUtf8(byteCountFinal)
+            val maxSize = if (byteCount < 0) buffer.size else minOf(buffer.size, byteCount)
+            buffer.readByteString(maxSize)
         }
     }
 }
 
 /**
  * 复制一段指定长度的字符串内容
- * @param byteCount 复制的字节长度. 如果-1则返回完整的字符串内容
+ * @param byteCount 复制的字节长度, 允许超过实际长度, 如果-1则返回完整的字符串内容
  */
-fun ResponseBody.peekString(byteCount: Long = 1024 * 1024 * 4, discard: Boolean = false): String {
+fun ResponseBody.peekBytes(byteCount: Long = 1024 * 1024 * 4): ByteString {
     return when (this) {
-        is NetResponseBody -> peekString(byteCount, discard)
+        is NetResponseBody -> peekBytes(byteCount)
         else -> {
             val peeked = source().peek()
-            val buffer = Buffer()
             peeked.request(byteCount)
-            val byteCountFinal =
-                if (byteCount < 0) peeked.buffer.size else minOf(byteCount, peeked.buffer.size)
-            buffer.write(peeked, byteCountFinal)
-            if (discard && buffer.size > byteCount) return ""
-            buffer.asResponseBody(contentType(), byteCountFinal).string()
+            val maxSize = if (byteCount < 0) peeked.buffer.size else minOf(byteCount, peeked.buffer.size)
+            peeked.readByteString(maxSize)
         }
     }
 }
@@ -78,5 +72,5 @@ fun MultipartBody.Part.name(): String? {
 fun MultipartBody.Part.value(): String? {
     val contentDisposition = headers?.get("Content-Disposition") ?: return null
     return ";\\s${"filename"}=\"(.+?)\"".toRegex().find(contentDisposition)?.groupValues?.getOrNull(1)
-        ?: body.peekString()
+        ?: body.peekBytes().utf8()
 }
