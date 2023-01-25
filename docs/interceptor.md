@@ -1,11 +1,12 @@
-Net总共支持两种拦截器
+总共支持两种拦截器
 
-1. Interceptor, 支持市面上的所有OkHttp拦截器组件库, 可以修改任何请求响应信息, 可以转发请求
-2. RequestInterceptor, 更简单易用的轻量拦截器, 一般用于添加全局请求头/参数, 无法转发请求
+1. `Interceptor`, 支持市面上的所有OkHttp拦截器组件库, 更方便修改请求/响应信息, 可以转发请求
+2. `RequestInterceptor`, 部分场景更简单易用的轻量拦截器, 更方便添加全局请求头/参数, 无法转发请求
 <br>
 
-> 你的业务可能需要加密解密. 但请不要封装Post/Get等请求动作(这是不明智的做法) <br>
-  建议自定义拦截器和转换器可以应对任何项目需求, 同时更符合架构设计
+> 实际项目中可能存在需求加密请求/解密响应, 非常不建议封装Post/Get等请求动作(低扩展性/增加学习成本), 任何项目需求都可以通过自定义拦截器和转换器实现 <br>
+> [常见拦截器示例](https://github.com/liangjingkanji/Net/tree/master/sample/src/main/java/com/drake/net/sample/interceptor)
+
 
 ## 拦截器
 
@@ -52,16 +53,14 @@ class RefreshTokenInterceptor : Interceptor {
 
 | 函数 | 描述 |
 |-|-|
-| peekString | 可以复制截取RequestBody/ResponseBody, 且返回String |
-| logString | 等效于上面函数, 但是Response仅支持文本/JSON, Request仅支持FormBody |
+| peekString | 可以截取复制`RequestBody/ResponseBody`, 并返回String |
+| logString | 等同`peekString`, 但仅支持content-type为xml/html/json/plain类型的数据 |
 
 ## 请求拦截器
 
-RequestInterceptor属于轻量级的请求拦截器, 在每次请求的时候该拦截器都会被触发, 但是无法修改响应信息 <br>
+RequestInterceptor属于轻量级的请求拦截器, 在每次请求的时候该拦截器都会被触发(无法修改响应信息), 方便添加全局请求头/参数
 
-一般用于添加全局的参数和请求头
-
-初始化时添加请求拦截器的示例代码
+示例
 
 ```kotlin
 NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {

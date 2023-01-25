@@ -15,7 +15,7 @@
  *
  */
 
-package com.drake.net.sample.interfaces
+package com.drake.net.sample.interceptor
 
 import com.drake.net.Net
 import com.drake.net.sample.constants.UserConfig

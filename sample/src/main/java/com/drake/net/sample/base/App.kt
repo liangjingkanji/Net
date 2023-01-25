@@ -32,7 +32,7 @@ import com.drake.net.sample.BuildConfig
 import com.drake.net.sample.R
 import com.drake.net.sample.constants.Api
 import com.drake.net.sample.converter.SerializationConverter
-import com.drake.net.sample.interfaces.MyRequestInterceptor
+import com.drake.net.sample.interceptor.GlobalHeaderInterceptor
 import com.drake.net.sample.mock.MockDispatcher
 import com.drake.statelayout.StateConfig
 import com.drake.tooltip.dialog.BubbleDialog
@@ -79,7 +79,7 @@ class App : Application() {
             }
 
             // 添加请求拦截器, 可配置全局/动态参数
-            setRequestInterceptor(MyRequestInterceptor())
+            setRequestInterceptor(GlobalHeaderInterceptor())
 
             // 数据转换器
             setConverter(SerializationConverter())
