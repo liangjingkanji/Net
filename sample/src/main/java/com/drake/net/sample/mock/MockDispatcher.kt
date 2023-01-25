@@ -46,11 +46,14 @@ class MockDispatcher : Dispatcher() {
     }
 
     override fun dispatch(request: RecordedRequest): MockResponse {
-
-        return when (request.path) {
-            Api.TEST -> MockResponse().setBody("Request Success : ${request.method}")
-            Api.DELAY -> MockResponse().setBodyDelay(2, TimeUnit.SECONDS).setBody("Request Success : ${request.method}")
-            Api.UPLOAD -> MockResponse().setBodyDelay(1, TimeUnit.SECONDS).setBody("Upload Success")
+        var path = request.path
+        if (path != null) {
+            path = path.substringBefore("?") // 剔除URL参数
+        }
+        return when (path) {
+            Api.TEST -> MockResponse().setHeader("Content-Type", "text/plain").setBody("Request Success : ${request.method}")
+            Api.DELAY -> MockResponse().setBodyDelay(2, TimeUnit.SECONDS).setHeader("Content-Type", "text/plain").setBody("Request Success : ${request.method}")
+            Api.UPLOAD -> MockResponse().setBodyDelay(1, TimeUnit.SECONDS).setHeader("Content-Type", "text/plain").setBody("Upload Success")
             Api.GAME -> getRawResponse(R.raw.game)
             else -> MockResponse().setResponseCode(404)
         }
