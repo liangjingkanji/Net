@@ -1,3 +1,7 @@
+## 3.5.4
+- refactor: peekString rename to peekBytes, remove logString
+- fix: 可能存在的内存泄漏
+
 ## 3.5.3
 - feat: 默认使用NetDialogFactory的setCancelable配置
 - fix: #150 scopeDialog预览模式
