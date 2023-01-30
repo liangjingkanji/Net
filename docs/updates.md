@@ -1,3 +1,6 @@
+## 3.5.5
+- fix: #157 日志拦截器失效
+
 ## 3.5.4
 - refactor: peekString rename to peekBytes, remove logString
 - fix: 可能存在的内存泄漏
