@@ -40,8 +40,9 @@ nav:
   - 同步请求: sync-request.md
   - 请求参数: request.md
   - 全局配置: config.md
-  - 返回数据:
-      - 使用转换器: converter.md
+  - 响应数据:
+      - 默认转换器: default-converter.md
+      - 自定义转换器: converter.md
       - 特殊结构解析: convert-special.md
       - kotlin-serialization: kotlin-serialization.md
       - 数据模型生成插件: model-generate.md
