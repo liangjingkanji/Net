@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.*
 import android.util.Log
 import com.drake.net.Net
-import com.drake.net.log.LogRecorder.enabled
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -12,13 +11,12 @@ import java.util.concurrent.atomic.AtomicLong
 
 /**
  * 日志记录器
- *
- * @property enabled 是否启用日志记录器
  */
 object LogRecorder {
 
+    /** 是否启用日志记录器 */
     @JvmStatic
-    var enabled = false
+    var enabled = true
 
     private val handler by lazy {
         val handlerThread = HandlerThread("OkHttpProfiler", Process.THREAD_PRIORITY_BACKGROUND)
