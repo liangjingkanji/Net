@@ -4,6 +4,7 @@
 
 <p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a>
  | <a href="https://github.com/liangjingkanji/document/blob/master/visit-pages.md">无法访问?</a>
+ | <a href="https://liangjingkanji.github.io/document/">贡献代码</a>
  | <a href="https://github.com/liangjingkanji/Net/releases/download/3.5.5/net-sample.apk">下载体验</a>
 </p>
 
