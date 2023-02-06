@@ -234,16 +234,17 @@ open class Interval @JvmOverloads constructor(
     }
 
     /**
-     *  当界面不可见时暂停[pause], 当界面可见时继续[resume]. 不会自动[start]轮询器
+     *  当界面不可见时暂停[pause], 当界面可见时继续[resume], 当界面销毁时[cancel]轮询器
      */
     fun onlyResumed(lifecycleOwner: LifecycleOwner) = apply {
         runMain {
             lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
                 override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                    if (event == Lifecycle.Event.ON_RESUME) {
-                        resume()
-                    } else if (event == Lifecycle.Event.ON_PAUSE) {
-                        pause()
+                    when (event) {
+                        Lifecycle.Event.ON_RESUME -> resume()
+                        Lifecycle.Event.ON_PAUSE -> pause()
+                        Lifecycle.Event.ON_DESTROY -> cancel()
+                        else -> {}
                     }
                 }
             })
