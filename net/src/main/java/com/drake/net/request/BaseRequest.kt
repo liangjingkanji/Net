@@ -439,7 +439,7 @@ abstract class BaseRequest {
         setKType<R>()
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
-        return newCall.execute().convert(converter)
+        return newCall.execute().convert(R::class.java)
     }
 
     /**
@@ -452,7 +452,7 @@ abstract class BaseRequest {
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
         return try {
-            val value = newCall.execute().convert<R>(converter)
+            val value = newCall.execute().convert<R>(R::class.java)
             Result.success(value)
         } catch (e: Exception) {
             Result.failure(e)

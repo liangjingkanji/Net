@@ -17,11 +17,9 @@
 package com.drake.net.response
 
 import com.drake.net.component.Progress
-import com.drake.net.convert.NetConverter
 import com.drake.net.exception.ConvertException
 import com.drake.net.exception.DownloadFileException
 import com.drake.net.exception.NetException
-import com.drake.net.reflect.typeTokenOf
 import com.drake.net.request.*
 import com.drake.net.tag.NetTag
 import com.drake.net.utils.md5
@@ -149,23 +147,11 @@ fun Response.file(): File? {
 /**
  * 响应体使用转换器处理数据
  */
-@Throws(IOException::class)
-inline fun <reified R> Response.convert(converter: NetConverter): R {
-    try {
-        return converter.onConvert<R>(typeTokenOf<R>(), this) as R
-    } catch (e: NetException) {
-        throw e
-    } catch (e: Throwable) {
-        throw ConvertException(this, cause = e)
-    }
-}
-
 @Suppress("UNCHECKED_CAST")
 @Throws(IOException::class)
 fun <R> Response.convert(type: Type): R {
     try {
-        val converter = request.converter()
-        return converter.onConvert<R>(type, this) as R
+        return request.converter().onConvert<R>(type, this) as R
     } catch (e: NetException) {
         throw e
     } catch (e: Throwable) {
