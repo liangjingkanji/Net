@@ -32,6 +32,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.File
 import java.net.URL
 import java.util.concurrent.TimeUnit
+import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
 abstract class BaseRequest {
@@ -440,6 +441,17 @@ abstract class BaseRequest {
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
         return newCall.execute().convert(R::class.java)
+    }
+
+    /**
+     * 执行同步请求
+     * 本方法不会为请求默认添加[KType], 支持Java调用
+     */
+    fun <R> execute(type: Class<R>): R {
+        NetConfig.requestInterceptor?.interceptor(this)
+        val request = buildRequest()
+        val newCall = okHttpClient.newCall(request)
+        return newCall.execute().convert(type)
     }
 
     /**
