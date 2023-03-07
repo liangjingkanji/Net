@@ -1,3 +1,6 @@
+## 3.5.7
+- fix: #165 泛型擦除
+
 ## 3.5.6
 - feat: 新增 BaseRequest.execute 非内联函数重载
 - feat: Net.kt支持Java静态调用
