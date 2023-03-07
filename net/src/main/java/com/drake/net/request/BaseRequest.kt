@@ -24,15 +24,17 @@ import com.drake.net.convert.NetConverter
 import com.drake.net.exception.URLParseException
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.okhttp.toNetOkhttp
+import com.drake.net.reflect.TypeToken
+import com.drake.net.reflect.typeTokenOf
 import com.drake.net.response.convert
 import com.drake.net.tag.NetTag
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.File
+import java.lang.reflect.Type
 import java.net.URL
 import java.util.concurrent.TimeUnit
-import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
 abstract class BaseRequest {
@@ -440,14 +442,15 @@ abstract class BaseRequest {
         setKType<R>()
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
-        return newCall.execute().convert(R::class.java)
+        return newCall.execute().convert()
     }
 
     /**
      * 执行同步请求
-     * 本方法不会为请求默认添加[KType], 支持Java调用
+     * 本方法仅为兼容Java使用存在
+     * @param type 如果存在泛型嵌套要求使用[typeTokenOf]或者[TypeToken]获取, 否则泛型会被擦除导致无法解析
      */
-    fun <R> execute(type: Class<R>): R {
+    fun <R> execute(type: Type): R {
         NetConfig.requestInterceptor?.interceptor(this)
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
@@ -464,7 +467,7 @@ abstract class BaseRequest {
         val request = buildRequest()
         val newCall = okHttpClient.newCall(request)
         return try {
-            val value = newCall.execute().convert<R>(R::class.java)
+            val value = newCall.execute().convert<R>()
             Result.success(value)
         } catch (e: Exception) {
             Result.failure(e)

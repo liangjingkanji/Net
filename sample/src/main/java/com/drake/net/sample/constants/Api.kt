@@ -7,4 +7,6 @@ object Api {
     const val DELAY = "/delay"
     const val UPLOAD = "/upload"
     const val GAME = "/game"
+    const val DATA = "/data"
+    const val ARRAY = "/array"
 }
