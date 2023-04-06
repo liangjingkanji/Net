@@ -9,7 +9,6 @@ import com.drake.net.exception.*
 import com.drake.net.request.downloadListeners
 import com.drake.net.request.tagOf
 import com.drake.net.request.uploadListeners
-import com.drake.net.utils.isNetworking
 import okhttp3.CacheControl
 import okhttp3.Call
 import okhttp3.Interceptor
@@ -67,16 +66,7 @@ object NetOkHttpInterceptor : Interceptor {
         } catch (e: ConnectException) {
             throw NetConnectException(request, cause = e)
         } catch (e: UnknownHostException) {
-            val isNetworking = try {
-                NetConfig.app.isNetworking()
-            } catch (e: Exception) {
-                true
-            }
-            if (isNetworking) {
-                throw NetUnknownHostException(request, message = e.message)
-            } else {
-                throw NetworkingException(request)
-            }
+            throw NetUnknownHostException(request, message = e.message)
         } catch (e: NetException) {
             throw e
         } catch (e: Throwable) {

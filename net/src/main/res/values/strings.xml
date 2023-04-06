@@ -19,7 +19,6 @@
 
     <!--网络请求异常-->
     <string name="net_connect_error">连接网络失败</string>
-    <string name="net_networking_error">当前网络不可用</string>
     <string name="net_url_error">请求资源地址错误</string>
     <string name="net_host_error">无法找到指定服务器主机</string>
     <string name="net_connect_timeout_error">连接服务器超时，%s</string>
