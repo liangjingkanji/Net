@@ -1,3 +1,7 @@
+## 3.5.8
+- fix: 删除权限 ACCESS_NETWORK_STATE, 解决个别机型重复申请问题
+- upgrade: BRV 1.4.0
+
 ## 3.5.7
 - fix: #165 泛型擦除
 
