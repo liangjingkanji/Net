@@ -5,7 +5,7 @@
 <p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a>
  | <a href="https://github.com/liangjingkanji/document/blob/master/visit-pages.md">无法访问?</a>
  | <a href="https://liangjingkanji.github.io/document/">贡献代码</a>
- | <a href="https://github.com/liangjingkanji/Net/releases/download/3.5.8/net-sample.apk">下载体验</a>
+ | <a href="https://github.com/liangjingkanji/Net/releases/latest/download/net-sample.apk">下载体验</a>
 </p>
 
 <p align="center"><img src="https://user-images.githubusercontent.com/21078112/169665591-1bf3de50-888e-467a-9b64-0a9d03f73751.png" width="320"/></p>
