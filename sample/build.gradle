@@ -85,6 +85,7 @@ dependencies {
     implementation project(path: ":net")
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version" // 协程基础库
+    implementation "com.github.bumptech.glide:glide:4.11.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
     implementation "com.github.liangjingkanji:BRV:$brv_version" // 提供自动分页/缺省页/自动下拉刷新功能
     implementation "com.github.chuckerteam.chucker:library:3.5.2" // 通知栏监听网络日志
