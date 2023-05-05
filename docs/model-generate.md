@@ -30,7 +30,7 @@
 
 截图即为我的推荐配置
 
-<img src="https://i.loli.net/2021/08/14/OSl8jNmGIPngkcJ.png" width="450"/>
+<img src="https://cdn.jsdelivr.net/gh/JBFiveHub/picture-storage@master/uPic/qDB1RU.png" width="450"/>
 
 1. Keyword 创建的数据模型的字段是 Val还是Var
 2. Type 字段是否是可空类型, 最后选项表示根据Json的值判断是否可空
@@ -46,7 +46,7 @@
 
 截图即为我的推荐配置
 
-<img src="https://i.loli.net/2021/08/14/gW1a2F5Ilh9emwY.png" width="450"/>
+<img src="https://cdn.jsdelivr.net/gh/JBFiveHub/picture-storage@master/uPic/b5NiYu.png" width="450"/>
 
 1. 是否使用注释, 既会将Json字符串作为注释保留在数据模型类中
 2. 根据字母排序数据模型的字段
