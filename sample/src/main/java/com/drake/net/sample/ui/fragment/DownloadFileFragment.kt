@@ -1,6 +1,7 @@
 package com.drake.net.sample.ui.fragment
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -25,7 +26,7 @@ class DownloadFileFragment :
         setHasOptionsMenu(true)
         downloadScope = scopeNetLife {
             val file =
-                Get<File>("https://dl.coolapk.com/down?pn=com.coolapk.market&id=NDU5OQ&h=46bb9d98&from=from-web") {
+                Get<File>("https://r3---sn-i3b7knld.gvt1.com/edgedl/android/studio/install/2022.2.1.20/android-studio-2022.2.1.20-mac_arm.dmg?mh=fu&pl=22&shardbypass=sd&redirect_counter=1&cm2rm=sn-bavcx-hoael7s&req_id=6e6ac2d1c6f9032b&cms_redirect=yes&mip=180.190.115.150&mm=42&mn=sn-i3b7knld&ms=onc&mt=1685464123&mv=m&mvi=3&rmhost=r1---sn-i3b7knld.gvt1.com&smhost=r3---sn-i3b7kn6s.gvt1.com") {
                     setDownloadFileName("net.apk")
                     setDownloadDir(requireContext().filesDir)
                     setDownloadMd5Verify()
@@ -43,6 +44,8 @@ class DownloadFileFragment :
                         }
                     })
                 }.await()
+
+            Log.d("日志", "(DownloadFileFragment.kt:47)    下载完毕 = ${file.absoluteFile}")
 
             // 下载完成才会执行此处(所有网络请求使用await都会等待请求完成), 只是监听文件下载完成请不要使用[addDownloadListener]
         }
