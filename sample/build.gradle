@@ -89,4 +89,5 @@ dependencies {
     implementation "com.github.liangjingkanji:Tooltip:1.2.2" // 吐司工具
     implementation 'com.github.liangjingkanji:Engine:0.0.74'
     implementation "com.squareup.okhttp3:mockwebserver:4.10.0"
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 }
