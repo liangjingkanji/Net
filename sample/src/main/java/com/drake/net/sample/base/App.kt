@@ -50,7 +50,7 @@ class App : Application() {
             // 添加持久化Cookie管理
             cookieJar(PersistentCookieJar(this@App))
 
-            // 通知栏监听网络日志
+            // 仅开发模式启用通知栏监听网络日志, 该框架存在下载大文件时内存溢出崩溃请等待官方修复 https://github.com/ChuckerTeam/chucker/issues/1068
             if (BuildConfig.DEBUG) {
                 addInterceptor(
                     ChuckerInterceptor.Builder(this@App)
