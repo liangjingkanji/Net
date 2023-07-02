@@ -8,7 +8,7 @@ import androidx.activity.result.contract.ActivityResultContract
 
 class AlbumSelectContract : ActivityResultContract<Unit, AlbumSelectContract.AlbumSelectResult>() {
 
-    override fun createIntent(context: Context, input: Unit?): Intent {
+    override fun createIntent(context: Context, input: Unit): Intent {
         val intent = Intent(Intent.ACTION_PICK)
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
         return intent
