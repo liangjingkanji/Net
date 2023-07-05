@@ -20,7 +20,7 @@
 <a href="https://github.com/liangjingkanji/Net/blob/master/docs/issues.md"><img src="https://raw.githubusercontent.com/liangjingkanji/Net/master/docs/img/issues.svg"/></a>
 </p>
 
-<p align="center"><img src="https://i.imgur.com/aBe7Ib2.png" align="center" width="30%;" /></p>
+<p align="center"><img src="https://github.com/liangjingkanji/Net/assets/21078112/c33d8a25-0a53-4594-a10a-026a5278432d" align="center" width="30%;" /></p>
 
 <br>
 
