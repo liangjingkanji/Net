@@ -80,5 +80,6 @@ nav:
   - 轮询器/倒计时: interval.md
   - 社区讨论: https://github.com/liangjingkanji/Net/discussions
   - 常见问题: https://github.com/liangjingkanji/Net/blob/master/docs/issues.md
+  - 项目实践: practice.md
   - 更新日志: updates.md
   - 3.x文档: api/index.html
