@@ -41,6 +41,8 @@ class MockDispatcher : Dispatcher() {
             Api.GAME -> getRawResponse(R.raw.game)
             Api.DATA -> getRawResponse(R.raw.data)
             Api.ARRAY -> getRawResponse(R.raw.array)
+            Api.USER_INFO -> getRawResponse(R.raw.user)
+            Api.CONFIG -> getRawResponse(R.raw.user)
             else -> MockResponse().setResponseCode(404)
         }
     }
