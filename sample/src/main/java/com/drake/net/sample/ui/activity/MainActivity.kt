@@ -1,48 +1,63 @@
 package com.drake.net.sample.ui.activity
 
-import androidx.core.view.GravityCompat
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
-import com.bumptech.glide.Glide
+import android.view.Menu
+import android.view.MenuItem
 import com.drake.engine.base.EngineActivity
+import com.drake.net.Get
+import com.drake.net.component.Progress
+import com.drake.net.interfaces.ProgressListener
 import com.drake.net.sample.R
 import com.drake.net.sample.databinding.ActivityMainBinding
-import com.drake.statusbar.immersive
+import com.drake.net.scope.NetCoroutineScope
+import com.drake.net.utils.scopeNetLife
+import java.io.File
 
-/**
- * 以下代码设置导航, 和框架本身无关无需关心, 请查看[com.drake.net.sample.ui.fragment]内的Fragment
- */
 class MainActivity : EngineActivity<ActivityMainBinding>(R.layout.activity_main) {
 
+    private lateinit var downloadScope: NetCoroutineScope
+
     override fun initView() {
-        immersive(binding.toolbar, true)
-        setSupportActionBar(binding.toolbar)
-        val navController = findNavController(R.id.nav)
 
-        Glide.with(this)
-            .load("https://avatars.githubusercontent.com/u/21078112?v=4")
-            .circleCrop()
-            .into(binding.drawerNav.getHeaderView(0).findViewById(R.id.iv))
+        downloadScope = scopeNetLife {
 
-        binding.toolbar.setupWithNavController(
-            navController,
-            AppBarConfiguration(binding.drawerNav.menu, binding.drawer)
-        )
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.toolbar.subtitle =
-                (destination as FragmentNavigator.Destination).className.substringAfterLast('.')
+            val file =
+                Get<File>("https://r3---sn-i3b7knld.gvt1.com/edgedl/android/studio/install/2022.2.1.20/android-studio-2022.2.1.20-mac_arm.dmg?mh=fu&pl=22&shardbypass=sd&redirect_counter=1&cm2rm=sn-bavcx-hoael7s&req_id=6e6ac2d1c6f9032b&cms_redirect=yes&mip=180.190.115.150&mm=42&mn=sn-i3b7knld&ms=onc&mt=1685464123&mv=m&mvi=3&rmhost=r1---sn-i3b7knld.gvt1.com&smhost=r3---sn-i3b7kn6s.gvt1.com") {
+                    setDownloadFileName("android-studio.apk")
+                    setDownloadDir(this@MainActivity.filesDir)
+                    setDownloadMd5Verify()
+                    setDownloadTempFile()
+                    addDownloadListener(object : ProgressListener() {
+                        override fun onProgress(p: Progress) {
+                            binding.seek?.post {
+                                val progress = p.progress()
+                                binding.seek.progress = progress
+                                binding.tvProgress.text =
+                                    "download progress: $progress% download speed: ${p.speedSize()}     " +
+                                            "\n\nfileSize: ${p.totalSize()}  downloaded: ${p.currentSize()}  remainingSize: ${p.remainSize()}" +
+                                            "\n\nelapsedTime: ${p.useTime()}  timeLeft: ${p.remainTime()}"
+                            }
+                        }
+                    })
+                }.await()
+
         }
-        binding.drawerNav.setupWithNavController(navController)
     }
 
     override fun initData() {
     }
 
-    override fun onBackPressed() {
-        if (binding.drawer.isDrawerOpen(GravityCompat.START)) binding.drawer.closeDrawers() else super.onBackPressed()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_download, menu)
+        return super.onCreateOptionsMenu(menu)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.cancel -> downloadScope.cancel() // Cancel download
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }
 
 

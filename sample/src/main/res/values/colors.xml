@@ -5,18 +5,7 @@
     <color name="colorPrimaryDark">#2FA8E6</color>
     <color name="colorAccent">#F44336</color>
 
-    <!--辅助颜色-->
-    <color name="divider">#339e9e9e</color>
-    <color name="background">#fafafa</color>
-    <color name="stroke">#737373</color>
-
-    <!--字体颜色-->
     <color name="text">#333333</color>
     <color name="textSecond">#999999</color>
-
-    <!--基本颜色-->
-    <color name="white">#FFFFFF</color>
-    <color name="orange">#F44336</color>
-    <color name="black">#000000</color>
 
 </resources>
