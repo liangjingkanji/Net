@@ -1,3 +1,6 @@
+## 3.5.9
+- fix: 修复Java基础类型泛型解析
+
 ## 3.5.8
 - fix: 删除权限 ACCESS_NETWORK_STATE, 解决个别机型重复申请问题
 - upgrade: BRV 1.4.0
