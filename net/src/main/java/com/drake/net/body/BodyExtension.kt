@@ -32,14 +32,18 @@ import okio.Buffer
 import okio.ByteString
 import java.util.concurrent.ConcurrentLinkedQueue
 
-fun RequestBody.toNetRequestBody(listeners: ConcurrentLinkedQueue<ProgressListener>? = null) = run {
+fun RequestBody.toNetRequestBody(
+    listeners: ConcurrentLinkedQueue<ProgressListener>? = null
+) = run {
     NetRequestBody(this, listeners)
 }
 
 fun ResponseBody.toNetResponseBody(
+    code: Int,
+    rangeOffset: Long,
     listeners: ConcurrentLinkedQueue<ProgressListener>? = null,
     complete: (() -> Unit)? = null
-) = run { NetResponseBody(this, listeners, complete) }
+) = run { NetResponseBody(this,code, rangeOffset, listeners, complete) }
 
 /**
  * 复制一段指定长度的字符串内容
@@ -67,7 +71,8 @@ fun ResponseBody.peekBytes(byteCount: Long = 1024 * 1024 * 4): ByteString {
         else -> {
             val peeked = source().peek()
             peeked.request(byteCount)
-            val maxSize = if (byteCount < 0) peeked.buffer.size else minOf(byteCount, peeked.buffer.size)
+            val maxSize =
+                if (byteCount < 0) peeked.buffer.size else minOf(byteCount, peeked.buffer.size)
             peeked.readByteString(maxSize)
         }
     }
@@ -78,7 +83,9 @@ fun ResponseBody.peekBytes(byteCount: Long = 1024 * 1024 * 4): ByteString {
  */
 fun MultipartBody.Part.isFile(): Boolean {
     val contentDisposition = headers?.get("Content-Disposition") ?: return false
-    return ";\\s${"filename"}=\"(.+?)\"".toRegex().find(contentDisposition)?.groupValues?.getOrNull(1) != null
+    return ";\\s${"filename"}=\"(.+?)\"".toRegex().find(contentDisposition)?.groupValues?.getOrNull(
+        1
+    ) != null
 }
 
 /**
@@ -86,7 +93,8 @@ fun MultipartBody.Part.isFile(): Boolean {
  */
 fun MultipartBody.Part.name(): String? {
     val contentDisposition = headers?.get("Content-Disposition") ?: return null
-    return ";\\s${"name"}=\"(.+?)\"".toRegex().find(contentDisposition)?.groupValues?.getOrNull(1) ?: ""
+    return ";\\s${"name"}=\"(.+?)\"".toRegex().find(contentDisposition)?.groupValues?.getOrNull(1)
+        ?: ""
 }
 
 /**
@@ -95,6 +103,8 @@ fun MultipartBody.Part.name(): String? {
  */
 fun MultipartBody.Part.value(): String? {
     val contentDisposition = headers?.get("Content-Disposition") ?: return null
-    return ";\\s${"filename"}=\"(.+?)\"".toRegex().find(contentDisposition)?.groupValues?.getOrNull(1)
+    return ";\\s${"filename"}=\"(.+?)\"".toRegex().find(contentDisposition)?.groupValues?.getOrNull(
+        1
+    )
         ?: body.peekBytes().utf8()
 }

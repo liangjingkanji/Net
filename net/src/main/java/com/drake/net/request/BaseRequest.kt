@@ -43,6 +43,7 @@ import java.io.File
 import java.lang.reflect.Type
 import java.net.URL
 import java.util.concurrent.TimeUnit
+import kotlin.reflect.javaType
 import kotlin.reflect.typeOf
 
 abstract class BaseRequest {
@@ -413,6 +414,14 @@ abstract class BaseRequest {
     }
 
     /**
+     * 下载是否使用断点续传，
+     * 启动断点续传时文件自动重命名参数无效
+     */
+    fun setDownloadPartial(enabled: Boolean = true) {
+        okHttpRequest.tagOf(NetTag.DownloadPartial(enabled))
+    }
+
+    /**
      * 下载监听器
      * [setDownloadMd5Verify] 启用MD5文件校验且匹配本地文件MD5值成功会直接返回本地文件对象, 不会触发下载监听器
      */
@@ -434,6 +443,31 @@ abstract class BaseRequest {
      * 构建请求对象Request
      */
     open fun buildRequest(): Request {
+        if (okHttpRequest.tagOf<NetTag.DownloadPartial>()?.value == true) {
+            if (okHttpRequest.kType?.classifier == File::class) {
+                //判断本地文件是否存在，加入文件断点信息
+                val dir = okHttpRequest.tagOf<NetTag.DownloadFileDir>()?.value
+                    ?: NetConfig.app.filesDir.absolutePath
+                val fileName = okHttpRequest.tagOf<NetTag.DownloadFileName>()?.value
+                val tempFile = okHttpRequest.tagOf<NetTag.DownloadTempFile>()?.value
+                // 临时文件
+                if (fileName != null) {
+                    var file = File(dir, fileName)
+                    if (tempFile == true) {
+                        file = File(dir, "$fileName.net-download")
+                    }
+                    if (file.exists() && file.length() > 0) {
+                        okHttpRequest.tagOf(NetTag.DownloadPartialStartRange(file.length()))
+                        return okHttpRequest.method(method.name, null)
+                            .url(httpUrl.build())
+                            .header("Range", "bytes=${file.length()}-")
+                            .setConverter(converter)
+                            .build()
+                    }
+                }
+            }
+        }
+
         return okHttpRequest.method(method.name, null)
             .url(httpUrl.build())
             .setConverter(converter)

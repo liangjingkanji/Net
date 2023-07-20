@@ -185,6 +185,21 @@ fun Request.downloadTempFile(): Boolean {
 //</editor-fold>
 
 /**
+ * 是否使用断点续传，
+ * 启动断点续传时文件自动重命名参数无效
+ */
+fun Request.downloadPartial(): Boolean {
+    return tagOf<NetTag.DownloadPartial>()?.value == false
+}
+
+/**
+ * 断点续传位置记录
+ */
+fun Request.downloadPartialStartRange(): Long {
+    return tagOf<NetTag.DownloadPartialStartRange>()?.value ?: 0
+}
+
+/**
  * 返回请求包含的转换器
  */
 fun Request.converter(): NetConverter {

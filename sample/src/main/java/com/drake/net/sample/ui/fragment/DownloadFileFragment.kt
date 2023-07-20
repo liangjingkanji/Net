@@ -25,18 +25,19 @@ class DownloadFileFragment :
         setHasOptionsMenu(true)
         downloadScope = scopeNetLife {
             val file =
-                Get<File>("https://dl.coolapk.com/down?pn=com.coolapk.market&id=NDU5OQ&h=46bb9d98&from=from-web") {
-                    setDownloadFileName("net.apk")
+                Get<File>("http://releases.ubuntu.com/22.04.2/ubuntu-22.04.2-live-server-amd64.iso") {
+                    setDownloadFileName("ubuntu-22.04.2-live-server-amd64.iso")
                     setDownloadDir(requireContext().filesDir)
-                    setDownloadMd5Verify()
-                    setDownloadTempFile()
+                    setDownloadMd5Verify(false)
+                    setDownloadTempFile(true)
+                    setDownloadPartial()
                     addDownloadListener(object : ProgressListener() {
                         override fun onProgress(p: Progress) {
                             binding.seek?.post {
                                 val progress = p.progress()
                                 binding.seek.progress = progress
                                 binding.tvProgress.text =
-                                    "下载进度: $progress% 下载速度: ${p.speedSize()}     " +
+                                    "下载进度: $progress% 下载速度: ${p.speedSize()}/s     " +
                                             "\n\n文件大小: ${p.totalSize()}  已下载: ${p.currentSize()}  剩余大小: ${p.remainSize()}" +
                                             "\n\n已使用时间: ${p.useTime()}  剩余时间: ${p.remainTime()}"
                             }

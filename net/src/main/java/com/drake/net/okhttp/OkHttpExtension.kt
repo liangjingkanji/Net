@@ -28,6 +28,7 @@ import com.drake.net.interceptor.NetOkHttpInterceptor
 import com.drake.net.request.tagOf
 import com.drake.net.tag.NetTag
 import okhttp3.OkHttpClient
+import okhttp3.Request
 
 /**
  * Net要求经过该函数处理创建特殊的OkHttpClient
@@ -73,5 +74,21 @@ fun OkHttpClient.cancelGroup(group: Any?) {
         if (group === it.request().tagOf<NetTag.RequestGroup>()?.value) {
             it.cancel()
         }
+    }
+}
+
+/**
+ * 判断是否支持 分块下载/断点续传
+ */
+fun OkHttpClient.isSupportPartialContent(url: String): Boolean {
+    return kotlin.runCatching {
+        val request = Request.Builder()
+            .url(url)
+            .header("Range", "bytes=1024-1025")
+            .build()
+
+        newCall(request).execute().code == 206
+    }.getOrElse {
+        false
     }
 }
