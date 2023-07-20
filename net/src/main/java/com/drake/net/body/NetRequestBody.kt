@@ -38,7 +38,7 @@ class NetRequestBody(
 ) : RequestBody() {
 
     private val progress = Progress()
-    val contentLength by lazy { body.contentLength() }
+    private val contentLength by lazy { body.contentLength() }
 
     override fun contentType(): MediaType? {
         return body.contentType()
@@ -73,13 +73,13 @@ class NetRequestBody(
     }
 
     private fun Sink.toProgress() = object : ForwardingSink(this) {
-        var writeByteCount = 0L
+        private var writeByteCount = 0L
 
         @Throws(IOException::class)
         override fun write(source: Buffer, byteCount: Long) {
             super.write(source, byteCount)
-            writeByteCount += byteCount
-            if (progressListeners != null) {
+            if (!progressListeners.isNullOrEmpty()) {
+                writeByteCount += byteCount
                 val currentElapsedTime = SystemClock.elapsedRealtime()
                 progressListeners.forEach { progressListener ->
                     progressListener.intervalByteCount += byteCount

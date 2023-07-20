@@ -32,14 +32,12 @@ import okio.Buffer
 import okio.ByteString
 import java.util.concurrent.ConcurrentLinkedQueue
 
-fun RequestBody.toNetRequestBody(listeners: ConcurrentLinkedQueue<ProgressListener>? = null) = run {
-    NetRequestBody(this, listeners)
-}
+fun RequestBody.toNetRequestBody(listeners: ConcurrentLinkedQueue<ProgressListener>? = null) = NetRequestBody(this, listeners)
 
 fun ResponseBody.toNetResponseBody(
     listeners: ConcurrentLinkedQueue<ProgressListener>? = null,
     complete: (() -> Unit)? = null
-) = run { NetResponseBody(this, listeners, complete) }
+) = NetResponseBody(this, listeners, complete)
 
 /**
  * 复制一段指定长度的字符串内容

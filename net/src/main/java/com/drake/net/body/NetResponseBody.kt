@@ -66,14 +66,14 @@ class NetResponseBody(
     }
 
     private fun Source.toProgress() = object : ForwardingSource(this) {
-        var readByteCount: Long = 0
+        private var readByteCount: Long = 0
 
         @Throws(IOException::class)
         override fun read(sink: Buffer, byteCount: Long): Long {
             try {
                 val bytesRead = super.read(sink, byteCount)
-                readByteCount += if (bytesRead != -1L) bytesRead else 0
-                if (progressListeners != null) {
+                if (!progressListeners.isNullOrEmpty()) {
+                    readByteCount += if (bytesRead != -1L) bytesRead else 0
                     val currentElapsedTime = SystemClock.elapsedRealtime()
                     progressListeners.forEach { progressListener ->
                         progressListener.intervalByteCount += if (bytesRead != -1L) bytesRead else 0
