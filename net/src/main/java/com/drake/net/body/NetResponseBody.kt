@@ -30,10 +30,12 @@ import okhttp3.MediaType
 import okhttp3.ResponseBody
 import okio.*
 import java.io.IOException
+import java.net.HttpURLConnection
 import java.util.concurrent.ConcurrentLinkedQueue
 
 class NetResponseBody(
     private val body: ResponseBody,
+    private val code: Int,
     private val rangeOffset: Long,
     private val progressListeners: ConcurrentLinkedQueue<ProgressListener>? = null,
     private val complete: (() -> Unit)? = null
@@ -41,13 +43,16 @@ class NetResponseBody(
 
     private val progress = Progress()
     private val bufferedSource by lazy { body.source().toProgress().buffer() }
-    private val contentLength by lazy { rangeOffset+body.contentLength() }
+    private val contentLength by lazy { body.contentLength() }
 
     override fun contentType(): MediaType? {
         return body.contentType()
     }
 
     override fun contentLength(): Long {
+        if (code == HttpURLConnection.HTTP_PARTIAL) {
+            return rangeOffset + contentLength
+        }
         return contentLength
     }
 
@@ -67,7 +72,7 @@ class NetResponseBody(
     }
 
     private fun Source.toProgress() = object : ForwardingSource(this) {
-        var readByteCount: Long = rangeOffset
+        var readByteCount: Long = if (code == HttpURLConnection.HTTP_PARTIAL) rangeOffset else 0
 
         @Throws(IOException::class)
         override fun read(sink: Buffer, byteCount: Long): Long {

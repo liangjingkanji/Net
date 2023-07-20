@@ -39,10 +39,11 @@ fun RequestBody.toNetRequestBody(
 }
 
 fun ResponseBody.toNetResponseBody(
+    code: Int,
     rangeOffset: Long,
     listeners: ConcurrentLinkedQueue<ProgressListener>? = null,
     complete: (() -> Unit)? = null
-) = run { NetResponseBody(this, rangeOffset, listeners, complete) }
+) = run { NetResponseBody(this,code, rangeOffset, listeners, complete) }
 
 /**
  * 复制一段指定长度的字符串内容

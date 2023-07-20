@@ -89,6 +89,7 @@ object NetOkHttpInterceptor : Interceptor {
                 chain.proceed(request)
             }
             val respBody = response.body?.toNetResponseBody(
+                response.code,
                 request.downloadPartialStartRange(),
                 request.downloadListeners()
             ) {
