@@ -35,11 +35,13 @@ import com.drake.net.tag.NetTag
 import com.drake.net.utils.md5
 import okhttp3.Response
 import okhttp3.internal.closeQuietly
+import okio.appendingSink
 import okio.buffer
 import okio.sink
 import java.io.File
 import java.io.IOException
 import java.lang.reflect.Type
+import java.net.HttpURLConnection
 import java.net.SocketException
 import java.net.URLDecoder
 import kotlin.coroutines.cancellation.CancellationException
@@ -115,16 +117,19 @@ fun Response.file(): File? {
                 }
             }
             // 命名冲突添加序列数字的后缀
-            if (request.downloadConflictRename() && file.name == fileName) {
-                val fileExtension = file.extension
-                val fileNameWithoutExtension = file.nameWithoutExtension
-                fun rename(index: Long): File {
-                    file = File(dir, fileNameWithoutExtension + "_($index)" + fileExtension)
-                    return if (file.exists()) {
-                        rename(index + 1)
-                    } else file
+            //HttpURLConnection.HTTP_PARTIAL说明获得文件分块，不走重命名
+            if (!request.downloadPartial()) {
+                if (request.downloadConflictRename() && file.name == fileName) {
+                    val fileExtension = file.extension
+                    val fileNameWithoutExtension = file.nameWithoutExtension
+                    fun rename(index: Long): File {
+                        file = File(dir, fileNameWithoutExtension + "_($index)" + fileExtension)
+                        return if (file.exists()) {
+                            rename(index + 1)
+                        } else file
+                    }
+                    file = rename(1)
                 }
-                file = rename(1)
             }
         }
 
@@ -132,12 +137,31 @@ fun Response.file(): File? {
         if (request.downloadTempFile()) {
             file = File(dir, file.name + ".net-download")
         }
+
         val source = body?.source() ?: return null
         if (!file.exists()) file.createNewFile()
-        file.sink().buffer().use {
-            it.writeAll(source)
-            source.closeQuietly()
+        when (code) {
+            HttpURLConnection.HTTP_OK -> {
+//                println("开始下载完整文件 ...")
+                file.sink().buffer().use {
+                    it.writeAll(source)
+                    source.closeQuietly()
+                }
+            }
+
+            HttpURLConnection.HTTP_PARTIAL -> {
+//                println("成功获得分块内容，开始断点续传:${request.downloadPartialStartRange()}...")
+                file.appendingSink().buffer().use {
+                    it.writeAll(source)
+                    source.closeQuietly()
+                }
+            }
+
+            416 -> { //Requested Range not satisfiable
+//                println("获得分块内容失败,分块位置超出文件总长度...")
+            }
         }
+
         // 下载完毕删除临时文件
         if (request.downloadTempFile()) {
             val fileFinal = File(dir, fileName)

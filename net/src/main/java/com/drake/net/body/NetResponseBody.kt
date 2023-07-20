@@ -34,13 +34,14 @@ import java.util.concurrent.ConcurrentLinkedQueue
 
 class NetResponseBody(
     private val body: ResponseBody,
+    private val rangeOffset: Long,
     private val progressListeners: ConcurrentLinkedQueue<ProgressListener>? = null,
     private val complete: (() -> Unit)? = null
 ) : ResponseBody() {
 
     private val progress = Progress()
     private val bufferedSource by lazy { body.source().toProgress().buffer() }
-    private val contentLength by lazy { body.contentLength() }
+    private val contentLength by lazy { rangeOffset+body.contentLength() }
 
     override fun contentType(): MediaType? {
         return body.contentType()
@@ -66,7 +67,7 @@ class NetResponseBody(
     }
 
     private fun Source.toProgress() = object : ForwardingSource(this) {
-        var readByteCount: Long = 0
+        var readByteCount: Long = rangeOffset
 
         @Throws(IOException::class)
         override fun read(sink: Buffer, byteCount: Long): Long {

@@ -31,6 +31,7 @@ import com.drake.net.cache.CacheMode
 import com.drake.net.cache.ForceCache
 import com.drake.net.exception.*
 import com.drake.net.request.downloadListeners
+import com.drake.net.request.downloadPartialStartRange
 import com.drake.net.request.tagOf
 import com.drake.net.request.uploadListeners
 import okhttp3.CacheControl
@@ -49,7 +50,9 @@ object NetOkHttpInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        val reqBody = request.body?.toNetRequestBody(request.uploadListeners())
+        val reqBody = request.body?.toNetRequestBody(
+            request.uploadListeners()
+        )
         val cache = request.tagOf<ForceCache>() ?: NetConfig.forceCache
         val cacheMode = request.tagOf<CacheMode>()
         request = request.newBuilder().apply {
@@ -63,9 +66,11 @@ object NetOkHttpInterceptor : Interceptor {
             val response = if (cache != null) {
                 when (cacheMode) {
                     CacheMode.READ -> cache.get(request) ?: throw NoCacheException(request)
-                    CacheMode.READ_THEN_REQUEST -> cache.get(request) ?: chain.proceed(request).run {
-                        cache.put(this)
-                    }
+                    CacheMode.READ_THEN_REQUEST -> cache.get(request) ?: chain.proceed(request)
+                        .run {
+                            cache.put(this)
+                        }
+
                     CacheMode.REQUEST_THEN_READ -> try {
                         chain.proceed(request).run {
                             cache.put(this)
@@ -73,15 +78,20 @@ object NetOkHttpInterceptor : Interceptor {
                     } catch (e: Exception) {
                         cache.get(request) ?: throw NoCacheException(request)
                     }
+
                     CacheMode.WRITE -> chain.proceed(request).run {
                         cache.put(this)
                     }
+
                     else -> chain.proceed(request)
                 }
             } else {
                 chain.proceed(request)
             }
-            val respBody = response.body?.toNetResponseBody(request.downloadListeners()) {
+            val respBody = response.body?.toNetResponseBody(
+                request.downloadPartialStartRange(),
+                request.downloadListeners()
+            ) {
                 detach(chain.call())
             }
             return response.newBuilder().body(respBody).build()

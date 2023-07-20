@@ -59,6 +59,12 @@ sealed class NetTag {
     value class DownloadFileName(val value: String)
 
     @JvmInline
+    value class DownloadPartial(val value: Boolean)
+
+    @JvmInline
+    value class DownloadPartialStartRange(val value: Long = 0)
+
+    @JvmInline
     value class CacheKey(val value: String)
 
     @JvmInline
