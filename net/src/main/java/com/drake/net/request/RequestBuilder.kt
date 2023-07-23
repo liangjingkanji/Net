@@ -110,7 +110,7 @@ inline fun <reified T> Request.Builder.tagOf(): T? {
 /**
  * 设置OkHttp的tag(通过Class区分的tag)
  */
-inline fun <reified T> Request.Builder.tagOf(value: T) = apply {
+inline fun <reified T> Request.Builder.tagOf(value: T?) = apply {
     tag(T::class.java, value)
 }
 

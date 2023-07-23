@@ -98,8 +98,12 @@ inline fun <reified T> Request.tagOf(): T? {
 /**
  * 设置OkHttp的tag(通过Class区分的tag)
  */
-inline fun <reified T> Request.tagOf(value: T) = apply {
-    tags()[T::class.java] = value
+inline fun <reified T> Request.tagOf(value: T?) = apply {
+    if (value == null) {
+        tags().remove(T::class.java)
+    } else {
+        tags()[T::class.java] = value
+    }
 }
 
 /**
