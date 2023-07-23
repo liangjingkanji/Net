@@ -84,7 +84,10 @@ class NetRequestBody(
                 progressListeners.forEach { progressListener ->
                     progressListener.intervalByteCount += byteCount
                     val currentInterval = currentElapsedTime - progressListener.elapsedTime
-                    if (currentInterval >= progressListener.interval || writeByteCount == contentLength) {
+                    if (!progress.finish && (writeByteCount == contentLength || currentInterval >= progressListener.interval)) {
+                        if (writeByteCount == contentLength) {
+                            progress.finish = true
+                        }
                         progressListener.onProgress(
                             progress.apply {
                                 currentByteCount = writeByteCount
