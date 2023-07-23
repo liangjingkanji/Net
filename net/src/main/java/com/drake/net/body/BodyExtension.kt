@@ -59,7 +59,7 @@ fun RequestBody.peekBytes(byteCount: Long = 1024 * 1024): ByteString {
  * 复制一段指定长度的字符串内容
  * @param byteCount 复制的字节长度, 允许超过实际长度, 如果-1则返回完整的字符串内容
  */
-fun ResponseBody.peekBytes(byteCount: Long = 1024 * 1024 * 4): ByteString {
+fun ResponseBody.peekBytes(byteCount: Long = 1024 * 1024): ByteString {
     return when (this) {
         is NetResponseBody -> peekBytes(byteCount)
         else -> {
