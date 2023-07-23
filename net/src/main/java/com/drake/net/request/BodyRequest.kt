@@ -92,7 +92,8 @@ open class BodyRequest : BaseRequest() {
 
     fun param(name: String, value: RequestBody?) {
         value ?: return
-        partBody.addFormDataPart(name, null, value)
+        // 指定fileName可以作为判断为文件类型依据
+        partBody.addFormDataPart(name, "RequestBody", value)
     }
 
     fun param(name: String, value: ByteString?) {
@@ -104,7 +105,7 @@ open class BodyRequest : BaseRequest() {
         value ?: return
         partBody.addFormDataPart(name, null, value.toRequestBody())
     }
-    
+
     fun param(name: String, value: Uri?) {
         value ?: return
         partBody.addFormDataPart(name, value.fileName(), value.toRequestBody())
@@ -123,10 +124,6 @@ open class BodyRequest : BaseRequest() {
 
     fun param(name: String, fileName: String?, value: File?) {
         partBody.addFormDataPart(name, fileName, value?.toRequestBody() ?: return)
-    }
-
-    fun param(body: RequestBody, header: Headers? = null) {
-        partBody.addPart(header, body)
     }
 
     fun param(body: MultipartBody.Part) {
