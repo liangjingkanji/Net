@@ -29,6 +29,7 @@ package com.drake.net
 import android.util.Log
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.request.*
+import okhttp3.Request
 
 object Net {
 
@@ -211,6 +212,7 @@ object Net {
     /**
      * 取消指定的网络请求, Id理论上是唯一的, 所以该函数一次只能取消一个请求
      * @return 如果成功取消返回true
+     * @see com.drake.net.request.BaseRequest.setId
      */
     @JvmStatic
     fun cancelId(id: Any?): Boolean {
@@ -234,6 +236,7 @@ object Net {
     /**
      * 根据分组取消网络请求
      * @return 如果成功取消返回true, 无论取消个数
+     * @see com.drake.net.request.BaseRequest.setGroup
      */
     @JvmStatic
     fun cancelGroup(group: Any?): Boolean {
@@ -263,19 +266,12 @@ object Net {
      * @see com.drake.net.request.BaseRequest.setId
      */
     @JvmStatic
-    fun addUploadListener(id: Any, progressListener: ProgressListener) {
-        val iterator = NetConfig.runningCalls.iterator()
-        while (iterator.hasNext()) {
-            val call = iterator.next().get()
-            if (call == null) {
-                iterator.remove()
-                continue
-            }
-            if (id == call.request().id) {
-                call.request().uploadListeners().add(progressListener)
-                return
-            }
+    fun addUploadListener(id: Any, progressListener: ProgressListener): Boolean {
+        getRequestById(id)?.let { request ->
+            request.uploadListeners().add(progressListener)
+            return true
         }
+        return false
     }
 
     /**
@@ -284,19 +280,12 @@ object Net {
      * @see com.drake.net.request.BaseRequest.setId
      */
     @JvmStatic
-    fun removeUploadListener(id: Any, progressListener: ProgressListener) {
-        val iterator = NetConfig.runningCalls.iterator()
-        while (iterator.hasNext()) {
-            val call = iterator.next().get()
-            if (call == null) {
-                iterator.remove()
-                continue
-            }
-            if (id == call.request().id) {
-                call.request().uploadListeners().remove(progressListener)
-                return
-            }
+    fun removeUploadListener(id: Any, progressListener: ProgressListener): Boolean {
+        getRequestById(id)?.let { request ->
+            request.uploadListeners().remove(progressListener)
+            return true
         }
+        return false
     }
 
     /**
@@ -305,19 +294,12 @@ object Net {
      * @see com.drake.net.request.BaseRequest.setId
      */
     @JvmStatic
-    fun addDownloadListener(id: Any, progressListener: ProgressListener) {
-        val iterator = NetConfig.runningCalls.iterator()
-        while (iterator.hasNext()) {
-            val call = iterator.next().get()
-            if (call == null) {
-                iterator.remove()
-                continue
-            }
-            if (id == call.request().id) {
-                call.request().downloadListeners().add(progressListener)
-                return
-            }
+    fun addDownloadListener(id: Any, progressListener: ProgressListener): Boolean {
+        getRequestById(id)?.let { request ->
+            request.downloadListeners().add(progressListener)
+            return true
         }
+        return false
     }
 
     /**
@@ -327,7 +309,24 @@ object Net {
      * @see com.drake.net.request.BaseRequest.setId
      */
     @JvmStatic
-    fun removeDownloadListener(id: Any, progressListener: ProgressListener) {
+    fun removeDownloadListener(id: Any, progressListener: ProgressListener): Boolean {
+        getRequestById(id)?.let { request ->
+            request.downloadListeners().remove(progressListener)
+            return true
+        }
+        return false
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="获取请求">
+
+    /**
+     * 根据ID获取请求对象
+     * @see com.drake.net.request.BaseRequest.setId
+     */
+    @JvmStatic
+    fun getRequestById(id: Any): Request? {
         val iterator = NetConfig.runningCalls.iterator()
         while (iterator.hasNext()) {
             val call = iterator.next().get()
@@ -335,13 +334,35 @@ object Net {
                 iterator.remove()
                 continue
             }
-            if (id == call.request().id) {
-                call.request().downloadListeners().remove(progressListener)
-                return
+            val request = call.request()
+            if (id == request.id) {
+                return request
             }
         }
+        return null
     }
 
+    /**
+     * 根据Group获取请求对象
+     * @see com.drake.net.request.BaseRequest.setGroup
+     */
+    @JvmStatic
+    fun getRequestByGroup(group: Any): MutableList<Request> {
+        val requests = mutableListOf<Request>()
+        val iterator = NetConfig.runningCalls.iterator()
+        while (iterator.hasNext()) {
+            val call = iterator.next().get()
+            if (call == null) {
+                iterator.remove()
+                continue
+            }
+            val request = call.request()
+            if (group == request.group) {
+                requests.add(request)
+            }
+        }
+        return requests
+    }
     //</editor-fold>
 
     //<editor-fold desc="日志">
