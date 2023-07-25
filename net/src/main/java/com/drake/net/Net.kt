@@ -29,11 +29,10 @@ package com.drake.net
 import android.util.Log
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.request.*
-import com.drake.net.tag.NetTag
 
 object Net {
 
-    //<editor-fold desc="同步执行网络请求">
+    //<editor-fold desc="同步请求">
     /**
      * 同步网络请求
      *
@@ -195,15 +194,18 @@ object Net {
     }
     //</editor-fold>
 
-    //<editor-fold desc="取消网络请求">
+    //<editor-fold desc="取消请求">
     /**
      * 取消全部网络请求
      */
     @JvmStatic
     fun cancelAll() {
-        NetConfig.runningCalls.forEach { it.get()?.cancel() }
-        NetConfig.runningCalls.clear()
         NetConfig.okHttpClient.dispatcher.cancelAll()
+        val iterator = NetConfig.runningCalls.iterator()
+        while (iterator.hasNext()) {
+            iterator.next().get()?.cancel()
+            iterator.remove()
+        }
     }
 
     /**
@@ -215,8 +217,12 @@ object Net {
         if (id == null) return false
         val iterator = NetConfig.runningCalls.iterator()
         while (iterator.hasNext()) {
-            val call = iterator.next().get() ?: continue
-            if (id == call.request().tagOf<NetTag.RequestId>()?.value) {
+            val call = iterator.next().get()
+            if (call == null) {
+                iterator.remove()
+                continue
+            }
+            if (id == call.request().id) {
                 call.cancel()
                 iterator.remove()
                 return true
@@ -235,9 +241,12 @@ object Net {
         val iterator = NetConfig.runningCalls.iterator()
         var hasCancel = false
         while (iterator.hasNext()) {
-            val call = iterator.next().get() ?: continue
-            val value = call.request().tagOf<NetTag.RequestGroup>()?.value
-            if (group == value) {
+            val call = iterator.next().get()
+            if (call == null) {
+                iterator.remove()
+                continue
+            }
+            if (group == call.request().group) {
                 call.cancel()
                 iterator.remove()
                 hasCancel = true
@@ -247,7 +256,7 @@ object Net {
     }
     //</editor-fold>
 
-    //<editor-fold desc="监听请求进度">
+    //<editor-fold desc="进度监听">
     /**
      * 监听正在请求的上传进度
      * @param id 请求的Id
@@ -255,10 +264,16 @@ object Net {
      */
     @JvmStatic
     fun addUploadListener(id: Any, progressListener: ProgressListener) {
-        NetConfig.runningCalls.forEach {
-            val request = it.get()?.request() ?: return@forEach
-            if (request.id == id) {
-                request.uploadListeners().add(progressListener)
+        val iterator = NetConfig.runningCalls.iterator()
+        while (iterator.hasNext()) {
+            val call = iterator.next().get()
+            if (call == null) {
+                iterator.remove()
+                continue
+            }
+            if (id == call.request().id) {
+                call.request().uploadListeners().add(progressListener)
+                return
             }
         }
     }
@@ -270,10 +285,16 @@ object Net {
      */
     @JvmStatic
     fun removeUploadListener(id: Any, progressListener: ProgressListener) {
-        NetConfig.runningCalls.forEach {
-            val request = it.get()?.request() ?: return@forEach
-            if (request.id == id) {
-                request.uploadListeners().remove(progressListener)
+        val iterator = NetConfig.runningCalls.iterator()
+        while (iterator.hasNext()) {
+            val call = iterator.next().get()
+            if (call == null) {
+                iterator.remove()
+                continue
+            }
+            if (id == call.request().id) {
+                call.request().uploadListeners().remove(progressListener)
+                return
             }
         }
     }
@@ -285,10 +306,16 @@ object Net {
      */
     @JvmStatic
     fun addDownloadListener(id: Any, progressListener: ProgressListener) {
-        NetConfig.runningCalls.forEach {
-            val request = it.get()?.request() ?: return@forEach
-            if (request.id == id) {
-                request.downloadListeners().add(progressListener)
+        val iterator = NetConfig.runningCalls.iterator()
+        while (iterator.hasNext()) {
+            val call = iterator.next().get()
+            if (call == null) {
+                iterator.remove()
+                continue
+            }
+            if (id == call.request().id) {
+                call.request().downloadListeners().add(progressListener)
+                return
             }
         }
     }
@@ -301,10 +328,16 @@ object Net {
      */
     @JvmStatic
     fun removeDownloadListener(id: Any, progressListener: ProgressListener) {
-        NetConfig.runningCalls.forEach {
-            val request = it.get()?.request() ?: return@forEach
-            if (request.id == id) {
-                request.downloadListeners().remove(progressListener)
+        val iterator = NetConfig.runningCalls.iterator()
+        while (iterator.hasNext()) {
+            val call = iterator.next().get()
+            if (call == null) {
+                iterator.remove()
+                continue
+            }
+            if (id == call.request().id) {
+                call.request().downloadListeners().remove(progressListener)
+                return
             }
         }
     }
