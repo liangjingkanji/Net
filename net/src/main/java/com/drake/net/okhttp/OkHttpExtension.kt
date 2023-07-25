@@ -25,8 +25,6 @@
 package com.drake.net.okhttp
 
 import com.drake.net.interceptor.NetOkHttpInterceptor
-import com.drake.net.request.tagOf
-import com.drake.net.tag.NetTag
 import okhttp3.OkHttpClient
 
 /**
@@ -37,41 +35,5 @@ fun OkHttpClient.toNetOkhttp() = run {
         newBuilder().addInterceptor(NetOkHttpInterceptor).build()
     } else {
         this
-    }
-}
-
-/**
- * 取消OkHttp客户端中指定Id的请求
- * 如果使用的是Net创建的网络请求请使用[com.drake.net.Net.cancelId]
- */
-fun OkHttpClient.cancelId(id: Any?) {
-    id ?: return
-    dispatcher.runningCalls().forEach {
-        if (id === it.request().tagOf<NetTag.RequestId>()?.value) {
-            it.cancel()
-        }
-    }
-    dispatcher.queuedCalls().forEach {
-        if (id === it.request().tagOf<NetTag.RequestId>()?.value) {
-            it.cancel()
-        }
-    }
-}
-
-/**
- * 取消OkHttp客户端中指定Group的请求
- * 如果使用的是Net创建的网络请求请使用[com.drake.net.Net.cancelGroup]
- */
-fun OkHttpClient.cancelGroup(group: Any?) {
-    group ?: return
-    dispatcher.runningCalls().forEach {
-        if (group === it.request().tagOf<NetTag.RequestGroup>()?.value) {
-            it.cancel()
-        }
-    }
-    dispatcher.queuedCalls().forEach {
-        if (group === it.request().tagOf<NetTag.RequestGroup>()?.value) {
-            it.cancel()
-        }
     }
 }
