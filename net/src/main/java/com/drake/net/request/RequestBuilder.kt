@@ -38,7 +38,7 @@ import kotlin.reflect.KType
  * 请求的Id
  */
 var Request.Builder.id: Any?
-    get() = tagOf<NetTag.RequestId>()
+    get() = tagOf<NetTag.RequestId>()?.value
     set(value) {
         tagOf(value?.let { NetTag.RequestId(it) })
     }
@@ -49,7 +49,7 @@ var Request.Builder.id: Any?
  * 在设计理念上分组可以重复. Id不行
  */
 var Request.Builder.group: Any?
-    get() = tagOf<NetTag.RequestGroup>()
+    get() = tagOf<NetTag.RequestGroup>()?.value
     set(value) {
         tagOf(value?.let { NetTag.RequestGroup(it) })
     }
