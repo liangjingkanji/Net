@@ -116,6 +116,7 @@ scopeNetLife {
     
         override fun <R> onConvert(succeed: Type, response: Response): R? {
             try {
+            	// 此处是为了继承默认转换器支持的返回类型
                 return NetConverter.onConvert<R>(succeed, response)
             } catch (e: ConvertException) {
                 val code = response.code
@@ -222,6 +223,7 @@ scopeNetLife {
 
         override fun <R> onConvert(succeed: Type, response: Response): R? {
             try {
+    			// 此处是为了继承默认转换器支持的返回类型
                 return NetConverter.onConvert<R>(succeed, response)
             } catch (e: ConvertException) {
                 val code = response.code

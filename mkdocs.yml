@@ -41,11 +41,11 @@ nav:
   - 请求参数: request.md
   - 全局配置: config.md
   - 请求结果:
-      - 默认转换器: default-converter.md
+      - 默认结果: default-response.md
       - 自定义转换器: converter.md
-      - 特殊结构解析: convert-special.md
-      - kotlin-serialization: kotlin-serialization.md
-      - 数据模型生成插件: model-generate.md
+      - 自定义结构解析: convert-special.md
+      - Kotlin-Serialization: kotlin-serialization.md
+      - 数据类生成插件: model-generate.md
   - 自动化:
       - 自动加载框: auto-dialog.md
       - 自动缺省页: auto-state.md
@@ -59,19 +59,19 @@ nav:
       - 单例错误捕获: error-single.md
       - 全局错误捕获: error-global.md
       - 自定义错误提示: error-tip.md
-      - 自定义异常: error-exception.md
+      - 自定义异常抛出: error-exception.md
   - OkHttpClient: okhttp-client.md
   - 拦截器: interceptor.md
   - Https证书: https.md
-  - Cookie管理: cookie.md
+  - Cookie: cookie.md
   - 缓存: cache.md
   - 标签/额外数据: tag.md
   - 上传文件: upload-file.md
   - 下载文件: download-file.md
   - 进度监听: progress.md
   - 取消请求: cancel.md
-  - 重复请求: unique.md
-  - 自动搜索/筛选: debounce.md
+  - 重复请求: repeat-request.md
+  - 自动搜索: debounce.md
   - 最快请求结果: fastest.md
   - 日志插件: log-recorder.md
   - 通知栏日志: log-notice.md
