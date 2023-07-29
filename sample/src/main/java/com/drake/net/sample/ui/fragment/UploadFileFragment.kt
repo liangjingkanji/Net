@@ -21,7 +21,7 @@ import java.io.File
 class UploadFileFragment : EngineFragment<FragmentUploadFileBinding>(R.layout.fragment_upload_file) {
     private val albumSelectLauncher = registerForActivityResult(AlbumSelectContract()) {
         when (it.code) {
-            Activity.RESULT_CANCELED -> TipUtils.toast("图片选择取消")
+            Activity.RESULT_CANCELED -> TipUtils.toast("取消图片选择")
             Activity.RESULT_OK -> uploadUri(it.uri)
         }
     }
