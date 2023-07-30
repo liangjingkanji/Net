@@ -28,7 +28,11 @@ import com.drake.net.body.name
 import com.drake.net.body.peekBytes
 import com.drake.net.body.value
 import com.drake.net.log.LogRecorder
-import okhttp3.*
+import okhttp3.FormBody
+import okhttp3.Interceptor
+import okhttp3.MultipartBody
+import okhttp3.Request
+import okhttp3.Response
 
 /**
  * 网络日志记录器
@@ -54,12 +58,12 @@ open class LogRecordInterceptor @JvmOverloads constructor(
 
         val generateId = LogRecorder.generateId()
         LogRecorder.recordRequest(
-            generateId, request.url.toString(), request.method, request.headers.toMultimap(), requestString(request)
+            generateId, request.url.toString(), request.method, request.headers.toMultimap(), getRequestLog(request)
         )
         try {
             val response = chain.proceed(request)
             LogRecorder.recordResponse(
-                generateId, System.currentTimeMillis(), response.code, response.headers.toMultimap(), responseString(response)
+                generateId, System.currentTimeMillis(), response.code, response.headers.toMultimap(), getResponseLog(response)
             )
             return response
         } catch (e: Exception) {
@@ -72,23 +76,34 @@ open class LogRecordInterceptor @JvmOverloads constructor(
     /**
      * 请求字符串
      */
-    protected open fun requestString(request: Request): String? {
+    protected open fun getRequestLog(request: Request): String? {
         val body = request.body ?: return null
         val mediaType = body.contentType()
         return when {
-            body is MultipartBody -> body.parts.joinToString("&") {
-                "${it.name()}=${it.value()}"
+            body is MultipartBody -> {
+                body.parts.joinToString("&") {
+                    "${it.name()}=${it.value()}"
+                }
             }
-            body is FormBody -> body.peekBytes(requestByteCount).utf8()
-            arrayOf("plain", "json", "xml", "html").contains(mediaType?.subtype) -> body.peekBytes(requestByteCount).utf8()
-            else -> "$mediaType does not support output logs"
+
+            body is FormBody -> {
+                body.peekBytes(requestByteCount).utf8()
+            }
+
+            arrayOf("plain", "json", "xml", "html").contains(mediaType?.subtype) -> {
+                body.peekBytes(requestByteCount).utf8()
+            }
+
+            else -> {
+                "$mediaType does not support output logs"
+            }
         }
     }
 
     /**
      * 响应字符串
      */
-    protected open fun responseString(response: Response): String? {
+    protected open fun getResponseLog(response: Response): String? {
         val body = response.body ?: return null
         val mediaType = body.contentType()
         val isPrintType = arrayOf("plain", "json", "xml", "html").contains(mediaType?.subtype)
