@@ -35,8 +35,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 fun RequestBody.toNetRequestBody(listeners: ConcurrentLinkedQueue<ProgressListener>? = null) = NetRequestBody(this, listeners)
 
 fun ResponseBody.toNetResponseBody(
-    listeners: ConcurrentLinkedQueue<ProgressListener>? = null,
-    complete: (() -> Unit)? = null
+    listeners: ConcurrentLinkedQueue<ProgressListener>? = null, complete: (() -> Unit)? = null
 ) = NetResponseBody(this, listeners, complete)
 
 /**
@@ -44,15 +43,10 @@ fun ResponseBody.toNetResponseBody(
  * @param byteCount 复制的字节长度, 允许超过实际长度, 如果-1则返回完整的字符串内容
  */
 fun RequestBody.peekBytes(byteCount: Long = 1024 * 1024): ByteString {
-    return when (this) {
-        is NetRequestBody -> peekBytes(byteCount)
-        else -> {
-            val buffer = Buffer()
-            writeTo(buffer)
-            val maxSize = if (byteCount < 0) buffer.size else minOf(buffer.size, byteCount)
-            buffer.readByteString(maxSize)
-        }
-    }
+    val buffer = Buffer()
+    writeTo(buffer)
+    val maxSize = if (byteCount < 0) buffer.size else minOf(buffer.size, byteCount)
+    return buffer.readByteString(maxSize)
 }
 
 /**
@@ -60,39 +54,37 @@ fun RequestBody.peekBytes(byteCount: Long = 1024 * 1024): ByteString {
  * @param byteCount 复制的字节长度, 允许超过实际长度, 如果-1则返回完整的字符串内容
  */
 fun ResponseBody.peekBytes(byteCount: Long = 1024 * 1024): ByteString {
-    return when (this) {
-        is NetResponseBody -> peekBytes(byteCount)
-        else -> {
-            val peeked = source().peek()
-            peeked.request(byteCount)
-            val maxSize = if (byteCount < 0) peeked.buffer.size else minOf(byteCount, peeked.buffer.size)
-            peeked.readByteString(maxSize)
-        }
-    }
+    val peeked = source().peek()
+    peeked.request(byteCount)
+    val maxSize = if (byteCount < 0) peeked.buffer.size else minOf(byteCount, peeked.buffer.size)
+    return peeked.readByteString(maxSize)
 }
 
 /**
- * 通过判断[okhttp3.Headers]里面的Content-Disposition是否存在filename属性来确定是否为文件类型[MultipartBody.Part]
+ * 获取Content-Disposition里面的filename属性值
+ * 可以此来判断是否为文件类型
  */
-fun MultipartBody.Part.isFile(): Boolean {
-    val contentDisposition = headers?.get("Content-Disposition") ?: return false
-    return ";\\s${"filename"}=\"(.+?)\"".toRegex().find(contentDisposition)?.groupValues?.getOrNull(1) != null
+fun MultipartBody.Part.fileName(): String? {
+    val contentDisposition = headers?.get("Content-Disposition") ?: return null
+    val regex = ";\\s${"filename"}=\"(.+?)\"".toRegex()
+    val matchResult = regex.find(contentDisposition)
+    return matchResult?.groupValues?.getOrNull(1)
 }
 
 /**
- * 返回Content-Disposition里面的字段名称
+ * 获取Content-Disposition里面的字段名称
  */
 fun MultipartBody.Part.name(): String? {
     val contentDisposition = headers?.get("Content-Disposition") ?: return null
-    return ";\\s${"name"}=\"(.+?)\"".toRegex().find(contentDisposition)?.groupValues?.getOrNull(1) ?: ""
+    val regex = ";\\s${"name"}=\"(.+?)\"".toRegex()
+    val matchResult = regex.find(contentDisposition)
+    return matchResult?.groupValues?.getOrNull(1)
 }
 
 /**
  * 将[MultipartBody.Part.body]作为字符串返回
- * 如果[MultipartBody.Part]是文件类型则返回的是文件名称, 确定文件类型请参考[MultipartBody.Part.isFile]
+ * 如果[MultipartBody.Part]有指定fileName那么视为文件类型将返回fileName值而不是文件内容
  */
 fun MultipartBody.Part.value(): String? {
-    val contentDisposition = headers?.get("Content-Disposition") ?: return null
-    return ";\\s${"filename"}=\"(.+?)\"".toRegex().find(contentDisposition)?.groupValues?.getOrNull(1)
-        ?: body.peekBytes().utf8()
+    return fileName() ?: body.peekBytes().utf8()
 }

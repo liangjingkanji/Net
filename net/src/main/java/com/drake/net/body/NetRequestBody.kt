@@ -71,17 +71,6 @@ class NetRequestBody(
         }
     }
 
-    /**
-     * 复制一段指定长度的字符串内容
-     * @param byteCount 复制的字节长度, 允许超过实际长度, 如果-1则返回完整的字符串内容
-     */
-    fun peekBytes(byteCount: Long = 1024 * 1024): ByteString {
-        val buffer = Buffer()
-        body.writeTo(buffer)
-        val maxSize = if (byteCount < 0) buffer.size else minOf(buffer.size, byteCount)
-        return buffer.readByteString(maxSize)
-    }
-
     private fun Sink.toProgress() = object : ForwardingSink(this) {
         private var writeByteCount = 0L
 

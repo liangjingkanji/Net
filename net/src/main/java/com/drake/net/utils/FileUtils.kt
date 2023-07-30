@@ -75,13 +75,19 @@ fun File.mediaType(): MediaType? {
  * @param contentType 如果为null则通过判断扩展名来生成MediaType
  */
 fun File.toRequestBody(contentType: MediaType? = null): RequestBody {
+    val fileMediaType = contentType ?: mediaType()
     return object : RequestBody() {
-        override fun contentType() = contentType ?: mediaType()
+
+        override fun contentType(): MediaType? {
+            return fileMediaType
+        }
 
         override fun contentLength() = length()
 
         override fun writeTo(sink: BufferedSink) {
-            source().use { source -> sink.writeAll(source) }
+            source().use { source ->
+                sink.writeAll(source)
+            }
         }
     }
 }
