@@ -28,6 +28,7 @@ import com.drake.net.component.Progress
 import com.drake.net.interfaces.ProgressListener
 import okhttp3.MediaType
 import okhttp3.RequestBody
+import okhttp3.internal.closeQuietly
 import okio.*
 import java.io.IOException
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -57,7 +58,16 @@ class NetRequestBody(
         } else {
             val bufferedSink: BufferedSink = sink.toProgress().buffer()
             body.writeTo(bufferedSink)
-            bufferedSink.close()
+            bufferedSink.closeQuietly()
+            if (contentLength == -1L) {
+                progressListeners?.forEach { progressListener ->
+                    progressListener.onProgress(
+                        progress.apply {
+                            finish = true
+                        }
+                    )
+                }
+            }
         }
     }
 
