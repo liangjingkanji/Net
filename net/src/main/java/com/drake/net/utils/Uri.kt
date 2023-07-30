@@ -33,6 +33,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okio.BufferedSink
 import okio.source
+import java.io.FileNotFoundException
 
 fun Uri.fileName(): String? {
     return DocumentFile.fromSingleUri(NetConfig.app, this)?.name
@@ -44,19 +45,25 @@ fun Uri.mediaType(): MediaType? {
     return MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension)?.toMediaTypeOrNull()
 }
 
+/**
+ * 当Uri指向的文件不存在时将抛出异常[FileNotFoundException]
+ */
+@Throws(FileNotFoundException::class)
 fun Uri.toRequestBody(): RequestBody {
     val document = DocumentFile.fromSingleUri(NetConfig.app, this)
-    val length = document?.length() ?: 0
+    val contentResolver = NetConfig.app.contentResolver
+    val contentLength = document?.length() ?: -1L
+    val contentType = mediaType()
     return object : RequestBody() {
         override fun contentType(): MediaType? {
-            return mediaType()
+            return contentType
         }
 
-        override fun contentLength() = length
+        override fun contentLength() = contentLength
 
         override fun writeTo(sink: BufferedSink) {
-            NetConfig.app.contentResolver.openInputStream(this@toRequestBody)?.source()?.use {
-                sink.writeAll(it)
+            contentResolver.openInputStream(this@toRequestBody)?.use {
+                sink.writeAll(it.source())
             }
         }
     }
