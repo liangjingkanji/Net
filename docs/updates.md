@@ -1,3 +1,18 @@
+## 3.6.0
+- pref: Optimize code
+- feat: contentLength未知的上传对象finish也有效
+- pref: RunningCalls遍历优化
+- pref: 考虑到Uri.toRequestBody读取不到文件或长度
+- refactor: 删除废弃函数
+- refactor: 下载临时文件名后缀改成.downloading
+- refactor: 删除param(RequestBody, Header)
+- refactor: LogRecordInterceptor.kt
+- refactor: 删除有问题的取消请求函数
+- refactor: peekBytes的默认读取大小统一为1MB
+- fix: 修复获取请求对象获取ID/Group错误
+- fix: 全局取消请求时发生ConvertException错误提示
+- fix: #187 上传进度监听finish字段无效
+
 ## 3.5.9
 - fix: 修复Java基础类型泛型解析
 
