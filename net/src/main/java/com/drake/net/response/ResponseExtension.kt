@@ -130,7 +130,7 @@ fun Response.file(): File? {
 
         // 临时文件
         if (request.downloadTempFile()) {
-            file = File(dir, file.name + ".net-download")
+            file = File(dir, file.name + ".downloading")
         }
         val source = body?.source() ?: return null
         if (!file.exists()) file.createNewFile()
