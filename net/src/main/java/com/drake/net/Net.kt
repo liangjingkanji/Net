@@ -368,15 +368,6 @@ object Net {
     //<editor-fold desc="日志">
     /**
      * 输出异常日志
-     * @see NetConfig.debug
-     */
-    @Deprecated("命名变更, 后续版本将被删除", ReplaceWith("Net.debug(t)"))
-    fun printStackTrace(t: Throwable) {
-        debug(t)
-    }
-
-    /**
-     * 输出异常日志
      * @param message 如果非[Throwable]则会自动追加代码位置(文件:行号)
      * @see NetConfig.debug
      */

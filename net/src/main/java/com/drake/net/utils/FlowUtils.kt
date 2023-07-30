@@ -38,37 +38,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.debounce
 
 /**
- * 收集Flow结果并过滤重复结果
- */
-@Deprecated("规范命名", ReplaceWith("launchIn(owner,event,dispatcher,action)"), DeprecationLevel.ERROR)
-@OptIn(InternalCoroutinesApi::class)
-inline fun <T> Flow<T>.listen(
-    owner: LifecycleOwner? = null,
-    event: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    dispatcher: CoroutineDispatcher = Dispatchers.Main,
-    crossinline action: suspend CoroutineScope.(value: T) -> Unit
-): AndroidScope = AndroidScope(owner, event, dispatcher).launch {
-    this@listen.collect(object : FlowCollector<T> {
-        override suspend fun emit(value: T) = action(this@launch, value)
-    })
-}
-
-/**
- * Flow直接创建作用域
- * @param owner 跟随的生命周期组件
- * @param event 销毁时机
- * @param dispatcher 指定调度器
- */
-@Deprecated("规范命名", ReplaceWith("launchIn(owner,event,dispatcher,action)"), DeprecationLevel.ERROR)
-@OptIn(InternalCoroutinesApi::class)
-inline fun <T> Flow<T>.scope(
-    owner: LifecycleOwner? = null,
-    event: Lifecycle.Event = Lifecycle.Event.ON_DESTROY,
-    dispatcher: CoroutineDispatcher = Dispatchers.Main,
-    crossinline action: suspend CoroutineScope.(value: T) -> Unit
-): AndroidScope = launchIn(owner, event, dispatcher, action)
-
-/**
  * Flow直接创建作用域
  * @param owner 跟随的生命周期组件
  * @param event 销毁时机

@@ -377,14 +377,6 @@ class ForceCache internal constructor(
     val directory: File
         get() = cache.directory
 
-    @JvmName("-deprecated_directory")
-    @Deprecated(
-        message = "moved to val",
-        replaceWith = ReplaceWith(expression = "directory"),
-        level = DeprecationLevel.ERROR
-    )
-    fun directory(): File = cache.directory
-
     private inner class RealCacheRequest(
         private val editor: DiskLruCache.Editor
     ) : CacheRequest {

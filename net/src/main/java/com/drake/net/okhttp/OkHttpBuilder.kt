@@ -45,15 +45,6 @@ import javax.net.ssl.X509TrustManager
 /**
  * 开启日志
  * @param enabled 是否启用日志
- */
-@Deprecated("命名变更, 后续版本将被删除", ReplaceWith("setDebug(enabled)"))
-fun OkHttpClient.Builder.setLog(enabled: Boolean) = apply {
-    NetConfig.logEnabled = enabled
-}
-
-/**
- * 开启日志
- * @param enabled 是否启用日志
  * @param tag 日志标签
  */
 fun OkHttpClient.Builder.setDebug(enabled: Boolean, tag: String = NetConfig.TAG) = apply {

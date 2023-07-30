@@ -65,23 +65,7 @@ object NetConfig {
     internal var forceCache: ForceCache? = null
 
     /** 是否启用日志 */
-    @Deprecated("命名变更, 后续版本将被删除", ReplaceWith("NetConfig.debug"))
-    var logEnabled
-        get() = debug
-        set(value) {
-            debug = value
-        }
-
-    /** 是否启用日志 */
     var debug = true
-
-    /** 网络异常日志的标签 */
-    @Deprecated("命名变更, 后续版本将被删除", ReplaceWith("NetConfig.TAG"))
-    var logTag
-        get() = TAG
-        set(value) {
-            TAG = value
-        }
 
     /** 网络异常日志的标签 */
     var TAG = "NET_LOG"
@@ -103,34 +87,6 @@ object NetConfig {
     var dialogFactory: NetDialogFactory = NetDialogFactory
 
     //<editor-fold desc="初始化">
-    /**
-     * 初始化框架
-     * 不初始化也可以使用, 但是App使用多进程情况下要求为[NetConfig.host]或者[context]赋值, 否则会导致无法正常吐司或其他意外问题
-     * @param host 请求url的主机名, 该参数会在每次请求时自动和请求路径进行拼接(如果路径包含https/http则不会拼接)
-     * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
-     * @param config 进行配置网络请求
-     */
-    @Deprecated("命名变更, 后续版本将被删除", ReplaceWith("initialize(host, context, config)"))
-    fun init(
-        host: String = "",
-        context: Context? = null,
-        config: OkHttpClient.Builder.() -> Unit = {}
-    ) = initialize(host, context, config)
-
-    /**
-     * 初始化框架
-     * 不初始化也可以使用, 但是App使用多进程情况下要求为[NetConfig.host]或者[context]赋值, 否则会导致无法正常吐司或其他意外问题
-     * @param host 请求url的主机名
-     * @param context 如果应用存在多进程请指定此参数初始化[NetConfig.app]
-     * @param config 进行配置网络请求
-     */
-    @Deprecated("命名变更, 后续版本将被删除", ReplaceWith("initialize(host, context, config)"))
-    fun init(
-        host: String = "",
-        context: Context? = null,
-        config: OkHttpClient.Builder
-    ) = initialize(host, context, config)
-
     /**
      * 初始化框架
      * 不初始化也可以使用, 但是App使用多进程情况下要求为[NetConfig.host]或者[context]赋值, 否则会导致无法正常吐司或其他意外问题
