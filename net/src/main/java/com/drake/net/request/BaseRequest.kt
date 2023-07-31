@@ -36,6 +36,7 @@ import com.drake.net.reflect.TypeToken
 import com.drake.net.reflect.typeTokenOf
 import com.drake.net.response.convert
 import com.drake.net.tag.NetTag
+import kotlinx.coroutines.CoroutineExceptionHandler
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -79,14 +80,20 @@ abstract class BaseRequest {
 
     //<editor-fold desc="ID">
     /**
-     * 唯一的Id
+     * 请求ID
+     * Group和Id在使用场景上有所区别, 预期上Group允许重复赋值给多个请求, Id仅允许赋值给一个请求, 但实际上都允许重复赋值
+     * 在作用域中发起请求时会默认使用协程错误处理器作为Group: `setGroup(coroutineContext[CoroutineExceptionHandler])`
+     * 如果你覆盖Group会导致协程结束不会自动取消请求
      */
     fun setId(id: Any?) {
         okHttpRequest.id = id
     }
 
     /**
-     * 分组
+     * 请求分组
+     * Group和Id在使用场景上有所区别, 预期上Group允许重复赋值给多个请求, Id仅允许赋值给一个请求, 但实际上都允许重复赋值
+     * 在作用域中发起请求时会默认使用协程错误处理器作为Group: `setGroup(coroutineContext[CoroutineExceptionHandler])`
+     * 如果你覆盖Group会导致协程结束不会自动取消请求
      */
     fun setGroup(group: Any?) {
         okHttpRequest.group = group
@@ -234,11 +241,9 @@ abstract class BaseRequest {
 
     //<editor-fold desc="Extra">
     /**
-     * 添加标签
-     * 使用`Request.tag(name)`得到指定标签
-     *
-     * @param name 标签名称
-     * @param tag 标签
+     * 设置额外信息
+     * @see extra 读取
+     * @see extras 全部额外信息
      */
     fun setExtra(name: String, tag: Any?) {
         okHttpRequest.setExtra(name, tag)
@@ -250,23 +255,23 @@ abstract class BaseRequest {
 
     /**
      * 使用Any::class作为键名添加标签
-     * 使用Request.tag()返回标签
+     * 使用Request.tag()返回tag
      */
     fun tag(tag: Any?) {
         okHttpRequest.tag(tag)
     }
 
     /**
-     * 使用[type]作为键名添加标签
-     * 使用Request.label<T>()或者Request.tag(type)返回标签
+     * 使用[type]作为key添加标签
+     * 使用Request.tagOf<T>()或者Request.tag(Class)读取tag
      */
     fun <T> tag(type: Class<in T>, tag: T?) {
         okHttpRequest.tag(type, tag)
     }
 
     /**
-     * 使用[T]作为键名添加标签
-     * 使用Request.label<T>()或者Request.tag(type)返回标签
+     * 添加tag
+     * 使用Request.tagOf<T>()或者Request.tag(Class)读取tag
      */
     inline fun <reified T> tagOf(tag: T?) {
         okHttpRequest.tagOf(tag)
@@ -381,14 +386,16 @@ abstract class BaseRequest {
     }
 
     /**
-     * 如果服务器返回 "Content-MD5"响应头和制定路径已经存在的文件MD5相同是否直接返回File
+     * 下载文件MD5校验
+     * 如果服务器响应头`Content-MD5`值和指定路径已经存在的文件MD5相同, 则跳过下载直接返回该File
      */
     fun setDownloadMd5Verify(enabled: Boolean = true) {
         okHttpRequest.tagOf(NetTag.DownloadFileMD5Verify(enabled))
     }
 
     /**
-     * 假设下载文件路径已存在同名文件是否重命名, 例如`file_name(1).apk`
+     * 下载文件路径存在同名文件时是创建新文件(添加序号)还是覆盖
+     * 重命名规则是: $文件名_($序号).$后缀, 例如`file_name(1).apk`
      */
     fun setDownloadFileNameConflict(enabled: Boolean = true) {
         okHttpRequest.tagOf(NetTag.DownloadFileConflictRename(enabled))
@@ -405,8 +412,8 @@ abstract class BaseRequest {
     /**
      * 下载是否使用临时文件
      * 避免下载失败后覆盖同名文件或者无法判别是否已下载完整, 仅在下载完整以后才会显示为原有文件名
-     * 临时文件命名规则: 文件名 + .net-download
-     *      下载文件名: install.apk, 临时文件名: install.apk.net-download
+     * 临时文件命名规则: 文件名 + .downloading
+     *      下载文件名: install.apk, 临时文件名: install.apk.downloading
      */
     fun setDownloadTempFile(enabled: Boolean = true) {
         okHttpRequest.tagOf(NetTag.DownloadTempFile(enabled))
@@ -414,7 +421,6 @@ abstract class BaseRequest {
 
     /**
      * 下载监听器
-     * [setDownloadMd5Verify] 启用MD5文件校验且匹配本地文件MD5值成功会直接返回本地文件对象, 不会触发下载监听器
      */
     fun addDownloadListener(progressListener: ProgressListener) {
         okHttpRequest.downloadListeners().add(progressListener)
@@ -423,7 +429,8 @@ abstract class BaseRequest {
     //</editor-fold>
 
     /**
-     * 为请求附着针对Kotlin的Type信息
+     * 为请求附着KType信息
+     * KType属于Kotlin特有的Type, 某些Kotlin框架可能会使用到, 例如 kotlin.serialization
      */
     @OptIn(ExperimentalStdlibApi::class)
     inline fun <reified T> setKType() {

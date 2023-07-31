@@ -31,8 +31,8 @@ scopeNetLife {
 |-|-|
 | setDownloadFileName | 下载的文件名称 |
 | setDownloadDir | 下载保存的目录, 也支持包含文件名称的完整路径, 如果使用完整路径则无视`setDownloadFileName`设置 |
-| setDownloadMd5Verify | 下载是否开启MD5校验, 如果服务器返回 "Content-MD5"响应头和制定路径已经存在的文件MD5相同是否直接返回File, 不会重新下载 |
-| setDownloadFileNameConflict | 下载文件名如果在指定路径下存在同名会自动重新命名, 例如`file_name(1).apk` |
+| setDownloadMd5Verify | 下载文件MD5校验, 如果服务器响应头`Content-MD5`值和指定路径已经存在的文件MD5相同, 则跳过下载直接返回该File |
+| setDownloadFileNameConflict | 下载文件路径存在同名文件时是创建新文件(添加序号)还是覆盖, 例如`file_name(1).apk` |
 | setDownloadFileNameDecode | 文件名称是否使用URL解码, 例如下载的文件名如果是中文, 服务器传输给你的会是被URL编码的字符串. 你使用URL解码后才是可读的中文名称 |
 | setDownloadTempFile | 下载是否使用临时文件, 避免下载失败后覆盖同名文件或者无法判别是否已下载完整, 仅在下载完整以后才会显示为原有文件名 |
 | addDownloadListener | 下载进度监听器, 具体介绍在[进度监听](progress.md)中 |

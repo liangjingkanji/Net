@@ -33,9 +33,8 @@ Net.cancelId("请求用户信息")
 Net.cancelGroup("请求分组名称") // 设置分组
 ```
 
-如果你要问我请求的Group和Id有什么区别, 其实本质上两者基本上没区别, 只是为了适配不同场景下使用.
+Group和Id在使用场景上有所区别, 预期上Group允许重复赋值给多个请求, Id仅允许赋值给一个请求, 但实际上都允许重复赋值 <br>
+在作用域中发起请求时会默认使用协程错误处理器作为Group: `setGroup(coroutineContext[CoroutineExceptionHandler])` <br>
+如果你覆盖Group会导致协程结束不会自动取消请求
 
 <br>
-
-> 需要注意的是一旦为网络请求设置分组`setGroup`你就无法在作用域执行完毕自动取消网络请求了, 因为自动取消的原理就是使用作用域
-的上下文来作为Group

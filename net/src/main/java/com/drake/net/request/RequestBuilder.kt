@@ -27,6 +27,7 @@ package com.drake.net.request
 import com.drake.net.convert.NetConverter
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.tag.NetTag
+import kotlinx.coroutines.CoroutineExceptionHandler
 import okhttp3.Headers
 import okhttp3.OkHttpUtils
 import okhttp3.Request
@@ -35,7 +36,10 @@ import kotlin.reflect.KType
 
 //<editor-fold desc="Group">
 /**
- * 请求的Id
+ * 请求Id
+ * Group和Id在使用场景上有所区别, 预期上Group允许重复赋值给多个请求, Id仅允许赋值给一个请求, 但实际上都允许重复赋值
+ * 在作用域中发起请求时会默认使用协程错误处理器作为Group: `setGroup(coroutineContext[CoroutineExceptionHandler])`
+ * 如果你覆盖Group会导致协程结束不会自动取消请求
  */
 var Request.Builder.id: Any?
     get() = tagOf<NetTag.RequestId>()?.value
@@ -44,9 +48,10 @@ var Request.Builder.id: Any?
     }
 
 /**
- * 请求的分组名
- * Group和Id本质上都是任意对象Any. 但是Net网络请求中自动取消的操作都是通过Group分组. 如果你覆盖可能会导致自动取消无效
- * 在设计理念上分组可以重复. Id不行
+ * 请求分组
+ * Group和Id在使用场景上有所区别, 预期上Group允许重复赋值给多个请求, Id仅允许赋值给一个请求, 但实际上都允许重复赋值
+ * 在作用域中发起请求时会默认使用协程错误处理器作为Group: `setGroup(coroutineContext[CoroutineExceptionHandler])`
+ * 如果你覆盖Group会导致协程结束不会自动取消请求
  */
 var Request.Builder.group: Any?
     get() = tagOf<NetTag.RequestGroup>()?.value
@@ -56,7 +61,8 @@ var Request.Builder.group: Any?
 //</editor-fold>
 
 /**
- * KType属于Kotlin特有的Type, 某些kotlin独占框架可能会使用到. 例如 kotlin.serialization
+ * 为请求附着KType信息
+ * KType属于Kotlin特有的Type, 某些Kotlin框架可能会使用到, 例如 kotlin.serialization
  */
 var Request.Builder.kType: KType?
     get() = tagOf<NetTag.RequestKType>()?.value
@@ -74,7 +80,9 @@ fun Request.Builder.headers(): Headers.Builder {
 
 //<editor-fold desc="Extra">
 /**
- * 设置键值对的tag
+ * 设置额外信息
+ * @see extra 读取
+ * @see extras 全部额外信息
  */
 fun Request.Builder.setExtra(name: String, value: Any?) = apply {
     val extras = extras()
@@ -86,7 +94,7 @@ fun Request.Builder.setExtra(name: String, value: Any?) = apply {
 }
 
 /**
- * 全部键值对标签
+ * 全部额外信息
  */
 fun Request.Builder.extras(): HashMap<String, Any?> {
     return tagOf<NetTag.Extras>() ?: kotlin.run {
@@ -101,7 +109,7 @@ fun Request.Builder.extras(): HashMap<String, Any?> {
 //<editor-fold desc="Tag">
 
 /**
- * 返回OkHttp的tag(通过Class区分的tag)
+ * 读取OkHttp的tag(通过Class区分的tag)
  */
 inline fun <reified T> Request.Builder.tagOf(): T? {
     return tags()[T::class.java] as? T
@@ -115,7 +123,7 @@ inline fun <reified T> Request.Builder.tagOf(value: T?) = apply {
 }
 
 /**
- * 标签集合
+ * 全部tag
  */
 fun Request.Builder.tags(): MutableMap<Class<*>, Any?> {
     return OkHttpUtils.tags(this)
