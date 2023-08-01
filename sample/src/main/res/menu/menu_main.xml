@@ -78,7 +78,7 @@
         android:icon="@drawable/ic_unique"
         android:title="重复请求" />
     <item
-        android:id="@+id/edit_throttle"
+        android:id="@+id/edit_debounce"
         android:icon="@drawable/ic_debounce"
         android:title="节流阀" />
     <item

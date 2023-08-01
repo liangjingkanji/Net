@@ -15,4 +15,5 @@ object Api {
     const val ARRAY = "/array"
     const val CONFIG = "/config"
     const val USER_INFO = "/userInfo"
+    const val TIME = "/time"
 }

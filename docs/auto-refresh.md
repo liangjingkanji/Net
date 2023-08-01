@@ -1,17 +1,17 @@
-Net属于低耦合框架, 自动下拉刷新需要依赖第三方组件: [BRV](https://github.com/liangjingkanji/BRV)(点击链接按文档依赖)
+!!! success "模块化依赖"
+    如果自己处理下拉刷新可跳过本章, Net可以仅仅作为简单的网络框架存在
+
 <br>
+Net可依赖三方库 [BRV](https://github.com/liangjingkanji/BRV) 实现自动处理下拉刷新
 
 <a href="https://jitpack.io/#liangjingkanji/BRV"><img src="https://jitpack.io/v/liangjingkanji/BRV.svg"/></a>
 
-使用固定版本号替换+符号
-
 ```groovy
-implementation 'com.github.liangjingkanji:BRV:+'
+implementation 'com.github.liangjingkanji:BRV:+' // 使用固定版本号替换+符号
 ```
 
-> 当然如果自己处理下拉刷新也是可以的, Net可以仅仅作为网络框架存在
+## PageRefreshLayout
 
-创建PageRefreshLayout
 ```xml
 <com.drake.brv.PageRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -29,14 +29,20 @@ implementation 'com.github.liangjingkanji:BRV:+'
 </com.drake.brv.PageRefreshLayout>
 ```
 
-创建列表
+## 创建列表
+
 ```kotlin
 rv_push.linear().setup {
     addType<String>(R.layout.item_list)
 }
 ```
 
-创建网络请求
+## 网络请求
+
+1. 请求开始, 显示下拉刷新动画
+2. 请求成功, 显示`内容`缺省页
+3. 请求失败,  显示`错误`缺省页
+
 ```kotlin hl_lines="2"
 page.onRefresh {
     scope {
@@ -46,19 +52,9 @@ page.onRefresh {
 }.autoRefresh()
 ```
 
-<br>
-
-> 注意高亮处使用的是`scope`而不是其他作用域, 只能使用scope, 否则无法跟随PageRefreshLayout生命周期等功能
-
-<br>
-
-- 使用上和自动缺省页相似
-- BRV同样属于具备完善功能独立的RecyclerView框架
-- BRV的下拉刷新扩展自[SmartRefreshLayout_v2](https://github.com/scwang90/SmartRefreshLayout), 支持其全部功能且更多
-
 ## 生命周期
 
-|生命周期|描述|
-|-|-|
-|开始|PageRefreshLayout执行`showLoading/autoRefresh`后触发`onRefresh`, 然后开始网络请求|
-|结束|PageRefreshLayout被销毁(例如其所在的Activity或Fragment被销毁), 网络请求自动取消|
+| 生命周期 | 描述                                               |
+| -------- | -------------------------------------------------- |
+| 开始     | `showLoading/autoRefresh`触发`onRefresh`, 开始请求 |
+| 结束     | PageRefreshLayout被销毁, 请求自动取消              |

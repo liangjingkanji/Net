@@ -1,25 +1,30 @@
-1. 从Net3开始支持使用[kotlin-serialization](https://github.com/Kotlin/kotlinx.serialization)(以下简称ks)
+1. 从Net3开始支持使用 [Kotlin-Serialization](https://github.com/Kotlin/kotlinx.serialization) (以下简称ks)
+2. 更多了解请阅读: [Kotlin最强解析库 - kotlin-serialization](https://juejin.cn/post/6963676982651387935)
 
-1. 更多使用教程请阅读: [Kotlin最强解析库 - kotlin-serialization](https://juejin.cn/post/6963676982651387935)
+## 特点
 
-<br>
-## kotlin-serialization 特点
-
-- kotlin官方库
+- 官方库
 - 动态数据类型解析
 - 自定义序列化器
 - 支持ProtoBuf/JSON等数据结构序列化
-- 非空覆盖(即返回的Json字段为null则使用数据类默认值)
-- 启用宽松模式, Json和数据类字段无需一致
+- 非空覆盖(即JSON字段为null则使用变量默认值)
+- 启用宽松模式, JSON和数据类结构无需一致
 - 解析任何类型(Map/List/Pair...)
 
-> ks的数据模型类都要求使用注解`@Serializable`(除非自定义解析过程), 父类和子类都需要使用 <br>
-> 一般开发中都是使用[插件生成数据模型](model-generate.md), 所以这并不会增加工作量. 即使手写也只是一个注解, 但是可以带来默认值支持和更安全的数据解析
+!!! Failure "强制注解"
+    ks的数据类都要求使用注解`@Serializable`(除非自定义解析), 父类和子类都需要
+
+
+
+!!! Success "生成默认值"
+    使用[插件生成数据Model](model-generate.md), 支持自动生成默认值和注解
+
+    生成默认值可避免后端返回异常数据导致解析崩溃, 以及反复编写判空代码
 
 ## 依赖
 
 
-项目 build.gradle
+Project build.gradle
 
 
 ```kotlin
@@ -27,7 +32,7 @@ classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
 // 和Kotlin插件同一个版本号即可
 ```
 
-module build.gradle
+Model build.gradle
 
 ```kotlin
 apply plugin: "kotlin-kapt"
@@ -37,12 +42,11 @@ implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0"
 
 ## 配置转换器
 
-这里使用Demo中的[SerializationConvert](https://github.com/liangjingkanji/Net/blob/master/sample/src/main/java/com/drake/net/sample/converter/SerializationConverter.kt)作演示.
-如果你业务有特殊需要可以复制Demo中的转换器代码稍加修改
+这里使用示例代码中 [SerializationConvert](https://github.com/liangjingkanji/Net/blob/master/sample/src/main/java/com/drake/net/sample/converter/SerializationConverter.kt) 作为演示
 
 === "全局配置"
     ```kotlin
-    NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
+    NetConfig.initialize(Api.HOST, this) {
         setConverter(SerializationConvert())
         // ... 其他配置
     }
@@ -58,7 +62,6 @@ implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0"
 
 ```kotlin
 scopeNetLife {
-    // 这里后端直接返回的Json数组
     val userList = Get<List<UserModel>>("list") {
         converter = SerializationConvert()
     }.await()
@@ -71,9 +74,6 @@ scopeNetLife {
 @Serializable
 data class UserModel(var name: String, var age: Int, var height: Int)
 ```
-
-> 具体解析返回的JSON中的某个字段请在转换器里面自定, 其注意如果存在父类, 父类和子类都需要使用`@Serializable`注解修饰 <br>
-如果想详细了解KS, 请阅读文章: [Kotlin最强解析库 - kotlin-serialization](https://juejin.cn/post/6963676982651387935)
 
 ## 常用配置
 
@@ -91,7 +91,6 @@ val jsonDecoder = Json {
 @Serializable
 data class Data(var name:String = "", var age:Int = 0)
 ```
-> 建议为数据类所有字段设置默认值, 避免后端数据缺失导致解析异常, 也减少频繁判空操作
 
 ### 启用默认值
 

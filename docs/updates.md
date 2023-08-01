@@ -241,7 +241,7 @@
 - 修复未知的TypeToken访问权限问题
 
 ## 3.0.6
-- 所有Json解析框架都可以解析`List<UserModel>`等嵌套泛型数据结构: [特殊结构解析](convert-special.md)
+- 所有Json解析框架都可以解析`List<UserModel>`等嵌套泛型数据结构
 
 ## 3.0.5
 - 修复Path编码问题

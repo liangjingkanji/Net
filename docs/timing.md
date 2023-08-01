@@ -1,7 +1,9 @@
-以下仅提供一些如何实现定时/限时请求功能的思路, 并不限定只有以下描述的方式可以实现
+以下为提供实现定时/限时请求思路, 并不限定只有以下方式
 
 
 ## 限时请求
+
+即超过指定时间后立即取消请求
 
 ```kotlin
 scopeDialog {
@@ -41,7 +43,6 @@ scopeNetLife {
 
 ```kotlin
 scopeNetLife {
-    // 每两秒请求一次, 总共执行10次
     while (true) {
         delay(1.toDuration(DurationUnit.SECONDS))
         val data =
@@ -52,5 +53,3 @@ scopeNetLife {
     }
 }
 ```
-
-建议下载源码查看

@@ -1,23 +1,30 @@
-Net可以通过实现`NetErrorHandler`接口来监听全局错误处理, 当你通过`setErrorHandler`后Net就不会再执行默认的错误处理了
+可实现`NetErrorHandler`接口来监听全局错误处理
 
-```kotlin
-NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
-
-    setErrorHandler(object : NetErrorHandler() {
+=== "创建"
+    ```kotlin
+    class NetworkingErrorHandler : NetErrorHandler {
         override fun onError(e: Throwable) {
-            super.onError(e)
+        // .... 其他错误
+            if (e is ResponseException && e.tag == 401) { // 判断异常为token失效
+               // 打开登录界面或者弹登录失效对话框
+            }
         }
+    }
+    ```
+=== "配置"
+    ```kotlin
+    NetConfig.initialize(Api.HOST, this) {
+        setErrorHandler(NetworkingErrorHandler))
+    }
+    ```
 
-        override fun onStateError(e: Throwable, view: View) {
-            super.onStateError(e, view)
-        }
-    })
-}
-```
-
-|场景|处理函数|处理方式|
+|NetErrorHandler|使用场景|触发位置|
 |-|-|-|
-|普通网络请求/自动加载框|`onError`| 默认吐司错误信息 |
-|使用自动处理缺省页的作用域|`onStateError`| 仅部分错误信息会吐司, 因为缺省页不需要所有的错误信息都吐司(toast)提示, 因为错误页可能已经展示错误信息, 所以这里两者处理的函数区分. |
+|`onError`| 吐司错误信息 | `scopeNetLife/scopeDialog` |
+|`onStateError` | 要求错误显示在缺省页 |`PageRefreshLayout.scope/StateLayout.scope`|
 
-> `scope/scopeLife`不会触发任何全局错误NetErrorHandler, 请使用单例错误处理方式`catch`, 因为其用于处理异步任务,不应当用于网络请求
+
+!!! warning "以下情况全局错误处理无效"
+
+    1. 异步任务作用域(`scope/scopeLife`)发生的错误
+    2. 使用[单例错误处理](error-single.md)处理的错误

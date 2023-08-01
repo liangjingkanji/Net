@@ -1,7 +1,4 @@
-Net虽然支持自动跟随生命周期取消网络请求, 绝大部分场景也足够. 但是有时还是需要手动取消, 例如取消下载文件.
-<br>
-
-Net取消协程作用域自动取消内部网络请求, 也支持任意位置取消指定网络请求.
+部分场景需要手动取消请求, 例如取消下载
 
 ```kotlin
 downloadScope = scopeNetLife {
@@ -11,13 +8,10 @@ downloadScope = scopeNetLife {
 
 downloadScope.cancel() // 取消下载
 ```
-完整示例: [源码](https://github.com/liangjingkanji/Net/blob/master/sample/src/main/java/com/drake/net/sample/ui/fragment/DownloadFileFragment.kt)
-
 
 ## 任意位置取消
-发起请求的时候要求定义一个`Id`用于指定网络请求, 然后在需要的地方使用单例对象`Net.cancelId`取消请求.
+发起请求时指定`Id`
 
-创建请求
 ```kotlin
 scopeNetLife {
     tvFragment.text = Get<String>("api"){
@@ -26,15 +20,25 @@ scopeNetLife {
 }
 ```
 
-然后根据Id取消网络请求
-```kotlin
-Net.cancelId("请求用户信息")
+=== "根据ID取消"
+    ``` kotlin
+    Net.cancelId("请求用户信息")
+    ```
+=== "根据Group取消"
+    ``` kotlin
+    Net.cancelGroup("请求分组名称")
+    ```
 
-Net.cancelGroup("请求分组名称") // 设置分组
-```
+## Group和Id区别
 
-Group和Id在使用场景上有所区别, 预期上Group允许重复赋值给多个请求, Id仅允许赋值给一个请求, 但实际上都允许重复赋值 <br>
-在作用域中发起请求时会默认使用协程错误处理器作为Group: `setGroup(coroutineContext[CoroutineExceptionHandler])` <br>
-如果你覆盖Group会导致协程结束不会自动取消请求
+| 函数 | 描述 |
+|-|-|
+| id | 请求唯一Id, 实际上重复也行, 但是取消请求时遍历到指定Id就会结束遍历 |
+| group | 允许多个请求使用相同group, 在取消请求时会遍历所有分组的请求 <br>  |
 
-<br>
+!!! warning "作用域结束请求自动取消"
+    在`scopeXX()`作用域中发起请求时会默认使用当前协程错误处理器作为Group
+    ```kotlin
+    setGroup(coroutineContext[CoroutineExceptionHandler])
+    ```
+    在作用域结束时 会`cancelGroup`, 所以如果你手动指定分组会导致无法自动取消

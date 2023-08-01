@@ -1,13 +1,13 @@
-Net支持两种类型数据贯穿整个请求流程(请求 -> 拦截器 -> 转换器)
+Net支持两种方式携带数据, 贯穿整个请求流程(请求/拦截器/转换器)
 
 - tag: `HashMap<Class<*>, Any?>` 标签
 - extra: `HashMap<String, Any?>` 额外数据
 
-> 他们的区别是key是Class还是String类型, 具体使用哪一种请根据自己方便来
+两者区别为存储时key是`Class`还是`String`, 自由选择
 
 ## 标签使用
 
-### 1) 写入标签
+### 1. 写入标签
 
 ```kotlin hl_lines="2"
 scopeNetLife {
@@ -18,10 +18,7 @@ scopeNetLife {
 }
 ```
 
-> `tagOf(Person())` 等效 `tag(Person::class.java, Person())`, 只是使用泛型推断区别 <br>
-> 但`tag(Person())` 等效 `tag(Any::class.java, Person())`, 可以查看方法实现
-
-### 2) 拦截器中读取标签
+### 2. 拦截器中读取标签
 ```kotlin hl_lines="4"
 class MyInterceptor : Interceptor {
     override fun intercept(chain: Chain): Response {
@@ -37,7 +34,7 @@ class MyInterceptor : Interceptor {
 }
 ```
 
-### 3) 转换器中读取标签
+### 3. 转换器中读取标签
 
 ```kotlin hl_lines="4"
 class MyConvert : NetConvert {
@@ -52,7 +49,7 @@ class MyConvert : NetConvert {
 
 <br>
 
-我们通过Request的函数可以读取/写入标签/额外数据
+通过`Request`可以读写数据
 
 | 方法 | 描述 |
 |-|-|
@@ -60,7 +57,7 @@ class MyConvert : NetConvert {
 | extra | 读取额外数据 |
 | extras | 全部额外数据 |
 | tag | 读取/写入标签 |
-| tagOf | 读取/写入标签, 和上面函数不同的时本函数使用的泛型而非`Class<*>` |
+| tagOf | 读取/写入标签, 为`tag()`的泛型替代 |
 | tags | 全部标签 |
 
 ## 多个标签

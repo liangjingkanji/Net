@@ -1,5 +1,3 @@
-上传文件和普通接口请求区别不大
-
 ```kotlin
 scopeNetLife {
     Post<String>(Api.UPLOAD) {
@@ -8,11 +6,11 @@ scopeNetLife {
 }
 ```
 
-使用`addUploadListener`添加上传进度监听器, 监听上传进度具体介绍在[进度监听](progress.md)中
+使用`addUploadListener`添加上传进度监听器, 阅读[进度监听](progress.md)章节
 
 ## 指定类型
 
-默认会根据文件的后缀名产生MediaType. 但是如果你想自定义MediaType可以直接创建RequestBody参数
+默认根据文件后缀名生成`MediaType`, 如果想自定义MediaType可以直接创建`RequestBody`
 
 ```kotlin
 scopeNetLife {

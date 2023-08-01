@@ -1,28 +1,26 @@
-协程请求要求在协程的作用域中调用, 这里介绍如何创建不同的作用域获取不同的功能
+创建不同协程作用域可以实现不同的功能
 
-本质上Net的请求动作函数返回的是一个Deferred对象. 可以在任何协程作用域内执行. 但是考虑到完整的生命周期和错误处理等推荐使用Net内部定义的作用域.
-
-> 发生在Net作用域内的任何异常都会被捕获, 有效减少应用崩溃率. 如果配合[kotlin-serialization](kotlin-serialization.md)还可以解决因服务器返回null字段导致的崩溃
+!!! Success "减少崩溃"
+    Net所有作用域内抛出异常都会被捕获到, 可以防止应用崩溃 <br>
 
 ## 异步任务的作用域
 
-创建可以捕捉异常的协程作用域, 但是不会触发`NetErrorHandler`(全局错误处理者). 该作用域于一般用于普通的异步任务
+可以捕捉异常的协程作用域, 用于构建普通异步任务
 
 |函数|描述|
 |-|-|
-|`scope`|创建最基础的作用域, 所有作用域都包含异常捕捉|
-|`scopeLife`|创建跟随生命周期取消的作用域|
+|`scope`|创建最基础的作用域|
+|`scopeLife`|创建跟随生命周期自动取消的作用域|
 |`ViewModel.scopeLife`|创建跟随ViewModel生命周期的作用域, [如何在ViewModel创建作用域](view-model.md)|
 
 
 ## 网络请求的作用域
 
-网络请求的作用域可以根据生命周期自动取消网络请求, 发生错误也会自动弹出吐司(可以自定义或者取消), 并且具备一些场景的特殊功能(例如加载对话框, 缺省页, 下拉刷新等)
+除异步任务外还适用于网络请求场景的作用域, 对比上面`异步任务的作用域`区别:
 
-网络请求的作用域比上面提到的异步任务的作用域多的区别就是
-
-1. 发生错误会触发全局错误处理`NetErrorHandler`
-2. 具备一些特殊场景功能, 比如自动下拉刷新, 自动显示加载库等
+1. 发生错误自动吐司(可以自定义或者取消)
+2. 发生错误会触发全局错误处理`NetErrorHandler`
+3. 具备一些特殊场景功能, 比如根据网络请求结果自动处理下拉刷新/上拉加载/缺省页/加载框的状态
 
 | 函数 | 描述 |
 |-|-|
@@ -33,23 +31,25 @@
 |`PageRefreshLayout.scope`|创建跟随[PageRefreshLayout](https://github.com/liangjingkanji/BRV)生命周期的作用域|
 |`StateLayout.scope`|创建跟随[StateLayout](https://github.com/liangjingkanji/BRV)生命周期的作用域|
 
-<br>
-> PageRefreshLayout/StateLayout 属于[BRV](https://github.com/liangjingkanji/BRV)框架中的布局, 用于支持[自动化缺省页/下拉刷新](auto-state.md)
-<br>
+!!! Failure "区分函数接受者"
+    注意`StateLayout.scope`等存在`函数接受者`的方法和`scope`属于两个方法, 严禁混用
 
+!!! quote "第三方库支持"
+    PageRefreshLayout/StateLayout 属于第三方开源项目 [BRV](https://github.com/liangjingkanji/BRV)
+    框架中的布局, 可用于支持[自动化缺省页/下拉刷新](auto-state.md)<br>
 
-> 如果想了解详细的协程使用方式, 可以查看一篇文章: [最全面的Kotlin协程: Coroutine/Channel/Flow 以及实际应用](https://juejin.im/post/6844904037586829320)
+如果想更了解协程使用方式,
+可以阅读一篇文章: [最全面的Kotlin协程: Coroutine/Channel/Flow 以及实际应用](https://juejin.im/post/6844904037586829320)
 
-有时候可能面临嵌套的`scope*`函数或者作用域内有子作用域情况, 这个时候的生命周期是如何
+## 嵌套作用域
 
-
-## 嵌套Scope
+有时候可能面临内嵌`scopeXX`函数(嵌套作用域), 这时候生命周期如下
 
 ```kotlin hl_lines="5"
-scopeNet {
+scopeNetLife {
     val task = Post<String>("api0").await()
 
-    scopeNet {
+    scopeNetLife {
         val task = Post<String>("api0").await() // 此时发生请求错误
     }.catch {
         // A
@@ -59,9 +59,9 @@ scopeNet {
 }
 ```
 
-- 以下嵌套作用域错误将会仅发生在`A`处, 并被捕获, 同时不影响外部`scopeNet`的请求和异常捕获
-- 两个`scopeNet`的异常抛出和捕获互不影响
-- `scopeNet/scopeDialog/scope`等函数同理
+- 错误将在`A`处可以获取到, 且不影响外部`scopeNetLife`的请求
+- 两个`scopeNetLife`的异常抛出和捕获互不影响
+- `scopeXX()`等函数同理
 
 ## 子作用域
 

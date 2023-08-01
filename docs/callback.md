@@ -1,6 +1,7 @@
 Net支持OkHttp的原有的队列请求`Callback`
 
-> Callback属于接口回调请求, 其代码冗余可读性不高, 并且无法支持并发请求协作
+!!! Failure "不推荐"
+    Callback属于接口回调, 其代码冗余, 且无法支持并发请求
 
 
 ```kotlin

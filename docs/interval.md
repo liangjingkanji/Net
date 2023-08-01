@@ -1,4 +1,4 @@
-轮询器(计时器)属于项目中常见需求, 而本框架拥有非常强大的轮询器工具. 支持以下特性
+Net自带轮询器(计时器), 包含以下特性
 
 - 正计时
 - 倒计时
@@ -8,11 +8,11 @@
 - 页面销毁自动取消
 
 <br>
-=== "指定轮循次数/间隔"
+=== "限制次数/间隔"
     ```kotlin
     interval = Interval(100, 1, TimeUnit.SECONDS).life(this) // 自定义计数器个数的轮询器
     ```
-=== "仅轮循间隔"
+=== "无限执行"
     ```kotlin
      interval = Interval(1, TimeUnit.SECONDS) // 每秒回调一次, 不会自动结束
     ```
@@ -31,7 +31,7 @@ interval.subscribe {
 }.start()
 ```
 
-| Interval函数 | 描述 |
+| Interval | 描述 |
 |-|-|
 | start | 开始轮询器 |
 | stop | 停止 |
@@ -45,4 +45,5 @@ interval.subscribe {
 | life | 指定生命周期自动取消轮询器 |
 | onlyResumed | 当界面不可见时暂停, 当界面可见时继续 |
 
-[完整源码](https://github.com/liangjingkanji/Net/blob/master/sample/src/main/java/com/drake/net/sample/ui/fragment/SuperIntervalFragment.kt)
+!!! failure "后台运行"
+    由于系统限制, 本工具无法保证后台运行

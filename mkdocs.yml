@@ -1,37 +1,76 @@
 site_name: Net
-site_author: drake
 site_description: Net document
-copyright: Copyright &copy; 2018 - 2020 劉強東
-
-repo_name: GitHub
 repo_url: https://github.com/liangjingkanji/Net
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/liangjingkanji
+    - icon: fontawesome/brands/qq
+      link: https://raw.githubusercontent.com/liangjingkanji/liangjingkanji/master/img/group-qrcode.png
+    - icon: fontawesome/brands/twitch
+      link: https://github.com/liangjingkanji/Net/discussions
 
+site_author: 劉強東
+copyright: Copyright &copy; 2018 - 2023 劉強東
+repo_name: GitHub
+docs_dir: 'docs'
 extra_css:
   - css/extra.css
-
-docs_dir: docs
-
 theme:
   name: material
   custom_dir: docs/material
+  favicon: img/book-open.svg
+  logo: img/book-open.svg
   palette:
-    scheme: drake
-    primary: white
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
   font: false
-  language: 'zh'
+  language: zh
   features:
+    - navigation.top
+    - navigation.prune
+    - navigation.footer
+    - navigation.instant
     - search.highlight
-
+    - search.suggest
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+plugins:
+  - offline
+  - search:
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+      lang:
+        - en
+        - zh
 markdown_extensions:
   - toc:
       permalink: true
   - pymdownx.tasklist:
       custom_checkbox: true
-  - admonition
-  - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
   - pymdownx.inlinehilite
-  - pymdownx.tabbed
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - attr_list
+  - def_list
+  - md_in_html
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.details
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
 
 nav:
   - 使用: index.md
@@ -41,45 +80,44 @@ nav:
   - 请求参数: request.md
   - 全局配置: config.md
   - 请求结果:
-      - 默认结果: default-response.md
-      - 自定义转换器: converter.md
-      - 自定义结构解析: convert-special.md
+      - 转换器: converter.md
+      - 自定义转换器: converter-customize.md
+      - 自定义结构解析: converter-struct.md
       - Kotlin-Serialization: kotlin-serialization.md
       - 数据类生成插件: model-generate.md
   - 自动化:
       - 自动加载框: auto-dialog.md
       - 自动缺省页: auto-state.md
       - 自动下拉刷新: auto-refresh.md
-      - 自动分页加载: auto-page.md
-  - 切换线程: switch-thread.md
+      - 自动分页加载: auto-pull.md
+  - 切换线程: thread.md
   - ViewModel: view-model.md
-  - 异常追踪: exception-track.md
+  - 异常追踪: track.md
   - 错误处理:
-      - 默认错误处理: error-default.md
-      - 单例错误捕获: error-single.md
-      - 全局错误捕获: error-global.md
+      - 错误处理: error.md
+      - 单例捕获: error-single.md
+      - 全局捕获: error-global.md
       - 自定义错误提示: error-tip.md
-      - 自定义异常抛出: error-exception.md
+      - 自定义异常抛出: error-throws.md
   - OkHttpClient: okhttp-client.md
   - 拦截器: interceptor.md
   - Https证书: https.md
   - Cookie: cookie.md
   - 缓存: cache.md
-  - 标签/额外数据: tag.md
+  - 标签/额外: tag.md
   - 上传文件: upload-file.md
   - 下载文件: download-file.md
   - 进度监听: progress.md
   - 取消请求: cancel.md
   - 重复请求: repeat-request.md
-  - 自动搜索: debounce.md
+  - 搜索节流: debounce.md
   - 最快请求结果: fastest.md
   - 日志插件: log-recorder.md
-  - 通知栏日志: log-notice.md
+  - 日志通知: log-notice.md
   - 限时/定时请求: timing.md
   - Callback: callback.md
   - 轮询器/倒计时: interval.md
   - 社区讨论: https://github.com/liangjingkanji/Net/discussions
-  - 常见问题: https://github.com/liangjingkanji/Net/blob/master/docs/issues.md
-  - 项目实践: practice.md
+  - 常见问题: issues.md
   - 更新日志: updates.md
   - 3.x文档: api/index.html

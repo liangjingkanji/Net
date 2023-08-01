@@ -1,67 +1,38 @@
-Net中关于请求的类只有两个类和他们共同的抽象父类
 
-```kotlin
-BaseRequest
-    |- UrlRequest
-    |- BodyRequest
-```
+!!! question "请求参数"
+    根据请求方式不同请求参数分为两类
 
+    `UrlRequest`: GET, HEAD, OPTIONS, TRACE // Query(请求参数位于Url中) <br>
+    `BodyRequest`: POST, DELETE, PUT, PATCH // Body(请求体为流)
 
-根据请求方法不同使用的Request也不同
-
-```kotlin
-GET, HEAD, OPTIONS, TRACE, // Url request
-POST, DELETE, PUT, PATCH // Body request
-```
-
-代码示例
+使用示例
 
 ```kotlin
 scopeNetLife {
-    Get<String>("api") {
-        // this 即为 UrlRequest
-    }.await()
-
-    Post<String>("api") {
-        // this 即为 BodyRequest
+    val userInfo = Post<UserInfoModel>(Api.LOGIN) {
+        param("username", "drake")
+        param("password", "6f2961eb44b12123393fff7e449e50b9de2499c6")
     }.await()
 }
 ```
 
-## 请求参数
-
-```kotlin
-scopeNetLife { // 创建作用域
-    // 这个大括号内就属于作用域内部
-    val data = Get<String>("https://github.com/liangjingkanji/Net/"){
-        param("u_name", "drake")
-        param("pwd", "123456")
-    }.await() // 发起GET请求并返回`String`类型数据
-}
-```
-
-|请求函数|描述|
+|函数|描述|
 |-|-|
-|`param`|支持基础类型/文件/RequestBody/Part|
-|`json`|请求参数为JSONObject/JsonArray/String|
-|`setQuery/addQuery`|设置/添加Url参数, 如果当前请求为Url请求则该函数等效于`param`函数|
+|`param`| Url请求时为Query, Body请求时为表单/文件|
+|`json`|JSON字符串|
+|`setQuery/addQuery`|Url中的Query参数, 如果当为Url请求则该函数等效`param`|
 |`setHeader/addHeader`|设置/添加请求头|
 
-如果没有添加文件/流那么就是通过BodyRequest内部的`FormBody`发起请求. 反之就是通过`MultipartBody`发起请求.
+## JSON
 
-> 当然你可以完全自定义Body来请求, 譬如以下的Json请求
+三种参数类型上传JSON示例, 更多请阅读方法注释
 
-
-## Json请求
-
-这里提供三种创建Json请求的示例代码. 酌情选用
-
-=== "JSON键值对(推荐)"
+=== "键值对"
     ```kotlin
     val name = "金城武"
     val age = 29
     val measurements = listOf(100, 100, 100)
-
+    
     scopeNetLife {
         tvFragment.text = Post<String>("api") {
             // 只支持基础类型的值, 如果值为对象或者包含对象的集合/数组会导致其值为null
@@ -87,29 +58,29 @@ scopeNetLife { // 创建作用域
     }
     ```
 
-=== "自定义的body"
+=== "自定义RequestBody"
     ```kotlin
     val name = "金城武"
     val age = 29
     val measurements = listOf(100, 100, 100)
-
+    
     scopeNetLife {
         tvFragment.text = Post<String>("api") {
-            body = MyJsonBody(name, age, measurements)
+            body = CustomizerJSONBody(name, age, measurements)
         }.await()
     }
     ```
 
-对于某些可能JSON请求参数存在固定值:
+如果JSON需要全局参数
 
-1. 可以考虑继承RequestBody来扩展出自己的新的Body对象, 然后赋值给`body`字段
-2. 添加请求拦截器[RequestInterceptor](/interceptor/#_1)
+1. 自定义`RequestBody`添加全局参数
+2. 使用请求拦截器来添加全局参数 [RequestInterceptor](interceptor.md#_1)
 
-## 自定义请求函数
+## 自定义扩展函数
 
-前面提到`json(Pair<String, Any?>)`函数不支持对象值, 因为框架内部使用的`org.json.JSONObject`其不支持映射对象字段
+由于`json()`不能传对象, 因为使用的`org.json.JSONObject`其不支持映射对象字段
 
-这里可以创建扩展函数来支持你想要的Json解析框架, 比如以下常用的Json解析框架示例
+但可创建扩展函数来使用射对象序列化框架来解析, 如下
 
 === "Gson"
     ```kotlin
@@ -135,23 +106,25 @@ scopeNetLife {
 }
 ```
 
-- 举一反三可以创建其他功能自定义的请求函数
-- 扩展函数要求为顶层函数, 即直接在文件中 (kotlin基础语法)
-
 ## 全局请求参数
 
-对于动态生成的全局请求头或参数都可以通过实现`RequestInterceptor`来设置全局的请求拦截器来添加, 如果RequestInterceptor不满足你的需求可以使用拦截器(Interceptor)来实现
+使用`RequestInterceptor`请求拦截器添加全局参数/请求头, 更复杂请实现`Interceptor`
 
 ```kotlin
-NetConfig.initialize("https://github.com/liangjingkanji/Net/", this) {
-    // 添加请求拦截器, 每次请求都会触发的, 可配置全局/动态参数
-    setRequestInterceptor(MyRequestInterceptor())
+class GlobalHeaderInterceptor : RequestInterceptor {
+
+    // 每次请求都会回调, 可以是动态参数
+    override fun interceptor(request: BaseRequest) {
+        request.setHeader("client", "Android")
+        request.setHeader("token", UserConfig.token)
+    }
 }
 ```
 
-## 请求函数
+```kotlin
+NetConfig.initialize(Api.HOST, this) {
+    setRequestInterceptor(GlobalHeaderInterceptor())
+}
+```
 
-关于全部的请求配置选项推荐阅读函数文档或者阅读源码. Net提供清晰的函数结构浏览方便直接阅读源码
-
-<img src="https://i.loli.net/2021/08/14/Dub5R27gEHnwzfW.png" width="400"/>
-
+更多请求参数相关请阅读Api文档/函数列表
