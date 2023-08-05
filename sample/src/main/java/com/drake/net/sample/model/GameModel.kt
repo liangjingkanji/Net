@@ -1,12 +1,13 @@
 package com.drake.net.sample.model
 
-@kotlinx.serialization.Serializable
-data class GameModel(
-    var total: Int = 0,
+class GameModel(
+    var total: Int = 23,
+    var firstName: String = "ssss",
     var list: List<Data> = listOf()
 ) {
 
-    @kotlinx.serialization.Serializable
+    val lastName = "吴彦祖"
+
     data class Data(
         var id: Int = 0,
         var img: String = "",

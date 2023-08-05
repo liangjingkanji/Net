@@ -23,7 +23,7 @@ class GsonConvertFragment :
         scopeNetLife {
             binding.tvFragment.text = Get<GameModel>(Api.GAME) {
                 converter = GsonConverter() // 单例转换器, 此时会忽略全局转换器, 在Net中可以直接解析List等嵌套泛型数据
-            }.await().list[0].name
+            }.await().firstName
         }
     }
 

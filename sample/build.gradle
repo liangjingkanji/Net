@@ -79,7 +79,6 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2" // JSON序列化库, 首选推荐使用
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.2.0"  // protobuf序列化
     implementation "com.squareup.moshi:moshi-kotlin:1.14.0" // JSON序列化库, 强校验, JSON字段缺失会导致解析异常, 故不推荐
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.10"
     implementation 'com.google.code.gson:gson:2.8.6' // JSON序列化库, 会导致kotlin默认值无效, 故不推荐
     implementation 'com.alibaba:fastjson:1.2.73' // JSON序列化库, 会导致kotlin默认值无效(除非引入kt-reflect), 不推荐
 
