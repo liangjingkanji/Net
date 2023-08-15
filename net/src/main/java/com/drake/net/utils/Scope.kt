@@ -32,7 +32,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.drake.brv.PageRefreshLayout
-import com.drake.net.scope.*
+import com.drake.net.scope.AndroidScope
+import com.drake.net.scope.DialogCoroutineScope
+import com.drake.net.scope.NetCoroutineScope
+import com.drake.net.scope.PageCoroutineScope
+import com.drake.net.scope.StateCoroutineScope
+import com.drake.net.scope.ViewCoroutineScope
 import com.drake.statelayout.StateLayout
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -109,7 +114,7 @@ fun Fragment.scopeLife(
  */
 fun FragmentActivity.scopeDialog(
     dialog: Dialog? = null,
-    cancelable: Boolean = true,
+    cancelable: Boolean? = null,
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     block: suspend CoroutineScope.() -> Unit
 ) = DialogCoroutineScope(this, dialog, cancelable, dispatcher).launch(block)
@@ -124,7 +129,7 @@ fun FragmentActivity.scopeDialog(
  */
 fun Fragment.scopeDialog(
     dialog: Dialog? = null,
-    cancelable: Boolean = true,
+    cancelable: Boolean? = null,
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     block: suspend CoroutineScope.() -> Unit
 ) = DialogCoroutineScope(requireActivity(), dialog, cancelable, dispatcher).launch(block)
