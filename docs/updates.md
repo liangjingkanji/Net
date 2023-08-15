@@ -1,3 +1,6 @@
+## 3.6.1
+- fix: #197 修复scopeDialog的可取消对话框默认值
+
 ## 3.6.0
 - pref: Optimize code
 - feat: contentLength未知的上传对象finish也有效
