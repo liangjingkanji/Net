@@ -19,21 +19,22 @@ NetConfig.initialize(Api.HOST, this) {
 }
 ```
 
-演示客户端自动刷新token的拦截器
+客户端token自动续期示例
 
 ```kotlin
-/**
- * 演示如何自动刷新token令牌
- */
 class RefreshTokenInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        val response = chain.proceed(request) // 如果token失效
-
+        val response = chain.proceed(request)
         return synchronized(RefreshTokenInterceptor::class.java) {
-            if (response.code == 401 && UserConfig.isLogin && !request.url.pathSegments.contains("token")) {
-                val json = Net.get("token").execute<String>() // 同步刷新token
-                UserConfig.token = JSONObject(json).optString("token")
+            if (response.code == 401 && UserConfig.isLogin && !request.url.encodedPath.contains(Api.Token)) {
+                val tokenInfo = Net.get(Api.Token).execute<TokenModel>() // 同步请求token
+                if (tokenInfo.isExpired) {
+                    // token过期抛出异常, 由全局错误处理器处理, 在其中可以跳转到登陆界面提示用户重新登陆
+                    throw ResponseException(response, "登录状态失效")
+                } else {
+                    UserConfig.token = tokenInfo.token
+                }
                 chain.proceed(request)
             } else {
                 response

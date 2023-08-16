@@ -3,7 +3,7 @@ Net自定义转换器可支持任何数据类型, 甚至`Bitmap`
 !!! failure "泛型和转换器关系"
     1. 如果`Post<Model>`, 那么`NetConverter.onConvert`返回值必须为Model
     2. 如果`Post<Model?>`, 允许`NetConverter.onConvert`返回值为null
-    3. 其他情况请抛出异常
+    3. 任何错误请在转换器中直接抛出异常
 
 ```kotlin
 scopeNetLife {
@@ -34,7 +34,7 @@ Net由于低耦合原则不自带任何序列化框架
 
 ## 常见转换器
 
-实现[JSONConverter](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/JSONConvert.kt)的`parseBody`方法使用自定义序列化框架解析
+实现[JSONConverter](https://github.com/liangjingkanji/Net/blob/master/net/src/main/java/com/drake/net/convert/JSONConvert.kt)接口快速实现JSON解析, 或直接复制以下转换器示例
 
 | 序列化框架                                                   | 示例代码                                                       | 描述                 |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | -------------------- |
@@ -46,36 +46,40 @@ Net由于低耦合原则不自带任何序列化框架
 
 ## 自定义转换器
 
-实现`NetConverter`返回自定义请求结果
+转换器原理非常简单, 实现`NetConverter`接口返回一个对象(等于请求泛型)
 
-??? example "转换器实现非常简单"
-    ```kotlin title="NetConverter.kt" linenums="1"
-    interface NetConverter {
 
-        @Throws(Throwable::class)
-        fun <R> onConvert(succeed: Type, response: Response): R?
+???+ example "建议保留默认支持的类型"
+    ```kotlin hl_lines="5"
+    class CustomizeConverter: NetConverter {
 
-        companion object DEFAULT : NetConverter {
-            /**
-             * 返回结果应当等于泛型对象, 可空
-             * @param succeed 请求要求返回的泛型类型
-             * @param response 请求响应对象
-             */
-            override fun <R> onConvert(succeed: Type, response: Response): R? {
-                return when {
-                    succeed === String::class.java && response.isSuccessful -> response.body?.string() as R
-                    succeed === ByteString::class.java && response.isSuccessful -> response.body?.byteString() as R
-                    succeed is GenericArrayType && succeed.genericComponentType === Byte::class.java && response.isSuccessful -> response.body?.bytes() as R
-                    succeed === File::class.java && response.isSuccessful -> response.file() as R
-                    succeed === Response::class.java -> response as R
-                    else -> throw ConvertException(response, "An exception occurred while converting the NetConverter.DEFAULT")
-                }
+        override fun <R> onConvert(succeed: Type, response: Response): R? {
+            try {
+                return NetConverter.onConvert<R>(succeed, response)
+            } catch (e: ConvertException) {
+                // ... 仅自定义不支持的类型
+                return 任何对象 as R
             }
         }
     }
     ```
 
-转换器中可以根据需加上解密数据, token失效跳转登录, 限制多端登录等逻辑
+转换器中可以根据错误码抛出自定义异常
 
-1. 日志信息输出, 请阅读[日志记录器](log-recorder.md)
-2. 转换器中抛出异常被全局错误处理捕获, 请阅读[全局错误处理](error-handle.md)
+??? example "转换器异常链"
+    ```kotlin
+    // 非CancellationException/NetException及其子类的上抛ConvertException
+    try {
+        return request.converter().onConvert<R>(type, this) as R
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: NetException) {
+        throw e
+    } catch (e: Throwable) {
+        throw ConvertException(this, cause = e)
+    }
+    ```
+
+
+1. [日志记录](log-recorder.md)建议使用拦截器
+2. 转换器中抛出异常被[全局错误处理](error-handle.md)捕获

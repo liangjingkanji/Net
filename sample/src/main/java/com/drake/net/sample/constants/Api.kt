@@ -16,4 +16,5 @@ object Api {
     const val CONFIG = "/config"
     const val USER_INFO = "/userInfo"
     const val TIME = "/time"
+    const val Token = "/token"
 }
