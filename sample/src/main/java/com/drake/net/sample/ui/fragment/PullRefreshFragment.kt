@@ -23,7 +23,7 @@ class PullRefreshFragment :
             scope {
                 val response = Get<GameModel>(String.format(Api.GAME, index)).await()
                 addData(response.list) {
-                    index < response.total
+                    itemCount < response.total
                 }
             }
         }.autoRefresh()

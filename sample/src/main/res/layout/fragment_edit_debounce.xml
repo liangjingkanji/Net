@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
 
@@ -15,15 +16,22 @@
             android:layout_height="50dp"
             android:layout_marginHorizontal="32dp"
             android:layout_marginTop="20dp"
-            android:hint="输入内容将自动查询当前时间" />
+            android:hint="输入内容自动搜索" />
 
 
-        <TextView
-            android:id="@+id/tvFragment"
+        <com.drake.brv.PageRefreshLayout
+            android:id="@+id/page"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="32dp"
-            android:textStyle="bold" />
+            app:srlEnableRefresh="false">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </com.drake.brv.PageRefreshLayout>
 
     </LinearLayout>
 </layout>

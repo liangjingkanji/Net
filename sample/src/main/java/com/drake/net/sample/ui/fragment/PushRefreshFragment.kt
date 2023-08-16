@@ -17,7 +17,7 @@ class PushRefreshFragment :
 
     override fun initView() {
         binding.rv.linear().setup {
-            addType<GameModel.Data>(R.layout.item_list)
+            addType<GameModel.Data>(R.layout.item_game)
         }
 
         binding.page.onRefresh {
