@@ -7,7 +7,7 @@ val job = scopeNetLife {
     repeat(10000) {
         // 这里将返回的数据显示在TextView上
         launch {
-            tvFragment.text = Get<String>("https://github.com/liangjingkanji/Net/").await()
+            tv.text = Get<String>(Api.PATH).await()
         }
     }
 }

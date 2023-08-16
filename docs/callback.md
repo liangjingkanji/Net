@@ -5,7 +5,7 @@ Net支持OkHttp的原有的队列请求`Callback`
 
 
 ```kotlin
-Net.post("api").enqueue(object : Callback {
+Net.post(Api.PATH).enqueue(object : Callback {
     override fun onFailure(call: Call, e: IOException) {
     }
 
@@ -14,7 +14,7 @@ Net.post("api").enqueue(object : Callback {
         val body = response.body?.string() ?: "无数据"
         runMain {
             // 此处为主线程
-            binding.tvFragment.text = body
+            tv.text = body
         }
     }
 })

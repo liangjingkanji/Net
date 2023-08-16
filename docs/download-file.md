@@ -2,7 +2,7 @@
 
 ```kotlin
 scopeNetLife {
-    val file = Get<File>("download").await()
+    val file = Get<File>(Api.DOWNLOAD).await()
 }
 ```
 
@@ -13,7 +13,7 @@ scopeNetLife {
 ```kotlin
 scopeNetLife {
     val file =
-        Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
+        Get<File>("https://github.com/liangjingkanji/Net/releases/latest/download/net-sample.apk") {
             setDownloadFileName("net.apk")
             setDownloadDir(requireContext().filesDir)
             setDownloadMd5Verify()

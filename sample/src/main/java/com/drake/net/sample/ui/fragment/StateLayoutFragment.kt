@@ -17,7 +17,7 @@ class StateLayoutFragment :
     override fun initView() {
         binding.state.onRefresh {
             scope {
-                binding.tvFragment.text = Get<String>(Api.TEST).await()
+                binding.tvFragment.text = Get<String>(Api.TEXT).await()
             }
         }.showLoading()
     }

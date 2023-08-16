@@ -7,9 +7,12 @@
 
 ```kotlin
 scopeNetLife(dispatcher = Dispatchers.IO) {
-    binding.tvFragment.text = Get<String>("api").await()
+    tv.text = Get<String>(Api.PATH).await()
 }
 ```
+
+!!! failure "禁止的调度器"
+    `Dispatchers.Main.immediate`会立即同步执行, 导致`catch/finally`函数无效
 
 ## 作用域内部切换
 
@@ -18,7 +21,7 @@ scopeNetLife(dispatcher = Dispatchers.IO) {
 === "主线程作用域内切换子线程"
     ```kotlin hl_lines="2"
     scopeNetLife {
-        binding.tvFragment.text = withIO {
+        tv.text = withIO {
             // 假设此处是一个IO读写阻塞任务
             return "读出结果"
         }
@@ -28,7 +31,7 @@ scopeNetLife(dispatcher = Dispatchers.IO) {
 === "子线程作用域内切换主线程"
     ```kotlin hl_lines="2"
     scopeNetLife(dispatcher = Dispatchers.IO) {
-        binding.tvFragment.text = withMain {
+        tv.text = withMain {
             // 假设此处是一个IO读写阻塞任务
             return "读出结果"
         }

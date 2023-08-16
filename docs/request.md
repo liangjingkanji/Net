@@ -10,7 +10,7 @@
 ```kotlin
 scopeNetLife {
     val userInfo = Post<UserInfoModel>(Api.LOGIN) {
-        param("username", "drake")
+        param("username", "用户名")
         param("password", "6f2961eb44b12123393fff7e449e50b9de2499c6")
     }.await()
 }
@@ -34,7 +34,7 @@ scopeNetLife {
     val measurements = listOf(100, 100, 100)
     
     scopeNetLife {
-        tvFragment.text = Post<String>("api") {
+        tv.text = Post<String>(Api.PATH) {
             // 只支持基础类型的值, 如果值为对象或者包含对象的集合/数组会导致其值为null
             json("name" to name, "age" to age, "measurements" to measurements)
         }.await()
@@ -48,7 +48,7 @@ scopeNetLife {
     val measurements = listOf(100, 100, 100) // 只支持基础类型的值, 如果值为对象或者包含对象的集合/数组会导致其值为null
 
     scopeNetLife {
-        tvFragment.text = Post<String>("api") {
+        tv.text = Post<String>(Api.PATH) {
             json(JSONObject().run {
                 put("name", name)
                 put("age", age)
@@ -65,7 +65,7 @@ scopeNetLife {
     val measurements = listOf(100, 100, 100)
     
     scopeNetLife {
-        tvFragment.text = Post<String>("api") {
+        tv.text = Post<String>(Api.PATH) {
             body = CustomizerJSONBody(name, age, measurements)
         }.await()
     }
@@ -99,7 +99,7 @@ scopeNetLife {
 
 ```kotlin
 scopeNetLife {
-    tvFragment.text = Post<String>("api") {
+    tv.text = Post<String>(Api.PATH) {
         gson("name" to name, "model" to Model()) // 参数支持Gson可解析的对象
         // fastJson("name" to name, "model" to Model()) // 使用FastJson
     }.await()

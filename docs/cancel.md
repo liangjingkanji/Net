@@ -1,9 +1,9 @@
-部分场景需要手动取消请求, 例如取消下载
+部分场景开发者想手动取消请求
 
 ```kotlin
 downloadScope = scopeNetLife {
     // 下载文件
-    val file = Get<File>("download").await()
+    val file = Get<File>(Api.DOWNLOAD).await()
 }
 
 downloadScope.cancel() // 取消下载
@@ -14,7 +14,7 @@ downloadScope.cancel() // 取消下载
 
 ```kotlin
 scopeNetLife {
-    tvFragment.text = Get<String>("api"){
+    tv.text = Get<String>(Api.DOWNLOAD){
         setId("请求用户信息")
     }.await()
 }

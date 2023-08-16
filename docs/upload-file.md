@@ -22,22 +22,23 @@ scopeNetLife {
 
 ## 上传类型
 
-自定义RequestBody可以实现任何数据类型的上传, 但是Net提供常用函数简化`Uri/File`上传
+自定义RequestBody可以实现任何数据类型的上传
 
 ```kotlin
 scopeNetLife {
     Post<String>(Api.UPLOAD) {
-        // MultiPart 上传
+        // 表单上传
         param("file", Uri)
         param("file", File)
 
-        // 自定义请求体, 会覆盖以上所有请求内容
+        // 自定义请求体, 会覆盖其他请求参数
         body = CustomizerRequestBody()
     }.await()
 }
 ```
 
-直接上传`InputStream`输入流属于不安全行为, 建议你保存到文件后上传,
-详细请阅读: [使用文件流上传文件](https://github.com/liangjingkanji/Net/discussions/190)
+直接上传`InputStream`可能内存泄露, 建议你保存到文件后上传
+
+1. [使用文件流上传文件](https://github.com/liangjingkanji/Net/discussions/190)
 
 

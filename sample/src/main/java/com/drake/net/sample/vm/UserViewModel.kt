@@ -28,14 +28,14 @@ class UserViewModel : ViewModel() {
      * 开始非阻塞异步任务
      *  返回Deferred, 调用await()才会返回结果
      */
-    fun fetchList(scope: CoroutineScope) = scope.Get<String>(Api.TEST)
+    fun fetchList(scope: CoroutineScope) = scope.Get<String>(Api.TEXT)
 
     /**
      * 开始阻塞异步任务
      * 直接返回结果
      */
     suspend fun fetchPrecessData() = coroutineScope {
-        val response = Get<String>(Api.TEST).await()
+        val response = Get<String>(Api.TEXT).await()
         response + "处理数据"
     }
 }

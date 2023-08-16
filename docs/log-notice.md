@@ -14,7 +14,7 @@ implementation "com.github.chuckerteam.chucker:library:3.5.2"
 添加拦截器
 
 ```kotlin
-NetConfig.initialize("https://github.com/liangjingkanji/", this) {
+NetConfig.initialize(Api.HOST, this) {
     // ...
     if (BuildConfig.DEBUG) {
         addInterceptor(

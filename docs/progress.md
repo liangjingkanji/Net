@@ -5,7 +5,7 @@ Net支持上传/下载的进度监听, 且具备完善的进度信息
 
 ```kotlin
 scopeNetLife {
-    Post<String>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
+    Post<String>(Api.UPLOAD) {
         param("file", assetsFile())
         addUploadListener(object : ProgressListener() {
             override fun onProgress(p: Progress) {
@@ -29,7 +29,7 @@ scopeNetLife {
 ```kotlin
 scopeNetLife {
     val file =
-        Get<File>("https://download.sublimetext.com/Sublime%20Text%20Build%203211.dmg") {
+        Get<File>("https://github.com/liangjingkanji/Net/releases/latest/download/net-sample.apk") {
             setDownloadFileName("net.apk")
             setDownloadDir(requireContext().filesDir)
 
@@ -50,12 +50,12 @@ scopeNetLife {
 ```
 
 !!! success "监听任何进度"
-    不仅是泛型为File才有效, 任何请求/响应都可以监听进度
+    不仅是泛型为File才有效, 任何请求体/响应体都可以监听进度
 
 
 ## 监听器
 
-实现`ProgressListener`监听进度信息. 进度信息为`Progress`
+实现`ProgressListener`监听进度信息, 进度信息为`Progress`
 
 ### 进度间隔时间
 

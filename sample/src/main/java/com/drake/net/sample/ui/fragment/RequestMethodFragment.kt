@@ -25,49 +25,49 @@ class RequestMethodFragment :
 
     private fun GET() {
         scopeNetLife {
-            binding.tvFragment.text = Get<String>(Api.TEST).await()
+            binding.tvFragment.text = Get<String>(Api.TEXT).await()
         }
     }
 
     private fun POST() {
         scopeNetLife {
-            binding.tvFragment.text = Post<String>(Api.TEST).await()
+            binding.tvFragment.text = Post<String>(Api.TEXT).await()
         }
     }
 
     private fun HEAD() {
         scopeNetLife {
-            binding.tvFragment.text = Head<String>(Api.TEST).await()
+            binding.tvFragment.text = Head<String>(Api.TEXT).await()
         }
     }
 
     private fun PUT() {
         scopeNetLife {
-            binding.tvFragment.text = Put<String>(Api.TEST).await()
+            binding.tvFragment.text = Put<String>(Api.TEXT).await()
         }
     }
 
     private fun PATCH() {
         scopeNetLife {
-            binding.tvFragment.text = Patch<String>(Api.TEST).await()
+            binding.tvFragment.text = Patch<String>(Api.TEXT).await()
         }
     }
 
     private fun DELETE() {
         scopeNetLife {
-            binding.tvFragment.text = Delete<String>(Api.TEST).await()
+            binding.tvFragment.text = Delete<String>(Api.TEXT).await()
         }
     }
 
     private fun TRACE() {
         scopeNetLife {
-            binding.tvFragment.text = Trace<String>(Api.TEST).await()
+            binding.tvFragment.text = Trace<String>(Api.TEXT).await()
         }
     }
 
     private fun OPTIONS() {
         scopeNetLife {
-            binding.tvFragment.text = Options<String>(Api.TEST).await()
+            binding.tvFragment.text = Options<String>(Api.TEXT).await()
         }
     }
 
@@ -92,7 +92,7 @@ class RequestMethodFragment :
             // }.await()
 
             // 创建JSON
-            binding.tvFragment.text = Post<String>(Api.TEST) {
+            binding.tvFragment.text = Post<String>(Api.TEXT) {
                 json("name" to name, "age" to age, "measurements" to measurements) // 同时支持Map集合
             }.await()
         }

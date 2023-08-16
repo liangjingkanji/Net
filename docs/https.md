@@ -6,7 +6,7 @@ Https如果使用的CA证书, 不需要任何配置可以直接访问
 
 ```kotlin
 scopeNetLife {
-    tvFragment.text = Get<String>("https://github.com/liangjingkanji/Net/").await()
+    tv.text = Get<String>(Api.PATH).await()
 }
 ```
 
@@ -25,7 +25,7 @@ scopeNetLife {
 
     ```kotlin
     scopeNetLife {
-        Get<String>("https://github.com/liangjingkanji/Net/"){
+        Get<String>(Api.PATH){
           setClient {
               trustSSLCertificate()
           }
@@ -50,7 +50,7 @@ scopeNetLife {
 
     ```kotlin
     scopeNetLife {
-        Get<String>("https://github.com/liangjingkanji/Net/") {
+        Get<String>(Api.PATH) {
             setClient {
                 val privateCertificate = resources.assets.open("https.certificate") // 这里的证书是放到应用的资产目录下
                 setSSLCertificate(privateCertificate)

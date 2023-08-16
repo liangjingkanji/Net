@@ -9,7 +9,7 @@ btnFilter.setOnClickListener {
     scope?.cancel()
 
     scope = scopeNetLife {
-        val result = Post<String>("api").await()
+        val result = Post<String>(Api.PATH).await()
     }
 }
 ```

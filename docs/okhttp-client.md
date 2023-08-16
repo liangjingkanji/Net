@@ -17,7 +17,7 @@ NetConfig.initialize(Api.HOST, this) {
 
 ## 单例
 
-可以单独指定当前请求客户端
+单独指定当前请求客户端
 
 === "修改全局客户端"
     ```kotlin

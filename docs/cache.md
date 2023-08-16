@@ -34,28 +34,28 @@ OkHttp默认的Http缓存协议控制, 要求以下条件
 - 响应头控制缓存: [Cache-Control](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Cache-Control)
 
 <br>
-通过`setCacheControl`可以控制Http缓存协议(原理是添加请求头)
+通过`setCacheControl`可以控制Http缓存协议, 原理是修改请求头
 
 ```kotlin
 scopeNetLife {
-    Post<String>("api") {
+    Post<String>(Api.PATH) {
         setCacheControl(CacheControl.FORCE_CACHE) // 强制使用缓存
         // setCacheControl(CacheControl.FORCE_NETWORK) // 强制使用网络
-        // setCacheControl(CacheControl.Builder().noStore().noCache().build()) // 完全禁止读取/写入缓存
+        // setCacheControl(CacheControl.Builder().noStore().noCache().build()) // 禁止缓存
     }.await()
 }
 ```
 
-如果无法实现Http标准缓存协议, 或要缓存Get以外的请求方法, 可以使用`强制缓存模式`来由客户端控制缓存
+如果无法实现Http标准缓存协议, 或要缓存Get以外的请求方法, 可以使用`强制缓存模式`
 
 ## 强制缓存模式
 
-无论请求是否存在Http标准缓存协议, 当你设置强制缓存模式时其会无视Http标准缓存协议
+无论当前请求是否存在Http标准缓存协议, 当设置强制缓存模式时会无视Http缓存协议
 
 ```kotlin
 scopeNetLife {
-    binding.tvFragment.text =
-        Post<String>("api") {
+    tv.text =
+        Post<String>(Api.PATH) {
             setCacheMode(CacheMode.REQUEST_THEN_READ) // 请求网络失败会读取缓存, 请断网测试
         }.await()
 }
@@ -76,8 +76,8 @@ scopeNetLife {
 
 ```kotlin
 scopeNetLife {
-    binding.tvFragment.text =
-        Post<String>("api") {
+    tv.text =
+        Post<String>(Api.PATH) {
             setCacheMode(CacheMode.REQUEST_THEN_READ) // 请求网络失败会读取缓存, 请断网测试
             setCacheKey("请求热门信息" + params) // 具体值都行
         }.await()
@@ -91,8 +91,8 @@ scopeNetLife {
 
 ```kotlin
 scopeNetLife {
-    binding.tvFragment.text =
-        Post<String>("api") {
+    tv.text =
+        Post<String>(Api.PATH) {
             setCacheMode(CacheMode.REQUEST_THEN_READ) // 请求网络失败会读取缓存, 请断网测试
             setCacheValidTime(1, TimeUnit.DAYS) // 缓存仅一天内有效
         }.await()
@@ -106,21 +106,21 @@ scopeNetLife {
 ```kotlin
 scopeNetLife {
     // 然后执行这里(网络请求)
-    binding.tvFragment.text = Get<String>("api") {
+    tv.text = Get<String>(Api.PATH) {
         setCacheMode(CacheMode.WRITE)
     }.await()
     Log.d("日志", "网络请求")
-}.preview(true) {
+}.preview {
     // 先执行这里(仅读缓存), 任何异常都视为读取缓存失败
-    binding.tvFragment.text = Get<String>("api") {
+    tv.text = Get<String>(Api.PATH) {
         setCacheMode(CacheMode.READ)
     }.await()
     Log.d("日志", "读取缓存")
 }
 ```
 
-!!! question "这和加载两次有什么区别?"
+!!! question "预览和加载两次有什么区别?"
     区别是`preview`可以控制以下行为
 
-    1. `breakError` 读取缓存成功后不再处理错误信息, 默认false
-    2. `breakLoading` 读取缓存成功后结束加载动画, 默认true
+    1. `breakError` 读取缓存成功后不再处理请求的错误, 默认false
+    2. `breakLoading` 读取缓存成功后立刻结束加载动画, 默认true

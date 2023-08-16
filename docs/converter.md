@@ -1,6 +1,6 @@
 Net支持请求返回的数据类型取决于你的转换器实现
 
-# Get<任何对象>("path").await()
+# Get<任何对象>(Api.PATH).await()
 
 默认转换器支持返回以下数据类型
 
@@ -16,7 +16,7 @@ Net支持请求返回的数据类型取决于你的转换器实现
 
 ```kotlin
 scopeNetLife {
-    Get<Response>("api").await().headers("响应头名称") // 返回响应头
+    Get<Response>(Api.PATH).await().headers("响应头名称") // 返回响应头
 }
 ```
 

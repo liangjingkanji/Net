@@ -4,7 +4,7 @@
 2. `RequestInterceptor`: Net独有的轻量级拦截器, 允许修改全局请求头/请求参数, 无法转发请求
 <br>
 
-!!! Failure "禁止随意封装"
+!!! Failure "禁止无效封装"
     不应为全局参数/加密等封装请求方法, 应自定义拦截器/转换器来实现, [常见拦截器示例](https://github.com/liangjingkanji/Net/tree/master/sample/src/main/java/com/drake/net/sample/interceptor)
 
 

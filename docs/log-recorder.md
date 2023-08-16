@@ -1,10 +1,10 @@
-两种日志插件
+以下两种日志插件
 
 | [Okhttp Profiler](https://github.com/itkacher/OkHttpProfiler) | [Profiler](https://developer.android.com/studio/profile/network-profiler?hl=zh-cn) |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 列表显示                                                     | 动态曲线图                                                   |
-| 要求添加`LogRecordInterceptor`                               | 可查看所有OkHttp的请求                                       |
-| 原理是插件捕获LogCat日志, 线上环境请关闭                     | 无法捕获启动一瞬间的请求                                     |
+| 添加`LogRecordInterceptor`拦截器                               | 默认记录所有OkHttp的请求                                       |
+| 原理是插件捕获LogCat日志, 线上环境需关闭                     | 无法捕获启动一瞬间的请求                                     |
 
 ## LogRecordInterceptor
 
@@ -40,7 +40,7 @@ NetConfig.initialize(Api.HOST, this) {
 !!! warning "不显示日志"
     请在请求前确保有打开过插件窗口, 如果依然不显示可以反复打开/关闭窗口
 
-    每次AS更新都需要该插件作者适配, 可能存在beta版本作者没有适配情况
+    每次AS更新可能要该插件作者适配, 发现无效请[反馈给作者更新](https://github.com/itkacher/OkHttpProfiler/issues)
 
 
 
@@ -61,8 +61,8 @@ NetConfig.initialize(Api.HOST, this) {
 
 继承`LogRecordInterceptor`复写函数实现自定义
 
-1. 复写`getRequestLog`返回解密请求参数
-2. 复写`getResponseLog`返回解密响应参数
+1. 复写`getRequestLog`返回请求参数
+2. 复写`getResponseLog`返回响应参数
 
 初始化时添加自己的拦截器
 
@@ -84,7 +84,7 @@ NetConfig.initialize(Api.HOST, this) {
 
 `LogRecordInterceptor`属于OkHttp拦截器, 其他网络请求框架也可以使用
 
-甚至可以直接使用`LogRecorder`输出日志
+或者直接使用`LogRecorder`输出日志
 
 | LogRecorder | 描述 |
 |-|-|

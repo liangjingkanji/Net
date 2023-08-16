@@ -36,7 +36,7 @@ class MockDispatcher : Dispatcher() {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         return when (request.requestUrl?.encodedPath ?: "") {
-            Api.TEST -> getString("Request Success : ${request.method}")
+            Api.TEXT -> getString("Request Success : ${request.method}")
             Api.DELAY -> getString("Request Success : ${request.method}").setBodyDelay(2, TimeUnit.SECONDS)
             Api.UPLOAD -> uploadFile(request)
             Api.GAME -> getRawResponse(R.raw.game)

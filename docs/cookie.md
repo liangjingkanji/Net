@@ -1,4 +1,4 @@
-使用OkHttp的`CookieJar`, Net提供持久化Cookie`PersistentCookieJar`
+可以实现OkHttp的`CookieJar`, 且提供持久化的[PersistentCookieJar](https://github.com/liangjingkanji/Net/blob/2abf07e1d003ef44574278fd2010f3375225d964/net/src/main/java/com/drake/net/cookie/PersistentCookieJar.kt)
 
 ```kotlin
 NetConfig.initialize(Api.HOST, this) {

@@ -4,7 +4,7 @@ Net中网络请求异常会LogCat输出, 除非开发者修改全局错误处理
 演示访问一个不存在的请求路径
 ```kotlin
 scopeNetLife {
-    tvFragment.text = Get<String>("https://githuberror.com/liangjingkanji/Net/").await()
+    tv.text = Get<String>("https://error.com/net/").await()
 }
 ```
 

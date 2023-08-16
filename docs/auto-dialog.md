@@ -5,8 +5,8 @@ Net支持发起请求开始时显示加载框, 请求结束时隐藏加载框(�
 
 ```kotlin hl_lines="1"
 scopeDialog {
-    tvFragment.text = Post<String>("dialog") {
-        param("u_name", "drake") // 请求参数
+    tv.text = Post<String>(Api.PATH) {
+        param("username", "用户名") // 请求参数
         param("pwd", "123456")
     }.await()
 }
@@ -27,8 +27,8 @@ scopeDialog {
 val dialog = BubbleDialog(requireActivity(), "加载中")
 
 scopeDialog(dialog) {
-    binding.tvFragment.text = Post<String>("dialog") {
-        param("u_name", "drake")
+    tv.text = Post<String>(Api.PATH) {
+        param("username", "用户名")
         param("pwd", "123456")
     }.await()
 }

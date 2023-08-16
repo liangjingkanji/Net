@@ -25,9 +25,9 @@ Net自带轮询器(计时器), 包含以下特性
 监听轮询器
 ```kotlin
 interval.subscribe {
-    tvFragment.text = it.toString()
+    tv.text = it.toString()
 }.finish {
-    tvFragment.text = "计时完成" // 最后一位数时同时回调 subscribe/finish
+    tv.text = "计时完成" // 最后一位数时同时回调 subscribe/finish
 }.start()
 ```
 
@@ -46,4 +46,4 @@ interval.subscribe {
 | onlyResumed | 当界面不可见时暂停, 当界面可见时继续 |
 
 !!! failure "后台运行"
-    由于系统限制, 本工具无法保证后台运行
+    由于系统限制, 本工具无法保证一直后台运行

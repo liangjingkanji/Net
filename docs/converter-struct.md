@@ -32,7 +32,7 @@
 === "网络请求"
     ```kotlin
     scopeNetLife {
-        val data = Get<UserModel>("api").await().data
+        val data = Get<UserModel>(Api.USER).await().data
     }
     ```
 
@@ -81,7 +81,7 @@ class GsonConvert : JSONConvert(code = "code", message = "msg", success = "200")
 
 ```kotlin
 scopeNetLife {
-    val data = Get<UserModel>("api").await()
+    val data = Get<UserModel>(Api.USER).await()
 }
 ```
 

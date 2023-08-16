@@ -8,7 +8,7 @@
 ```kotlin
 page.onRefresh {
     scope {
-        val data = Get<ListModel>("list") {
+        val data = Get<Game>(Api.PATH) {
             param("page", index)
         }.await().data
         addData(data.list) {

@@ -19,13 +19,13 @@ class PreviewCacheFragment : EngineFragment<FragmentReadCacheBinding>(R.layout.f
 
         scopeNetLife {
             // 然后执行这里(网络请求)
-            binding.tvFragment.text = Get<String>(Api.TEST) {
+            binding.tvFragment.text = Get<String>(Api.TEXT) {
                 setCacheMode(CacheMode.WRITE)
             }.await()
             Log.d("日志", "网络请求")
         }.preview(true) {
             // 先执行这里(仅读缓存), 任何异常都视为读取缓存失败
-            binding.tvFragment.text = Get<String>(Api.TEST) {
+            binding.tvFragment.text = Get<String>(Api.TEXT) {
                 setCacheMode(CacheMode.READ)
             }.await()
             Log.d("日志", "读取缓存")

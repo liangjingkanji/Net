@@ -11,7 +11,7 @@ Net支持两种方式携带数据, 贯穿整个请求流程(请求/拦截器/转
 
 ```kotlin hl_lines="2"
 scopeNetLife {
-    tvFragment.text = Get<String>("api", "标签A"){ // 使用Any::class.java作为键名
+    tv.text = Get<String>(Api.PATH, "标签A"){ // 使用Any::class.java作为键名
         // tag("标签A") 等效上一行的参数 "标签A"
         setExtra("tagName", "标签B") // 写入额外数据
     }.await()
@@ -64,7 +64,7 @@ class MyConvert : NetConvert {
 
 ```kotlin
 scopeNetLife {
-    Get<String>("api"){
+    Get<String>(Api.PATH){
         setExtra("person", Person()) // 使用Request.extra("person")读取
         tag(User()) // 等同于tag(Any::class.java, User()), 使用Request.tag()读取
         tag(User::class.java, User()) // 使用Request.tag(User::class.java)读取

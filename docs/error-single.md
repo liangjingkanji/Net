@@ -7,8 +7,8 @@
 例如
 ```kotlin
 scopeNetLife {
-    Get<String>("api").await() // 失败
-    Get<String>("api2").await() // 上面失败, 此处也不会执行
+    Get<String>("path").await() // 失败
+    Get<String>("path2").await() // 上面失败, 此处也不会执行
 }
 ```
 
@@ -16,19 +16,19 @@ scopeNetLife {
 ```kotlin
 scopeNetLife {
     try {
-        Get<String>("api").await() // 失败
+        Get<String>("path").await() // 失败
     } catch(e:Exception) {
     }
-    Get<String>("api2").await() // 上面失败, 此处继续执行
+    Get<String>("path2").await() // 上面失败, 此处继续执行
 }
 ```
 当然如果创建不同的作用域分别请求那是互不影响的
 ```kotlin
 scopeNetLife {
-    Get<String>("api").await() // 失败
+    Get<String>("path").await() // 失败
 }
 scopeNetLife {
-    Get<String>("api2").await() // 上面失败, 此处完全不受影响
+    Get<String>("path2").await() // 上面失败, 此处完全不受影响
 }
 ```
 
@@ -38,7 +38,7 @@ scopeNetLife {
 
 ```kotlin
 scope {
-    val data = Get<String>("http://www.thisiserror.com/").await()
+    val data = Get<String>("http://www.error.com/").await()
 }.catch {
     // 协程内发生错误回调, it为异常对象
 }.finally {

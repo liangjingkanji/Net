@@ -11,13 +11,13 @@
 scopeNetLife {
 
     // 同时发起四个网络请求
-    val deferred = Get<String>("api0") // 错误接口
-    val deferred1 = Get<String>("api1") // 错误接口
-    val deferred2 = Get<String>("api")
-    val deferred3 = Post<String>("api")
+    val pathAsync = Get<String>("path") // 错误接口
+    val pathAsync1 = Get<String>("path1") // 错误接口
+    val pathAsync2 = Get<String>("path2")
+    val pathAsync3 = Post<String>("path3")
 
     // 只返回最快的请求结果
-    tvFragment.text = fastest(deferred, deferred1, deferred2, deferred3)
+    tv.text = fastest(pathAsync, pathAsync1, pathAsync2, pathAsync3)
 }
 ```
 
@@ -29,13 +29,13 @@ scopeNetLife {
 ```kotlin
 scopeNetLife {
     // 同时发起四个网络请求
-    val deferred2 = Get<String>("api") { setGroup("初始化") }
-    val deferred3 = Post<String>("api") { setGroup("初始化") }
-    val deferred = Get<String>("api0") { setGroup("初始化") } // 错误接口
-    val deferred1 = Get<String>("api1") { setGroup("初始化") } // 错误接口
+    val pathAsync = Get<String>("path") { setGroup("初始化") }
+    val pathAsync1 = Post<String>("path1") { setGroup("初始化") }
+    val pathAsync2 = Get<String>("path2") { setGroup("初始化") } // 错误接口
+    val pathAsync3 = Get<String>("path3") { setGroup("初始化") } // 错误接口
 
     // 只返回最快的请求结果
-    tvFragment.text = fastest(listOf(deferred, deferred1, deferred2, deferred3), "初始化")
+    tv.text = fastest(listOf(pathAsync, pathAsync1, pathAsync2, pathAsync3), "初始化")
 }
 ```
 
@@ -46,36 +46,36 @@ scopeNetLife {
 ```kotlin
 scopeNetLife {
 
-    val fastest = Post<String>("api").transform {
+    val pathAsync = Post<String>("path").transform {
         Log.d("日志", "Post") // 如果该接口最快则会回调这里
         it // 这里可以返回其他数据结果
     }
 
-    val fastest2 = Get<String>("api").transform {
+    val pathAsync1 = Get<String>("path1").transform {
         Log.d("日志", "Get") // 如果该接口最快则会回调这里
         it
     }
 
-    tvFragment.text = fastest(fastest, fastest2)
+    tv.text = fastest(pathAsync, pathAsync1)
 }
 ```
 
-> 只有最快返回结果的网络请求(或异步任务)的`transform`回调才会被执行到
+只有最快返回结果的网络请求(或异步任务)的`transform`回调才会被执行到
 
 ## 捕获错误
 ```kotlin
 scopeNetLife {
-    val task = Get<String>("api2")
-    val task1 = Get<String>("api2")
-    val task2 = Get<String>("api2")
+    val pathAsync = Get<String>("path")
+    val pathAsync1 = Get<String>("path1")
+    val pathAsync2 = Get<String>("path2")
 
     val data = try {
-        fastest(listOf(task, task1, task2))
+        fastest(listOf(pathAsync, pathAsync1, pathAsync2))
     // 当task/task1/task2全部错误后才并发执行backupTask/backupTask1
     } catch (e: Exception) {
-        val backupTask = Get<String>("api2")
-        val backupTask1 = Get<String>("api")
-        fastest(listOf(backupTask, backupTask1))
+        val pathAsync3 = Get<String>("path3")
+        val pathAsync4 = Get<String>("path4")
+        fastest(listOf(pathAsync3, pathAsync4))
     }
 }
 ```

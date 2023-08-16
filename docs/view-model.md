@@ -16,7 +16,7 @@ Net支持在ViewModel中创建网络请求/异步任务
 class UserViewModel : ViewModel() {
 
     // 用户信息
-    private var userInfo: MutableLiveData<String> = MutableLiveData()
+    var userInfo: MutableLiveData<String> = MutableLiveData()
 
     /**
      * 使用LiveData接受请求结果, 将该liveData直接使用DataBinding绑定到页面上, 会在请求成功自动更新视图

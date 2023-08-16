@@ -24,7 +24,7 @@ class LimitedTimeFragment : EngineFragment<FragmentLimitedTimeBinding>(R.layout.
         scopeDialog {
             // 当接口请求在100毫秒内没有完成会抛出异常TimeoutCancellationException
             withTimeout(100) {
-                Get<String>(Api.TEST).await()
+                Get<String>(Api.TEXT).await()
             }
         }.catch {
             Log.e("日志", "catch", it) // catch无法接收到CancellationException异常

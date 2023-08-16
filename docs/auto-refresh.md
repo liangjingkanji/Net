@@ -47,7 +47,7 @@ rv_push.linear().setup {
 page.onRefresh {
     scope {
         // 请求到数据设置到RecyclerView
-        rv_push.models = Get<ListModel>("list").await().data.list
+        rv_push.models = Get<Game>(Api.PATH).await().data.list
     }
 }.autoRefresh()
 ```

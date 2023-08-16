@@ -7,7 +7,7 @@ Net自定义转换器可支持任何数据类型, 甚至`Bitmap`
 
 ```kotlin
 scopeNetLife {
-    val userList = Get<List<UserModel>>("list") {
+    val userList = Get<List<UserModel>>(Api.PATH) {
         converter = GsonConverter()
     }.await()
 }
@@ -26,7 +26,7 @@ Net由于低耦合原则不自带任何序列化框架
 === "单例"
     ```kotlin hl_lines="3"
     scopeNetLife {
-       tvFragment.text = Get<String>("api"){
+       tv.text = Get<String>(Api.PATH){
             converter = SerializationConverter()
        }.await()
     }

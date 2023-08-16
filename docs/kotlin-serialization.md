@@ -53,7 +53,7 @@ implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0"
     ```
 === "单例配置"
     ```kotlin
-    val userList = Get<List<UserModel>>("list") {
+    val userList = Get<List<UserModel>>(Api.PATH) {
         converter = SerializationConvert() // 单例转换器, 此时会忽略全局转换器
     }.await()
     ```
@@ -62,11 +62,11 @@ implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0"
 
 ```kotlin
 scopeNetLife {
-    val userList = Get<List<UserModel>>("list") {
+    val userList = Get<List<UserModel>>(Api.PATH) {
         converter = SerializationConvert()
     }.await()
 
-    tvFragment.text = userList[0].name
+    tv.text = userList[0].name
 }
 ```
 

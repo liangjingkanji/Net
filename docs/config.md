@@ -25,6 +25,8 @@
     NetConfig.initialize(Api.HOST, this, okHttpClientBuilder)
     ```
 
+如果请求指定Path会和上面`Api.HOST`组成Url后发起请求
+
 !!! failure "强制初始化"
     如果是多进程项目(例如Xposed)必须初始化, 因为多进程无法自动指定Context
 
@@ -59,31 +61,34 @@ NetConfig.initialize(Api.HOST, this) {
 
 ## 多域名
 
-概念源于`Retrofit`(称为BaseUrl), 因为Retrofit无法二次修改请求Host, 但Net支持随时修改
-
-以下介绍三种修改方式
+Net可随时变更请求域名, 以下介绍三种方式
 
 === "修改Host"
     ```kotlin
-    NetConfig.host = Api.HOST_2
+    NetConfig.host = Api.HOST_VIDEO
     ```
 
 === "指定全路径"
-    指定Path(例如`/api/index`)会自动和`NetConfig.host`拼接组成Url, 但指定以`http/https`开头的全路径则直接作为请求Url
+    建议使用单例类管理请求Url
     ```kotlin
+    object Api {
+        const val HOST_IMG = "http://127.0.0.1"
+        const val BANNER = "$HOST_IMG/banner"
+        const val HOME = "/home"
+    }
     scopeNetLife {
-        val data = Get<String>("https://github.com/path").await()
+        val banner = Get<BannerModel>(Api.BANNER).await()
+        val home = Get<HomeModel>(Api.HOME).await()
     }
     ```
 
 === "使用拦截器"
-    请求时指定`tag`, 然后拦截器中根据tag判断修改host, 拦截器能修改所有请求/响应信息
-
+    请求指定`tag`, 拦截器中根据tag修改Url, 建议tag为包含域名的枚举或单例
     ```kotlin
     scopeNetLife {
-        val data = Get<String>("/api/index", "User").await() // User即为tag
+        val data = Get<String>(Api.PATH, GAME).await() // User即为tag
     }
-    // 拦截器修改请求URL不做介绍
+    // 拦截器如何修改请搜索
     ```
 
 ## 网络安全配置

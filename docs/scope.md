@@ -47,10 +47,10 @@
 
 ```kotlin hl_lines="5"
 scopeNetLife {
-    val task = Post<String>("api0").await()
+    val task = Post<String>("path").await()
 
     scopeNetLife {
-        val task = Post<String>("api0").await() // 此时发生请求错误
+        val task = Post<String>("path/error").await() // 此时发生请求错误
     }.catch {
         // A
     }
@@ -67,10 +67,10 @@ scopeNetLife {
 
 ```kotlin hl_lines="7 10"
 scopeNet {
-    val await = Post<String>("api").await()
+    val await = Post<String>("path").await()
 
     launch {
-       val task = Post<String>("api0").await()  // 此时发生请求错误
+       val task = Post<String>("path/error").await()  // 此时发生请求错误
     }.invokeOnCompletion {
         // A
     }

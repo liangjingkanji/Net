@@ -11,9 +11,9 @@ Net支持在当前线程执行阻塞线程的同步请求
 
     ```kotlin
     thread {
-        val result = Net.post("api").execute<String>() // 网络请求不允许在主线程
-        tvFragment?.post {
-            tvFragment?.text = result  // view要求在主线程更新
+        val result = Net.post(Api.PATH).execute<String>() // 网络请求不允许在主线程
+        tv?.post {
+            tv?.text = result  // view要求在主线程更新
         }
     }
     ```
@@ -22,9 +22,9 @@ Net支持在当前线程执行阻塞线程的同步请求
 
     ```kotlin
     thread {
-        val result = Net.post("api").toResult<String>().getOrDefault("请求发生错误, 我是默认值")
-        tvFragment?.post {
-            tvFragment?.text = result  // view要求在主线程更新
+        val result = Net.post(Api.PATH).toResult<String>().getOrDefault("请求发生错误, 我是默认值")
+        tv?.post {
+            tv?.text = result  // view要求在主线程更新
         }
     }
     ```

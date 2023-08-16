@@ -4,12 +4,10 @@ Net最大的特点在于完美支持OkHttp的所有功能组件, 而OkHttp是And
 
 ## 低版本兼容
 
-如果你是在 Android 5 (API level 21)
-以上开发建议使用最新版本: [Net](https://github.com/liangjingkanji/Net) <br>
-如果要求低至 Android 4.4 (API level 19)
+如果开发要求低至 Android 4.4 (API level 19)
 请使用兼容版本: [Net-okhttp3](https://github.com/liangjingkanji/Net-okhttp3)
 
-如果需更低版本支持建议拉取仓库修改`minSdkVersion`后编译成aar使用
+如果需更低版本支持请拉取仓库修改`minSdkVersion`后编译成aar使用
 
 ## 开发者交流
 
