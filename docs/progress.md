@@ -52,6 +52,8 @@ scopeNetLife {
 !!! success "监听任何进度"
     不仅是泛型为File才有效, 任何请求体/响应体都可以监听进度
 
+    `Net.addXXListener()`可以根据`Id`任意位置监听请求
+
 
 ## 监听器
 
