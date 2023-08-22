@@ -30,9 +30,6 @@ scopeNetLife {
         // 表单上传
         param("file", Uri)
         param("file", File)
-
-        // 自定义请求体, 会覆盖其他请求参数
-        body = CustomizerRequestBody()
     }.await()
 }
 ```

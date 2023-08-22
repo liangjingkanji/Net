@@ -23,7 +23,7 @@ scopeNetLife {
 |`setQuery/addQuery`|Url中的Query参数, 如果当为Url请求则该函数等效`param`|
 |`setHeader/addHeader`|设置/添加请求头|
 
-## JSON
+## JSON请求
 
 三种参数类型上传JSON示例, 更多请阅读方法注释
 
@@ -76,11 +76,11 @@ scopeNetLife {
 1. 自定义`RequestBody`添加全局参数
 2. 使用请求拦截器来添加全局参数 [RequestInterceptor](interceptor.md#_1)
 
-## 自定义扩展函数
+## 自定义请求函数
 
-由于`json()`不能传对象, 因为使用的`org.json.JSONObject`其不支持映射对象字段
+比如由于`json()`使用的`org.json.JSONObject`不支持序列化对象
 
-但可创建扩展函数来使用射对象序列化框架来解析, 如下
+可以创建扩展函数来使用自定义序列化框架来解决, 如下
 
 === "Gson"
     ```kotlin
@@ -90,8 +90,8 @@ scopeNetLife {
     ```
 === "FastJson"
     ```kotlin
-    fun BodyRequest.fastJson(vararg body: Pair<String, Any?>) {
-        this.body = JSON.toJSON(body.toMap()).toRequestBody(MediaConst.JSON)
+    fun BodyRequest.fastJson(obj: Any) {
+        this.body = JSON.toJSON(obj).toRequestBody(MediaConst.JSON)
     }
     ```
 
@@ -100,11 +100,73 @@ scopeNetLife {
 ```kotlin
 scopeNetLife {
     tv.text = Post<String>(Api.PATH) {
-        gson("name" to name, "model" to Model()) // 参数支持Gson可解析的对象
-        // fastJson("name" to name, "model" to Model()) // 使用FastJson
+        gson("name" to name, "data" to Data())
+        // fastJson(data)
     }.await()
 }
 ```
+
+## 自定义请求体
+
+要求实现`RequestBody`接口, 可参考Net上传Uri/File的实现源码
+
+??? example "FileRequestBody"
+    ```kotlin
+    fun File.toRequestBody(contentType: MediaType? = null): RequestBody {
+        val fileMediaType = contentType ?: mediaType()
+        return object : RequestBody() {
+
+            // 文件类型
+            override fun contentType(): MediaType? {
+                return fileMediaType
+            }
+
+            // 文件长度, 不确定返回-1
+            override fun contentLength() = length()
+
+            // 写入数据
+            override fun writeTo(sink: BufferedSink) {
+                source().use { source ->
+                    sink.writeAll(source)
+                }
+            }
+        }
+    }
+    ```
+
+??? example "UriRequestBody"
+    ```kotlin
+    fun Uri.toRequestBody(): RequestBody {
+        val document = DocumentFile.fromSingleUri(NetConfig.app, this)
+        val contentResolver = NetConfig.app.contentResolver
+        val contentLength = document?.length() ?: -1L
+        val contentType = mediaType()
+        return object : RequestBody() {
+            override fun contentType(): MediaType? {
+                return contentType
+            }
+
+            override fun contentLength() = contentLength
+
+            override fun writeTo(sink: BufferedSink) {
+                contentResolver.openInputStream(this@toRequestBody)?.use {
+                    sink.writeAll(it.source())
+                }
+            }
+        }
+    }
+    ```
+
+使用
+```kotlin hl_lines="4"
+scopeNetLife {
+    tv.text = Post<String>(Api.PATH) {
+        // 完全自定义请求体, 会忽略其他请求参数
+        body = CustomizerRequestBody()
+    }.await()
+}
+```
+
 
 ## 全局请求参数
 
