@@ -24,7 +24,8 @@ class PushRefreshFragment :
             scope {
                 binding.rv.models = Get<GameModel>(Api.GAME).await().list
             }
-        }.autoRefresh()
+        // }.autoRefresh() // 首次下拉刷新
+        }.showLoading() // 首次加载缺省页
     }
 
     override fun initData() {
