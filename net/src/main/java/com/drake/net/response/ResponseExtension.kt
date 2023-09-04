@@ -135,6 +135,22 @@ fun Response.file(): File? {
                         val nameWithoutExtension = file.nameWithoutExtension
                         file = File(dir, nameWithoutExtension + ".${eTag.md5(16)}")
                     }
+                } else if (!lastModified.isNullOrEmpty()) {
+                    val listFiles = dirFile.listFiles()
+                    if (listFiles != null && listFiles.isNotEmpty()) {
+                        for (lastModifiedFile in listFiles) {
+                            val lastModifiedMD5 = lastModified.md5(16)
+                            if (!lastModifiedMD5.isNullOrEmpty() && file.name.contains(
+                                    lastModifiedMD5
+                                )
+                            ) {
+                                file = lastModifiedFile
+                            }
+                        }
+                    } else {
+                        val nameWithoutExtension = file.nameWithoutExtension
+                        file = File(dir, nameWithoutExtension + ".${lastModified.md5(16)}")
+                    }
                 } else {
                     // 命名冲突添加序列数字的后缀
                     if (request.downloadConflictRename() && file.name == fileName) {
@@ -181,7 +197,6 @@ fun Response.file(): File? {
 /**
  * 响应体使用转换器处理数据
  */
-@Suppress("UNCHECKED_CAST")
 @Throws(IOException::class)
 inline fun <reified R> Response.convert(): R {
     try {
