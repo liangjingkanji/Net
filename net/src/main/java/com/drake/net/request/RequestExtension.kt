@@ -31,6 +31,7 @@ import com.drake.net.tag.NetTag
 import kotlinx.coroutines.CoroutineExceptionHandler
 import okhttp3.OkHttpUtils
 import okhttp3.Request
+import java.io.File
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.reflect.KType
 
@@ -194,6 +195,14 @@ fun Request.downloadTempFile(): Boolean {
     return tagOf<NetTag.DownloadTempFile>()?.value == true
 }
 //</editor-fold>
+
+fun Request.setCacheComparison(cacheComparison : () -> File) {
+    tagOf(NetTag.CacheComparison(cacheComparison))
+}
+
+fun Request.getCacheComparison():NetTag.CacheComparison? {
+    return tagOf<NetTag.CacheComparison>()
+}
 
 /**
  * 返回请求包含的转换器

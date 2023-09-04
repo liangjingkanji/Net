@@ -114,17 +114,41 @@ fun Response.file(): File? {
                     return file
                 }
             }
-            // 命名冲突添加序列数字的后缀
-            if (request.downloadConflictRename() && file.name == fileName) {
-                val fileExtension = file.extension
-                val fileNameWithoutExtension = file.nameWithoutExtension
-                fun rename(index: Long): File {
-                    file = File(dir, fileNameWithoutExtension + "_($index)" + fileExtension)
-                    return if (file.exists()) {
-                        rename(index + 1)
-                    } else file
+            //开发者自己比较，或者默认处理
+            val cacheComparison = request.getCacheComparison()
+            if (cacheComparison != null) {
+                file = cacheComparison.cacheComparison.invoke()
+            } else {
+                val eTag = headers["ETag"]
+                val lastModified = headers["Last-Modified"]
+                //两者同时存在时只考虑eTag
+                if (!eTag.isNullOrEmpty()) {
+                    val listFiles = dirFile.listFiles()
+                    if (listFiles != null && listFiles.isNotEmpty()) {
+                        for (eTagFile in listFiles) {
+                            val eTagMD5 = eTag.md5(16)
+                            if (!eTagMD5.isNullOrEmpty() && file.name.contains(eTagMD5)) {
+                                file = eTagFile
+                            }
+                        }
+                    } else {
+                        val nameWithoutExtension = file.nameWithoutExtension
+                        file = File(dir, nameWithoutExtension + ".${eTag.md5(16)}")
+                    }
+                } else {
+                    // 命名冲突添加序列数字的后缀
+                    if (request.downloadConflictRename() && file.name == fileName) {
+                        val fileExtension = file.extension
+                        val fileNameWithoutExtension = file.nameWithoutExtension
+                        fun rename(index: Long): File {
+                            file = File(dir, fileNameWithoutExtension + "_($index)" + fileExtension)
+                            return if (file.exists()) {
+                                rename(index + 1)
+                            } else file
+                        }
+                        file = rename(1)
+                    }
                 }
-                file = rename(1)
             }
         }
 

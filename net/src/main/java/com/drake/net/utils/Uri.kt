@@ -32,6 +32,7 @@ import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okio.BufferedSink
+import okio.buffer
 import okio.source
 import java.io.FileNotFoundException
 
@@ -49,7 +50,10 @@ fun Uri.mediaType(): MediaType? {
  * 当Uri指向的文件不存在时将抛出异常[FileNotFoundException]
  */
 @Throws(FileNotFoundException::class)
-fun Uri.toRequestBody(): RequestBody {
+fun Uri.toRequestBody(
+    startRange: Long = 0,
+    endRange: Long = 0
+): RequestBody {
     val document = DocumentFile.fromSingleUri(NetConfig.app, this)
     val contentResolver = NetConfig.app.contentResolver
     val contentLength = document?.length() ?: -1L
@@ -63,7 +67,16 @@ fun Uri.toRequestBody(): RequestBody {
 
         override fun writeTo(sink: BufferedSink) {
             contentResolver.openInputStream(this@toRequestBody)?.use {
-                sink.writeAll(it.source())
+                it.source().use { source ->
+                    if (startRange > 0) {
+                        source.buffer().skip(startRange)
+                    }
+                    if (endRange > 0 && endRange > startRange) {
+                        sink.write(source, endRange)
+                    } else {
+                        sink.writeAll(source)
+                    }
+                }
             }
         }
     }

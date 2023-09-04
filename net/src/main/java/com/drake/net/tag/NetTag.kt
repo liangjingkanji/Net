@@ -59,6 +59,9 @@ sealed class NetTag {
     value class DownloadFileName(val value: String)
 
     @JvmInline
+    value class CacheComparison(val cacheComparison: () -> File)
+
+    @JvmInline
     value class CacheKey(val value: String)
 
     @JvmInline

@@ -420,6 +420,16 @@ abstract class BaseRequest {
     }
 
     /**
+     * 下载时设置断点续传的范围
+     */
+    fun setDownloadPartialRange(startRange: Long = 0, endRange: Long = 0) {
+        addHeader(
+            "Range",
+            "bytes=${if (startRange >= 0) startRange else ""}-${if (endRange >= 0 && endRange > startRange) endRange else ""}"
+        )
+    }
+
+    /**
      * 下载监听器
      */
     fun addDownloadListener(progressListener: ProgressListener) {
@@ -441,9 +451,7 @@ abstract class BaseRequest {
      * 构建请求对象Request
      */
     open fun buildRequest(): Request {
-        return okHttpRequest.method(method.name, null)
-            .url(httpUrl.build())
-            .setConverter(converter)
+        return okHttpRequest.method(method.name, null).url(httpUrl.build()).setConverter(converter)
             .build()
     }
 

@@ -30,6 +30,7 @@ import android.net.Uri
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.utils.fileName
 import com.drake.net.utils.toRequestBody
+import com.drake.net.utils.toRequestBody1
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.ByteString
@@ -101,19 +102,40 @@ open class BodyRequest : BaseRequest() {
         partBody.addFormDataPart(name, null, value.toRequestBody())
     }
 
-    fun param(name: String, value: ByteArray?) {
+    fun param(
+        name: String, value: ByteArray?, offset: Int = 0,
+        byteCount: Int = 0
+    ) {
         value ?: return
-        partBody.addFormDataPart(name, null, value.toRequestBody())
+        partBody.addFormDataPart(
+            name,
+            null,
+            value.toRequestBody1(offset = offset, byteCount = byteCount)
+        )
     }
 
-    fun param(name: String, value: Uri?) {
+    fun param(
+        name: String, value: Uri?, offset: Long = 0,
+        byteCount: Long = 0
+    ) {
         value ?: return
-        partBody.addFormDataPart(name, value.fileName(), value.toRequestBody())
+        partBody.addFormDataPart(
+            name,
+            value.fileName(),
+            value.toRequestBody(startRange = offset, endRange = byteCount)
+        )
     }
 
-    fun param(name: String, value: File?) {
+    fun param(
+        name: String, value: File?, offset: Long = 0,
+        byteCount: Long = 0
+    ) {
         value ?: return
-        partBody.addFormDataPart(name, value.name, value.toRequestBody())
+        partBody.addFormDataPart(
+            name,
+            value.name,
+            value.toRequestBody(offset = offset, byteCount = byteCount)
+        )
     }
 
     fun param(name: String, value: List<File?>?) {

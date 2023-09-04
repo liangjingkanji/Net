@@ -63,6 +63,22 @@ fun File.md5(base64: Boolean = false): String? {
 }
 
 /**
+ * 返回字符串的MD5值
+ * @param position 返回16位还是32位
+ */
+fun String.md5(position: Int = 16): String? {
+    try {
+        val md = MessageDigest.getInstance("MD5")
+        val digest = md.digest(this.toByteArray(Charset.forName("utf-8")))
+        return if (position == 16) digest.toByteString().hex()
+            .substring(8, 24) else digest.toByteString().hex()
+    } catch (e: IOException) {
+        Net.debug(e)
+    }
+    return null
+}
+
+/**
  * 返回文件的MediaType值, 如果不存在返回null
  */
 fun File.mediaType(): MediaType? {
@@ -71,10 +87,16 @@ fun File.mediaType(): MediaType? {
 }
 
 /**
- * 创建File的RequestBody
+ * 创建File的RequestBody，注意，如果设置了文件的写入起始和结束，那么计算contentLength的时候会计算起始和结束的大小
  * @param contentType 如果为null则通过判断扩展名来生成MediaType
+ * @param offset 写入文件从哪开始
+ * @param byteCount 写入大小
  */
-fun File.toRequestBody(contentType: MediaType? = null): RequestBody {
+fun File.toRequestBody(
+    contentType: MediaType? = null,
+    offset: Long = 0,
+    byteCount: Long = 0
+): RequestBody {
     val fileMediaType = contentType ?: mediaType()
     return object : RequestBody() {
 
@@ -82,11 +104,23 @@ fun File.toRequestBody(contentType: MediaType? = null): RequestBody {
             return fileMediaType
         }
 
-        override fun contentLength() = length()
+        override fun contentLength() =
+            if ((byteCount > 0 && byteCount > offset)) {
+                byteCount - offset
+            } else {
+                length() - offset
+            }
 
         override fun writeTo(sink: BufferedSink) {
             source().use { source ->
-                sink.writeAll(source)
+                if (offset > 0) {
+                    source.buffer().skip(offset)
+                }
+                if (byteCount > 0 && byteCount > offset) {
+                    sink.write(source, byteCount)
+                } else {
+                    sink.writeAll(source)
+                }
             }
         }
     }
