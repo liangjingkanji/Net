@@ -51,8 +51,8 @@ fun Uri.mediaType(): MediaType? {
  */
 @Throws(FileNotFoundException::class)
 fun Uri.toRequestBody(
-    startRange: Long = 0,
-    endRange: Long = 0
+    offset: Long = 0,
+    byteCount: Long = 0
 ): RequestBody {
     val document = DocumentFile.fromSingleUri(NetConfig.app, this)
     val contentResolver = NetConfig.app.contentResolver
@@ -68,11 +68,11 @@ fun Uri.toRequestBody(
         override fun writeTo(sink: BufferedSink) {
             contentResolver.openInputStream(this@toRequestBody)?.use {
                 it.source().use { source ->
-                    if (startRange > 0) {
-                        source.buffer().skip(startRange)
+                    if (offset > 0) {
+                        source.buffer().skip(offset)
                     }
-                    if (endRange > 0 && endRange > startRange) {
-                        sink.write(source, endRange)
+                    if (byteCount > 0 && byteCount > offset) {
+                        sink.write(source, byteCount)
                     } else {
                         sink.writeAll(source)
                     }

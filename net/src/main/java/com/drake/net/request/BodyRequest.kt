@@ -122,7 +122,7 @@ open class BodyRequest : BaseRequest() {
         partBody.addFormDataPart(
             name,
             value.fileName(),
-            value.toRequestBody(startRange = offset, endRange = byteCount)
+            value.toRequestBody(offset = offset, byteCount = byteCount)
         )
     }
 
