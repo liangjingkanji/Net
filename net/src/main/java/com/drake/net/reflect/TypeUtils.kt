@@ -24,4 +24,8 @@
 
 package com.drake.net.reflect
 
-inline fun <reified T> typeTokenOf() = object : TypeToken<T>() {}.type
+import kotlin.reflect.javaType
+import kotlin.reflect.typeOf
+
+@OptIn(ExperimentalStdlibApi::class)
+inline fun <reified T> typeTokenOf() = typeOf<T>().javaType

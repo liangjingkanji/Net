@@ -28,7 +28,6 @@ import com.drake.net.component.Progress
 import com.drake.net.exception.ConvertException
 import com.drake.net.exception.DownloadFileException
 import com.drake.net.exception.NetException
-import com.drake.net.reflect.TypeToken
 import com.drake.net.reflect.typeTokenOf
 import com.drake.net.request.*
 import com.drake.net.tag.NetTag
@@ -174,7 +173,7 @@ inline fun <reified R> Response.convert(): R {
 /**
  * 响应体使用转换器处理数据
  * 本方法仅为兼容Java使用存在
- * @param type 如果存在泛型嵌套要求使用[typeTokenOf]或者[TypeToken]获取, 否则泛型会被擦除导致无法解析
+ * @param type 如果存在泛型嵌套要求使用[typeTokenOf]获取, 否则泛型会被擦除导致无法解析
  */
 @Suppress("UNCHECKED_CAST")
 @Throws(IOException::class)
