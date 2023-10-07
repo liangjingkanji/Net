@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    app:startDestination="@id/request_method">
+    app:startDestination="@id/simple_request">
 
     <fragment
         android:id="@+id/async_task"
@@ -58,10 +58,10 @@
         android:label="预读缓存"
         tools:layout="@layout/fragment_read_cache" />
     <fragment
-        android:id="@+id/request_method"
-        android:name="com.drake.net.sample.ui.fragment.RequestMethodFragment"
-        android:label="请求方式"
-        tools:layout="@layout/fragment_request_method" />
+        android:id="@+id/simple_request"
+        android:name="com.drake.net.sample.ui.fragment.SimpleRequestFragment"
+        android:label="简单请求"
+        tools:layout="@layout/fragment_simple_request" />
     <fragment
         android:id="@+id/state_layout"
         android:name="com.drake.net.sample.ui.fragment.StateLayoutFragment"

@@ -7,7 +7,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.fragment.RequestMethodFragment">
+        tools:context=".ui.fragment.SimpleRequestFragment">
 
         <TextView
             android:id="@+id/tvFragment"

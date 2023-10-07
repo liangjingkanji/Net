@@ -2,9 +2,9 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/request_method"
-        android:icon="@drawable/ic_request_method"
-        android:title="请求方式" />
+        android:id="@+id/simple_request"
+        android:icon="@drawable/ic_simple_request"
+        android:title="简单请求" />
     <item
         android:id="@+id/request_sync"
         android:icon="@drawable/ic_sync_request"

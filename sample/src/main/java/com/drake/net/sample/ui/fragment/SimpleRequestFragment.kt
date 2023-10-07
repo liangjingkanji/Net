@@ -9,12 +9,12 @@ import com.drake.engine.base.EngineFragment
 import com.drake.net.*
 import com.drake.net.sample.R
 import com.drake.net.sample.constants.Api
-import com.drake.net.sample.databinding.FragmentRequestMethodBinding
+import com.drake.net.sample.databinding.FragmentSimpleRequestBinding
 import com.drake.net.utils.scopeNetLife
 
 
-class RequestMethodFragment :
-    EngineFragment<FragmentRequestMethodBinding>(R.layout.fragment_request_method) {
+class SimpleRequestFragment :
+    EngineFragment<FragmentSimpleRequestBinding>(R.layout.fragment_simple_request) {
 
     override fun initView() {
         setHasOptionsMenu(true)
