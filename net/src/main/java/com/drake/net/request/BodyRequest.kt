@@ -92,8 +92,12 @@ open class BodyRequest : BaseRequest() {
 
     fun param(name: String, value: RequestBody?) {
         value ?: return
-        // 指定fileName可以作为判断为文件类型依据
-        partBody.addFormDataPart(name, "RequestBody", value)
+        partBody.addFormDataPart(name, null, value)
+    }
+
+    fun param(name: String, filename: String?, value: RequestBody?) {
+        value ?: return
+        partBody.addFormDataPart(name, filename, value)
     }
 
     fun param(name: String, value: ByteString?) {
