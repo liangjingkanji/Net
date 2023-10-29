@@ -1,5 +1,8 @@
+## 3.6.3
+- fix: #205 删除MultiPart上传RequestBody默认添加filename
+
 ## 3.6.2
-fix: #203 适配AGPv8的代码混淆Gson无法获取泛型问题
+- fix: #203 适配AGPv8的代码混淆Gson无法获取泛型问题
 
 ## 3.6.1
 - fix: #197 修复scopeDialog的可取消对话框默认值
