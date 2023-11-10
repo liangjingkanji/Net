@@ -1,3 +1,6 @@
+## 3.6.4
+- feat: 优化转换器ConvertException错误信息
+
 ## 3.6.3
 - fix: #205 删除MultiPart上传RequestBody默认添加filename
 
