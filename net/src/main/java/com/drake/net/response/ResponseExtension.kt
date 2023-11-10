@@ -166,7 +166,7 @@ inline fun <reified R> Response.convert(): R {
     } catch (e: NetException) {
         throw e
     } catch (e: Throwable) {
-        throw ConvertException(this, cause = e)
+        throw ConvertException(this, message = "An unexpected error occurred in the converter", cause = e)
     }
 }
 
@@ -185,6 +185,6 @@ fun <R> Response.convert(type: Type): R {
     } catch (e: NetException) {
         throw e
     } catch (e: Throwable) {
-        throw ConvertException(this, cause = e)
+        throw ConvertException(this, message = "An unexpected error occurred in the converter", cause = e)
     }
 }
