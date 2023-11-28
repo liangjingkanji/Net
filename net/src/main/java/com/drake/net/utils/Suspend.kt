@@ -58,10 +58,11 @@ suspend fun <T> withUnconfined(block: suspend CoroutineScope.() -> T) = withCont
 /**
  * 在主线程运行
  */
+private val mainThreadHandler by lazy { Handler(Looper.getMainLooper()) }
 fun runMain(block: () -> Unit) {
     if (Looper.myLooper() == Looper.getMainLooper()) {
         block()
     } else {
-        Handler(Looper.getMainLooper()).post { block() }
+        mainThreadHandler.post { block() }
     }
 }
