@@ -1,6 +1,6 @@
 <p align="center"><img src="https://raw.githubusercontent.com/liangjingkanji/Net/master/docs/img/logo.gif" width="300"/>
 
-<p align="center"><strong>不仅仅是网络请求的异步任务库</strong></p>
+<p align="center"><strong>基于协程完善的Android网络请求库</strong></p>
 
 <p align="center"><a href="http://liangjingkanji.github.io/Net/">使用文档</a>
  | <a href="https://github.com/liangjingkanji/document/blob/master/visit-pages.md">无法访问?</a>
