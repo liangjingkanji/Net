@@ -9,6 +9,7 @@ object Api {
 
     const val TEXT = "/text"
     const val DELAY = "/delay"
+    const val DOWNLOAD = "/download"
     const val UPLOAD = "/upload"
     const val GAME = "/game"
     const val DATA = "/data"

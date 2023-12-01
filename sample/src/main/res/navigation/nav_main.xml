@@ -83,9 +83,19 @@
         android:label="下载文件"
         tools:layout="@layout/fragment_download_file" />
     <fragment
+        android:id="@+id/download_file_break_continuation"
+        android:name="com.drake.net.sample.ui.fragment.DownloadFileBreakContinuationFragment"
+        android:label="下载文件断点续传"
+        tools:layout="@layout/fragment_download_file" />
+    <fragment
         android:id="@+id/upload_file"
         android:name="com.drake.net.sample.ui.fragment.UploadFileFragment"
         android:label="上传文件"
+        tools:layout="@layout/fragment_upload_file" />
+    <fragment
+        android:id="@+id/upload_file_break_continuation"
+        android:name="com.drake.net.sample.ui.fragment.UploaFileBreakContinuationFragment"
+        android:label="上传文件断点续传"
         tools:layout="@layout/fragment_upload_file" />
     <fragment
         android:id="@+id/fastest"

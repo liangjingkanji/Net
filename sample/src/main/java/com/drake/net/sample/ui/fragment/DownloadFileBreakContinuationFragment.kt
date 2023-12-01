@@ -9,27 +9,30 @@ import com.drake.net.Get
 import com.drake.net.component.Progress
 import com.drake.net.interfaces.ProgressListener
 import com.drake.net.sample.R
+import com.drake.net.sample.constants.Api
 import com.drake.net.sample.databinding.FragmentDownloadFileBinding
 import com.drake.net.scope.NetCoroutineScope
 import com.drake.net.utils.scopeNetLife
 import java.io.File
 
-
-class DownloadFileFragment :
+class DownloadFileBreakContinuationFragment :
     EngineFragment<FragmentDownloadFileBinding>(R.layout.fragment_download_file) {
 
     private lateinit var downloadScope: NetCoroutineScope
+    override fun initData() {
+    }
 
     @SuppressLint("SetTextI18n")
     override fun initView() {
         setHasOptionsMenu(true)
         downloadScope = scopeNetLife {
             val file =
-                Get<File>("https://dl.coolapk.com/down?pn=com.coolapk.market&id=NDU5OQ&h=46bb9d98&from=from-web") {
+                Get<File>(Api.DOWNLOAD) {
                     setDownloadFileName("net.apk")
                     setDownloadDir(requireContext().filesDir)
                     setDownloadMd5Verify()
                     setDownloadTempFile()
+                    setDownloadPartialRange(1024 * 4, 1024 * 80)
                     addDownloadListener(object : ProgressListener() {
                         override fun onProgress(p: Progress) {
                             binding.seek.post {
@@ -58,8 +61,5 @@ class DownloadFileFragment :
             R.id.cancel -> downloadScope.cancel() // 取消下载
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun initData() {
     }
 }
