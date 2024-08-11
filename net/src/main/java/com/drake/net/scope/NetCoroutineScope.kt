@@ -28,7 +28,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.drake.net.Net
 import com.drake.net.NetConfig
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import kotlin.coroutines.EmptyCoroutineContext
 
 
@@ -97,7 +102,12 @@ open class NetCoroutineScope(
     }
 
     override fun catch(e: Throwable) {
-        catch?.invoke(this@NetCoroutineScope, e) ?: if (!previewBreakError) handleError(e)
+        val catch = catch
+        if (catch != null) {
+            catch.invoke(this@NetCoroutineScope, e)
+        } else if (!previewBreakError) {
+            handleError(e)
+        }
     }
 
     /**
