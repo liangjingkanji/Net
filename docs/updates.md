@@ -1,3 +1,7 @@
+## 3.7.0
+- fix: #233 支持appcompat 1.7 (由于官方api变动升级后不再支持v1.6)
+- perf: 优化 runMain 方法的 Handler 使用单例
+
 ## 3.6.4
 - feat: 优化转换器ConvertException错误信息
 
