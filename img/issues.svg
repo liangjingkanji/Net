@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="106px" height="20px" viewBox="0 0 106 20" version="1.1"
+    xmlns="http://www.w3.org/2000/svg">
+    <title>编组</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-8" transform="translate(-30.000000, -340.000000)">
+            <g id="编组" transform="translate(30.000000, 340.000000)">
+                <g id="编组-2" transform="translate(46.000000, 0.000000)">
+                    <path
+                        d="M0,0 L58,0 C59.1045695,-4.1271253e-15 60,0.8954305 60,2 L60,18 C60,19.1045695 59.1045695,20 58,20 L0,20 L0,20 L0,0 Z"
+                        id="矩形备份" fill="#EF9D38"></path>
+                    <text id="常见问题" font-family="PingFangSC-Semibold, PingFang SC" font-size="11"
+                        font-weight="500" letter-spacing="-0.264" fill="#1B1B1B">
+                        <tspan x="8.028" y="14">常见问题</tspan>
+                    </text>
+                </g>
+                <g id="编组-3">
+                    <path
+                        d="M2,0 L46,0 L46,0 L46,20 L2,20 C0.8954305,20 1.3527075e-16,19.1045695 0,18 L0,2 C-1.3527075e-16,0.8954305 0.8954305,2.02906125e-16 2,0 Z"
+                        id="矩形" fill="#1B1B1B"></path>
+                    <text id="Issues" font-family="PingFangSC-Semibold, PingFang SC" font-size="12"
+                        font-weight="500" letter-spacing="-0.288" fill="#FFFFFF">
+                        <tspan x="6.478" y="14">Issues</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
