@@ -27,7 +27,7 @@ package com.drake.net.scope
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewTreeLifecycleOwner
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.NetConfig
 import kotlinx.coroutines.CancellationException
@@ -43,7 +43,7 @@ class PageCoroutineScope(
     val index get() = page.index
 
     init {
-        ViewTreeLifecycleOwner.get(page)?.lifecycle?.addObserver(object : LifecycleEventObserver {
+        page.findViewTreeLifecycleOwner()?.lifecycle?.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 if (event == Lifecycle.Event.ON_DESTROY) cancel()
             }

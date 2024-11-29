@@ -39,7 +39,8 @@ fun ViewModel.scopeLife(
     block: suspend CoroutineScope.() -> Unit
 ): AndroidScope {
     val scope = AndroidScope(dispatcher = dispatcher).launch(block)
-    return setTagIfAbsent(scope.toString(), scope)
+    addCloseable(scope)
+    return scope
 }
 
 /**
@@ -51,10 +52,11 @@ fun ViewModel.scopeNetLife(
     block: suspend CoroutineScope.() -> Unit
 ): NetCoroutineScope {
     val scope = NetCoroutineScope(dispatcher = dispatcher).launch(block)
-    return setTagIfAbsent(scope.toString(), scope)
+    addCloseable(scope)
+    return scope
 }
 
 /** 轮询器根据ViewModel生命周期自动取消 */
 fun Interval.life(viewModel: ViewModel) = apply {
-    viewModel.setTagIfAbsent(toString(), this)
+    viewModel.addCloseable(this)
 }
