@@ -1,3 +1,7 @@
+## 3.7.0
+- fix: #233 支持最新的lifecycle-runtime-ktx
+- perf: 优化 runMain 方法的 Handler 使用单例
+
 ## 3.6.4
 - feat: 优化转换器ConvertException错误信息
 
