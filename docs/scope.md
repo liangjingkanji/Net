@@ -32,7 +32,7 @@
 |`StateLayout.scope`|创建跟随[StateLayout](https://github.com/liangjingkanji/BRV)生命周期的作用域|
 
 !!! Failure "区分函数接受者"
-    注意`StateLayout.scope`等存在`函数接受者`的方法和`scope`属于两个方法, 严禁混用
+    优先跟随布局而非Activity生命周期, 所以PageRefreshLayout等onRefresh函数内请使用`scope`
 
 !!! quote "第三方库支持"
     PageRefreshLayout/StateLayout 属于第三方开源项目 [BRV](https://github.com/liangjingkanji/BRV)

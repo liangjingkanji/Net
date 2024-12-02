@@ -5,7 +5,7 @@
 
 提供`addData()`来简化分页, 开发者可以借鉴实现
 
-```kotlin
+```kotlin hl_lines="2"
 page.onRefresh {
     scope {
         val data = Get<Game>(Api.PATH) {

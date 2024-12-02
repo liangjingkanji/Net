@@ -53,7 +53,7 @@ StateConfig.apply {
 2. 请求成功, 显示`内容`缺省页
 3. 请求失败,  显示`错误`缺省页
 
-```kotlin
+```kotlin hl_lines="2"
 state.onRefresh {
     scope {
         tv.text = Get<String>(Api.PATH).await()
