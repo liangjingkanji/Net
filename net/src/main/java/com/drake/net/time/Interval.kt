@@ -28,17 +28,23 @@ package com.drake.net.time
 
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.TickerMode
 import kotlinx.coroutines.channels.ticker
+import kotlinx.coroutines.launch
 import java.io.Closeable
 import java.io.Serializable
 import java.util.concurrent.TimeUnit
+import kotlin.math.max
 
 /**
  * 创建一个轮询器
@@ -177,7 +183,8 @@ open class Interval @JvmOverloads constructor(
         if (state != IntervalStatus.STATE_ACTIVE) return
         scope?.cancel()
         state = IntervalStatus.STATE_PAUSE
-        delay = System.currentTimeMillis() - countTime
+        // 一个计时单位的总时间减去距离上次计时已过的时间，等于resume时需要delay的时间
+        delay = max(unit.toMillis(period) - (SystemClock.elapsedRealtime() - countTime), 0L)
     }
 
     /**
@@ -278,7 +285,7 @@ open class Interval @JvmOverloads constructor(
                     }
                 }
                 if (end != -1L && start > end) count-- else count++
-                countTime = System.currentTimeMillis()
+                countTime = SystemClock.elapsedRealtime()
             }
         }
     }
