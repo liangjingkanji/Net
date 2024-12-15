@@ -1,0 +1,342 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Interval</title>
+<link href="../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
+  <body>
+    <div id="container">
+      <div id="leftColumn"><a href="../../../index.html">
+          <div id="logo"></div>
+        </a>
+        <div id="paneSearch"></div>
+        <div id="sideMenu"></div>
+      </div>
+      <div id="main">
+        <div id="leftToggler"><span class="icon-toggler"></span></div>
+<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="Net::com.drake.net.time/Interval///PointingToDeclaration//1281733757">
+          <div class="navigation-wrapper" id="navigation-wrapper">
+            <div class="breadcrumbs"><a href="../../../index.html">Net</a>/<a href="../index.html">com.drake.net.time</a>/<a href="index.html">Interval</a></div>
+            <div class="pull-right d-flex">
+              <div id="searchBar"></div>
+            </div>
+          </div>
+          <div class="cover ">
+            <h1 class="cover"><span>Interval</span></h1>
+            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">open class <a href="index.html">Interval</a> <span>@<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html">JvmOverloads</a>() </span>constructor(end: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, period: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, unit: <a href="https://developer.android.com/reference/kotlin/java/util/concurrent/TimeUnit.html">TimeUnit</a>, start: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, initialDelay: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>) : <a href="https://developer.android.com/reference/kotlin/java/io/Serializable.html">Serializable</a>, <a href="https://developer.android.com/reference/kotlin/java/io/Closeable.html">Closeable</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">创建一个轮询器</p><p class="paragraph">操作</p><ol><li><p class="paragraph">开启 <a href="start.html">start</a> 只有在闲置状态下才可以开始</p></li><li><p class="paragraph">停止 <a href="stop.html">stop</a></p></li><li><p class="paragraph">暂停 <a href="pause.html">pause</a></p></li><li><p class="paragraph">继续 <a href="resume.html">resume</a></p></li><li><p class="paragraph">重置 <a href="reset.html">reset</a> 重置不会导致轮询器停止</p></li><li><p class="paragraph">开关 <a href="switch.html">switch</a> 开启|暂停切换</p></li><li><p class="paragraph">生命周期 <a href="life.html">life</a></p></li></ol><p class="paragraph">函数回调: 允许多次订阅同一个轮询器</p><ol><li><p class="paragraph">每个事件 <a href="subscribe.html">subscribe</a></p></li><li><p class="paragraph">停止或者结束 <a href="finish.html">finish</a></p></li></ol></div></div>
+          </div>
+          <div class="tabbedcontent">
+            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Extensions">Extensions</button><button class="section-tab" data-togglable="Parameters">Parameters</button></div>
+            <div class="tabs-section-body">
+              <h2 class="">Parameters</h2>
+              <div data-togglable="Parameters">
+                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">end</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">结束值, -1 表示永远不结束</p></div></div></div></div></div><div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">period</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">计时器间隔</p></div></div></div></div></div><div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">unit</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">计时器单位</p></div></div></div></div></div><div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">initialDelay</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">第一次事件的间隔时间, 默认0</p></div></div></div></div></div><div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">start</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">开始值, 当<a href="start.html">start</a>]比<a href="end.html">end</a>值大, 且end不等于-1时, 即为倒计时, 反之正计时</p></div></div></div></div></div></div></div></div></div>
+              </div>
+              <h2 class="tabbedcontent">Constructors</h2>
+              <div class="table" data-togglable="Constructors"><a data-name="-1791713923%2FConstructors%2F1281733757" anchor-label="Interval" id="-1791713923%2FConstructors%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue TabbedContent">
+                    <div class=""><span class="inline-flex"><a href="-interval.html">Interval</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1791713923%2FConstructors%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html">JvmOverloads</a>()</div></div>fun <a href="-interval.html">Interval</a>(period: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, unit: <a href="https://developer.android.com/reference/kotlin/java/util/concurrent/TimeUnit.html">TimeUnit</a>, initialDelay: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a> = 0)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">创建一个不会自动结束的轮询器/计时器</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1595381041%2FConstructors%2F1281733757" anchor-label="Interval" id="1595381041%2FConstructors%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue TabbedContent">
+                    <div class=""><span class="inline-flex"><a href="-interval.html">Interval</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1595381041%2FConstructors%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html">JvmOverloads</a>()</div></div>fun <a href="-interval.html">Interval</a>(end: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, period: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, unit: <a href="https://developer.android.com/reference/kotlin/java/util/concurrent/TimeUnit.html">TimeUnit</a>, start: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a> = 0, initialDelay: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a> = 0)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">结束值, -1 表示永远不结束</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h2 class="">Functions</h2>
+              <div class="table" data-togglable="Functions"><a data-name="1339174108%2FFunctions%2F1281733757" anchor-label="cancel" id="1339174108%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="cancel.html">cancel</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1339174108%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="cancel.html">cancel</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1339174108%2FFunctions%2F1281733757" anchor-label="cancel" id="1339174108%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="1339174108%2FFunctions%2F1281733757" anchor-label="cancel" id="1339174108%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>取消 区别于<a href="stop.html">stop</a>并不会执行<a href="finish.html">finish</a></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="2111333196%2FFunctions%2F1281733757" anchor-label="close" id="2111333196%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="close.html">close</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2111333196%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">open override fun <a href="close.html">close</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="2111333196%2FFunctions%2F1281733757" anchor-label="close" id="2111333196%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="2111333196%2FFunctions%2F1281733757" anchor-label="close" id="2111333196%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>等于<a href="cancel.html">cancel</a></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="848167357%2FFunctions%2F1281733757" anchor-label="finish" id="848167357%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="finish.html">finish</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="848167357%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="finish.html">finish</a>(block: <a href="index.html">Interval</a>.(<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a>): <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="848167357%2FFunctions%2F1281733757" anchor-label="finish" id="848167357%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="848167357%2FFunctions%2F1281733757" anchor-label="finish" id="848167357%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>轮询器完成时回调该函数</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1550481670%2FFunctions%2F1281733757" anchor-label="life" id="-1550481670%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="life.html">life</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1550481670%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html">JvmOverloads</a>()</div></div>fun <a href="life.html">life</a>(fragment: <a href="https://developer.android.com/reference/kotlin/androidx/fragment/app/Fragment.html">Fragment</a>, lifeEvent: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/Lifecycle.Event.html">Lifecycle.Event</a> = Lifecycle.Event.ON_DESTROY): <a href="index.html">Interval</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1453661394%2FFunctions%2F1281733757" anchor-label="life" id="-1453661394%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="-1453661394%2FFunctions%2F1281733757" anchor-label="life" id="-1453661394%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>自动在指定生命周期后取消<a href="cancel.html">cancel</a>轮询器</div></div>
+<div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html">JvmOverloads</a>()</div></div>fun <a href="life.html">life</a>(lifecycleOwner: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/LifecycleOwner.html">LifecycleOwner</a>, lifeEvent: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/Lifecycle.Event.html">Lifecycle.Event</a> = Lifecycle.Event.ON_DESTROY): <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1129928924%2FFunctions%2F1281733757" anchor-label="life" id="1129928924%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="1129928924%2FFunctions%2F1281733757" anchor-label="life" id="1129928924%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>自动在指定生命周期后取消<a href="cancel.html">cancel</a>轮询器</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="745458455%2FFunctions%2F1281733757" anchor-label="onlyResumed" id="745458455%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="only-resumed.html">onlyResumed</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="745458455%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="only-resumed.html">onlyResumed</a>(lifecycleOwner: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/LifecycleOwner.html">LifecycleOwner</a>): <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="745458455%2FFunctions%2F1281733757" anchor-label="onlyResumed" id="745458455%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="745458455%2FFunctions%2F1281733757" anchor-label="onlyResumed" id="745458455%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>当界面不可见时暂停<a href="pause.html">pause</a>, 当界面可见时继续<a href="resume.html">resume</a>, 当界面销毁时<a href="cancel.html">cancel</a>轮询器</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1695839502%2FFunctions%2F1281733757" anchor-label="pause" id="1695839502%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="pause.html">pause</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1695839502%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="pause.html">pause</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1695839502%2FFunctions%2F1281733757" anchor-label="pause" id="1695839502%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="1695839502%2FFunctions%2F1281733757" anchor-label="pause" id="1695839502%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>暂停</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="592987093%2FFunctions%2F1281733757" anchor-label="reset" id="592987093%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="reset.html">reset</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="592987093%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="reset.html">reset</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="592987093%2FFunctions%2F1281733757" anchor-label="reset" id="592987093%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="592987093%2FFunctions%2F1281733757" anchor-label="reset" id="592987093%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>重置</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="117559945%2FFunctions%2F1281733757" anchor-label="resume" id="117559945%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="resume.html">resume</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="117559945%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="resume.html">resume</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="117559945%2FFunctions%2F1281733757" anchor-label="resume" id="117559945%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="117559945%2FFunctions%2F1281733757" anchor-label="resume" id="117559945%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>继续 要求轮询器为暂停状态<a href="../-interval-status/-s-t-a-t-e_-p-a-u-s-e/index.html">IntervalStatus.STATE_PAUSE</a>, 否则无效</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1977702366%2FFunctions%2F1281733757" anchor-label="start" id="-1977702366%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="start.html">start</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1977702366%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="start.html">start</a>(): <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1977702366%2FFunctions%2F1281733757" anchor-label="start" id="-1977702366%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="-1977702366%2FFunctions%2F1281733757" anchor-label="start" id="-1977702366%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>开始 如果当前为暂停状态将重新开始轮询</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="2062900884%2FFunctions%2F1281733757" anchor-label="stop" id="2062900884%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="stop.html">stop</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2062900884%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="stop.html">stop</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="2062900884%2FFunctions%2F1281733757" anchor-label="stop" id="2062900884%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="2062900884%2FFunctions%2F1281733757" anchor-label="stop" id="2062900884%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>停止</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-706319290%2FFunctions%2F1281733757" anchor-label="subscribe" id="-706319290%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="subscribe.html">subscribe</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-706319290%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="subscribe.html">subscribe</a>(block: <a href="index.html">Interval</a>.(<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a>): <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-706319290%2FFunctions%2F1281733757" anchor-label="subscribe" id="-706319290%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="-706319290%2FFunctions%2F1281733757" anchor-label="subscribe" id="-706319290%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>订阅轮询器 每次轮询器计时都会调用该回调函数 轮询器完成时会同时触发回调<a href="subscribe.html">block</a>和<a href="finish.html">finish</a></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1652558178%2FFunctions%2F1281733757" anchor-label="switch" id="1652558178%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="switch.html">switch</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1652558178%2FFunctions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="switch.html">switch</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1652558178%2FFunctions%2F1281733757" anchor-label="switch" id="1652558178%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="1652558178%2FFunctions%2F1281733757" anchor-label="switch" id="1652558178%2FFunctions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>切换轮询器开始或结束 假设轮询器为暂停<a href="../-interval-status/-s-t-a-t-e_-p-a-u-s-e/index.html">IntervalStatus.STATE_PAUSE</a>状态将继续运行<a href="resume.html">resume</a></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h2 class="">Properties</h2>
+              <div class="table" data-togglable="Properties"><a data-name="-1680553963%2FProperties%2F1281733757" anchor-label="count" id="-1680553963%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="count.html">count</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1680553963%2FProperties%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><a data-name="-1680553963%2FProperties%2F1281733757" anchor-label="count" id="-1680553963%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="symbol monospace">var <a href="count.html">count</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1680553963%2FProperties%2F1281733757" anchor-label="count" id="-1680553963%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>轮询器的计数</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1215210377%2FProperties%2F1281733757" anchor-label="end" id="1215210377%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="end.html">end</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1215210377%2FProperties%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><a data-name="1215210377%2FProperties%2F1281733757" anchor-label="end" id="1215210377%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="symbol monospace">var <a href="end.html">end</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1215210377%2FProperties%2F1281733757" anchor-label="end" id="1215210377%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>结束值, -1 表示永远不结束</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-519771437%2FProperties%2F1281733757" anchor-label="state" id="-519771437%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="state.html">state</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-519771437%2FProperties%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><a data-name="-519771437%2FProperties%2F1281733757" anchor-label="state" id="-519771437%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="symbol monospace">var <a href="state.html">state</a>: <a href="../-interval-status/index.html">IntervalStatus</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-519771437%2FProperties%2F1281733757" anchor-label="state" id="-519771437%2FProperties%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>轮询器当前状态</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h2 class="tabbedcontent">Extensions</h2>
+              <div class="table" data-togglable="Extensions"><a data-name="-597246228%2FExtensions%2F1281733757" anchor-label="life" id="-597246228%2FExtensions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../../androidx.lifecycle/life.html">life</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-597246228%2FExtensions%2F1281733757"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":net:dokkaHtml/release" data-filterable-set=":net:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":net:dokkaHtml/release"><div class="symbol monospace">fun <a href="index.html">Interval</a>.<a href="../../androidx.lifecycle/life.html">life</a>(viewModel: <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html">ViewModel</a>): <span data-unresolved-link="/&amp;lt;ERROR CLASS&amp;gt;///PointingToDeclaration/">&lt;ERROR CLASS&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-597246228%2FExtensions%2F1281733757" anchor-label="life" id="-597246228%2FExtensions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a><div class="brief "><a data-name="-597246228%2FExtensions%2F1281733757" anchor-label="life" id="-597246228%2FExtensions%2F1281733757" data-filterable-set=":net:dokkaHtml/release"></a>轮询器根据ViewModel生命周期自动取消</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2023 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+      </div>
+    </div>
+  </body>
+</html>
+
